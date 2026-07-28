@@ -1,0 +1,2634 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>SD - Star Tools</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+
+  body.dark {
+    background: #0B1120;
+    color: #F1F5F9;
+  }
+
+  body.dark .card-modern,
+  body.dark .app-header,
+  body.dark .sidebar-nav,
+  body.dark .alert-card,
+  body.dark .popup-box,
+  body.dark .quiz-card,
+  body.dark .quiz-page {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  body.dark .btn-modern {
+    background: #1E293B;
+    border-color: #334155;
+    color: #E2E8F0;
+  }
+
+  body.dark .btn-modern.primary {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .btn-modern.success {
+    background: #059669;
+    color: white;
+  }
+
+  body.dark .btn-modern.danger {
+    background: #DC2626;
+    color: white;
+  }
+
+  body.dark .input-modern {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  body.dark .input-modern::placeholder {
+    color: #64748B;
+  }
+
+  body.dark .select-modern {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  body.dark .badge-status {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  body.dark .badge-status.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .badge-status.warning {
+    background: #78350F;
+    color: #FBBF24;
+  }
+
+  body.dark .footer-app {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
+  body.dark .card-kelas {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  body.dark .card-kelas:hover {
+    background: #2A3A5F;
+  }
+
+  body.dark .info-banner {
+    background: #1E3A5F;
+    border-color: #2563EB;
+    color: #BFDBFE;
+  }
+
+  body.dark .result-box {
+    background: #0F172A;
+  }
+
+  body.dark .result-text {
+    color: #E2E8F0;
+  }
+
+  .app-container {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #F1F5F9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  body.dark .app-container {
+    background: #0B1120;
+  }
+
+  .app-header {
+    background: #FFFFFF;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  body.dark .app-header {
+    background: #111827;
+    border-bottom-color: #1E293B;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-icon {
+    width: 40px;
+    height: 40px;
+    background: #F8FAFE;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .menu-icon {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .menu-icon svg {
+    stroke: #0F172A;
+  }
+
+  body.dark .menu-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .app-title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+  }
+
+  .sidebar-overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sidebar-nav {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 101;
+    transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    padding: 70px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-nav.active {
+    left: 0;
+  }
+
+  .sidebar-nav a {
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #0F172A;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  body.dark .sidebar-nav a {
+    color: #F1F5F9;
+  }
+
+  .sidebar-nav a:active {
+    background: #DBEAFE;
+  }
+
+  body.dark .sidebar-nav a:active {
+    background: #1E293B;
+  }
+
+  .logout-link {
+    margin-top: 20px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 16px;
+  }
+
+  body.dark .logout-link {
+    border-top-color: #334155;
+  }
+
+  .logout-link a {
+    color: #DC2626 !important;
+  }
+
+  .logout-link a svg {
+    stroke: #DC2626;
+  }
+
+  .close-sidebar-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
+  }
+
+  .screen {
+    padding: 20px 18px 30px;
+    flex: 1;
+  }
+
+  .card-modern {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .card-modern {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .badge-status {
+    background: #DBEAFE;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563EB;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  body.dark .badge-status {
+    background: #1E293B;
+    color: #60A5FA;
+  }
+
+  .badge-status.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  .badge-status.warning {
+    background: #FEF3C7;
+    color: #D97706;
+  }
+
+  body.dark .badge-status.warning {
+    background: #78350F;
+    color: #FBBF24;
+  }
+
+  .badge-status svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .btn-modern {
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    color: #0F172A;
+    padding: 12px;
+    margin: 6px 0;
+    width: 100%;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  body.dark .btn-modern {
+    background: #1E293B;
+    border-color: #334155;
+    color: #E2E8F0;
+  }
+
+  .btn-modern:active {
+    transform: scale(0.97);
+  }
+
+  .btn-modern.primary {
+    background: #2563EB;
+    color: white;
+    border-color: #2563EB;
+  }
+
+  .btn-modern.primary:active {
+    background: #1D4ED8;
+  }
+
+  .btn-modern.success {
+    background: #059669;
+    color: white;
+    border-color: #059669;
+  }
+
+  .btn-modern.success:active {
+    background: #047857;
+  }
+
+  .btn-modern.danger {
+    background: #DC2626;
+    color: white;
+    border-color: #DC2626;
+  }
+
+  .btn-modern.danger:active {
+    background: #B91C1C;
+  }
+
+  .btn-modern.outline {
+    background: transparent;
+    border: 2px solid #2563EB;
+    color: #2563EB;
+  }
+
+  body.dark .btn-modern.outline {
+    border-color: #60A5FA;
+    color: #60A5FA;
+  }
+
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 12px;
+    width: auto;
+    display: inline-flex;
+  }
+
+  .input-modern {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 14px;
+    margin-bottom: 10px;
+    outline: none;
+    transition: 0.2s;
+  }
+
+  body.dark .input-modern {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .input-modern:focus {
+    border-color: #2563EB;
+  }
+
+  .input-modern::placeholder {
+    color: #94A3B8;
+  }
+
+  body.dark .input-modern::placeholder {
+    color: #64748B;
+  }
+
+  .select-modern {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 14px;
+    margin-bottom: 10px;
+    outline: none;
+  }
+
+  body.dark .select-modern {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .input-group .input-modern {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  .grid-kelas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .card-kelas {
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  body.dark .card-kelas {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .card-kelas:active {
+    transform: scale(0.95);
+  }
+
+  .card-kelas .angka {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2563EB;
+  }
+
+  body.dark .card-kelas .angka {
+    color: #60A5FA;
+  }
+
+  .card-kelas .label {
+    font-size: 12px;
+    color: #64748B;
+    margin-top: 4px;
+  }
+
+  body.dark .card-kelas .label {
+    color: #94A3B8;
+  }
+
+  .result-box {
+    background: #F8FAFE;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-top: 8px;
+    min-height: 40px;
+  }
+
+  body.dark .result-box {
+    background: #0F172A;
+  }
+
+  .result-text {
+    color: #0F172A;
+    font-size: 14px;
+    white-space: pre-line;
+  }
+
+  body.dark .result-text {
+    color: #E2E8F0;
+  }
+
+  .info-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    font-size: 12.5px;
+    color: #1E40AF;
+    line-height: 1.5;
+  }
+
+  body.dark .info-banner {
+    background: #1E3A5F;
+    border-color: #2563EB;
+    color: #BFDBFE;
+  }
+
+  .info-banner svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke: #2563EB;
+    margin-top: 1px;
+  }
+
+  body.dark .info-banner svg {
+    stroke: #60A5FA;
+  }
+
+  .footer-app {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .mt-8 { margin-top: 8px; }
+  .mt-12 { margin-top: 12px; }
+  .mt-16 { margin-top: 16px; }
+
+  .flex { display: flex; }
+  .flex-1 { flex: 1; }
+  .gap-8 { gap: 8px; }
+  .gap-12 { gap: 12px; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .flex-wrap { flex-wrap: wrap; }
+
+  .text-center { text-align: center; }
+  .text-muted { color: #64748B; font-size: 13px; }
+
+  body.dark .text-muted {
+    color: #94A3B8;
+  }
+
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+  }
+
+  .popup-box {
+    background: #FFFFFF;
+    width: 300px;
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .popup-box {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .popup-box h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #0F172A;
+  }
+
+  body.dark .popup-box h3 {
+    color: #F1F5F9;
+  }
+
+  .popup-box p {
+    font-size: 14px;
+    color: #64748B;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  body.dark .popup-box p {
+    color: #94A3B8;
+  }
+
+  .popup-btn {
+    display: flex;
+    gap: 8px;
+  }
+
+  .popup-btn .btn-modern {
+    flex: 1;
+    margin: 0;
+  }
+
+  .quiz-page {
+    position: fixed;
+    inset: 0;
+    background: #F1F5F9;
+    z-index: 999;
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+  }
+
+  body.dark .quiz-page {
+    background: #0B1120;
+  }
+
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .quiz-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+
+  body.dark .quiz-title {
+    color: #F1F5F9;
+  }
+
+  .quiz-status {
+    display: flex;
+    gap: 10px;
+  }
+
+  .quiz-status .badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  body.dark .quiz-status .badge {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .quiz-status .badge svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .quiz-top-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #94A3B8;
+  }
+
+  body.dark .quiz-top-info {
+    color: #64748B;
+  }
+
+  .quiz-progress {
+    background: #E2E8F0;
+    height: 6px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  body.dark .quiz-progress {
+    background: #1E293B;
+  }
+
+  .quiz-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #2563EB;
+    transition: 0.3s;
+  }
+
+  .quiz-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid #E2E8F0;
+    flex: 1;
+  }
+
+  body.dark .quiz-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .quiz-card h2 {
+    font-size: 20px;
+    color: #0F172A;
+    margin-bottom: 12px;
+  }
+
+  body.dark .quiz-card h2 {
+    color: #F1F5F9;
+  }
+
+  .quiz-card .input-jawaban {
+    width: 90%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
+    text-align: center;
+    font-size: 16px;
+    background: #FFFFFF;
+    color: #0F172A;
+    margin-top: 12px;
+  }
+
+  body.dark .quiz-card .input-jawaban {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .quiz-card .btn-jawab {
+    margin-top: 15px;
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
+    background: #F8FAFE;
+    color: #0F172A;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 600;
+  }
+
+  body.dark .quiz-card .btn-jawab {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .quiz-card .btn-jawab:active {
+    transform: scale(0.95);
+  }
+
+  .quiz-card .simbol-box {
+    display: none;
+    margin-top: 12px;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .quiz-card .simbol-box .btn-simbol {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    background: #F8FAFE;
+    color: #0F172A;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  body.dark .quiz-card .simbol-box .btn-simbol {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .quiz-card .simbol-box .btn-simbol:active {
+    transform: scale(0.95);
+  }
+
+  .quiz-card #feedback {
+    margin-top: 12px;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 300;
+  }
+
+  .alert-card {
+    background: #FFFFFF;
+    width: 300px;
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .alert-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #0F172A;
+  }
+
+  body.dark .alert-card h3 {
+    color: #F1F5F9;
+  }
+
+  .alert-card p {
+    font-size: 14px;
+    color: #64748B;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  body.dark .alert-card p {
+    color: #94A3B8;
+  }
+
+  .card-kalkulator {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background: #F1F5F9;
+    overflow-y: auto;
+    padding: 66px 18px 40px;
+    border-radius: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    animation: calcSlideIn 0.25s ease;
+  }
+
+  body.dark .card-kalkulator {
+    background: #0B1120;
+  }
+
+  @keyframes calcSlideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .calc-close-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 160;
+  }
+
+  body.dark .calc-close-btn {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .calc-close-btn svg {
+    stroke: #0F172A;
+    width: 20px;
+    height: 20px;
+  }
+
+  body.dark .calc-close-btn svg {
+    stroke: #F1F5F9;
+  }
+
+  .calc-close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .scroll-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .scroll-content::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scroll-content::-webkit-scrollbar-track {
+    background: #E2E8F0;
+    border-radius: 4px;
+  }
+  body.dark .scroll-content::-webkit-scrollbar-track {
+    background: #1E293B;
+  }
+  .scroll-content::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+  }
+  body.dark .scroll-content::-webkit-scrollbar-thumb {
+    background: #334155;
+  }
+
+  .text-success { color: #059669; }
+  .text-danger { color: #DC2626; }
+  .text-warning { color: #D97706; }
+  .text-primary { color: #2563EB; }
+  .text-muted { color: #64748B; }
+
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="menu-icon" onclick="openSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <span class="app-title">Star Tools • SD</span>
+    </div>
+    <button class="close-btn" onclick="goBack()" aria-label="Kembali">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="close-sidebar-icon" onclick="closeSidebar()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <a href="#" onclick="goTo('index.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
+    </a>
+    <a href="#" onclick="goTo('berita.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
+    </a>
+    <a href="#" onclick="goTo('premium.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
+    </a>
+    <a href="#" onclick="goTo('akun.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
+    </a>
+    <div class="logout-link">
+      <a href="#" onclick="logoutAction()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.7"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Keluar
+      </a>
+    </div>
+  </div>
+
+  <div class="screen" id="mainScreen">
+    <!-- Welcome -->
+    <div class="card-modern" id="welcomeSection">
+      <div class="section-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+          <polyline points="2 17 12 22 22 17"/>
+          <polyline points="2 12 12 17 22 12"/>
+        </svg>
+        SD - Matematika
+      </div>
+      <p style="margin-bottom: 16px;">Belajar Matematika SD dari kelas 1 sampai 6 dengan kalkulator interaktif dan quiz seru!</p>
+      <div class="status-row">
+        <span id="nyawaBadge" class="badge-status">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span id="nyawaCount">3</span>
+        </span>
+        <span id="scoreBadge" class="badge-status">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span id="scoreCount">0</span>
+        </span>
+        <span id="levelBadge" class="badge-status">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <span id="levelCount">1</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Cara Pakai -->
+    <div class="card-modern" id="caraPakaiCard">
+      <div class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 16v-4M12 8h.01"/>
+        </svg>
+        Panduan Aplikasi
+      </div>
+      <ul style="padding-left: 20px; color: #475569; line-height: 1.7; font-size: 13px;">
+        <li>Pilih kelas 1-6 sesuai tingkat kamu.</li>
+        <li>Setiap fitur terkunci dan harus dibuka dengan mengerjakan quiz (2 soal).</li>
+        <li>Kamu punya 3 nyawa per hari. Jika salah 3 kali, harus menunggu besok.</li>
+        <li>Kalkulator bisa diakses gratis tanpa batas setelah fitur terbuka.</li>
+      </ul>
+    </div>
+
+    <!-- Pilih Kelas -->
+    <div class="card-modern" id="pilihKelasCard">
+      <div class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        Pilih Kelas
+      </div>
+      <div class="grid-kelas">
+        <div class="card-kelas" onclick="showKelas(1)"><div class="angka">1</div><div class="label">Kelas 1</div></div>
+        <div class="card-kelas" onclick="showKelas(2)"><div class="angka">2</div><div class="label">Kelas 2</div></div>
+        <div class="card-kelas" onclick="showKelas(3)"><div class="angka">3</div><div class="label">Kelas 3</div></div>
+        <div class="card-kelas" onclick="showKelas(4)"><div class="angka">4</div><div class="label">Kelas 4</div></div>
+        <div class="card-kelas" onclick="showKelas(5)"><div class="angka">5</div><div class="label">Kelas 5</div></div>
+        <div class="card-kelas" onclick="showKelas(6)"><div class="angka">6</div><div class="label">Kelas 6</div></div>
+      </div>
+    </div>
+
+    <!-- KELAS CONTENT -->
+    <div id="kelasContent"></div>
+  </div>
+
+  <div class="footer-app">
+    <p>Star Platform | Star Tools 2026</p>
+  </div>
+</div>
+
+<!-- ======================== SEMUA KALKULATOR ======================== -->
+
+<!-- KELAS 1 -->
+<!-- Bangun Ruang -->
+<div id="sd1-2" class="card-kalkulator card-modern">
+  <div class="section-title">Bangun Ruang</div>
+  <p class="text-muted">Klik bangun datar untuk tahu nama dan jumlah sisinya.</p>
+  <button class="btn-modern" onclick="showShapeInfo('persegi')">Persegi</button>
+  <button class="btn-modern" onclick="showShapeInfo('persegiPanjang')">Persegi Panjang</button>
+  <button class="btn-modern" onclick="showShapeInfo('segitiga')">Segitiga</button>
+  <button class="btn-modern" onclick="showShapeInfo('lingkaran')">Lingkaran</button>
+  <div id="shapeInfo" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Banding Angka -->
+<div id="bandingangka" class="card-kalkulator card-modern">
+  <div class="section-title">Bandingkan Angka</div>
+  <p class="text-muted">Bandingkan angka mana yang lebih besar</p>
+  <input id="angka1" class="input-modern" placeholder="Angka pertama" type="number">
+  <input id="angka2" class="input-modern" placeholder="Angka kedua" type="number">
+  <button class="btn-modern primary" onclick="bandingin()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasil')">Salin Hasil</button>
+  <div id="hasil" class="result-box"><div class="result-text"></div></div>
+  <div id="caraBanding" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Pecahan 1 -->
+<div id="pecahan" class="card-kalkulator card-modern">
+  <div class="section-title">Mengenal Pecahan</div>
+  <div class="info-banner">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    Pecahan adalah cara menulis "bagian" dari sesuatu yang utuh. Contoh: kue dipotong 2 sama besar, 1 potong = 1/2 (satu per dua).
+  </div>
+  <p class="text-muted">Klik salah satu tombol di bawah untuk belajar pecahan</p>
+  <button class="btn-modern primary" onclick="kenalPecahan(2)">Tampilkan 1/2</button>
+  <button class="btn-modern primary" onclick="kenalPecahan(3)">Tampilkan 1/3</button>
+  <button class="btn-modern primary" onclick="kenalPecahan(4)">Tampilkan 1/4</button>
+  <div id="pecahanVisual" class="result-box"><div class="result-text"></div></div>
+  <div id="hasilPecahanSederhana" class="result-box"><div class="result-text"></div></div>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilPecahanSederhana')">Salin Hasil</button>
+</div>
+
+<!-- Urut Angka -->
+<div id="urutangka" class="card-kalkulator card-modern">
+  <div class="section-title">Urutkan Angka</div>
+  <p class="text-muted">Urutkan angka dari kecil ke besar</p>
+  <input id="angkaUrut1" class="input-modern" placeholder="Angka 1" type="number">
+  <input id="angkaUrut2" class="input-modern" placeholder="Angka 2" type="number">
+  <input id="angkaUrut3" class="input-modern" placeholder="Angka 3" type="number">
+  <button class="btn-modern primary" onclick="hitungUrut()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilUrut')">Salin Hasil</button>
+  <div id="hasilUrut" class="result-box"><div class="result-text"></div></div>
+  <div id="caraUrut" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- KELAS 2 -->
+<!-- Banding Simbol -->
+<div id="bandingsimbol" class="card-kalkulator card-modern">
+  <div class="section-title">Bandingkan Angka (Simbol)</div>
+  <p class="text-muted">Bandingkan angka menggunakan simbol &lt;, &gt;, =</p>
+  <input id="angkasimbol1" class="input-modern" placeholder="Angka pertama" type="number">
+  <input id="angkasimbol2" class="input-modern" placeholder="Angka kedua" type="number">
+  <button class="btn-modern primary" onclick="bandinginSimbol()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilsimbol')">Salin Hasil</button>
+  <div id="hasilsimbol" class="result-box"><div class="result-text"></div></div>
+  <div id="caraSimbol" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Penyebutan Angka -->
+<div id="penyebutan" class="card-kalkulator card-modern">
+  <div class="section-title">Angka ke Bilangan</div>
+  <p class="text-muted">Temukan penyebutan suatu angka</p>
+  <input id="angkaInput" class="input-modern" placeholder="Masukkan angka..." type="number">
+  <button class="btn-modern primary" onclick="convertAngka()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilTerbilang')">Salin Hasil</button>
+  <div id="hasilTerbilang" class="result-box"><div class="result-text"></div></div>
+  <div id="caraTerbilang" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Penjumlahan & Pengurangan -->
+<div id="penjumlahan2" class="card-kalkulator card-modern">
+  <div class="section-title">Penjumlahan & Pengurangan</div>
+  <input id="angka1_k2" class="input-modern" placeholder="Angka pertama" type="number">
+  <input id="angka2_k2" class="input-modern" placeholder="Angka kedua" type="number">
+  <button class="btn-modern primary" onclick="hitungTambahKurang2()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilTambahKurang2')">Salin Hasil</button>
+  <div id="hasilTambahKurang2" class="result-box"><div class="result-text"></div></div>
+  <div id="caraTambahKurang2" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Pecahan 2 -->
+<div id="pecahan2" class="card-kalkulator card-modern">
+  <div class="section-title">Mengenal Pecahan (2)</div>
+  <p class="text-muted">Pecahan = pembilang ÷ penyebut. Hasilnya berupa desimal.</p>
+  <input id="pembilang" class="input-modern" placeholder="Pembilang" type="number">
+  <input id="penyebut" class="input-modern" placeholder="Penyebut" type="number">
+  <button class="btn-modern primary" onclick="hitungPecahan2()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilPecahan2')">Salin Hasil</button>
+  <div id="hasilPecahan2" class="result-box"><div class="result-text"></div></div>
+  <div id="caraPecahan2" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- KELAS 3 -->
+<!-- Pengenalan Pecahan -->
+<div id="pengenalanpecahan" class="card-kalkulator card-modern">
+  <div class="section-title">Pengenalan Pecahan</div>
+  <p class="text-muted">Pecahan adalah bagian dari keseluruhan. Contoh: 1/2 artinya 1 dari 2 bagian.</p>
+  <input id="atas" class="input-modern" placeholder="Pembilang (atas)" type="number">
+  <input id="bawah" class="input-modern" placeholder="Penyebut (bawah)" type="number">
+  <button class="btn-modern primary" onclick="hitungPecahan()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilPecahan')">Salin Hasil</button>
+  <div id="hasilPecahan" class="result-box"><div class="result-text"></div></div>
+  <div id="visualPecahan" class="result-box"><div class="result-text"></div></div>
+  <div id="caraPengenalanPecahan" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Nilai Tempat -->
+<div id="nilaiangka" class="card-kalkulator card-modern">
+  <div class="section-title">Nilai Tempat</div>
+  <p class="text-muted">Masukkan angka untuk melihat nilai tempatnya</p>
+  <input id="inputAngka" class="input-modern" placeholder="Contoh: 2345" type="number">
+  <button class="btn-modern primary" onclick="cekNilai()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilNilai')">Salin Hasil</button>
+  <div id="hasilNilai" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Operasi Pecahan -->
+<div id="pecahanOperasi" class="card-kalkulator card-modern">
+  <div class="section-title">Operasi Pecahan</div>
+  <input id="num1_p3" class="input-modern" placeholder="Pembilang 1" type="number">
+  <input id="num2_p3" class="input-modern" placeholder="Penyebut 1" type="number">
+  <input id="num3_p3" class="input-modern" placeholder="Pembilang 2" type="number">
+  <input id="num4_p3" class="input-modern" placeholder="Penyebut 2" type="number">
+  <select id="operation_p3" class="select-modern">
+    <option value="add">+</option>
+    <option value="subtract">-</option>
+  </select>
+  <button class="btn-modern primary" onclick="hitungPecahan3()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilPecahan3')">Salin Hasil</button>
+  <div id="hasilPecahan3" class="result-box"><div class="result-text"></div></div>
+  <div id="caraPecahan3" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Urut Angka 3 -->
+<div id="urutAngka3" class="card-kalkulator card-modern">
+  <div class="section-title">Urutkan Angka (5 angka)</div>
+  <p class="text-muted">Urutkan angka hingga 5 digit</p>
+  <input id="angka1_3" class="input-modern" placeholder="Angka 1" type="number">
+  <input id="angka2_3" class="input-modern" placeholder="Angka 2" type="number">
+  <input id="angka3_3" class="input-modern" placeholder="Angka 3" type="number">
+  <input id="angka4_3" class="input-modern" placeholder="Angka 4" type="number">
+  <input id="angka5_3" class="input-modern" placeholder="Angka 5" type="number">
+  <button class="btn-modern primary" onclick="hitungUrut3()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilUrut3')">Salin Hasil</button>
+  <div id="hasilUrut3" class="result-box"><div class="result-text"></div></div>
+  <div id="caraUrut3" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- KELAS 4 -->
+<!-- Bilangan Cacah Besar -->
+<div id="bilanganbesar" class="card-kalkulator card-modern">
+  <div class="section-title">Bilangan Cacah Besar</div>
+  <p class="text-muted">Masukkan angka besar (hingga triliun)</p>
+  <input id="inputBesar" class="input-modern" placeholder="Contoh: 123456789" type="number">
+  <button class="btn-modern primary" onclick="convertBesar()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilAngka')">Salin Hasil</button>
+  <div id="hasilAngka" class="result-box"><div class="result-text"></div></div>
+  <div id="hasilBaca" class="result-box"><div class="result-text"></div></div>
+  <div id="caraBilanganBesar" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Pembulatan Bilangan -->
+<div id="bulatbilangan" class="card-kalkulator card-modern">
+  <div class="section-title">Pembulatan Bilangan</div>
+  <p class="text-muted">Temukan pembulatan suatu bilangan</p>
+  <input id="angka_bulat1" class="input-modern" placeholder="Masukkan angka" type="number">
+  <select id="tipePembulatan" class="select-modern">
+    <option value="puluhan">Puluhan</option>
+    <option value="ratusan">Ratusan</option>
+  </select>
+  <button class="btn-modern primary" onclick="hitungPembulatan()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilPembulatan')">Salin Hasil</button>
+  <div id="hasilPembulatan" class="result-box"><div class="result-text"></div></div>
+  <div id="caraPembulatan" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Operasi Besar -->
+<div id="operasiBesar" class="card-kalkulator card-modern">
+  <div class="section-title">Operasi Bilangan Besar</div>
+  <input id="angka1_k4" class="input-modern" placeholder="Angka pertama" type="number">
+  <input id="angka2_k4" class="input-modern" placeholder="Angka kedua" type="number">
+  <select id="operator_k4" class="select-modern">
+    <option value="add">+</option>
+    <option value="subtract">-</option>
+  </select>
+  <button class="btn-modern primary" onclick="hitungBesar()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilBesar')">Salin Hasil</button>
+  <div id="hasilBesar" class="result-box"><div class="result-text"></div></div>
+  <div id="caraBesar" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Pembulatan Lanjutan -->
+<div id="pembulatanLanjutan" class="card-kalkulator card-modern">
+  <div class="section-title">Pembulatan Lanjutan</div>
+  <input id="angka_k4" class="input-modern" placeholder="Masukkan angka" type="number">
+  <select id="tipeBulat" class="select-modern">
+    <option value="puluhan">Puluhan</option>
+    <option value="ratusan">Ratusan</option>
+    <option value="ribuan">Ribuan</option>
+  </select>
+  <button class="btn-modern primary" onclick="hitungBulatLanjutan()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilBulatLanjutan')">Salin Hasil</button>
+  <div id="hasilBulatLanjutan" class="result-box"><div class="result-text"></div></div>
+  <div id="caraBulatLanjutan" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- KELAS 5 -->
+<!-- KPK -->
+<div id="kpk" class="card-kalkulator card-modern">
+  <div class="section-title">Kelipatan Persekutuan Terkecil</div>
+  <input id="num1_kpk" class="input-modern" placeholder="Angka pertama" type="number">
+  <input id="num2_kpk" class="input-modern" placeholder="Angka kedua" type="number">
+  <button class="btn-modern primary" onclick="hitungKPK()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilKPK')">Salin Hasil</button>
+  <button class="btn-modern outline" onclick="resetKPK()">Reset</button>
+  <div id="hasilKPK" class="result-box"><div class="result-text"></div></div>
+  <div id="langkahKPK" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- FPB -->
+<div id="fpb" class="card-kalkulator card-modern">
+  <div class="section-title">Faktor Persekutuan Terbesar</div>
+  <p class="text-muted">FPB dicari dengan algoritma Euclid: bagi terus hingga sisanya 0.</p>
+  <input id="angka1_fpb" class="input-modern" placeholder="Angka pertama" type="number">
+  <input id="angka2_fpb" class="input-modern" placeholder="Angka kedua" type="number">
+  <button class="btn-modern primary" onclick="hitungFPB()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilFPB')">Salin Hasil</button>
+  <button class="btn-modern outline" onclick="resetFPB()">Reset</button>
+  <div id="langkahFPB" class="result-box"><div class="result-text"></div></div>
+  <div id="hasilFPB" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Perkalian Besar -->
+<div id="perkalianBesar" class="card-kalkulator card-modern">
+  <div class="section-title">Perkalian & Pembagian Besar</div>
+  <input id="angka1_k5" class="input-modern" placeholder="Angka pertama" type="number">
+  <input id="angka2_k5" class="input-modern" placeholder="Angka kedua" type="number">
+  <select id="operator_k5" class="select-modern">
+    <option value="multiply">×</option>
+    <option value="divide">÷</option>
+  </select>
+  <button class="btn-modern primary" onclick="hitungPerkalianBesar()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilPerkalianBesar')">Salin Hasil</button>
+  <div id="hasilPerkalianBesar" class="result-box"><div class="result-text"></div></div>
+  <div id="caraPerkalianBesar" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- KPK FPB Lanjutan -->
+<div id="kpkFpbLanjutan" class="card-kalkulator card-modern">
+  <div class="section-title">KPK & FPB Lanjutan</div>
+  <input id="angka1_k5k" class="input-modern" placeholder="Angka pertama" type="number">
+  <input id="angka2_k5k" class="input-modern" placeholder="Angka kedua" type="number">
+  <button class="btn-modern primary" onclick="hitungKPKFPBLanjutan()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilKPKFPBLanjutan')">Salin Hasil</button>
+  <div id="hasilKPKFPBLanjutan" class="result-box"><div class="result-text"></div></div>
+  <div id="caraKPKFPBLanjutan" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- KELAS 6 -->
+<!-- Pecahan Sederhana -->
+<div id="pecahanFeature" class="card-kalkulator card-modern">
+  <div class="section-title">Pecahan Sederhana</div>
+  <label>Pecahan 1:</label>
+  <input id="num1_p1" class="input-modern" placeholder="Pembilang" type="number"> / 
+  <input id="num2_p1" class="input-modern" placeholder="Penyebut" type="number">
+  <label>Pecahan 2:</label>
+  <input id="num1_p2" class="input-modern" placeholder="Pembilang" type="number"> / 
+  <input id="num2_p2" class="input-modern" placeholder="Penyebut" type="number">
+  <select id="operation_p" class="select-modern">
+    <option value="add">+</option>
+    <option value="subtract">-</option>
+    <option value="multiply">×</option>
+    <option value="divide">÷</option>
+  </select>
+  <button class="btn-modern primary" onclick="calculateFraction()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('result_fraction')">Salin Hasil</button>
+  <button class="btn-modern outline" onclick="resetcalculate_Fraction()">Reset</button>
+  <div id="result_fraction" class="result-box"><div class="result-text"></div></div>
+  <div id="caraFraction" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Volume -->
+<div id="volume" class="card-kalkulator card-modern">
+  <div class="section-title">Hitung Volume</div>
+  <p class="text-muted">Klik opsi bangun, lalu masukkan angka yang kamu inginkan.</p>
+  <select id="bangun" class="select-modern">
+    <option value="kubus">Kubus</option>
+    <option value="balok">Balok</option>
+  </select>
+  <input id="sisi" class="input-modern" placeholder="Sisi (kubus) / Panjang (balok)" type="number">
+  <input id="lebar" class="input-modern" placeholder="Lebar balok" type="number">
+  <input id="tinggi" class="input-modern" placeholder="Tinggi balok" type="number">
+  <button class="btn-modern primary" onclick="calcVolume()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilVolume')">Salin Hasil</button>
+  <button class="btn-modern outline" onclick="resetVolume()">Reset</button>
+  <div id="hasilVolume" class="result-box"><div class="result-text"></div></div>
+  <div id="caraVolume" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Pecahan Lanjutan -->
+<div id="pecahanLanjutan" class="card-kalkulator card-modern">
+  <div class="section-title">Operasi Pecahan Lanjutan</div>
+  <input id="num1_p6" class="input-modern" placeholder="Pembilang 1" type="number">
+  <input id="num2_p6" class="input-modern" placeholder="Penyebut 1" type="number">
+  <input id="num3_p6" class="input-modern" placeholder="Pembilang 2" type="number">
+  <input id="num4_p6" class="input-modern" placeholder="Penyebut 2" type="number">
+  <select id="operator_p6" class="select-modern">
+    <option value="add">+</option>
+    <option value="subtract">-</option>
+    <option value="multiply">×</option>
+    <option value="divide">÷</option>
+  </select>
+  <button class="btn-modern primary" onclick="hitungPecahan6()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilPecahan6')">Salin Hasil</button>
+  <div id="hasilPecahan6" class="result-box"><div class="result-text"></div></div>
+  <div id="caraPecahan6" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- Volume Lanjutan -->
+<div id="volumeLanjutan" class="card-kalkulator card-modern">
+  <div class="section-title">Volume Lanjutan</div>
+  <select id="bangun6" class="select-modern">
+    <option value="kubus">Kubus</option>
+    <option value="balok">Balok</option>
+    <option value="tabung">Tabung</option>
+  </select>
+  <input id="sisi6" class="input-modern" placeholder="Sisi / Panjang / Jari-jari" type="number">
+  <input id="lebar6" class="input-modern" placeholder="Lebar (balok)" type="number">
+  <input id="tinggi6" class="input-modern" placeholder="Tinggi (balok/tabung)" type="number">
+  <button class="btn-modern primary" onclick="hitungVolume6()">Hitung</button>
+  <button class="btn-modern outline" onclick="copyToClipboard('hasilVolume6')">Salin Hasil</button>
+  <div id="hasilVolume6" class="result-box"><div class="result-text"></div></div>
+  <div id="caraVolume6" class="result-box"><div class="result-text"></div></div>
+</div>
+
+<!-- CALCULATOR CLOSE BUTTON (shared across all kalkulator overlays) -->
+<div id="calcCloseBtn" class="calc-close-btn hidden" onclick="closeCalculator()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"/>
+    <line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+</div>
+
+<!-- QUIZ PAGE -->
+<div id="quizPage" class="quiz-page">
+  <div class="quiz-header">
+    <div class="quiz-title">Star Tools Quiz</div>
+    <div class="quiz-status">
+      <span id="qNyawa" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span id="qNyawaCount">3</span>
+      </span>
+      <span id="qScore" class="badge">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>0</span>
+      </span>
+    </div>
+  </div>
+  <div class="quiz-top-info">
+    <span id="qLevel"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Lv 1</span>
+    <span id="qCombo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> x0</span>
+  </div>
+  <div class="quiz-progress">
+    <div id="qProgress" class="quiz-progress-fill"></div>
+  </div>
+  <div class="quiz-card">
+    <h2 id="qSoal">Soal</h2>
+    <input type="text" id="qJawaban" class="input-jawaban" placeholder="Ketik jawaban...">
+    <div id="qSimbol" class="simbol-box">
+      <button class="btn-simbol" onclick="pilihSimbol('<')">&lt;</button>
+      <button class="btn-simbol" onclick="pilihSimbol('>')">&gt;</button>
+      <button class="btn-simbol" onclick="pilihSimbol('=')">=</button>
+    </div>
+    <button class="btn-jawab" onclick="submitJawaban()">Jawab</button>
+    <div id="qFeedback"></div>
+  </div>
+</div>
+
+<!-- POPUP LOCK -->
+<div id="popupLock" class="popup-overlay">
+  <div class="popup-box">
+    <h3>Fitur Terkunci</h3>
+    <p>Kerjakan quiz dulu ya untuk membuka fitur ini!</p>
+    <div class="popup-btn">
+      <button class="btn-modern outline" onclick="closePopupLock()">Kembali</button>
+      <button class="btn-modern primary" onclick="startQuiz()">Quiz</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAME OVER / NYAWA HABIS -->
+<div id="gameOverOverlay" class="alert-overlay">
+  <div class="alert-card" style="width:320px;">
+    <svg id="heartbreakSvg" width="130" height="130" viewBox="0 0 100 100" style="margin: 0 auto 10px; display:block;">
+      <defs>
+        <linearGradient id="heartGradGO" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#DC2626"/>
+          <stop offset="100%" stop-color="#7F1D1D"/>
+        </linearGradient>
+      </defs>
+      <g id="heartPieceLeft" style="transform-origin:50px 50px;">
+        <path d="M50 82 C 20 60, 8 40, 8 26 C 8 12, 20 5, 32 8 C 40 10, 46 16, 50 24 L 50 82 Z" fill="url(#heartGradGO)"/>
+      </g>
+      <g id="heartPieceRight" style="transform-origin:50px 50px;">
+        <path d="M50 82 C 80 60, 92 40, 92 26 C 92 12, 80 5, 68 8 C 60 10, 54 16, 50 24 L 50 82 Z" fill="url(#heartGradGO)"/>
+      </g>
+      <g id="heartCrack" opacity="0">
+        <line x1="50" y1="24" x2="45" y2="38" stroke="#FEF3C7" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="45" y1="38" x2="55" y2="50" stroke="#FEF3C7" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="55" y1="50" x2="47" y2="66" stroke="#FEF3C7" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <h3 style="color:#DC2626;">Nyawa Habis!</h3>
+    <p>Semangat ya! Nyawa kamu akan kembali penuh besok. Sampai jumpa lagi, Juara Matematika!</p>
+    <button class="btn-modern primary" onclick="closeGameOver()">Oke, Mengerti</button>
+  </div>
+</div>
+
+<style>
+  @keyframes heartSplitLeft {
+    0% { transform: translate(0,0) rotate(0deg); opacity:1; }
+    100% { transform: translate(-16px, 22px) rotate(-25deg); opacity: 0.15; }
+  }
+  @keyframes heartSplitRight {
+    0% { transform: translate(0,0) rotate(0deg); opacity:1; }
+    100% { transform: translate(16px, 22px) rotate(25deg); opacity: 0.15; }
+  }
+  .heart-breaking #heartPieceLeft { animation: heartSplitLeft 0.9s ease-in forwards; }
+  .heart-breaking #heartPieceRight { animation: heartSplitRight 0.9s ease-in forwards; }
+  .heart-breaking #heartCrack { transition: opacity 0.2s; opacity: 1 !important; }
+</style>
+
+<!-- GLOBAL ALERT -->
+<div id="globalAlert" class="alert-overlay">
+  <div class="alert-card">
+    <h3 id="alertTitle">Pemberitahuan</h3>
+    <p id="alertMessage">Pesan</p>
+    <button class="btn-modern primary" onclick="closeAlertGlobal()">Mengerti</button>
+    <div id="alertExtraBtn"></div>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.database();
+
+let currentUser = null;
+let currentKelas = 0;
+
+// ==================== QUIZ STATE ====================
+let qScore = 0, qNyawa = 3, qCombo = 0, qXp = 0, qLevel = 1;
+let qProgress = 0, qTotalSoal = 2;
+let qJawabanBenar = [], qCurrentFeature = "", qIsAnswered = false;
+const qToday = new Date().toDateString();
+
+// ==================== FEATURE MAP ====================
+const featureMap = {
+  bangunRuang: "sd1-2",
+  bandingangka: "bandingangka",
+  pecahan: "pecahan",
+  urutAngka: "urutangka",
+  bandingsimbol: "bandingsimbol",
+  penyebutan: "penyebutan",
+  penjumlahan2: "penjumlahan2",
+  pecahan2: "pecahan2",
+  pengenalanpecahan: "pengenalanpecahan",
+  nilaiangka: "nilaiangka",
+  pecahanOperasi: "pecahanOperasi",
+  urutAngka3: "urutAngka3",
+  bilanganbesar: "bilanganbesar",
+  bulatbilangan: "bulatbilangan",
+  operasiBesar: "operasiBesar",
+  pembulatanLanjutan: "pembulatanLanjutan",
+  kpk: "kpk",
+  fpb: "fpb",
+  perkalianBesar: "perkalianBesar",
+  kpkFpbLanjutan: "kpkFpbLanjutan",
+  pecahanFeature: "pecahanFeature",
+  volume: "volume",
+  pecahanLanjutan: "pecahanLanjutan",
+  volumeLanjutan: "volumeLanjutan"
+};
+
+// ==================== KALKULATOR FUNGSI ====================
+function showShapeInfo(shape) {
+  let info = '';
+  switch(shape) {
+    case 'persegi': info = 'Nama: Persegi\nJumlah sisi: 4 (semua sama panjang)\nPenjelasan: Persegi punya 4 sudut siku-siku dan semua sisinya sama panjang.'; break;
+    case 'persegiPanjang': info = 'Nama: Persegi Panjang\nJumlah sisi: 4 (sisi berhadapan sama panjang)\nPenjelasan: Punya 4 sudut siku-siku, tapi panjang dan lebarnya bisa berbeda.'; break;
+    case 'segitiga': info = 'Nama: Segitiga\nJumlah sisi: 3\nPenjelasan: Bangun datar dengan 3 sisi dan 3 sudut.'; break;
+    case 'lingkaran': info = 'Nama: Lingkaran\nJumlah sisi: Tidak ada (lengkungan)\nPenjelasan: Lingkaran dibentuk dari satu garis lengkung yang menyambung, jaraknya selalu sama dari titik pusat.'; break;
+    default: info = 'Bangun tidak diketahui';
+  }
+  document.getElementById('shapeInfo').innerHTML = '<div class="result-text">' + info + '</div>';
+}
+
+function kenalPecahan(bagian) {
+  let visual = '';
+  for (let i = 0; i < bagian; i++) { visual += (i === 0) ? '🟩' : '⬜'; }
+  document.getElementById('pecahanVisual').innerHTML = '<div class="result-text">' + visual + '</div>';
+  const namaPecahan = { 2: 'setengah', 3: 'sepertiga', 4: 'seperempat' };
+  document.getElementById('hasilPecahanSederhana').innerHTML =
+    '<div class="result-text">1/' + bagian + ' dibaca "' + namaPecahan[bagian] + '"\n' +
+    'Artinya: benda dibagi menjadi ' + bagian + ' bagian sama besar, dan kita ambil 1 bagian (kotak hijau).</div>';
+}
+
+function bandingin() {
+  const a = parseInt(document.getElementById('angka1').value);
+  const b = parseInt(document.getElementById('angka2').value);
+  const hasil = document.getElementById('hasil');
+  const cara = document.getElementById('caraBanding');
+  if (isNaN(a) || isNaN(b)) { hasil.innerHTML = '<div class="result-text">Masukkan dua angka dulu ya</div>'; cara.innerHTML=''; return; }
+  let teks;
+  if (a > b) teks = a + ' lebih besar daripada ' + b;
+  else if (a < b) teks = b + ' lebih besar daripada ' + a;
+  else teks = a + ' sama besar dengan ' + b;
+  if (a > b) hasil.innerHTML = '<div class="result-text">' + a + ' > ' + b + '</div>';
+  else if (a < b) hasil.innerHTML = '<div class="result-text">' + b + ' > ' + a + '</div>';
+  else hasil.innerHTML = '<div class="result-text">' + a + ' = ' + b + '</div>';
+  cara.innerHTML = '<div class="result-text">Penjelasan: ' + teks + '. Cara membandingkan: lihat mana yang jaraknya lebih jauh dari 0 pada garis bilangan, itulah yang lebih besar.</div>';
+}
+
+function bandinginSimbol() {
+  const a = parseInt(document.getElementById('angkasimbol1').value);
+  const b = parseInt(document.getElementById('angkasimbol2').value);
+  const hasil = document.getElementById('hasilsimbol');
+  const cara = document.getElementById('caraSimbol');
+  if (isNaN(a) || isNaN(b)) { hasil.innerHTML = '<div class="result-text">Masukkan dua angka dulu ya</div>'; cara.innerHTML=''; return; }
+  let simbol = (a > b) ? '>' : (a < b) ? '<' : '=';
+  hasil.innerHTML = '<div class="result-text">' + a + ' ' + simbol + ' ' + b + '</div>';
+  cara.innerHTML = '<div class="result-text">Penjelasan simbol:\n">" artinya "lebih besar dari"\n"<" artinya "lebih kecil dari"\n"=" artinya "sama dengan"\nKarena ' + a + (simbol==='>'?' lebih besar dari ':simbol==='<'?' lebih kecil dari ':' sama dengan ') + b + ', simbolnya adalah ' + simbol + '.</div>';
+}
+
+function terbilang(n) {
+  const angka = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas'];
+  n = parseInt(n);
+  if (n === 0) return 'nol';
+  if (n < 12) return angka[n];
+  if (n < 20) return terbilang(n - 10) + ' belas';
+  if (n < 100) return (terbilang(Math.floor(n / 10)) + ' puluh ' + terbilang(n % 10)).trim();
+  if (n < 200) return ('seratus ' + terbilang(n - 100)).trim();
+  if (n < 1000) return (terbilang(Math.floor(n / 100)) + ' ratus ' + terbilang(n % 100)).trim();
+  if (n < 2000) return ('seribu ' + terbilang(n - 1000)).trim();
+  if (n < 1000000) return (terbilang(Math.floor(n / 1000)) + ' ribu ' + terbilang(n % 1000)).trim();
+  if (n < 1000000000) return (terbilang(Math.floor(n / 1000000)) + ' juta ' + terbilang(n % 1000000)).trim();
+  return 'Angka terlalu besar';
+}
+
+function convertAngka() {
+  const input = document.getElementById('angkaInput').value;
+  if (input === '') { document.getElementById('hasilTerbilang').innerHTML = '<div class="result-text">Masukkan angka dulu bre!</div>'; document.getElementById('caraTerbilang').innerHTML=''; return; }
+  document.getElementById('hasilTerbilang').innerHTML = '<div class="result-text">' + terbilang(input) + '</div>';
+  document.getElementById('caraTerbilang').innerHTML = '<div class="result-text">Cara: pecah angka ' + input + ' berdasarkan nilai tempatnya (ribuan, ratusan, puluhan, satuan), lalu baca tiap bagian dari kiri ke kanan.</div>';
+}
+
+function hitungTambahKurang2() {
+  let a = parseInt(document.getElementById('angka1_k2').value);
+  let b = parseInt(document.getElementById('angka2_k2').value);
+  if (isNaN(a) || isNaN(b)) { document.getElementById('hasilTambahKurang2').innerHTML = '<div class="result-text">Isi semua angka!</div>'; document.getElementById('caraTambahKurang2').innerHTML=''; return; }
+  document.getElementById('hasilTambahKurang2').innerHTML = '<div class="result-text">Tambah: ' + (a + b) + ', Kurang: ' + (a - b) + '</div>';
+  document.getElementById('caraTambahKurang2').innerHTML = '<div class="result-text">Cara:\nPenjumlahan: ' + a + ' + ' + b + ' = ' + (a+b) + '\nPengurangan: ' + a + ' - ' + b + ' = ' + (a-b) + '</div>';
+}
+
+function hitungPecahan2() {
+  let pembilang = parseInt(document.getElementById('pembilang').value);
+  let penyebut = parseInt(document.getElementById('penyebut').value);
+  if (isNaN(pembilang) || isNaN(penyebut)) { document.getElementById('hasilPecahan2').innerHTML = '<div class="result-text">Isi semua input!</div>'; document.getElementById('caraPecahan2').innerHTML=''; return; }
+  if (penyebut === 0) { document.getElementById('hasilPecahan2').innerHTML = '<div class="result-text">Penyebut tidak boleh 0!</div>'; document.getElementById('caraPecahan2').innerHTML=''; return; }
+  document.getElementById('hasilPecahan2').innerHTML = '<div class="result-text">Hasil: ' + (pembilang / penyebut) + '</div>';
+  document.getElementById('caraPecahan2').innerHTML = '<div class="result-text">Cara: ' + pembilang + '/' + penyebut + ' artinya ' + pembilang + ' ÷ ' + penyebut + ' = ' + (pembilang/penyebut) + '</div>';
+}
+
+function hitungPecahan() {
+  const atas = parseInt(document.getElementById('atas').value);
+  const bawah = parseInt(document.getElementById('bawah').value);
+  const cara = document.getElementById('caraPengenalanPecahan');
+  if (!atas || !bawah) { document.getElementById('hasilPecahan').innerHTML = '<div class="result-text">Isi dulu bre!</div>'; cara.innerHTML=''; return; }
+  if (atas > bawah) { document.getElementById('hasilPecahan').innerHTML = '<div class="result-text">Pembilang tidak boleh lebih besar dari penyebut!</div>'; cara.innerHTML=''; return; }
+  document.getElementById('hasilPecahan').innerHTML = '<div class="result-text">' + atas + '/' + bawah + ' artinya ' + atas + ' dari ' + bawah + ' bagian</div>';
+  let visual = '';
+  for (let i = 0; i < bawah; i++) { visual += (i < atas) ? '🟩' : '⬜'; }
+  document.getElementById('visualPecahan').innerHTML = '<div class="result-text">' + visual + '</div>';
+  cara.innerHTML = '<div class="result-text">Penjelasan: bayangkan sebuah benda dibagi menjadi ' + bawah + ' bagian sama besar (kotak-kotak di atas). Kita mengambil ' + atas + ' bagian (yang hijau), sehingga ditulis ' + atas + '/' + bawah + '.</div>';
+}
+
+function cekNilai() {
+  const angka = document.getElementById('inputAngka').value;
+  if (angka === '') { document.getElementById('hasilNilai').innerHTML = '<div class="result-text">Masukkan angka dulu bre!</div>'; return; }
+  const str = angka.toString();
+  let hasil = '';
+  const len = str.length;
+  for (let i = 0; i < len; i++) {
+    const digit = parseInt(str[i]);
+    const posisi = len - i;
+    if (digit === 0) continue;
+    if (posisi === 4) hasil += digit + ' ribuan (' + digit * 1000 + ')\n';
+    else if (posisi === 3) hasil += digit + ' ratusan (' + digit * 100 + ')\n';
+    else if (posisi === 2) hasil += digit + ' puluhan (' + digit * 10 + ')\n';
+    else if (posisi === 1) hasil += digit + ' satuan (' + digit + ')\n';
+  }
+  document.getElementById('hasilNilai').innerHTML = '<div class="result-text">Penjelasan: setiap digit punya "nilai tempat" tergantung posisinya.\n' + hasil + '</div>';
+}
+
+function hitungPecahan3() {
+  let num1 = parseInt(document.getElementById('num1_p3').value);
+  let num2 = parseInt(document.getElementById('num2_p3').value);
+  let num3 = parseInt(document.getElementById('num3_p3').value);
+  let num4 = parseInt(document.getElementById('num4_p3').value);
+  let op = document.getElementById('operation_p3').value;
+  const hasilEl = document.getElementById('hasilPecahan3');
+  const caraEl = document.getElementById('caraPecahan3');
+  if ([num1,num2,num3,num4].includes(NaN)) { hasilEl.innerHTML = '<div class="result-text">Isi semua angka!</div>'; caraEl.innerHTML=''; return; }
+  if (num2 === 0 || num4 === 0) { hasilEl.innerHTML = '<div class="result-text">Penyebut tidak boleh 0!</div>'; caraEl.innerHTML=''; return; }
+  function gcdP3(a,b){ a=Math.abs(a); b=Math.abs(b); return b===0 ? a : gcdP3(b, a%b); }
+  const samaPenyebut = num2 * num4;
+  const pembilang1 = num1 * num4;
+  const pembilang2 = num3 * num2;
+  const resNum = (op == 'add') ? pembilang1 + pembilang2 : pembilang1 - pembilang2;
+  const g = gcdP3(resNum, samaPenyebut) || 1;
+  const hasil = (op == 'add') ? (num1/num2) + (num3/num4) : (num1/num2) - (num3/num4);
+  hasilEl.innerHTML = '<div class="result-text">Hasil: ' + hasil + ' (= ' + resNum + '/' + samaPenyebut + ' = ' + (resNum/g) + '/' + (samaPenyebut/g) + ')</div>';
+  caraEl.innerHTML = '<div class="result-text">Cara (samakan penyebut dulu):\n' + num1 + '/' + num2 + ' = ' + pembilang1 + '/' + samaPenyebut + '\n' + num3 + '/' + num4 + ' = ' + pembilang2 + '/' + samaPenyebut + '\n' + pembilang1 + ' ' + (op=='add'?'+':'-') + ' ' + pembilang2 + ' = ' + resNum + '\nHasil = ' + resNum + '/' + samaPenyebut + ' = ' + (resNum/g) + '/' + (samaPenyebut/g) + '</div>';
+}
+
+function hitungUrut3() {
+  let arr = [];
+  for (let i = 1; i <= 5; i++) {
+    let val = parseInt(document.getElementById('angka' + i + '_3').value);
+    if (isNaN(val)) { document.getElementById('hasilUrut3').innerHTML = '<div class="result-text">Isi semua angka!</div>'; document.getElementById('caraUrut3').innerHTML=''; return; }
+    arr.push(val);
+  }
+  const asli = [...arr];
+  arr.sort((x,y) => x - y);
+  document.getElementById('hasilUrut3').innerHTML = '<div class="result-text">Urutan naik: ' + arr.join(', ') + '</div>';
+  document.getElementById('caraUrut3').innerHTML = '<div class="result-text">Cara: bandingkan kelima angka (' + asli.join(', ') + ') satu per satu, cari yang terkecil, lalu susun sampai yang terbesar.\nHasil: ' + arr.join(' < ') + '</div>';
+}
+
+function terbilangBesar(n) {
+  const angka = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas'];
+  n = parseInt(n);
+  if (n < 12) return angka[n];
+  if (n < 20) return terbilangBesar(n - 10) + ' belas';
+  if (n < 100) return terbilangBesar(Math.floor(n / 10)) + ' puluh ' + terbilangBesar(n % 10);
+  if (n < 200) return 'seratus ' + terbilangBesar(n - 100);
+  if (n < 1000) return terbilangBesar(Math.floor(n / 100)) + ' ratus ' + terbilangBesar(n % 100);
+  if (n < 2000) return 'seribu ' + terbilangBesar(n - 1000);
+  if (n < 1000000) return terbilangBesar(Math.floor(n / 1000)) + ' ribu ' + terbilangBesar(n % 1000);
+  if (n < 1000000000) return terbilangBesar(Math.floor(n / 1000000)) + ' juta ' + terbilangBesar(n % 1000000);
+  if (n < 1000000000000) return terbilangBesar(Math.floor(n / 1000000000)) + ' miliar ' + terbilangBesar(n % 1000000000);
+  if (n < 1000000000000000) return terbilangBesar(Math.floor(n / 1000000000000)) + ' triliun ' + terbilangBesar(n % 1000000000000);
+  return 'Angka terlalu besar';
+}
+
+function formatAngka(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+
+function convertBesar() {
+  const input = document.getElementById('inputBesar').value;
+  if (input === '') { document.getElementById('hasilAngka').innerHTML = '<div class="result-text">Masukkan angka dulu bre!</div>'; document.getElementById('caraBilanganBesar').innerHTML=''; return; }
+  const angka = parseInt(input);
+  document.getElementById('hasilAngka').innerHTML = '<div class="result-text">Format: ' + formatAngka(angka) + '</div>';
+  document.getElementById('hasilBaca').innerHTML = '<div class="result-text">Dibaca: ' + terbilangBesar(angka) + '</div>';
+  document.getElementById('caraBilanganBesar').innerHTML = '<div class="result-text">Cara: pisahkan angka setiap 3 digit dari kanan (' + formatAngka(angka) + '), tiap kelompok punya nama sendiri (satuan, ribuan, juta, miliar, triliun).</div>';
+}
+
+function hitungPembulatan() {
+  const angka = parseInt(document.getElementById('angka_bulat1').value);
+  const tipe = document.getElementById('tipePembulatan').value;
+  if (isNaN(angka)) { document.getElementById('hasilPembulatan').innerHTML = '<div class="result-text">Masukkan angka!</div>'; document.getElementById('caraPembulatan').innerHTML=''; return; }
+  const factor = (tipe == 'puluhan') ? 10 : 100;
+  const digitCek = Math.floor((angka % factor) / (factor/10));
+  let hasil = (tipe == 'puluhan') ? Math.round(angka / 10) * 10 : Math.round(angka / 100) * 100;
+  document.getElementById('hasilPembulatan').innerHTML = '<div class="result-text">Hasil pembulatan: ' + hasil + '</div>';
+  document.getElementById('caraPembulatan').innerHTML = '<div class="result-text">Aturan pembulatan ke ' + tipe + ':\nLihat digit setelahnya (di sini: ' + digitCek + ').\nJika ≥ 5, dibulatkan ke atas. Jika < 5, dibulatkan ke bawah.\n' + angka + ' → ' + hasil + '</div>';
+}
+
+function hitungBesar() {
+  let a = parseInt(document.getElementById('angka1_k4').value);
+  let b = parseInt(document.getElementById('angka2_k4').value);
+  let op = document.getElementById('operator_k4').value;
+  if (isNaN(a) || isNaN(b)) { document.getElementById('hasilBesar').innerHTML = '<div class="result-text">Isi semua angka!</div>'; document.getElementById('caraBesar').innerHTML=''; return; }
+  const hasil = (op == 'add') ? a + b : a - b;
+  document.getElementById('hasilBesar').innerHTML = '<div class="result-text">Hasil: ' + hasil + '</div>';
+  document.getElementById('caraBesar').innerHTML = '<div class="result-text">Cara: susun angka sesuai nilai tempat (satuan lurus dengan satuan, dst), lalu ' + (op=='add'?'jumlahkan':'kurangkan') + ' dari kanan ke kiri.\n' + a + ' ' + (op=='add'?'+':'-') + ' ' + b + ' = ' + hasil + '</div>';
+}
+
+function hitungBulatLanjutan() {
+  let angka = parseInt(document.getElementById('angka_k4').value);
+  let tipe = document.getElementById('tipeBulat').value;
+  if (isNaN(angka)) { document.getElementById('hasilBulatLanjutan').innerHTML = '<div class="result-text">Isi angka!</div>'; document.getElementById('caraBulatLanjutan').innerHTML=''; return; }
+  let factor = (tipe == 'puluhan') ? 10 : (tipe == 'ratusan') ? 100 : 1000;
+  const hasil = Math.round(angka / factor) * factor;
+  document.getElementById('hasilBulatLanjutan').innerHTML = '<div class="result-text">Hasil: ' + hasil + '</div>';
+  document.getElementById('caraBulatLanjutan').innerHTML = '<div class="result-text">Cara: bagi ' + angka + ' dengan ' + factor + ', bulatkan hasil baginya, lalu kalikan lagi dengan ' + factor + '.\n' + angka + ' → dibulatkan ke ' + tipe + ' → ' + hasil + '</div>';
+}
+
+function hitungKPK() {
+  const a = parseInt(document.getElementById('num1_kpk').value);
+  const b = parseInt(document.getElementById('num2_kpk').value);
+  const langkahEl = document.getElementById('langkahKPK');
+  if (!a || !b) { document.getElementById('hasilKPK').innerHTML = '<div class="result-text">Isi kedua angka dulu, bre!</div>'; langkahEl.innerHTML=''; return; }
+  function fpb(x, y) { while (y) { const temp = y; y = x % y; x = temp; } return x; }
+  const nilaiFpb = fpb(a, b);
+  const kpk = (a * b) / nilaiFpb;
+  // list kelipatan sampai ketemu yang sama, untuk pembelajaran (dibatasi biar tidak kepanjangan)
+  let kelA = [], kelB = [];
+  for (let i = 1; i <= 6; i++) { kelA.push(a*i); kelB.push(b*i); }
+  document.getElementById('hasilKPK').innerHTML = '<div class="result-text">KPK dari ' + a + ' dan ' + b + ' = ' + kpk + '</div>';
+  langkahEl.innerHTML = '<div class="result-text">Cara (kelipatan persekutuan terkecil):\nKelipatan ' + a + ': ' + kelA.join(', ') + ', ...\nKelipatan ' + b + ': ' + kelB.join(', ') + ', ...\nAngka terkecil yang sama = ' + kpk + '\n(Rumus cepat: KPK = (a × b) ÷ FPB = (' + a + ' × ' + b + ') ÷ ' + nilaiFpb + ' = ' + kpk + ')</div>';
+}
+
+function resetKPK() { document.getElementById('hasilKPK').innerHTML = ''; document.getElementById('langkahKPK').innerHTML = ''; document.getElementById('num1_kpk').value = ''; document.getElementById('num2_kpk').value = ''; }
+
+function hitungFPB() {
+  let a = parseInt(document.getElementById('angka1_fpb').value);
+  let b = parseInt(document.getElementById('angka2_fpb').value);
+  if (isNaN(a) || isNaN(b)) { document.getElementById('hasilFPB').innerHTML = '<div class="result-text">Isi semua angka!</div>'; return; }
+  let x = a, y = b, langkahText = '';
+  while (y != 0) {
+    langkahText += x + ' ÷ ' + y + ' sisa ' + (x % y) + '\n';
+    let temp = y;
+    y = x % y;
+    x = temp;
+  }
+  document.getElementById('langkahFPB').innerHTML = '<div class="result-text">Langkah (algoritma Euclid, bagi terus sampai sisa 0):\n' + langkahText + '</div>';
+  document.getElementById('hasilFPB').innerHTML = '<div class="result-text">FPB = ' + x + ' (angka terbesar yang bisa membagi habis ' + a + ' dan ' + b + ')</div>';
+}
+
+function resetFPB() { document.getElementById('langkahFPB').innerHTML = ''; document.getElementById('hasilFPB').innerHTML = ''; document.getElementById('angka1_fpb').value = ''; document.getElementById('angka2_fpb').value = ''; }
+
+function hitungPerkalianBesar() {
+  let a = parseInt(document.getElementById('angka1_k5').value);
+  let b = parseInt(document.getElementById('angka2_k5').value);
+  let op = document.getElementById('operator_k5').value;
+  const hasilEl = document.getElementById('hasilPerkalianBesar');
+  const caraEl = document.getElementById('caraPerkalianBesar');
+  if (isNaN(a) || isNaN(b)) { hasilEl.innerHTML = '<div class="result-text">Isi semua angka!</div>'; caraEl.innerHTML=''; return; }
+  if (op == 'divide' && b === 0) { hasilEl.innerHTML = '<div class="result-text">Tidak bisa membagi dengan 0!</div>'; caraEl.innerHTML=''; return; }
+  const hasil = (op == 'multiply') ? a * b : a / b;
+  hasilEl.innerHTML = '<div class="result-text">Hasil: ' + hasil + '</div>';
+  caraEl.innerHTML = '<div class="result-text">Cara: ' + a + ' ' + (op=='multiply'?'×':'÷') + ' ' + b + ' = ' + hasil + '\n' + (op=='multiply' ? 'Perkalian artinya menjumlahkan '+a+' sebanyak '+b+' kali.' : 'Pembagian artinya membagi '+a+' menjadi '+b+' kelompok sama besar.') + '</div>';
+}
+
+function hitungKPKFPBLanjutan() {
+  let a = parseInt(document.getElementById('angka1_k5k').value);
+  let b = parseInt(document.getElementById('angka2_k5k').value);
+  const hasilEl = document.getElementById('hasilKPKFPBLanjutan');
+  const caraEl = document.getElementById('caraKPKFPBLanjutan');
+  if (isNaN(a) || isNaN(b) || a === 0 || b === 0) { hasilEl.innerHTML = '<div class="result-text">Isi semua angka (tidak boleh 0)!</div>'; caraEl.innerHTML=''; return; }
+  let langkah = '';
+  let x = a, y = b;
+  while (y != 0) { langkah += x + ' ÷ ' + y + ' sisa ' + (x % y) + '\n'; let t = y; y = x % y; x = t; }
+  const fpbVal = x;
+  const kpkVal = (a * b) / fpbVal;
+  hasilEl.innerHTML = '<div class="result-text">KPK: ' + kpkVal + ', FPB: ' + fpbVal + '</div>';
+  caraEl.innerHTML = '<div class="result-text">Cara mencari FPB (algoritma Euclid):\n' + langkah + 'FPB = ' + fpbVal + '\n\nKPK = (a × b) ÷ FPB = (' + a + ' × ' + b + ') ÷ ' + fpbVal + ' = ' + kpkVal + '</div>';
+}
+
+function calculateFraction() {
+  let num1 = parseInt(document.getElementById('num1_p1').value);
+  let den1 = parseInt(document.getElementById('num2_p1').value);
+  let num2 = parseInt(document.getElementById('num1_p2').value);
+  let den2 = parseInt(document.getElementById('num2_p2').value);
+  let op = document.getElementById('operation_p').value;
+  const hasilEl = document.getElementById('result_fraction');
+  const caraEl = document.getElementById('caraFraction');
+  if (den1 === 0 || den2 === 0 || isNaN(num1) || isNaN(num2) || isNaN(den1) || isNaN(den2)) { hasilEl.innerHTML = '<div class="result-text">Input tidak valid! (penyebut tidak boleh 0)</div>'; caraEl.innerHTML=''; return; }
+  if (op === 'divide' && num2 === 0) { hasilEl.innerHTML = '<div class="result-text">Tidak bisa membagi dengan pecahan bernilai 0!</div>'; caraEl.innerHTML=''; return; }
+  let resNum, resDen, langkah;
+  switch(op) {
+    case 'add':
+      resNum = num1*den2 + num2*den1; resDen = den1*den2;
+      langkah = 'Samakan penyebut: ' + num1 + '/' + den1 + ' = ' + (num1*den2) + '/' + resDen + ', ' + num2 + '/' + den2 + ' = ' + (num2*den1) + '/' + resDen + '\nJumlahkan pembilang: ' + (num1*den2) + ' + ' + (num2*den1) + ' = ' + resNum;
+      break;
+    case 'subtract':
+      resNum = num1*den2 - num2*den1; resDen = den1*den2;
+      langkah = 'Samakan penyebut: ' + num1 + '/' + den1 + ' = ' + (num1*den2) + '/' + resDen + ', ' + num2 + '/' + den2 + ' = ' + (num2*den1) + '/' + resDen + '\nKurangkan pembilang: ' + (num1*den2) + ' - ' + (num2*den1) + ' = ' + resNum;
+      break;
+    case 'multiply':
+      resNum = num1*num2; resDen = den1*den2;
+      langkah = 'Kalikan pembilang dengan pembilang, penyebut dengan penyebut:\n' + num1 + ' × ' + num2 + ' = ' + resNum + '\n' + den1 + ' × ' + den2 + ' = ' + resDen;
+      break;
+    case 'divide':
+      resNum = num1*den2; resDen = den1*num2;
+      langkah = 'Bagi pecahan = kalikan dengan kebalikannya:\n' + num1 + '/' + den1 + ' × ' + den2 + '/' + num2 + ' = ' + resNum + '/' + resDen;
+      break;
+  }
+  function gcd(a,b){ return b===0 ? a : gcd(b, a%b); }
+  let g = gcd(Math.abs(resNum), Math.abs(resDen)) || 1;
+  hasilEl.innerHTML = '<div class="result-text">' + (resNum/g) + '/' + (resDen/g) + '</div>';
+  caraEl.innerHTML = '<div class="result-text">Cara:\n' + langkah + '\nHasil sebelum disederhanakan: ' + resNum + '/' + resDen + '\nDisederhanakan (dibagi FPB=' + g + '): ' + (resNum/g) + '/' + (resDen/g) + '</div>';
+}
+
+function resetcalculate_Fraction() {
+  document.getElementById('result_fraction').innerHTML = '';
+  document.getElementById('caraFraction').innerHTML = '';
+  document.getElementById('num1_p1').value = '';
+  document.getElementById('num2_p1').value = '';
+  document.getElementById('num1_p2').value = '';
+  document.getElementById('num2_p2').value = '';
+  document.getElementById('operation_p').value = 'add';
+}
+
+function calcVolume() {
+  let b = document.getElementById('bangun').value;
+  let s = Number(document.getElementById('sisi').value);
+  let l = Number(document.getElementById('lebar').value);
+  let t = Number(document.getElementById('tinggi').value);
+  let hasil, cara = '';
+  if (b == 'kubus') {
+    hasil = s**3;
+    cara = 'Rumus Kubus:\nV = s³\n= ' + s + ' × ' + s + ' × ' + s + '\n= ' + hasil;
+  } else {
+    hasil = s * l * t;
+    cara = 'Rumus Balok:\nV = p × l × t\n= ' + s + ' × ' + l + ' × ' + t + '\n= ' + hasil;
+  }
+  document.getElementById('hasilVolume').innerHTML = '<div class="result-text">Hasil = ' + hasil + '</div>';
+  document.getElementById('caraVolume').innerHTML = '<div class="result-text">' + cara + '</div>';
+}
+
+function resetVolume() {
+  document.getElementById('sisi').value = '';
+  document.getElementById('lebar').value = '';
+  document.getElementById('tinggi').value = '';
+  document.getElementById('hasilVolume').innerHTML = '';
+  document.getElementById('caraVolume').innerHTML = '';
+}
+
+function hitungPecahan6() {
+  let a = parseInt(document.getElementById('num1_p6').value);
+  let b = parseInt(document.getElementById('num2_p6').value);
+  let c = parseInt(document.getElementById('num3_p6').value);
+  let d = parseInt(document.getElementById('num4_p6').value);
+  let op = document.getElementById('operator_p6').value;
+  const hasilEl = document.getElementById('hasilPecahan6');
+  const caraEl = document.getElementById('caraPecahan6');
+  if ([a,b,c,d].includes(NaN)) { hasilEl.innerHTML = '<div class="result-text">Isi semua angka!</div>'; caraEl.innerHTML=''; return; }
+  if (b === 0 || d === 0) { hasilEl.innerHTML = '<div class="result-text">Penyebut tidak boleh 0!</div>'; caraEl.innerHTML=''; return; }
+  if (op == 'divide' && a === 0) { hasilEl.innerHTML = '<div class="result-text">Tidak bisa membagi dengan pecahan bernilai 0!</div>'; caraEl.innerHTML=''; return; }
+  let hasil, langkah;
+  if (op == 'add') { hasil = a/b + c/d; langkah = a+'/'+b+' + '+c+'/'+d+' = ('+a+'×'+d+' + '+c+'×'+b+') / ('+b+'×'+d+') = '+(a*d+c*b)+'/'+(b*d); }
+  else if (op == 'subtract') { hasil = a/b - c/d; langkah = a+'/'+b+' - '+c+'/'+d+' = ('+a+'×'+d+' - '+c+'×'+b+') / ('+b+'×'+d+') = '+(a*d-c*b)+'/'+(b*d); }
+  else if (op == 'multiply') { hasil = (a/b) * (c/d); langkah = a+'/'+b+' × '+c+'/'+d+' = ('+a+'×'+c+') / ('+b+'×'+d+') = '+(a*c)+'/'+(b*d); }
+  else if (op == 'divide') { hasil = (a/b) / (c/d); langkah = a+'/'+b+' ÷ '+c+'/'+d+' = '+a+'/'+b+' × '+d+'/'+c+' = '+(a*d)+'/'+(b*c); }
+  hasilEl.innerHTML = '<div class="result-text">Hasil: ' + hasil + '</div>';
+  caraEl.innerHTML = '<div class="result-text">Cara:\n' + langkah + ' = ' + hasil + '</div>';
+}
+
+function hitungVolume6() {
+  let bangun = document.getElementById('bangun6').value;
+  let s = parseFloat(document.getElementById('sisi6').value);
+  let l = parseFloat(document.getElementById('lebar6').value);
+  let t = parseFloat(document.getElementById('tinggi6').value);
+  const hasilEl = document.getElementById('hasilVolume6');
+  const caraEl = document.getElementById('caraVolume6');
+  if (isNaN(s) || (bangun == 'balok' && (isNaN(l) || isNaN(t))) || (bangun == 'tabung' && isNaN(t))) {
+    hasilEl.innerHTML = '<div class="result-text">Isi semua input!</div>';
+    caraEl.innerHTML = '';
+    return;
+  }
+  let hasil, langkah;
+  if (bangun == 'kubus') {
+    hasil = s**3;
+    langkah = 'Rumus Kubus: V = s³\nV = ' + s + ' × ' + s + ' × ' + s + ' = ' + hasil;
+  } else if (bangun == 'balok') {
+    hasil = s * l * t;
+    langkah = 'Rumus Balok: V = p × l × t\nV = ' + s + ' × ' + l + ' × ' + t + ' = ' + hasil;
+  } else if (bangun == 'tabung') {
+    hasil = Math.PI * (s**2) * t;
+    langkah = 'Rumus Tabung: V = π × r² × t\nV = 3.14159... × ' + s + '² × ' + t + ' = ' + hasil.toFixed(2);
+  }
+  hasilEl.innerHTML = '<div class="result-text">Volume: ' + hasil + '</div>';
+  caraEl.innerHTML = '<div class="result-text">Cara:\n' + langkah + '</div>';
+}
+
+function hitungUrut() {
+  let a = parseInt(document.getElementById('angkaUrut1').value);
+  let b = parseInt(document.getElementById('angkaUrut2').value);
+  let c = parseInt(document.getElementById('angkaUrut3').value);
+  if ([a,b,c].includes(NaN)) { document.getElementById('hasilUrut').innerHTML = '<div class="result-text">Isi semua angka!</div>'; document.getElementById('caraUrut').innerHTML=''; return; }
+  const asli = [a,b,c];
+  let arr = [a,b,c].sort((x,y)=>x-y);
+  document.getElementById('hasilUrut').innerHTML = '<div class="result-text">Urutan naik: ' + arr.join(', ') + '</div>';
+  document.getElementById('caraUrut').innerHTML = '<div class="result-text">Cara: bandingkan ketiga angka (' + asli.join(', ') + '), lalu susun dari yang paling kecil ke paling besar.\nHasil: ' + arr.join(' < ') + '</div>';
+}
+
+function copyToClipboard(id) {
+  let el = document.getElementById(id);
+  let text = el.innerText || el.textContent;
+  if (!text || text.trim() === '') { showAlert('Belum Ada Hasil', 'Tidak ada hasil untuk disalin.'); return; }
+  navigator.clipboard.writeText(text).then(() => {
+    showAlert('Berhasil', 'Hasil berhasil disalin ke clipboard.');
+  }).catch(() => {
+    let temp = document.createElement('textarea');
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand('copy');
+    document.body.removeChild(temp);
+    showAlert('Berhasil', 'Hasil berhasil disalin.');
+  });
+}
+
+// ==================== SIDEBAR ====================
+function openSidebar() {
+  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('sidebarNav').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('sidebarNav').classList.remove('active');
+}
+
+function goTo(page) {
+  localStorage.setItem('targetPage', page);
+  localStorage.setItem('activePage', page);
+  window.location.href = page;
+}
+
+function logoutAction() {
+  if (confirm('Yakin ingin keluar?')) {
+    firebase.auth().signOut().then(() => {
+      window.location.href = 'login.html';
+    });
+  }
+}
+
+function goBack() {
+  window.location.href = 'matematika.html';
+}
+
+// ==================== ALERT ====================
+function showAlert(title, message, showUpgrade) {
+  if (showUpgrade === undefined) showUpgrade = false;
+  const overlay = document.getElementById('globalAlert');
+  document.getElementById('alertTitle').innerText = title;
+  document.getElementById('alertMessage').innerText = message;
+  const extraDiv = document.getElementById('alertExtraBtn');
+  extraDiv.innerHTML = '';
+  if (showUpgrade) {
+    const btn = document.createElement('button');
+    btn.className = 'btn-modern primary';
+    btn.innerText = 'Tingkatkan ke Premium';
+    btn.style.marginTop = '12px';
+    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
+    extraDiv.appendChild(btn);
+  }
+  overlay.style.display = 'flex';
+}
+
+function closeAlertGlobal() {
+  document.getElementById('globalAlert').style.display = 'none';
+}
+
+// ==================== GAME OVER (NYAWA HABIS) ====================
+function showGameOver() {
+  const overlay = document.getElementById('gameOverOverlay');
+  const svg = document.getElementById('heartbreakSvg');
+  svg.classList.remove('heart-breaking');
+  void svg.offsetWidth; // restart animation
+  overlay.style.display = 'flex';
+  setTimeout(() => svg.classList.add('heart-breaking'), 150);
+}
+
+function closeGameOver() {
+  document.getElementById('gameOverOverlay').style.display = 'none';
+}
+
+// ==================== SHOW KELAS ====================
+function showKelas(num) {
+  currentKelas = num;
+  const container = document.getElementById('kelasContent');
+
+  let html = '';
+
+  html += `
+    <div class="card-modern">
+      <div class="section-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+          <polyline points="2 17 12 22 22 17"/>
+          <polyline points="2 12 12 17 22 12"/>
+        </svg>
+        Kelas ${num}
+      </div>
+      <p class="text-muted">Pilih fitur yang ingin kamu gunakan. Fitur terkunci harus dibuka dengan quiz.</p>
+    </div>
+  `;
+
+  const kelasData = getKelasData(num);
+  html += kelasData;
+
+  html += `
+    <div class="card-modern">
+      <button class="btn-modern outline" onclick="backToKelas()">Kembali Pilih Kelas</button>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  document.getElementById('pilihKelasCard').style.display = 'none';
+}
+
+function backToKelas() {
+  document.getElementById('kelasContent').innerHTML = '';
+  document.getElementById('pilihKelasCard').style.display = 'block';
+  currentKelas = 0;
+}
+
+// ==================== GET KELAS DATA ====================
+function getKelasData(num) {
+  const features = {
+    1: [
+      { label: 'Kalkulator Bangun Ruang', key: 'bangunRuang', card: 'sd1-2' },
+      { label: 'Kalkulator Perbandingan Angka', key: 'bandingangka', card: 'bandingangka' },
+      { label: 'Kalkulator Mengenal Pecahan (1)', key: 'pecahan', card: 'pecahan' },
+      { label: 'Kalkulator Urutkan Angka', key: 'urutAngka', card: 'urutangka' }
+    ],
+    2: [
+      { label: 'Kalkulator Perbandingan Angka (Simbol)', key: 'bandingsimbol', card: 'bandingsimbol' },
+      { label: 'Kalkulator Bilangan Angka', key: 'penyebutan', card: 'penyebutan' },
+      { label: 'Kalkulator Penjumlahan & Pengurangan', key: 'penjumlahan2', card: 'penjumlahan2' },
+      { label: 'Kalkulator Mengenal Pecahan (2)', key: 'pecahan2', card: 'pecahan2' }
+    ],
+    3: [
+      { label: 'Kalkulator Pengenalan Pecahan', key: 'pengenalanpecahan', card: 'pengenalanpecahan' },
+      { label: 'Kalkulator Nilai Tempat', key: 'nilaiangka', card: 'nilaiangka' },
+      { label: 'Kalkulator Operasi Pecahan', key: 'pecahanOperasi', card: 'pecahanOperasi' },
+      { label: 'Kalkulator Urutkan Angka', key: 'urutAngka3', card: 'urutAngka3' }
+    ],
+    4: [
+      { label: 'Kalkulator Bilangan Cacah Besar', key: 'bilanganbesar', card: 'bilanganbesar' },
+      { label: 'Kalkulator Pembulatan Bilangan', key: 'bulatbilangan', card: 'bulatbilangan' },
+      { label: 'Kalkulator Operasi Bilangan Besar', key: 'operasiBesar', card: 'operasiBesar' },
+      { label: 'Kalkulator Pembulatan Lanjutan', key: 'pembulatanLanjutan', card: 'pembulatanLanjutan' }
+    ],
+    5: [
+      { label: 'Kalkulator KPK', key: 'kpk', card: 'kpk' },
+      { label: 'Kalkulator FPB', key: 'fpb', card: 'fpb' },
+      { label: 'Kalkulator Perkalian & Pembagian Besar', key: 'perkalianBesar', card: 'perkalianBesar' },
+      { label: 'Kalkulator KPK & FPB Lanjutan', key: 'kpkFpbLanjutan', card: 'kpkFpbLanjutan' }
+    ],
+    6: [
+      { label: 'Kalkulator Pecahan Sederhana', key: 'pecahanFeature', card: 'pecahanFeature' },
+      { label: 'Kalkulator Hitung Volume', key: 'volume', card: 'volume' },
+      { label: 'Kalkulator Operasi Pecahan Lanjutan', key: 'pecahanLanjutan', card: 'pecahanLanjutan' },
+      { label: 'Kalkulator Volume Lanjutan', key: 'volumeLanjutan', card: 'volumeLanjutan' }
+    ]
+  };
+
+  let html = `<div class="card-modern"><div class="section-title">Fitur Matematika</div>`;
+  const list = features[num] || [];
+  list.forEach(f => {
+    html += `<button class="btn-modern" onclick="openFeature('${f.key}','${f.card}')">${f.label}</button>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+// ==================== CARD SYSTEM ====================
+function showCard(cardId) {
+  document.querySelectorAll('.card-kalkulator').forEach(c => c.style.display = 'none');
+  const el = document.getElementById(cardId);
+  if (el) {
+    el.style.display = 'block';
+    el.scrollTop = 0;
+    document.getElementById('calcCloseBtn').classList.remove('hidden');
+  }
+}
+
+function closeCalculator() {
+  document.querySelectorAll('.card-kalkulator').forEach(c => c.style.display = 'none');
+  document.getElementById('calcCloseBtn').classList.add('hidden');
+}
+
+// ==================== OPEN FEATURE ====================
+function openFeature(featureKey, cardId) {
+  if (!currentUser) {
+    showAlert('Login Dulu', 'Silakan login terlebih dahulu.');
+    return;
+  }
+
+  qCurrentFeature = featureKey;
+
+  db.ref('users/' + currentUser + '/unlock/' + featureKey).once('value', snap => {
+    if (snap.val()) {
+      showCard(cardId);
+    } else {
+      document.getElementById('popupLock').style.display = 'flex';
+    }
+  });
+}
+
+function closePopupLock() {
+  document.getElementById('popupLock').style.display = 'none';
+}
+
+// ==================== QUIZ ====================
+function startQuiz() {
+  if (qNyawa <= 0) {
+    showAlert('Nyawa Habis', 'Kembali lagi besok dengan semangat baru!');
+    closePopupLock();
+    return;
+  }
+
+  closePopupLock();
+  qProgress = 0;
+  qCombo = 0;
+  document.getElementById('quizPage').style.display = 'flex';
+  updateQuizUI();
+  generateSoal();
+}
+
+function updateQuizUI() {
+  document.getElementById('qNyawaCount').innerText = qNyawa;
+  document.getElementById('qScore').querySelector('span').innerText = qScore;
+  document.getElementById('qLevel').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Lv ' + qLevel;
+  document.getElementById('qCombo').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> x' + qCombo;
+  const persen = (qProgress / qTotalSoal) * 100;
+  document.getElementById('qProgress').style.width = persen + '%';
+
+  document.getElementById('nyawaCount').innerText = qNyawa;
+  document.getElementById('scoreCount').innerText = qScore;
+  document.getElementById('levelCount').innerText = qLevel;
+}
+
+function generateSoal() {
+  qIsAnswered = false;
+
+  const quizData = {
+    bangunRuang: [
+      { soal: 'Persegi punya berapa sisi?', jawaban: ['4', 'empat'] },
+      { soal: 'Segitiga punya berapa sisi?', jawaban: ['3', 'tiga'] }
+    ],
+    bandingangka: [
+      { soal: 'Mana lebih besar, 5 atau 3?', jawaban: ['5', 'lima'] },
+      { soal: 'Mana lebih besar, 2 atau 9?', jawaban: ['9', 'sembilan'] }
+    ],
+    pecahan: [
+      { soal: '1/2 itu berapa?', jawaban: ['0.5', 'setengah'] },
+      { soal: '1/3 itu berapa?', jawaban: ['0.333', 'sepertiga'] }
+    ],
+    urutAngka: [
+      { soal: 'Urutkan angka: 5, 2, 7', jawaban: ['2,5,7'] },
+      { soal: 'Urutkan angka: 9, 1, 4', jawaban: ['1,4,9'] }
+    ],
+    bandingsimbol: [
+      { soal: 'Bandingkan: 4 ___ 7', jawaban: ['<'] },
+      { soal: 'Bandingkan: 10 ___ 10', jawaban: ['='] }
+    ],
+    penyebutan: [
+      { soal: 'Ubah angka 12 menjadi kata', jawaban: ['dua belas'] },
+      { soal: 'Ubah angka 25 menjadi kata', jawaban: ['dua puluh lima'] }
+    ],
+    penjumlahan2: [
+      { soal: 'Hitung 5 + 3', jawaban: ['8', 'delapan'] },
+      { soal: 'Hitung 12 - 4', jawaban: ['8', 'delapan'] }
+    ],
+    pecahan2: [
+      { soal: '1/2 + 1/3 = ?', jawaban: ['5/6'] },
+      { soal: '3/4 - 1/4 = ?', jawaban: ['1/2', 'setengah'] }
+    ],
+    nilaiangka: [
+      { soal: 'Angka 123, angka 2 di posisi apa?', jawaban: ['puluhan'] },
+      { soal: 'Angka 405, angka 4 di posisi apa?', jawaban: ['ratusan'] }
+    ],
+    pengenalanpecahan: [
+      { soal: '1/2 artinya?', jawaban: ['setengah', '1/2'] },
+      { soal: '1/4 artinya?', jawaban: ['seperempat', '1/4'] }
+    ],
+    pecahanOperasi: [
+      { soal: '1/2 + 1/3 = ?', jawaban: ['5/6'] },
+      { soal: '3/4 - 1/2 = ?', jawaban: ['1/4', 'seperempat'] }
+    ],
+    urutAngka3: [
+      { soal: 'Urutkan angka: 5,2,7,1,3', jawaban: ['1,2,3,5,7'] },
+      { soal: 'Urutkan angka: 9,6,2,4,8', jawaban: ['2,4,6,8,9'] }
+    ],
+    bilanganbesar: [
+      { soal: '1000 dibaca?', jawaban: ['seribu'] },
+      { soal: '100000 dibaca?', jawaban: ['seratus ribu'] }
+    ],
+    bulatbilangan: [
+      { soal: 'Bulatkan 14', jawaban: ['10', 'sepuluh'] },
+      { soal: 'Bulatkan 67', jawaban: ['70', 'tujuh puluh'] }
+    ],
+    operasiBesar: [
+      { soal: '100 + 250', jawaban: ['350', 'tiga ratus lima puluh'] },
+      { soal: '500 - 150', jawaban: ['350', 'tiga ratus lima puluh'] }
+    ],
+    pembulatanLanjutan: [
+      { soal: 'Bulatkan 147 ke puluhan', jawaban: ['150'] },
+      { soal: 'Bulatkan 468 ke ratusan', jawaban: ['500'] }
+    ],
+    kpk: [
+      { soal: 'KPK 2 dan 3?', jawaban: ['6', 'enam'] },
+      { soal: 'KPK 4 dan 6?', jawaban: ['12', 'dua belas'] }
+    ],
+    fpb: [
+      { soal: 'FPB 6 dan 9?', jawaban: ['3', 'tiga'] },
+      { soal: 'FPB 8 dan 12?', jawaban: ['4', 'empat'] }
+    ],
+    perkalianBesar: [
+      { soal: '12 × 15', jawaban: ['180', 'seratus delapan puluh'] },
+      { soal: '144 ÷ 12', jawaban: ['12', 'dua belas'] }
+    ],
+    kpkFpbLanjutan: [
+      { soal: 'KPK 6 & 8?', jawaban: ['24', 'dua puluh empat'] },
+      { soal: 'FPB 12 & 18?', jawaban: ['6', 'enam'] }
+    ],
+    pecahanFeature: [
+      { soal: '1/2 + 1/2 = ?', jawaban: ['1', 'satu'] },
+      { soal: '3/4 - 1/4 = ?', jawaban: ['1/2', 'setengah'] }
+    ],
+    volume: [
+      { soal: 'Kubus sisi 2?', jawaban: ['8', 'delapan'] },
+      { soal: 'Kubus sisi 4?', jawaban: ['64', 'enam puluh empat'] }
+    ],
+    pecahanLanjutan: [
+      { soal: '1/2 × 1/4 = ?', jawaban: ['1/8'] },
+      { soal: '3/4 ÷ 1/2 = ?', jawaban: ['3/2', 'tiga per dua'] }
+    ],
+    volumeLanjutan: [
+      { soal: 'Kubus sisi 3', jawaban: ['27', 'dua puluh tujuh'] },
+      { soal: 'Balok 2×3×4', jawaban: ['24', 'dua puluh empat'] },
+      { soal: 'Tabung r=2, t=5', jawaban: [(Math.PI * 2 * 2 * 5).toString()] }
+    ]
+  };
+
+  const soalList = quizData[qCurrentFeature];
+  if (!soalList) {
+    showAlert('Error', 'Soal belum tersedia!');
+    return;
+  }
+
+  const data = soalList[Math.floor(Math.random() * soalList.length)];
+  qJawabanBenar = data.jawaban;
+
+  document.getElementById('qSoal').innerText = data.soal;
+  document.getElementById('qJawaban').value = '';
+
+  if (qCurrentFeature === 'bandingsimbol') {
+    document.getElementById('qSimbol').style.display = 'flex';
+    document.getElementById('qJawaban').setAttribute('readonly', true);
+  } else {
+    document.getElementById('qSimbol').style.display = 'none';
+    document.getElementById('qJawaban').removeAttribute('readonly');
+  }
+
+  document.getElementById('qFeedback').innerText = '';
+  document.getElementById('qFeedback').style.color = '';
+}
+
+function pilihSimbol(s) {
+  document.getElementById('qJawaban').value = s;
+}
+
+function submitJawaban() {
+  if (qIsAnswered) return;
+
+  const user = document.getElementById('qJawaban').value.trim().toLowerCase().replace(/\s+/g, ' ');
+  const feedback = document.getElementById('qFeedback');
+
+  if (!user) {
+    feedback.innerText = 'Isi jawaban dulu!';
+    feedback.style.color = '#facc15';
+    return;
+  }
+
+  qIsAnswered = true;
+  const benar = qJawabanBenar.map(j => j.trim().toLowerCase().replace(/\s+/g, ' '));
+
+  if (benar.includes(user)) {
+    feedback.innerText = 'BENAR!';
+    feedback.style.color = '#4ade80';
+    qCombo++;
+    qScore += 10 + (qCombo * 2);
+    qProgress++;
+    qXp += 10;
+
+    if (qXp >= qLevel * 50) {
+      qXp -= qLevel * 50;
+      qLevel++;
+      showAlert('LEVEL UP!', 'Sekarang kamu Lv ' + qLevel);
+    }
+
+    if (qProgress >= qTotalSoal) {
+      setTimeout(() => {
+        feedback.innerText = 'TERBUKA!';
+        db.ref('users/' + currentUser + '/unlock/' + qCurrentFeature).set(true);
+        setTimeout(() => {
+          document.getElementById('quizPage').style.display = 'none';
+          showCard(featureMap[qCurrentFeature]);
+          updateQuizUI();
+        }, 1000);
+      }, 500);
+    } else {
+      setTimeout(generateSoal, 800);
+    }
+  } else {
+    feedback.innerText = 'SALAH!';
+    feedback.style.color = '#f87171';
+    qCombo = 0;
+    qNyawa--;
+
+    if (qNyawa <= 0) {
+      setTimeout(() => {
+        feedback.innerText = 'NYAWA HABIS!';
+        saveGame();
+        setTimeout(() => {
+          document.getElementById('quizPage').style.display = 'none';
+          updateQuizUI();
+          showGameOver();
+        }, 900);
+      }, 500);
+    } else {
+      setTimeout(generateSoal, 800);
+    }
+  }
+
+  updateQuizUI();
+  saveGame();
+}
+
+// ==================== SAVE / LOAD GAME ====================
+function saveGame() {
+  if (!currentUser) return;
+  db.ref('users/' + currentUser + '/quiz').set({
+    score: qScore,
+    nyawa: qNyawa,
+    combo: qCombo,
+    xp: qXp,
+    level: qLevel
+  });
+}
+
+function loadGame() {
+  if (!currentUser) return;
+  db.ref('users/' + currentUser + '/quiz').once('value', snap => {
+    const data = snap.val();
+    if (data) {
+      qScore = data.score || 0;
+      qNyawa = data.nyawa || 3;
+      qCombo = data.combo || 0;
+      qXp = data.xp || 0;
+      qLevel = data.level || 1;
+    }
+    updateQuizUI();
+  });
+}
+
+function checkDailyReset() {
+  if (!currentUser) return;
+  db.ref('users/' + currentUser + '/lastDate').once('value', snap => {
+    const last = snap.val();
+    if (last !== qToday) {
+      qNyawa = 3;
+      db.ref('users/' + currentUser + '/lastDate').set(qToday);
+      saveGame();
+      updateQuizUI();
+    }
+  });
+}
+
+// ==================== AUTH ====================
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    currentUser = user.uid;
+    loadGame();
+    checkDailyReset();
+    updateQuizUI();
+  } else {
+    showAlert('Harap Login', 'Silakan login terlebih dahulu.');
+    setTimeout(() => window.location.href = 'login.html', 2000);
+  }
+});
+
+// ==================== THEME ====================
+if (localStorage.getItem('themeEkonomi') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+// ==================== EXPOSE GLOBAL ====================
+window.openSidebar = openSidebar;
+window.closeSidebar = closeSidebar;
+window.goTo = goTo;
+window.logoutAction = logoutAction;
+window.goBack = goBack;
+window.showKelas = showKelas;
+window.backToKelas = backToKelas;
+window.openFeature = openFeature;
+window.closePopupLock = closePopupLock;
+window.startQuiz = startQuiz;
+window.pilihSimbol = pilihSimbol;
+window.submitJawaban = submitJawaban;
+window.showAlert = showAlert;
+window.closeAlertGlobal = closeAlertGlobal;
+window.showCard = showCard;
+window.closeCalculator = closeCalculator;
+window.copyToClipboard = copyToClipboard;
+window.showGameOver = showGameOver;
+window.closeGameOver = closeGameOver;
+window.kenalPecahan = kenalPecahan;
+
+// Kalkulator functions
+window.showShapeInfo = showShapeInfo;
+window.bandingin = bandingin;
+window.bandinginSimbol = bandinginSimbol;
+window.convertAngka = convertAngka;
+window.hitungTambahKurang2 = hitungTambahKurang2;
+window.hitungPecahan2 = hitungPecahan2;
+window.hitungPecahan = hitungPecahan;
+window.cekNilai = cekNilai;
+window.hitungPecahan3 = hitungPecahan3;
+window.hitungUrut3 = hitungUrut3;
+window.convertBesar = convertBesar;
+window.hitungPembulatan = hitungPembulatan;
+window.hitungBesar = hitungBesar;
+window.hitungBulatLanjutan = hitungBulatLanjutan;
+window.hitungKPK = hitungKPK;
+window.resetKPK = resetKPK;
+window.hitungFPB = hitungFPB;
+window.resetFPB = resetFPB;
+window.hitungPerkalianBesar = hitungPerkalianBesar;
+window.hitungKPKFPBLanjutan = hitungKPKFPBLanjutan;
+window.calculateFraction = calculateFraction;
+window.resetcalculate_Fraction = resetcalculate_Fraction;
+window.calcVolume = calcVolume;
+window.resetVolume = resetVolume;
+window.hitungPecahan6 = hitungPecahan6;
+window.hitungVolume6 = hitungVolume6;
+window.hitungUrut = hitungUrut;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,3330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Keuangan Digital - Star Tools</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+
+  body.dark {
+    background: #0B1120;
+    color: #F1F5F9;
+  }
+
+  body.dark .app-header,
+  body.dark .container,
+  body.dark .modal-content,
+  body.dark .sidebar-nav {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  body.dark .btn {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  body.dark .input,
+  body.dark .select-box {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  body.dark .input::placeholder {
+    color: #64748B;
+  }
+
+  body.dark .options {
+    background: #1E293B;
+  }
+
+  body.dark .options div {
+    color: #F1F5F9;
+  }
+
+  body.dark .options div:hover {
+    background: #334155;
+  }
+
+  body.dark table td,
+  body.dark table th {
+    border-color: #334155 !important;
+  }
+
+  body.dark .footer {
+    background: #111827;
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
+  body.dark .sidebar-nav a {
+    color: #F1F5F9;
+  }
+
+  body.dark .sidebar-nav a:active {
+    background: #1E293B;
+  }
+
+  body.dark .logout-link {
+    border-top-color: #334155;
+  }
+
+  body.dark .sidebar-nav .logout-link a {
+    color: #F87171 !important;
+  }
+
+  body.dark .sidebar-nav .logout-link a svg {
+    stroke: #F87171;
+  }
+
+  body.dark .btn-eye {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  body.dark .btn-eye svg {
+    stroke: #F1F5F9;
+  }
+
+  body.dark .btn-outline {
+    border-color: #60A5FA;
+    color: #60A5FA;
+  }
+
+  body.dark .badge-riwayat {
+    background: #1E3A5F;
+    color: #60A5FA;
+  }
+
+  body.dark .badge-riwayat.masuk {
+    background: #064E3B;
+    color: #34D399;
+  }
+
+  body.dark .badge-riwayat.keluar {
+    background: #7F1D1D;
+    color: #F87171;
+  }
+
+  body.dark .tab-container {
+    background: #1E293B;
+  }
+
+  body.dark .tab-btn {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  body.dark .tab-btn.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .jumlah-box {
+    background: #1E3A5F;
+  }
+
+  body.dark .jumlah-box .label {
+    color: #94A3B8;
+  }
+
+  body.dark .jumlah-box .total {
+    color: #60A5FA;
+  }
+
+  body.dark .riwayat-item {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  body.dark .riwayat-item .riwayat-nama {
+    color: #F1F5F9;
+  }
+
+  body.dark .riwayat-item .riwayat-detail {
+    color: #94A3B8;
+  }
+
+  body.dark .riwayat-item .riwayat-tanggal {
+    color: #64748B;
+  }
+
+  body.dark .riwayat-item .riwayat-nominal {
+    color: #34D399;
+  }
+
+  body.dark .riwayat-item .riwayat-nominal.minus {
+    color: #F87171;
+  }
+
+  body.dark .icon-btn {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  body.dark .icon-btn svg {
+    stroke: #F1F5F9;
+  }
+
+  body.dark .btn-action {
+    background: #2A2A2A;
+    border-color: #444;
+    color: #F1F5F9;
+  }
+
+  .app-container {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #F1F5F9;
+  }
+
+  body.dark .app-container {
+    background: #0B1120;
+  }
+
+  .app-header {
+    background: #FFFFFF;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  body.dark .app-header {
+    background: #111827;
+    border-bottom-color: #1E293B;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-icon {
+    width: 40px;
+    height: 40px;
+    background: #F8FAFE;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .menu-icon {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .menu-icon svg {
+    stroke: #0F172A;
+  }
+
+  body.dark .menu-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .app-title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+  }
+
+  .sidebar-overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sidebar-nav {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 101;
+    transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    padding: 70px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-nav.active {
+    left: 0;
+  }
+
+  .sidebar-nav a {
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #0F172A;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .sidebar-nav a:active {
+    background: #DBEAFE;
+  }
+
+  .sidebar-nav a .icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .logout-link {
+    margin-top: 20px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 16px;
+  }
+
+  .logout-link a {
+    color: #DC2626 !important;
+  }
+
+  .logout-link a svg {
+    stroke: #DC2626;
+  }
+
+  .close-sidebar-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+  }
+
+  .close-sidebar-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: #0F172A;
+    stroke-width: 2;
+  }
+
+  body.dark .close-sidebar-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .container {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 16px 14px;
+    margin: 12px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .container {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .container h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #0F172A;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #2563EB;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  body.dark .step-badge {
+    background: #60A5FA;
+    color: #0B1120;
+  }
+
+  .helper-text {
+    font-size: 12px;
+    color: #94A3B8;
+    margin-top: -6px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  body.dark .helper-text {
+    color: #64748B;
+  }
+
+  .selected-target {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #EFF6FF;
+    color: #2563EB;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  body.dark .selected-target {
+    background: #1E3A5F;
+    color: #60A5FA;
+  }
+
+  .icon-btn.icon-btn-labeled {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    width: auto;
+    padding: 8px 12px;
+    height: auto;
+  }
+
+  .icon-btn.icon-btn-labeled span {
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748B;
+  }
+
+  body.dark .icon-btn.icon-btn-labeled span {
+    color: #94A3B8;
+  }
+
+  body.dark .container h3 {
+    color: #F1F5F9;
+  }
+
+  .container p {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.6;
+  }
+
+  body.dark .container p {
+    color: #94A3B8;
+  }
+
+  .input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 14px;
+    margin-bottom: 10px;
+    outline: none;
+    transition: 0.2s;
+  }
+
+  body.dark .input {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .input:focus {
+    border-color: #2563EB;
+  }
+
+  .input::placeholder {
+    color: #94A3B8;
+  }
+
+  body.dark .input::placeholder {
+    color: #64748B;
+  }
+
+  .btn {
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    color: #0F172A;
+    padding: 12px;
+    margin: 4px 0;
+    width: 100%;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  body.dark .btn {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-primary {
+    background: #2563EB;
+    color: white;
+    border-color: #2563EB;
+  }
+
+  .btn-primary:active {
+    background: #1D4ED8;
+  }
+
+  .btn-success {
+    background: #059669;
+    color: white;
+    border-color: #059669;
+  }
+
+  .btn-success:active {
+    background: #047857;
+  }
+
+  .btn-danger {
+    background: #DC2626;
+    color: white;
+    border-color: #DC2626;
+  }
+
+  .btn-danger:active {
+    background: #B91C1C;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 2px solid #2563EB;
+    color: #2563EB;
+  }
+
+  body.dark .btn-outline {
+    border-color: #60A5FA;
+    color: #60A5FA;
+  }
+
+  .btn-eye {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #DADCE0;
+    background: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    flex-shrink: 0;
+  }
+
+  .btn-eye:active {
+    transform: scale(0.95);
+  }
+
+  .btn-eye svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: #5F6368;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .btn-eye .icon-eye-slash {
+    display: none;
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .input-group .input {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  .custom-select {
+    width: 100%;
+    position: relative;
+    margin-bottom: 10px;
+  }
+
+  .custom-select.disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.4;
+  }
+
+  body.dark .checkbox-row {
+    background: #1E293B;
+    border-color: #334155;
+    color: #CBD5E1;
+  }
+
+  .checkbox-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    accent-color: #2563EB;
+    cursor: pointer;
+  }
+
+  .select-box {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  body.dark .select-box {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .options {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    margin-top: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  body.dark .options {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .options div {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #0F172A;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  body.dark .options div {
+    color: #F1F5F9;
+  }
+
+  .options div:hover {
+    background: #F1F5F9;
+  }
+
+  body.dark .options div:hover {
+    background: #334155;
+  }
+
+  .options .delete-btn {
+    color: #DC2626;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: rgba(220, 38, 38, 0.1);
+  }
+
+  body.dark .options .delete-btn {
+    background: rgba(220, 38, 38, 0.2);
+  }
+
+  .options .delete-btn:hover {
+    background: rgba(220, 38, 38, 0.2);
+  }
+
+  .options.active {
+    display: block;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  table th {
+    padding: 8px 4px;
+    border: 1px solid #E2E8F0;
+    font-weight: 700;
+    text-align: center;
+    background: #F8FAFE;
+    font-size: 11px;
+  }
+
+  body.dark table th {
+    background: #1E293B;
+  }
+
+  table td {
+    padding: 6px 4px;
+    border: 1px solid #E2E8F0;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 11px;
+  }
+
+  body.dark table td,
+  body.dark table th {
+    border-color: #334155 !important;
+  }
+
+  .status-cell {
+    cursor: pointer;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.2s;
+    font-size: 11px;
+    min-width: 45px;
+    user-select: none;
+  }
+
+  .status-cell:hover {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+
+  .status-cell.lunas {
+    background: #D1FAE5;
+    color: #059669;
+  }
+
+  body.dark .status-cell.lunas {
+    background: #064E3B;
+    color: #34D399;
+  }
+
+  .status-cell.cicil {
+    background: #FEF3C7;
+    color: #D97706;
+  }
+
+  body.dark .status-cell.cicil {
+    background: #78350F;
+    color: #FBBF24;
+  }
+
+  .status-cell.belum {
+    background: #FEE2E2;
+    color: #DC2626;
+  }
+
+  body.dark .status-cell.belum {
+    background: #7F1D1D;
+    color: #F87171;
+  }
+
+  .status-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  .status-dropdown {
+    display: none;
+    position: fixed;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    z-index: 999;
+    min-width: 100px;
+    overflow: hidden;
+  }
+
+  body.dark .status-dropdown {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .status-dropdown.active {
+    display: block;
+  }
+
+  .status-dropdown div {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 13px;
+    font-weight: 500;
+    color: #0F172A;
+  }
+
+  body.dark .status-dropdown div {
+    color: #F1F5F9;
+  }
+
+  .status-dropdown div:hover {
+    background: #F1F5F9;
+  }
+
+  body.dark .status-dropdown div:hover {
+    background: #334155;
+  }
+
+  .status-dropdown div.lunas-opt { color: #059669; }
+  .status-dropdown div.cicil-opt { color: #D97706; }
+  .status-dropdown div.belum-opt { color: #DC2626; }
+
+  body.dark .status-dropdown div.lunas-opt { color: #34D399; }
+  body.dark .status-dropdown div.cicil-opt { color: #FBBF24; }
+  body.dark .status-dropdown div.belum-opt { color: #F87171; }
+
+  .footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+    margin-top: 20px;
+  }
+
+  body.dark .footer {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+  }
+
+  .modal-content {
+    background: #FFFFFF;
+    width: 320px;
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid #E2E8F0;
+    animation: modalPop 0.25s ease;
+  }
+
+  body.dark .modal-content {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  @keyframes modalPop {
+    from {
+      transform: scale(0.85);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .modal-content .modal-icon {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-content .modal-icon svg {
+    width: 48px;
+    height: 48px;
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  body.dark .modal-content .modal-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content .modal-icon svg circle {
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  body.dark .modal-content .modal-icon svg circle {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content .modal-icon svg path {
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  body.dark .modal-content .modal-icon svg path {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content .modal-icon svg polyline {
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  body.dark .modal-content .modal-icon svg polyline {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content .modal-icon svg polygon {
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  body.dark .modal-content .modal-icon svg polygon {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content .modal-icon svg line {
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  body.dark .modal-content .modal-icon svg line {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #0F172A;
+  }
+
+  body.dark .modal-content h3 {
+    color: #F1F5F9;
+  }
+
+  .modal-content p {
+    font-size: 14px;
+    color: #64748B;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  body.dark .modal-content p {
+    color: #94A3B8;
+  }
+
+  .options::-webkit-scrollbar {
+    width: 4px;
+  }
+  .options::-webkit-scrollbar-track {
+    background: #F1F5F9;
+    border-radius: 4px;
+  }
+  body.dark .options::-webkit-scrollbar-track {
+    background: #1E293B;
+  }
+  .options::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+  }
+  body.dark .options::-webkit-scrollbar-thumb {
+    background: #334155;
+  }
+
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 12px;
+    width: auto;
+    display: inline-block;
+  }
+
+  .btn-sn {
+    padding: 8px 16px;
+    font-size: 12px;
+    width: auto;
+    display: flex;
+    margin: auto;
+  }
+
+  .icon-btn {
+    width: 42px;
+    height: 42px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .icon-btn:active {
+    transform: scale(0.95);
+  }
+
+  .icon-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: #0F172A;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .btn-action {
+    background: #F8FAFE;
+    color: #64748B;
+    border: 1px solid #E2E8F0;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 4px;
+  }
+
+  body.dark .btn-action {
+    background: #1E293B;
+    color: #94A3B8;
+    border-color: #334155;
+  }
+
+  .btn-action:hover {
+    background: #F1F5F9;
+  }
+
+  body.dark .btn-action:hover {
+    background: #334155;
+  }
+
+  .btn-action:active {
+    transform: scale(0.96);
+  }
+
+  .btn-delete:hover {
+    color: #DC2626;
+    border-color: #DC2626;
+    background: #FEF2F2;
+  }
+
+  body.dark .btn-delete:hover {
+    color: #F87171;
+    border-color: #F87171;
+    background: #7F1D1D;
+  }
+
+  .btn-reset:hover {
+    color: #D97706;
+    border-color: #D97706;
+    background: #FFFBEB;
+  }
+
+  body.dark .btn-reset:hover {
+    color: #FBBF24;
+    border-color: #FBBF24;
+    background: #78350F;
+  }
+
+  .btn-edit:hover {
+    color: #2563EB;
+    border-color: #2563EB;
+    background: #EFF6FF;
+  }
+
+  body.dark .btn-edit:hover {
+    color: #60A5FA;
+    border-color: #60A5FA;
+    background: #1E3A5F;
+  }
+
+  .table-wrap {
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  body.dark .table-wrap {
+    border-color: #334155;
+  }
+
+  .table-wrap table {
+    margin: 0;
+  }
+
+  .table-wrap table th,
+  .table-wrap table td {
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+
+  .table-wrap table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .info-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    font-size: 12.5px;
+    color: #1E40AF;
+    line-height: 1.5;
+  }
+
+  body.dark .info-banner {
+    background: #1E3A5F;
+    border-color: #2563EB;
+    color: #BFDBFE;
+  }
+
+  .info-banner svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke: #2563EB;
+    margin-top: 1px;
+  }
+
+  body.dark .info-banner svg {
+    stroke: #60A5FA;
+  }
+
+  .saved-class-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  body.dark .saved-class-item {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .saved-class-item:active {
+    transform: scale(0.98);
+  }
+
+  .saved-class-item .name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #0F172A;
+  }
+
+  body.dark .saved-class-item .name {
+    color: #F1F5F9;
+  }
+
+  .saved-class-item .id {
+    font-size: 11px;
+    color: #94A3B8;
+    margin-top: 2px;
+  }
+
+  .login-icon-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .login-icon-wrap .circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .login-icon-wrap svg {
+    width: 28px;
+    height: 28px;
+    stroke: white;
+  }
+
+  .export-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .export-actions .btn {
+    flex: 1;
+    margin: 0;
+    width: auto;
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .link-absensi {
+    color: #2563EB;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  body.dark .link-absensi {
+    color: #60A5FA;
+  }
+
+  .link-absensi:active {
+    opacity: 0.7;
+  }
+
+  .badge-riwayat {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 1px 10px;
+    border-radius: 40px;
+    background: #DBEAFE;
+    color: #2563EB;
+  }
+
+  .badge-riwayat.masuk {
+    background: #D1FAE5;
+    color: #059669;
+  }
+
+  .badge-riwayat.keluar {
+    background: #FEE2E2;
+    color: #DC2626;
+  }
+
+  .tab-container {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+    background: #F1F5F9;
+    border-radius: 12px;
+    padding: 4px;
+  }
+
+  body.dark .tab-container {
+    background: #1E293B;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    background: transparent;
+    color: #64748B;
+  }
+
+  .tab-btn.active {
+    background: #FFFFFF;
+    color: #0F172A;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  .jumlah-box {
+    background: #EFF6FF;
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .jumlah-box .label {
+    font-size: 13px;
+    color: #64748B;
+  }
+
+  .jumlah-box .total {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2563EB;
+  }
+
+  .riwayat-item {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: 0.2s;
+  }
+
+  body.dark .riwayat-item {
+    background: #1E293B;
+    border-color: #334155;
+    box-shadow: none;
+  }
+
+  .riwayat-item .riwayat-left {
+    flex: 1;
+  }
+
+  .riwayat-item .riwayat-nama {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0F172A;
+  }
+
+  body.dark .riwayat-item .riwayat-nama {
+    color: #F1F5F9;
+  }
+
+  .riwayat-item .riwayat-detail {
+    font-size: 12px;
+    color: #64748B;
+    margin-top: 2px;
+  }
+
+  body.dark .riwayat-item .riwayat-detail {
+    color: #94A3B8;
+  }
+
+  .riwayat-item .riwayat-tanggal {
+    font-size: 10px;
+    color: #94A3B8;
+    margin-top: 2px;
+  }
+
+  body.dark .riwayat-item .riwayat-tanggal {
+    color: #64748B;
+  }
+
+  .riwayat-item .riwayat-right {
+    text-align: right;
+  }
+
+  .riwayat-item .riwayat-nominal {
+    font-size: 16px;
+    font-weight: 700;
+    color: #059669;
+  }
+
+  .riwayat-item .riwayat-nominal.minus {
+    color: #DC2626;
+  }
+
+  .riwayat-empty {
+    text-align: center;
+    padding: 30px 0;
+    color: #94A3B8;
+    font-size: 14px;
+  }
+
+  .riwayat-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .riwayat-actions .btn {
+    margin: 0;
+    padding: 10px 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .h4-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #0F172A;
+  }
+
+  body.dark .h4-title {
+    color: #F1F5F9;
+  }
+
+  .riwayat-edit-icon {
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: 0.2s;
+    color: #94A3B8;
+  }
+
+  .riwayat-edit-icon:hover {
+    background: #F1F5F9;
+    color: #2563EB;
+  }
+
+  body.dark .riwayat-edit-icon:hover {
+    background: #1E293B;
+    color: #60A5FA;
+  }
+
+  .riwayat-edit-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .riwayat-delete-icon {
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: 0.2s;
+    color: #94A3B8;
+  }
+
+  .riwayat-delete-icon:hover {
+    background: #FEE2E2;
+    color: #DC2626;
+  }
+
+  body.dark .riwayat-delete-icon:hover {
+    background: #7F1D1D;
+    color: #F87171;
+  }
+
+  .riwayat-delete-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .riwayat-item .riwayat-actions-icons {
+    display: flex;
+    gap: 4px;
+    margin-left: 8px;
+  }
+
+  .riwayat-edit-modal .modal-content {
+    max-width: 340px;
+  }
+
+  .riwayat-edit-modal .modal-content .input {
+    margin-bottom: 10px;
+  }
+
+  .riwayat-edit-modal .modal-content .btn-group {
+    display: flex;
+    gap: 8px;
+  }
+
+  .riwayat-edit-modal .modal-content .btn-group .btn {
+    flex: 1;
+    margin: 0;
+  }
+
+  .screen {
+    padding: 12px 8px 30px;
+    display: block;
+  }
+
+  .screen.hidden {
+    display: none;
+  }
+
+  .pengeluaran-section {
+    border-top: 2px dashed #E2E8F0;
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+
+  body.dark .pengeluaran-section {
+    border-top-color: #334155;
+  }
+
+  .btn-danger-outline {
+    background: transparent;
+    border: 2px solid #DC2626;
+    color: #DC2626;
+  }
+
+  .btn-danger-outline:active {
+    background: #DC2626;
+    color: white;
+  }
+
+  body.dark .btn-danger-outline {
+    border-color: #F87171;
+    color: #F87171;
+  }
+
+  body.dark .btn-danger-outline:active {
+    background: #F87171;
+    color: #0B1120;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="menu-icon" onclick="openSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <span class="app-title">Keuangan Digital</span>
+    </div>
+    <button class="close-btn" onclick="goTo('pendukung.html')" aria-label="Kembali">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="close-sidebar-icon" onclick="closeSidebar()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <a href="#" onclick="goTo('index.html')">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Utama
+    </a>
+    <a href="#" onclick="goTo('berita.html')">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
+      Berita
+    </a>
+    <a href="#" onclick="goTo('premium.html')">
+      <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <a href="#" onclick="goTo('akun.html')">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Akun
+    </a>
+    <div class="logout-link">
+      <a href="#" onclick="logoutAction()">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Keluar
+      </a>
+    </div>
+  </div>
+
+  <div class="screen" id="mainScreen">
+    <div class="container" id="welcomeBox">
+      <h3>Keuangan Digital</h3>
+      <p>Kelola keuangan kelas dengan mudah. Catat iuran dan pembayaran secara terstruktur.</p>
+    </div>
+
+    <div class="container" id="loginForm">
+      <div class="login-icon-wrap">
+        <div class="circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v16"/>
+          </svg>
+        </div>
+      </div>
+
+      <h3 style="text-align:center;">Login Kelas</h3>
+
+      <div class="info-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>Gunakan <strong>ID Kelas & password</strong> yang sama dengan akun Absensi. Satu akun berlaku untuk kedua aplikasi.</span>
+      </div>
+
+      <div id="savedClassesKasList"></div>
+
+      <input id="kasKelasId" class="input" placeholder="ID Kelas (contoh: KLS-ABC123)" style="text-transform:uppercase;">
+      <div class="input-group">
+        <input id="kasPassword" type="password" class="input" placeholder="Password">
+        <button onclick="togglePassword('kasPassword', this)" class="btn-eye" type="button">
+          <svg class="icon-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="icon-eye-slash" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
+      <button class="btn btn-primary" onclick="loginKas()">Login</button>
+
+      <p style="text-align:center; font-size:13px; margin-top:12px; color:#64748B;">
+        Belum punya akun kelas?
+        <span class="link-absensi" onclick="goTo('absensi.html')">Daftar dulu di Absensi</span>
+      </p>
+
+      <button class="btn btn-outline" onclick="goTo('pendukung.html')" style="margin-top:10px;">Kembali</button>
+    </div>
+
+    <div id="kasBox" style="display:none;">
+      <div class="container">
+        <h3><span class="step-badge">1</span> Nominal Iuran</h3>
+        <p class="helper-text">Nominal ini dipakai saat membuat tagihan iuran untuk murid.</p>
+        <input id="nominalTetapKas" type="number" class="input" placeholder="Contoh: 5000" step="1000">
+      </div>
+
+      <div class="container">
+        <h3><span class="step-badge">2</span> Tambah Murid</h3>
+        <p class="helper-text">Daftarkan murid yang ikut iuran kas kelas ini.</p>
+        <div class="input-group">
+          <input id="namaMuridBaruKas" class="input" placeholder="Nama Murid">
+          <button class="btn btn-primary" style="width:auto; padding:12px 20px; flex-shrink:0;" onclick="tambahMuridKas()">Tambah</button>
+        </div>
+      </div>
+
+      <div class="container">
+        <h3><span class="step-badge">3</span> Pilih Bulan</h3>
+        <p class="helper-text">Bulan iuran yang sedang kamu kelola sekarang.</p>
+        <div class="custom-select">
+          <div class="select-box" onclick="toggleDropdown('optionBulanKas')">
+            <span id="selectedBulanKas">Pilih Bulan</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="options" id="optionBulanKas">
+            <div onclick="pilihBulanKas('Januari')">Januari</div>
+            <div onclick="pilihBulanKas('Februari')">Februari</div>
+            <div onclick="pilihBulanKas('Maret')">Maret</div>
+            <div onclick="pilihBulanKas('April')">April</div>
+            <div onclick="pilihBulanKas('Mei')">Mei</div>
+            <div onclick="pilihBulanKas('Juni')">Juni</div>
+            <div onclick="pilihBulanKas('Juli')">Juli</div>
+            <div onclick="pilihBulanKas('Agustus')">Agustus</div>
+            <div onclick="pilihBulanKas('September')">September</div>
+            <div onclick="pilihBulanKas('Oktober')">Oktober</div>
+            <div onclick="pilihBulanKas('November')">November</div>
+            <div onclick="pilihBulanKas('Desember')">Desember</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <h3><span class="step-badge">4</span> Frekuensi Sebulan</h3>
+        <p class="helper-text">Berapa kali iuran ditarik dalam sebulan. Contoh: iuran mingguan = 4x.</p>
+        <div class="custom-select">
+          <div class="select-box" onclick="toggleDropdown('optionFrekuensi')">
+            <span id="selectedFrekuensi">Pilih Frekuensi</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="options" id="optionFrekuensi">
+            <div onclick="pilihFrekuensi(1)">1x sebulan</div>
+            <div onclick="pilihFrekuensi(2)">2x sebulan</div>
+            <div onclick="pilihFrekuensi(3)">3x sebulan</div>
+            <div onclick="pilihFrekuensi(4)">4x sebulan</div>
+            <div onclick="pilihFrekuensi(5)">5x sebulan</div>
+            <div onclick="pilihFrekuensi(6)">6x sebulan</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <h3><span class="step-badge">5</span> Pilih Murid</h3>
+        <p class="helper-text">Murid yang dipilih di sini dipakai untuk buat tagihan satuan & catat pembayaran di bawah.</p>
+        <div class="custom-select" id="wrapMuridKas">
+          <div class="select-box" onclick="toggleDropdown('optionMuridKas')">
+            <span id="selectedMuridKas">Pilih Murid</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="options" id="optionMuridKas"></div>
+        </div>
+
+        <label class="checkbox-row" id="checkboxSemuaMurid">
+          <input type="checkbox" id="generateSemuaMurid" onchange="toggleGenerateSemua()">
+          <span>Terapkan untuk semua murid sekaligus</span>
+        </label>
+
+        <button class="btn btn-outline btn-sn" onclick="importMuridDariAbsensi()" style="width:auto; padding:8px 16px;">Import Murid dari Absensi</button>
+      </div>
+
+      <div class="container">
+        <h3><span class="step-badge">6</span> Buat Tagihan Iuran</h3>
+        <p class="helper-text">Membuat tagihan kosong (status "Belum") sesuai nominal & frekuensi di atas. Belum mencatat pembayaran.</p>
+        <div style="display:flex; gap:10px; align-items:center; margin:10px 0;">
+          <button class="icon-btn icon-btn-labeled" onclick="undoKas()" title="Batalkan aksi terakhir">
+            <svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 1 1 0 10h-1"/></svg>
+            <span>Undo</span>
+          </button>
+          <button class="icon-btn icon-btn-labeled" onclick="redoKas()" title="Ulangi aksi yang dibatalkan">
+            <svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 1 0 0 10h1"/></svg>
+            <span>Redo</span>
+          </button>
+        </div>
+        <button class="btn btn-success" onclick="generateIuran()" id="btnGenerateIuran">Buat Tagihan Iuran</button>
+      </div>
+
+      <div class="container">
+        <h3><span class="step-badge">7</span> Catat Pembayaran</h3>
+        <p class="helper-text">Mencatat uang yang benar-benar diterima dari murid yang dipilih di atas.</p>
+        <div class="selected-target">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span id="targetBayarMurid">Belum ada murid dipilih</span>
+        </div>
+        <input id="jumlahKas" type="number" class="input" placeholder="Jumlah yang dibayar (Rp)" step="1000">
+        <button class="btn btn-success" onclick="bayarIuran()">Simpan Pembayaran</button>
+      </div>
+
+      <div class="container">
+        <h3>Tabel Keuangan Bulan Ini</h3>
+        <p class="helper-text">Status lunas/cicil/belum tiap murid. Klik status untuk mengubahnya langsung.</p>
+        <div id="tabelKas" style="overflow-x:auto;"></div>
+        <div class="export-actions">
+          <button class="btn btn-outline" onclick="shareTabel()">Bagikan Tabel</button>
+          <button class="btn btn-outline" onclick="exportTabelPDF()">Ekspor PDF</button>
+        </div>
+      </div>
+
+      <div class="container">
+          <h3 style="color:#DC2626;">Pengeluaran</h3>
+          <p class="helper-text">Catat uang kas yang keluar (contoh: beli spidol, konsumsi kelas).</p>
+          <input id="nominalPengeluaran" type="number" class="input" placeholder="Nominal pengeluaran (Rp)" step="1000">
+          <input id="keteranganPengeluaran" class="input" placeholder="Keterangan (opsional)" style="margin-bottom:10px;">
+          <button class="btn btn-danger" onclick="tambahPengeluaran()">Catat Pengeluaran</button>
+          <p style="font-size:12px; color:#94A3B8; margin-top:8px; text-align:center;">Pengeluaran akan mengurangi saldo total</p>
+      </div>
+
+      <div class="container" style="cursor:pointer;" onclick="showRiwayatScreen()">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="margin-bottom:0;">Riwayat Transaksi</h3>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+        <p style="font-size:13px; color:#64748B; margin-top:4px;">Lihat semua histori pemasukan & pengeluaran, bisa dicari dan diexport</p>
+      </div>
+
+      <div class="container">
+        <div class="jumlah-box">
+          <span class="label">Total Pemasukan</span>
+          <span class="total" id="totalMasuk">Rp 0</span>
+        </div>
+        <div class="jumlah-box" style="background:#FEF2F2;">
+          <span class="label">Total Pengeluaran</span>
+          <span class="total" style="color:#DC2626;" id="totalKeluar">Rp 0</span>
+        </div>
+        <div class="jumlah-box" style="background:#F0FDF4;">
+          <span class="label">Saldo Akhir</span>
+          <span class="total" style="color:#059669;" id="totalSaldo">Rp 0</span>
+        </div>
+      </div>
+
+      <div class="container">
+        <p class="helper-text" style="margin-bottom:10px;">Logout hanya keluar dari sesi. Hapus Data Keuangan akan menghapus kas & riwayat permanen (akun kelas tetap aman).</p>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-danger" onclick="logoutKas()" style="flex:1;">Logout Kelas</button>
+          <button class="btn btn-danger" onclick="showHapusDataKeuanganModal()" style="flex:1;">Hapus Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen hidden" id="riwayatScreen">
+    <div class="container">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+        <button class="icon-btn" onclick="showMainScreen()" style="width:40px; height:40px; flex-shrink:0;">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h3 style="margin-bottom:0;">Riwayat Transaksi</h3>
+      </div>
+
+      <div class="tab-container">
+        <button class="tab-btn active" data-tab="tabSemua" onclick="switchTabRiwayat('tabSemua')">Semua</button>
+        <button class="tab-btn" data-tab="tabMasuk" onclick="switchTabRiwayat('tabMasuk')">Masuk</button>
+        <button class="tab-btn" data-tab="tabKeluar" onclick="switchTabRiwayat('tabKeluar')">Keluar</button>
+      </div>
+
+      <input id="cariRiwayat" class="input" placeholder="Cari nama atau keterangan..." oninput="filterRiwayat()">
+
+      <div id="tabSemua" class="tab-content active">
+        <div id="riwayatSemua"></div>
+      </div>
+      <div id="tabMasuk" class="tab-content">
+        <div id="riwayatMasuk"></div>
+      </div>
+      <div id="tabKeluar" class="tab-content">
+        <div id="riwayatKeluar"></div>
+      </div>
+
+      <div class="riwayat-actions">
+        <button class="btn btn-outline btn-sm" onclick="shareRiwayat()">Bagikan</button>
+        <button class="btn btn-outline btn-sm" onclick="downloadRiwayat()">Download .txt</button>
+        <button class="btn btn-outline btn-sm" onclick="exportRiwayatPDF()">Export PDF</button>
+        <button class="btn btn-danger btn-sm" onclick="resetRiwayat()">Hapus Riwayat</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Star Platform | Star Tools 2026</p>
+  </div>
+</div>
+
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-icon" id="modalIcon"></div>
+    <h3 id="modalTitle">Sukses!</h3>
+    <p id="modalMessage">Pesan berhasil</p>
+    <div id="modalActions"></div>
+  </div>
+</div>
+
+<div id="editModal" class="modal-overlay riwayat-edit-modal">
+  <div class="modal-content">
+    <h3 style="margin-bottom:12px;">Edit Riwayat</h3>
+    <input id="editNama" class="input" placeholder="Nama">
+    <input id="editNominal" type="number" class="input" placeholder="Nominal" step="1000">
+    <input id="editKeterangan" class="input" placeholder="Keterangan">
+    <div class="btn-group">
+      <button class="btn btn-outline" onclick="closeEditModal()">Batal</button>
+      <button class="btn btn-primary" onclick="saveEditRiwayat()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+var db = firebase.database();
+
+var kelasAktif = localStorage.getItem("kelasAktif") || "";
+var riwayatCache = {};
+var kelasIdAktif = localStorage.getItem("kelasIdAktif") || "";
+var muridKasDipilih = "";
+var kasFrekuensi = 1;
+var bulanDipilih = localStorage.getItem("selectedBulan") || "";
+var muridRef = null;
+var undoStack = [];
+var redoStack = [];
+var editKey = null;
+var editData = null;
+var currentStatusDropdown = null;
+
+function getIcon(type) {
+  if (type === 'success') {
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>';
+  } else if (type === 'error') {
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+  } else if (type === 'warning') {
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  }
+  return '';
+}
+
+function autoDeleteOldRiwayat() {
+  var weekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  db.ref("keuangan/" + kelasIdAktif + "/riwayat").once("value").then(function(snap) {
+    var updates = {};
+    snap.forEach(function(child) {
+      var val = child.val();
+      if (val.waktu && val.waktu < weekAgo) {
+        updates[child.key] = null;
+      }
+    });
+    if (Object.keys(updates).length > 0) {
+      db.ref("keuangan/" + kelasIdAktif + "/riwayat").update(updates);
+    }
+  });
+}
+
+function resetScrollTop() {
+  requestAnimationFrame(function() {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    requestAnimationFrame(function() {
+      window.scrollTo(0, 0);
+    });
+  });
+}
+
+function showMainScreen() {
+  document.getElementById('mainScreen').classList.remove('hidden');
+  document.getElementById('riwayatScreen').classList.add('hidden');
+  resetScrollTop();
+}
+
+function showRiwayatScreen() {
+  document.getElementById('mainScreen').classList.add('hidden');
+  document.getElementById('riwayatScreen').classList.remove('hidden');
+  loadRiwayat();
+  resetScrollTop();
+}
+
+window.addEventListener("DOMContentLoaded", function() {
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+  }
+
+  if (kelasIdAktif) {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("kasBox").style.display = "block";
+
+    if (!bulanDipilih) {
+      var bulanSekarang = new Date().toLocaleString("id-ID", { month: "long" });
+      bulanDipilih = bulanSekarang;
+      localStorage.setItem("selectedBulan", bulanSekarang);
+      document.getElementById("selectedBulanKas").innerText = bulanSekarang;
+    } else {
+      document.getElementById("selectedBulanKas").innerText = bulanDipilih;
+    }
+
+    var savedMuridKas = localStorage.getItem("muridKasDipilih");
+    if (savedMuridKas) {
+      muridKasDipilih = savedMuridKas;
+      document.getElementById("selectedMuridKas").innerText = savedMuridKas;
+      var target = document.getElementById("targetBayarMurid");
+      if (target) target.innerText = savedMuridKas;
+    }
+
+    loadMuridKas();
+    loadKasIuran();
+    loadRiwayat();
+    autoDeleteOldRiwayat();
+  } else {
+    renderSavedClassesKas();
+  }
+});
+
+function getSavedClasses() {
+  try {
+    return JSON.parse(localStorage.getItem("savedClasses") || "[]");
+  } catch (e) {
+    return [];
+  }
+}
+
+function renderSavedClassesKas() {
+  var container = document.getElementById("savedClassesKasList");
+  if (!container) return;
+
+  var classes = getSavedClasses();
+  if (classes.length === 0) {
+    container.innerHTML = "";
+    return;
+  }
+
+  var html = '<p style="font-size:12px; font-weight:600; color:#64748B; margin-bottom:8px;">KELAS TERSIMPAN</p>';
+  classes.forEach(function(item) {
+    html += '<div class="saved-class-item" onclick="pilihKelasTersimpanKas(\'' + item.id + '\')">';
+    html += '<div><div class="name">' + item.nama + '</div><div class="id">' + item.id + '</div></div>';
+    html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function pilihKelasTersimpanKas(id) {
+  document.getElementById("kasKelasId").value = id;
+  document.getElementById("kasPassword").focus();
+}
+
+function goTo(page) {
+  window.location.href = page;
+}
+
+function openSidebar() {
+  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('sidebarNav').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('sidebarNav').classList.remove('active');
+}
+
+function logoutAction() {
+  closeSidebar();
+  logoutKas();
+}
+
+function togglePassword(id, btn) {
+  var input = document.getElementById(id);
+  var eye = btn.querySelector(".icon-eye");
+  var slash = btn.querySelector(".icon-eye-slash");
+
+  if (input.type === "password") {
+    input.type = "text";
+    eye.style.display = "none";
+    slash.style.display = "block";
+  } else {
+    input.type = "password";
+    eye.style.display = "block";
+    slash.style.display = "none";
+  }
+}
+
+function toggleDropdown(id) {
+  var el = document.getElementById(id);
+  if (el) el.classList.toggle("active");
+}
+
+function closeDropdowns() {
+  document.querySelectorAll('.options').forEach(function(el) {
+    el.classList.remove('active');
+  });
+}
+
+function showModal(iconType, title, message, actions) {
+  document.getElementById("modalIcon").innerHTML = getIcon(iconType);
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalMessage").innerText = message;
+  document.getElementById("modalActions").innerHTML = actions || '<button class="btn btn-primary" onclick="closeModal()">Mengerti</button>';
+  document.getElementById("modalOverlay").style.display = "flex";
+}
+
+var pendingConfirmAction = null;
+
+function showConfirmModal(title, message, onConfirm) {
+  pendingConfirmAction = onConfirm;
+
+  document.getElementById("modalIcon").innerHTML = getIcon('warning');
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalMessage").innerText = message;
+  document.getElementById("modalActions").innerHTML =
+    '<div style="display:flex; gap:8px;">' +
+    '<button class="btn btn-outline" onclick="closeModal()" style="flex:1;">Batal</button>' +
+    '<button class="btn btn-danger" onclick="runPendingConfirm()" style="flex:1;">Ya, Lanjutkan</button>' +
+    '</div>';
+  document.getElementById("modalOverlay").style.display = "flex";
+}
+
+function runPendingConfirm() {
+  var action = pendingConfirmAction;
+  pendingConfirmAction = null;
+  closeModal();
+  if (action) action();
+}
+
+function closeModal() {
+  document.getElementById("modalOverlay").style.display = "none";
+}
+
+function showEditModal(key) {
+  var data = riwayatCache[key];
+  if (!data) {
+    showModal('error', 'Data Tidak Ditemukan', 'Riwayat ini sudah tidak ada, coba muat ulang.');
+    return;
+  }
+  editKey = key;
+  editData = data;
+  document.getElementById('editNama').value = data.nama || '';
+  document.getElementById('editNominal').value = data.nominal || '';
+  document.getElementById('editKeterangan').value = data.keterangan || '';
+  document.getElementById('editModal').style.display = 'flex';
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').style.display = 'none';
+  editKey = null;
+  editData = null;
+}
+
+function saveEditRiwayat() {
+  var nama = document.getElementById('editNama').value.trim();
+  var nominal = Number(document.getElementById('editNominal').value);
+  var keterangan = document.getElementById('editKeterangan').value.trim();
+
+  if (!nama || !nominal || nominal <= 0) {
+    showModal('warning', 'Data Kurang', 'Nama dan nominal harus diisi dengan benar.');
+    return;
+  }
+
+  var updates = {};
+  updates['keuangan/' + kelasIdAktif + '/riwayat/' + editKey + '/nama'] = nama;
+  updates['keuangan/' + kelasIdAktif + '/riwayat/' + editKey + '/nominal'] = nominal;
+  updates['keuangan/' + kelasIdAktif + '/riwayat/' + editKey + '/keterangan'] = keterangan || '-';
+
+  db.ref().update(updates).then(function() {
+    closeEditModal();
+    showModal('success', 'Berhasil!', 'Riwayat berhasil diperbarui.');
+    loadRiwayat();
+    loadKasIuran();
+  }).catch(function(err) {
+    showModal('error', 'Gagal', err.message);
+  });
+}
+
+function deleteRiwayat(key) {
+  showConfirmModal(
+    "Hapus Riwayat",
+    "Yakin ingin menghapus riwayat transaksi ini?",
+    function() {
+      db.ref('keuangan/' + kelasIdAktif + '/riwayat/' + key).remove().then(function() {
+        showModal('success', 'Berhasil!', 'Riwayat berhasil dihapus.');
+        loadRiwayat();
+        loadKasIuran();
+      });
+    }
+  );
+}
+
+function addSavedClass(id, nama) {
+  var classes = getSavedClasses();
+  var exists = classes.some(function(c) { return c.id === id; });
+  if (!exists) {
+    classes.unshift({ id: id, nama: nama });
+    if (classes.length > 5) classes = classes.slice(0, 5);
+    localStorage.setItem("savedClasses", JSON.stringify(classes));
+  }
+}
+
+function loginKas() {
+  var kelasId = document.getElementById("kasKelasId").value.trim().toUpperCase();
+  var pw = document.getElementById("kasPassword").value.trim();
+
+  if (!kelasId || !pw) {
+    showModal("warning", "Data Kosong", "Harap isi ID Kelas & Password!");
+    return;
+  }
+
+  db.ref("kelas/" + kelasId).once("value", function(snap) {
+    if (!snap.exists()) {
+      showModal("error", "Kelas Tidak Ditemukan", "ID Kelas tersebut belum terdaftar. Daftarkan kelas dulu lewat halaman Absensi.");
+      return;
+    }
+
+    var data = snap.val();
+    if (data.password !== pw) {
+      showModal("error", "Password Salah", "Password yang Anda masukkan salah.");
+      return;
+    }
+
+    kelasAktif = data.nama;
+    kelasIdAktif = kelasId;
+    localStorage.setItem("kelasAktif", data.nama);
+    localStorage.setItem("kelasIdAktif", kelasId);
+
+    addSavedClass(kelasId, data.nama);
+
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("kasBox").style.display = "block";
+
+    if (!bulanDipilih) {
+      var bulanSekarang = new Date().toLocaleString("id-ID", { month: "long" });
+      bulanDipilih = bulanSekarang;
+      localStorage.setItem("selectedBulan", bulanSekarang);
+      document.getElementById("selectedBulanKas").innerText = bulanSekarang;
+    }
+
+    loadMuridKas();
+    loadKasIuran();
+    loadRiwayat();
+    autoDeleteOldRiwayat();
+    showModal("success", "Selamat Datang!", "Login berhasil ke kelas " + data.nama);
+  });
+}
+
+function tambahMuridKas() {
+  var input = document.getElementById("namaMuridBaruKas");
+  var nama = input.value.trim();
+  if (!nama || !kelasIdAktif) return;
+
+  db.ref("kas/" + kelasIdAktif + "/siswa/" + nama).set(true)
+    .then(function() {
+      input.value = "";
+      loadMuridKas();
+      showModal("success", "Berhasil!", "Murid " + nama + " ditambahkan.");
+    });
+}
+
+function hapusMuridKas(nama) {
+  showConfirmModal(
+    "Hapus Murid",
+    "Hapus murid " + nama + " dari daftar kas? Data iuran murid ini di semua bulan juga akan ikut terhapus.",
+    function() {
+      db.ref("kas/" + kelasIdAktif + "/siswa/" + nama).remove()
+        .then(function() {
+          db.ref("kas/" + kelasIdAktif + "/kas").once("value").then(function(snap) {
+            var updates = {};
+            snap.forEach(function(bulanSnap) {
+              var bulan = bulanSnap.key;
+              bulanSnap.forEach(function(muridSnap) {
+                if (muridSnap.key === nama) {
+                  updates["kas/" + bulan + "/" + nama] = null;
+                }
+              });
+            });
+            if (Object.keys(updates).length > 0) {
+              db.ref("kas/" + kelasIdAktif).update(updates);
+            }
+          });
+          loadMuridKas();
+          loadKasIuran();
+          showModal("success", "Berhasil!", "Murid " + nama + " dihapus.");
+        });
+    }
+  );
+}
+
+function importMuridDariAbsensi() {
+  if (!kelasIdAktif) return;
+
+  db.ref("kelas/" + kelasIdAktif + "/siswa").once("value").then(function(snap) {
+    if (!snap.exists()) {
+      showModal("warning", "Kosong", "Belum ada murid terdaftar di Absensi untuk kelas ini.");
+      return;
+    }
+
+    var updates = {};
+    var jumlah = 0;
+    snap.forEach(function(c) {
+      updates["kas/" + kelasIdAktif + "/siswa/" + c.key] = true;
+      jumlah++;
+    });
+
+    db.ref().update(updates).then(function() {
+      loadMuridKas();
+      showModal("success", "Berhasil!", jumlah + " murid berhasil diimpor dari Absensi.");
+    });
+  });
+}
+
+function loadMuridKas() {
+  var option = document.getElementById("optionMuridKas");
+  if (!kelasIdAktif) return;
+
+  if (muridRef) muridRef.off();
+
+  muridRef = db.ref("kas/" + kelasIdAktif + "/siswa");
+
+  muridRef.on("value", function(snap) {
+    var html = "";
+    if (!snap.exists()) {
+      html = "<div style='color:#94A3B8;padding:8px;'>Belum Ada Murid</div>";
+    } else {
+      snap.forEach(function(c) {
+        var nama = c.key;
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+        html += '<span onclick="pilihMuridKas(\'' + nama + '\')">' + nama + '</span>';
+        html += '<button class="btn-action btn-delete" onclick="hapusMuridKas(\'' + nama + '\')">✕</button>';
+        html += '</div>';
+      });
+    }
+    option.innerHTML = html;
+  });
+}
+
+function pilihMuridKas(nama) {
+  muridKasDipilih = nama;
+  localStorage.setItem("muridKasDipilih", nama);
+  document.getElementById("selectedMuridKas").innerText = nama;
+  var target = document.getElementById("targetBayarMurid");
+  if (target) target.innerText = nama;
+  closeDropdowns();
+}
+
+function pilihBulanKas(bulan) {
+  bulanDipilih = bulan;
+  localStorage.setItem("selectedBulan", bulan);
+  document.getElementById("selectedBulanKas").innerText = bulan;
+  closeDropdowns();
+  loadKasIuran();
+  loadRiwayat();
+}
+
+function pilihFrekuensi(val) {
+  kasFrekuensi = parseInt(val);
+  document.getElementById("selectedFrekuensi").innerText = kasFrekuensi + "x sebulan";
+  closeDropdowns();
+}
+
+function toggleGenerateSemua() {
+  var checked = document.getElementById("generateSemuaMurid").checked;
+  var wrapMurid = document.getElementById("wrapMuridKas");
+  var btn = document.getElementById("btnGenerateIuran");
+
+  if (checked) {
+    wrapMurid.classList.add("disabled");
+    btn.innerText = "Buat Tagihan untuk Semua Murid";
+  } else {
+    wrapMurid.classList.remove("disabled");
+    btn.innerText = "Buat Tagihan Iuran";
+  }
+}
+
+function generateIuran() {
+  var semua = document.getElementById("generateSemuaMurid").checked;
+  if (semua) {
+    generateIuranSemua();
+  } else {
+    generateIuranKas();
+  }
+}
+
+function generateIuranKas() {
+  var nominal = Number(document.getElementById("nominalTetapKas").value);
+
+  if (nominal <= 0) {
+    showModal("warning", "Nominal Kosong", "Masukkan nominal iuran terlebih dahulu!");
+    return;
+  }
+
+  if (!muridKasDipilih || kasFrekuensi < 1 || !bulanDipilih) {
+    showModal("warning", "Data Kurang", "Lengkapi data terlebih dahulu!");
+    return;
+  }
+
+  var bayar = {};
+  for (var i = 1; i <= kasFrekuensi; i++) {
+    bayar[i] = 0;
+  }
+
+  db.ref("kas/" + kelasIdAktif + "/kas/" + bulanDipilih + "/" + muridKasDipilih)
+    .update({
+      nominal: nominal,
+      frekuensi: kasFrekuensi,
+      bayar: bayar
+    })
+    .then(function() {
+      showModal("success", "Berhasil!", "Iuran untuk " + muridKasDipilih + " berhasil digenerate.");
+      loadKasIuran();
+    });
+}
+
+function generateIuranSemua() {
+  var nominal = Number(document.getElementById("nominalTetapKas").value);
+
+  if (nominal <= 0) {
+    showModal("warning", "Nominal Kosong", "Masukkan nominal iuran terlebih dahulu!");
+    return;
+  }
+
+  if (kasFrekuensi < 1 || !bulanDipilih || !kelasIdAktif) {
+    showModal("warning", "Data Kurang", "Lengkapi data terlebih dahulu!");
+    return;
+  }
+
+  db.ref("kas/" + kelasIdAktif + "/siswa").once("value").then(function(snap) {
+    if (!snap.exists()) {
+      showModal("warning", "Belum Ada Murid", "Tambahkan murid terlebih dahulu sebelum generate iuran.");
+      return;
+    }
+
+    var namaMurid = [];
+    snap.forEach(function(c) {
+      namaMurid.push(c.key);
+    });
+
+    showConfirmModal(
+      "Generate Iuran Semua Murid",
+      "Iuran sebesar Rp " + nominal.toLocaleString('id-ID') + " (" + kasFrekuensi + "x) akan dibuat untuk " + namaMurid.length + " murid di bulan " + bulanDipilih + ". Data iuran yang sudah ada untuk bulan ini akan ditimpa. Lanjutkan?",
+      function() {
+        var bayar = {};
+        for (var i = 1; i <= kasFrekuensi; i++) {
+          bayar[i] = 0;
+        }
+
+        var updates = {};
+        namaMurid.forEach(function(nama) {
+          updates["kas/" + kelasIdAktif + "/kas/" + bulanDipilih + "/" + nama] = {
+            nominal: nominal,
+            frekuensi: kasFrekuensi,
+            bayar: bayar
+          };
+        });
+
+        db.ref().update(updates).then(function() {
+          showModal("success", "Berhasil!", "Iuran berhasil digenerate untuk " + namaMurid.length + " murid.");
+          loadKasIuran();
+        }).catch(function(err) {
+          showModal("error", "Gagal", err.message);
+        });
+      }
+    );
+  });
+}
+
+function bayarIuran() {
+  var jumlah = Number(document.getElementById("jumlahKas").value);
+
+  if (!muridKasDipilih || jumlah <= 0 || !bulanDipilih) {
+    showModal("warning", "Data Kurang", "Pilih murid & isi jumlah!");
+    return;
+  }
+
+  var path = "kas/" + kelasIdAktif + "/kas/" + bulanDipilih + "/" + muridKasDipilih;
+  var ref = db.ref(path);
+
+  ref.once("value", function(snap) {
+    var data = snap.val();
+    if (!data) {
+      showModal("warning", "Belum Ada Iuran", "Generate iuran terlebih dahulu!");
+      return;
+    }
+
+    var prevData = JSON.parse(JSON.stringify(data));
+    var bayar = data.bayar || {};
+    var sisa = jumlah;
+
+    for (var i = 1; i <= data.frekuensi; i++) {
+      if (bayar[i] >= data.nominal) continue;
+
+      var kurang = data.nominal - (bayar[i] || 0);
+
+      if (sisa >= kurang) {
+        bayar[i] = data.nominal;
+        sisa -= kurang;
+      } else {
+        bayar[i] = (bayar[i] || 0) + sisa;
+        sisa = 0;
+        break;
+      }
+
+      if (sisa <= 0) break;
+    }
+
+    var newData = {
+      nominal: data.nominal,
+      frekuensi: data.frekuensi,
+      bayar: bayar
+    };
+
+    undoStack.push({
+      type: "kas",
+      path: path,
+      prev: prevData,
+      next: newData
+    });
+    redoStack = [];
+
+    ref.set(newData).then(function() {
+      var riwayatData = {
+        nama: muridKasDipilih,
+        nominal: jumlah,
+        jenis: 'masuk',
+        keterangan: 'Pembayaran iuran ' + bulanDipilih,
+        waktu: Date.now(),
+        tanggal: new Date().toLocaleString('id-ID')
+      };
+      db.ref("keuangan/" + kelasIdAktif + "/riwayat").push(riwayatData);
+
+      document.getElementById("jumlahKas").value = "";
+      showModal("success", "Berhasil!", "Pembayaran berhasil dicatat.");
+      loadKasIuran();
+      loadRiwayat();
+    });
+  });
+}
+
+function tambahPengeluaran() {
+  var nominal = Number(document.getElementById("nominalPengeluaran").value);
+  var keterangan = document.getElementById("keteranganPengeluaran").value.trim();
+
+  if (!kelasIdAktif) {
+    showModal("warning", "Error", "Login kelas terlebih dahulu!");
+    return;
+  }
+
+  if (!nominal || nominal <= 0) {
+    showModal("warning", "Nominal Kosong", "Masukkan nominal pengeluaran!");
+    return;
+  }
+
+  var riwayatData = {
+    nama: 'Pengeluaran',
+    nominal: nominal,
+    jenis: 'keluar',
+    keterangan: keterangan || 'Pengeluaran',
+    waktu: Date.now(),
+    tanggal: new Date().toLocaleString('id-ID')
+  };
+
+  db.ref("keuangan/" + kelasIdAktif + "/riwayat").push(riwayatData).then(function() {
+    document.getElementById("nominalPengeluaran").value = "";
+    document.getElementById("keteranganPengeluaran").value = "";
+    showModal("success", "Berhasil!", "Pengeluaran berhasil dicatat.");
+    loadRiwayat();
+    loadKasIuran();
+  }).catch(function(err) {
+    showModal("error", "Gagal", err.message);
+  });
+}
+
+function loadKasIuran() {
+  var box = document.getElementById("tabelKas");
+  if (!box || !kelasIdAktif || !bulanDipilih) return;
+
+  var refKas = db.ref("kas/" + kelasIdAktif + "/kas/" + bulanDipilih);
+  refKas.off();
+
+  refKas.on("value", function(snap) {
+    if (!snap.exists()) {
+      box.innerHTML = "<p style='text-align:center;color:#94A3B8;padding:20px;'>Belum Ada Data</p>";
+      return;
+    }
+
+    var max = 0;
+    var totalSemua = 0;
+    var dataArr = [];
+
+    snap.forEach(function(s) {
+      var d = s.val();
+      max = Math.max(max, Number(d.frekuensi) || 0);
+      dataArr.push({ key: s.key, nominal: d.nominal, frekuensi: d.frekuensi, bayar: d.bayar || {} });
+    });
+
+    var html = '<div class="table-wrap"><table style="width:100%;border-collapse:collapse;text-align:center;">';
+    html += '<tr><th style="border:1px solid #E2E8F0;padding:6px 4px;text-align:left;">Nama</th>';
+    for (var i = 1; i <= max; i++) {
+      html += '<th style="border:1px solid #E2E8F0;padding:6px 4px;">' + i + '</th>';
+    }
+    html += '<th style="border:1px solid #E2E8F0;padding:6px 4px;">Total</th></tr>';
+
+    dataArr.forEach(function(d) {
+      var totalUser = 0;
+      html += '<tr>';
+      html += '<td style="border:1px solid #E2E8F0;padding:6px 4px;text-align:left;font-weight:600;font-size:11px;">' + d.key + '</td>';
+
+      for (var j = 1; j <= max; j++) {
+        var bayar = Number(d.bayar[j]) || 0;
+        totalUser += bayar;
+
+        var statusText = "Belum";
+        var statusClass = "belum";
+
+        if (bayar >= d.nominal) {
+          statusText = "Lunas";
+          statusClass = "lunas";
+        } else if (bayar > 0) {
+          statusText = "Cicil";
+          statusClass = "cicil";
+        }
+
+        var uniqueId = 'status_' + d.key + '_' + j;
+
+        html += '<td style="border:1px solid #E2E8F0;padding:6px 4px;">';
+        html += '<div class="status-wrap">';
+        html += '<span class="status-cell ' + statusClass + '" onclick="openStatusDropdown(event, \'' + d.key + '\', ' + j + ', \'' + statusClass + '\')" id="' + uniqueId + '">' + statusText + '</span>';
+        html += '</div>';
+        html += '</td>';
+      }
+
+      html += '<td style="border:1px solid #E2E8F0;padding:6px 4px;color:#2563EB;font-weight:700;font-size:11px;">Rp ' + totalUser.toLocaleString('id-ID') + '</td>';
+      html += '</tr>';
+      totalSemua += totalUser;
+    });
+
+    html += '<tr>';
+    html += '<td style="border:1px solid #E2E8F0;padding:6px 4px;font-weight:700;font-size:11px;">TOTAL</td>';
+    for (var k = 1; k <= max; k++) {
+      html += '<td style="border:1px solid #E2E8F0;padding:6px 4px;"></td>';
+    }
+    html += '<td style="border:1px solid #E2E8F0;padding:6px 4px;color:#FBBF24;font-weight:700;font-size:11px;">Rp ' + totalSemua.toLocaleString('id-ID') + '</td>';
+    html += '</tr>';
+
+    html += '</table></div>';
+    box.innerHTML = html;
+  });
+}
+
+function shareTabel() {
+  var tableEl = document.querySelector('#tabelKas table');
+  if (!tableEl) {
+    showModal("warning", "Kosong", "Tidak ada data tabel untuk dibagikan.");
+    return;
+  }
+
+  var rows = tableEl.querySelectorAll('tr');
+  var text = 'Tabel Keuangan - ' + kelasAktif + '\n';
+  text += '========================================\n';
+  text += 'Bulan: ' + bulanDipilih + '\n';
+  text += '========================================\n\n';
+
+  rows.forEach(function(row) {
+    var cells = row.querySelectorAll('th, td');
+    var rowText = [];
+    cells.forEach(function(cell) {
+      var val = cell.innerText.trim();
+      var statusSpan = cell.querySelector('.status-cell');
+      if (statusSpan) {
+        val = statusSpan.innerText.trim();
+      }
+      rowText.push(val);
+    });
+    text += rowText.join(' | ') + '\n';
+  });
+
+  var totalMasuk = document.getElementById("totalMasuk").innerText;
+  var totalKeluar = document.getElementById("totalKeluar").innerText;
+  var totalSaldo = document.getElementById("totalSaldo").innerText;
+
+  text += '\n========================================\n';
+  text += 'RINGKASAN\n';
+  text += 'Pemasukan: ' + totalMasuk + '\n';
+  text += 'Pengeluaran: ' + totalKeluar + '\n';
+  text += 'Saldo Akhir: ' + totalSaldo + '\n';
+  text += '========================================\n';
+  text += 'Data ini hanya untuk dilihat (read-only)\n';
+  text += 'Dibagikan dari Star Tools';
+
+  if (navigator.share) {
+    navigator.share({
+      title: 'Tabel Keuangan - ' + kelasAktif,
+      text: text
+    }).catch(function() {});
+  } else {
+    navigator.clipboard.writeText(text).then(function() {
+      showModal("success", "Tersalin!", "Tabel berhasil disalin ke clipboard (read-only).");
+    }).catch(function() {
+      var blob = new Blob([text], { type: 'text/plain' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'Tabel_Keuangan_' + kelasAktif + '.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+      showModal("success", "Download!", "Tabel berhasil didownload.");
+    });
+  }
+}
+
+function exportTabelPDF() {
+  var tableEl = document.querySelector('#tabelKas table');
+  if (!tableEl) {
+    showModal("warning", "Kosong", "Tidak ada data tabel untuk diexport.");
+    return;
+  }
+
+  var jsPDFLib = window.jspdf.jsPDF;
+  var doc = new jsPDFLib();
+
+  var head = [];
+  var body = [];
+
+  var rows = tableEl.querySelectorAll('tr');
+  rows.forEach(function(row, idx) {
+    var cells = row.querySelectorAll('th, td');
+    var rowData = [];
+    cells.forEach(function(cell) {
+      var statusSpan = cell.querySelector('.status-cell');
+      rowData.push(statusSpan ? statusSpan.innerText.trim() : cell.innerText.trim());
+    });
+    if (idx === 0) head.push(rowData);
+    else body.push(rowData);
+  });
+
+  doc.setFontSize(16);
+  doc.setTextColor(37, 99, 235);
+  doc.text('Star Tools - Tabel Keuangan', 14, 18);
+
+  doc.setFontSize(10);
+  doc.setTextColor(100, 116, 139);
+  doc.text('Kelas: ' + kelasAktif + ' (' + kelasIdAktif + ')', 14, 26);
+  doc.text('Bulan: ' + bulanDipilih, 14, 32);
+  doc.text('Diexport: ' + new Date().toLocaleString('id-ID'), 14, 38);
+
+  doc.autoTable({
+    head: head,
+    body: body,
+    startY: 44,
+    theme: 'grid',
+    headStyles: { fillColor: [37, 99, 235], textColor: 255, fontSize: 9 },
+    bodyStyles: { fontSize: 8 },
+    styles: { cellPadding: 3 }
+  });
+
+  var finalY = doc.lastAutoTable.finalY + 10;
+  var totalMasuk = document.getElementById("totalMasuk").innerText;
+  var totalKeluar = document.getElementById("totalKeluar").innerText;
+  var totalSaldo = document.getElementById("totalSaldo").innerText;
+
+  doc.setFontSize(10);
+  doc.setTextColor(15, 23, 42);
+  doc.text('Ringkasan', 14, finalY);
+  doc.setFontSize(9);
+  doc.setTextColor(5, 150, 105);
+  doc.text('Pemasukan: ' + totalMasuk, 14, finalY + 7);
+  doc.setTextColor(220, 38, 38);
+  doc.text('Pengeluaran: ' + totalKeluar, 14, finalY + 13);
+  doc.setTextColor(37, 99, 235);
+  doc.text('Saldo Akhir: ' + totalSaldo, 14, finalY + 19);
+
+  doc.setFontSize(8);
+  doc.setTextColor(148, 163, 184);
+  doc.text('Star Platform | Star Tools 2026', 14, doc.internal.pageSize.height - 10);
+
+  doc.save('Tabel_Keuangan_' + kelasAktif + '_' + bulanDipilih + '.pdf');
+  showModal("success", "Berhasil!", "Tabel berhasil diexport ke PDF.");
+}
+
+function openStatusDropdown(event, namaMurid, indexKe, currentStatus) {
+  event.stopPropagation();
+
+  closeStatusDropdown();
+
+  var rect = event.target.getBoundingClientRect();
+
+  var dropdown = document.createElement('div');
+  dropdown.className = 'status-dropdown active';
+  dropdown.style.top = (rect.bottom + 4) + 'px';
+  dropdown.style.left = (rect.left + rect.width/2 - 50) + 'px';
+  dropdown.id = 'statusDropdown';
+
+  var statuses = [
+    { label: 'Lunas', value: 'lunas' },
+    { label: 'Cicil', value: 'cicil' },
+    { label: 'Belum', value: 'belum' }
+  ];
+
+  statuses.forEach(function(s) {
+    var div = document.createElement('div');
+    div.className = s.value + '-opt';
+    div.textContent = s.label;
+    div.onclick = function(e) {
+      e.stopPropagation();
+      updateStatus(namaMurid, indexKe, s.value);
+      closeStatusDropdown();
+    };
+    dropdown.appendChild(div);
+  });
+
+  document.body.appendChild(dropdown);
+  currentStatusDropdown = dropdown;
+}
+
+function closeStatusDropdown() {
+  if (currentStatusDropdown) {
+    currentStatusDropdown.remove();
+    currentStatusDropdown = null;
+  }
+}
+
+function updateStatus(namaMurid, indexKe, newStatus) {
+  if (!kelasIdAktif || !bulanDipilih) return;
+
+  var path = "kas/" + kelasIdAktif + "/kas/" + bulanDipilih + "/" + namaMurid;
+  var ref = db.ref(path);
+
+  ref.once("value", function(snap) {
+    var data = snap.val();
+    if (!data) {
+      showModal("warning", "Error", "Data tidak ditemukan!");
+      return;
+    }
+
+    var nominal = data.nominal || 0;
+    var bayar = data.bayar || {};
+
+    if (newStatus === 'lunas') {
+      bayar[indexKe] = nominal;
+    } else if (newStatus === 'belum') {
+      bayar[indexKe] = 0;
+    } else if (newStatus === 'cicil') {
+      var nilaiCicil = Math.floor(nominal / 2);
+      if (nilaiCicil < 1000) nilaiCicil = 1000;
+      if (nilaiCicil > nominal) nilaiCicil = nominal;
+      bayar[indexKe] = nilaiCicil;
+    }
+
+    ref.update({ bayar: bayar }).then(function() {
+      showModal("success", "Berhasil!", "Status berhasil diubah menjadi " + newStatus.toUpperCase());
+      loadKasIuran();
+    }).catch(function(err) {
+      showModal("error", "Gagal", err.message);
+    });
+  });
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.status-dropdown') && !e.target.closest('.status-cell')) {
+    closeStatusDropdown();
+  }
+});
+
+function undoKas() {
+  if (undoStack.length === 0) {
+    showModal("warning", "Tidak Ada", "Tidak ada aksi untuk di-undo.");
+    return;
+  }
+
+  var last = undoStack.pop();
+  if (last.type === "kas") {
+    db.ref(last.path).set(last.prev);
+  }
+  redoStack.push(last);
+  loadKasIuran();
+}
+
+function redoKas() {
+  if (redoStack.length === 0) {
+    showModal("warning", "Tidak Ada", "Tidak ada aksi untuk di-redo.");
+    return;
+  }
+
+  var last = redoStack.pop();
+  if (last.type === "kas") {
+    db.ref(last.path).set(last.next);
+  }
+  undoStack.push(last);
+  loadKasIuran();
+}
+
+function loadRiwayat() {
+  if (!kelasIdAktif) return;
+
+  var containerSemua = document.getElementById("riwayatSemua");
+  var containerMasuk = document.getElementById("riwayatMasuk");
+  var containerKeluar = document.getElementById("riwayatKeluar");
+  var totalMasukEl = document.getElementById("totalMasuk");
+  var totalKeluarEl = document.getElementById("totalKeluar");
+  var totalSaldoEl = document.getElementById("totalSaldo");
+
+  db.ref("keuangan/" + kelasIdAktif + "/riwayat").on("value", function(snap) {
+    var data = [];
+    var totalMasuk = 0;
+    var totalKeluar = 0;
+
+    snap.forEach(function(child) {
+      var val = child.val();
+      val.key = child.key;
+      data.push(val);
+      riwayatCache[child.key] = val;
+      if (val.jenis === 'masuk') totalMasuk += val.nominal;
+      else totalKeluar += val.nominal;
+    });
+
+    data.sort(function(a, b) { return b.waktu - a.waktu; });
+
+    var saldo = totalMasuk - totalKeluar;
+
+    totalMasukEl.innerText = 'Rp ' + totalMasuk.toLocaleString('id-ID');
+    totalKeluarEl.innerText = 'Rp ' + totalKeluar.toLocaleString('id-ID');
+    totalSaldoEl.innerText = 'Rp ' + saldo.toLocaleString('id-ID');
+
+    containerSemua.innerHTML = renderRiwayat(data);
+    var dataMasuk = data.filter(function(d) { return d.jenis === 'masuk'; });
+    containerMasuk.innerHTML = renderRiwayat(dataMasuk);
+    var dataKeluar = data.filter(function(d) { return d.jenis === 'keluar'; });
+    containerKeluar.innerHTML = renderRiwayat(dataKeluar);
+    filterRiwayat();
+  });
+}
+
+function renderRiwayat(data) {
+  if (!data || data.length === 0) {
+    return '<div class="riwayat-empty">Belum ada transaksi</div>';
+  }
+
+  var html = '';
+  data.forEach(function(item) {
+    var jenisLabel = item.jenis === 'masuk' ? 'Pemasukan' : 'Pengeluaran';
+    var jenisClass = item.jenis === 'masuk' ? 'masuk' : 'keluar';
+    var nominalClass = item.jenis === 'masuk' ? '' : 'minus';
+
+    html += `
+      <div class="riwayat-item">
+        <div class="riwayat-left">
+          <div class="riwayat-nama">${item.nama}</div>
+          <div class="riwayat-detail">${item.keterangan || '-'} <span class="badge-riwayat ${jenisClass}">${jenisLabel}</span></div>
+          <div class="riwayat-tanggal">${item.tanggal}</div>
+        </div>
+        <div class="riwayat-right">
+          <div class="riwayat-nominal ${nominalClass}">${item.jenis === 'masuk' ? '+' : '-'} Rp ${item.nominal.toLocaleString('id-ID')}</div>
+          <div class="riwayat-actions-icons">
+            <span class="riwayat-edit-icon" onclick="showEditModal('${item.key}')">
+              <svg viewBox="0 0 24 24"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
+            </span>
+            <span class="riwayat-delete-icon" onclick="deleteRiwayat('${item.key}')">
+              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  return html;
+}
+
+function switchTabRiwayat(tabId) {
+  document.querySelectorAll('.tab-content').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el) {
+    el.classList.remove('active');
+  });
+
+  document.getElementById(tabId).classList.add('active');
+  document.querySelector('.tab-btn[data-tab="' + tabId + '"]').classList.add('active');
+  filterRiwayat();
+}
+
+function filterRiwayat() {
+  var keyword = document.getElementById("cariRiwayat").value.trim().toLowerCase();
+  var activeTab = document.querySelector('.tab-content.active');
+  if (!activeTab) return;
+
+  var items = activeTab.querySelectorAll('.riwayat-item');
+  var visibleCount = 0;
+
+  items.forEach(function(item) {
+    var nama = item.querySelector('.riwayat-nama') ? item.querySelector('.riwayat-nama').innerText.toLowerCase() : '';
+    var detail = item.querySelector('.riwayat-detail') ? item.querySelector('.riwayat-detail').innerText.toLowerCase() : '';
+    var cocok = !keyword || nama.indexOf(keyword) !== -1 || detail.indexOf(keyword) !== -1;
+    item.style.display = cocok ? '' : 'none';
+    if (cocok) visibleCount++;
+  });
+
+  var emptyState = activeTab.querySelector('.riwayat-empty');
+  if (emptyState && keyword) {
+    emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+}
+
+function shareRiwayat() {
+  var items = document.querySelectorAll('#riwayatSemua .riwayat-item');
+
+  if (items.length === 0) {
+    showModal("warning", "Kosong", "Tidak ada riwayat untuk dibagikan.");
+    return;
+  }
+
+  var text = 'Riwayat Keuangan - ' + kelasAktif + '\n';
+  text += '========================================\n\n';
+
+  items.forEach(function(item) {
+    var nama = item.querySelector('.riwayat-nama')?.innerText || '-';
+    var detail = item.querySelector('.riwayat-detail')?.innerText || '-';
+    var tanggal = item.querySelector('.riwayat-tanggal')?.innerText || '-';
+    var nominal = item.querySelector('.riwayat-nominal')?.innerText || '-';
+    text += 'Nama: ' + nama + '\n';
+    text += 'Detail: ' + detail + '\n';
+    text += 'Tanggal: ' + tanggal + '\n';
+    text += 'Nominal: ' + nominal + '\n';
+    text += '----------------------------\n';
+  });
+
+  var totalMasuk = document.getElementById("totalMasuk").innerText;
+  var totalKeluar = document.getElementById("totalKeluar").innerText;
+  var totalSaldo = document.getElementById("totalSaldo").innerText;
+
+  text += '\nRINGKASAN\n';
+  text += 'Pemasukan: ' + totalMasuk + '\n';
+  text += 'Pengeluaran: ' + totalKeluar + '\n';
+  text += 'Saldo: ' + totalSaldo + '\n';
+  text += '\nDibagikan dari Star Tools';
+
+  if (navigator.share) {
+    navigator.share({
+      title: 'Riwayat Keuangan - ' + kelasAktif,
+      text: text
+    }).catch(function() {});
+  } else {
+    navigator.clipboard.writeText(text).then(function() {
+      showModal("success", "Tersalin!", "Riwayat berhasil disalin ke clipboard.");
+    }).catch(function() {
+      showModal("error", "Gagal", "Gagal menyalin riwayat.");
+    });
+  }
+}
+
+function downloadRiwayat() {
+  var items = document.querySelectorAll('#riwayatSemua .riwayat-item');
+
+  if (items.length === 0) {
+    showModal("warning", "Kosong", "Tidak ada riwayat untuk didownload.");
+    return;
+  }
+
+  var text = 'Riwayat Keuangan - ' + kelasAktif + '\n';
+  text += '========================================\n\n';
+
+  items.forEach(function(item) {
+    var nama = item.querySelector('.riwayat-nama')?.innerText || '-';
+    var detail = item.querySelector('.riwayat-detail')?.innerText || '-';
+    var tanggal = item.querySelector('.riwayat-tanggal')?.innerText || '-';
+    var nominal = item.querySelector('.riwayat-nominal')?.innerText || '-';
+    text += 'Nama: ' + nama + '\n';
+    text += 'Detail: ' + detail + '\n';
+    text += 'Tanggal: ' + tanggal + '\n';
+    text += 'Nominal: ' + nominal + '\n';
+    text += '----------------------------\n';
+  });
+
+  var totalMasuk = document.getElementById("totalMasuk").innerText;
+  var totalKeluar = document.getElementById("totalKeluar").innerText;
+  var totalSaldo = document.getElementById("totalSaldo").innerText;
+
+  text += '\nRINGKASAN\n';
+  text += 'Pemasukan: ' + totalMasuk + '\n';
+  text += 'Pengeluaran: ' + totalKeluar + '\n';
+  text += 'Saldo: ' + totalSaldo + '\n';
+  text += '\nDibagikan dari Star Tools';
+
+  var blob = new Blob([text], { type: 'text/plain' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'Riwayat_Keuangan_' + kelasAktif + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportRiwayatPDF() {
+  var items = document.querySelectorAll('#riwayatSemua .riwayat-item');
+
+  if (items.length === 0) {
+    showModal("warning", "Kosong", "Tidak ada riwayat untuk diexport.");
+    return;
+  }
+
+  var jsPDFLib = window.jspdf.jsPDF;
+  var doc = new jsPDFLib();
+
+  var body = [];
+  items.forEach(function(item) {
+    var nama = item.querySelector('.riwayat-nama') ? item.querySelector('.riwayat-nama').innerText : '-';
+    var badge = item.querySelector('.badge-riwayat');
+    var jenis = badge ? badge.innerText : '-';
+    var keterangan = item.querySelector('.riwayat-detail') ? item.querySelector('.riwayat-detail').innerText.replace(jenis, '').trim() : '-';
+    var tanggal = item.querySelector('.riwayat-tanggal') ? item.querySelector('.riwayat-tanggal').innerText : '-';
+    var nominal = item.querySelector('.riwayat-nominal') ? item.querySelector('.riwayat-nominal').innerText : '-';
+    body.push([nama, jenis, keterangan, tanggal, nominal]);
+  });
+
+  doc.setFontSize(16);
+  doc.setTextColor(37, 99, 235);
+  doc.text('Star Tools - Riwayat Keuangan', 14, 18);
+
+  doc.setFontSize(10);
+  doc.setTextColor(100, 116, 139);
+  doc.text('Kelas: ' + kelasAktif + ' (' + kelasIdAktif + ')', 14, 26);
+  doc.text('Diexport: ' + new Date().toLocaleString('id-ID'), 14, 32);
+
+  doc.autoTable({
+    head: [['Nama', 'Jenis', 'Keterangan', 'Tanggal', 'Nominal']],
+    body: body,
+    startY: 38,
+    theme: 'grid',
+    headStyles: { fillColor: [37, 99, 235], textColor: 255, fontSize: 9 },
+    bodyStyles: { fontSize: 8 },
+    styles: { cellPadding: 3 }
+  });
+
+  var finalY = doc.lastAutoTable.finalY + 10;
+  var totalMasuk = document.getElementById("totalMasuk").innerText;
+  var totalKeluar = document.getElementById("totalKeluar").innerText;
+  var totalSaldo = document.getElementById("totalSaldo").innerText;
+
+  doc.setFontSize(10);
+  doc.setTextColor(15, 23, 42);
+  doc.text('Ringkasan', 14, finalY);
+  doc.setFontSize(9);
+  doc.setTextColor(5, 150, 105);
+  doc.text('Pemasukan: ' + totalMasuk, 14, finalY + 7);
+  doc.setTextColor(220, 38, 38);
+  doc.text('Pengeluaran: ' + totalKeluar, 14, finalY + 13);
+  doc.setTextColor(37, 99, 235);
+  doc.text('Saldo Akhir: ' + totalSaldo, 14, finalY + 19);
+
+  doc.setFontSize(8);
+  doc.setTextColor(148, 163, 184);
+  doc.text('Star Platform | Star Tools 2026', 14, doc.internal.pageSize.height - 10);
+
+  doc.save('Riwayat_Keuangan_' + kelasAktif + '.pdf');
+  showModal("success", "Berhasil!", "Riwayat berhasil diexport ke PDF.");
+}
+
+function resetRiwayat() {
+  showConfirmModal(
+    "Hapus Semua Riwayat",
+    "Yakin ingin menghapus semua riwayat transaksi? Tindakan ini tidak bisa dibatalkan.",
+    function() {
+      db.ref("keuangan/" + kelasIdAktif + "/riwayat").remove()
+        .then(function() {
+          showModal("success", "Berhasil!", "Semua riwayat berhasil dihapus.");
+          loadRiwayat();
+        });
+    }
+  );
+}
+
+function kembaliKeLogin() {
+  closeModal();
+
+  if (muridRef) {
+    muridRef.off();
+    muridRef = null;
+  }
+
+  localStorage.removeItem("kelasAktif");
+  localStorage.removeItem("kelasIdAktif");
+  localStorage.removeItem("selectedBulan");
+  localStorage.removeItem("muridKasDipilih");
+  kelasAktif = "";
+  kelasIdAktif = "";
+  bulanDipilih = "";
+  muridKasDipilih = "";
+
+  document.getElementById("kasBox").style.display = "none";
+  document.getElementById("loginForm").style.display = "block";
+  document.getElementById("mainScreen").classList.remove("hidden");
+  document.getElementById("riwayatScreen").classList.add("hidden");
+
+  document.getElementById("kasKelasId").value = "";
+  document.getElementById("kasPassword").value = "";
+
+  renderSavedClassesKas();
+  window.scrollTo(0, 0);
+}
+
+function logoutKas() {
+  showConfirmModal(
+    "Logout Kelas",
+    "Yakin ingin logout dari kelas?",
+    function() {
+      kembaliKeLogin();
+    }
+  );
+}
+
+function showHapusDataKeuanganModal() {
+  var actions = `
+    <div style="margin-top:8px; text-align:left;">
+      <p style="font-size:13px; color:#64748B; margin-bottom:12px; text-align:center;">
+        Semua data kas iuran dan riwayat transaksi kelas "${kelasAktif}" akan dihapus permanen. Akun kelas & data Absensi tidak akan terpengaruh.
+      </p>
+
+      <div class="input-group">
+        <input id="hapusKeuanganPw" type="password" class="input" placeholder="Masukkan Password Kelas">
+        <button onclick="togglePassword('hapusKeuanganPw', this)" class="btn-eye" type="button">
+          <svg class="icon-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="icon-eye-slash" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn btn-outline" onclick="closeModal()" style="flex:1;">Batal</button>
+        <button class="btn btn-danger" onclick="executeHapusDataKeuangan()" style="flex:1;">Hapus Data</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("modalIcon").innerHTML = getIcon('warning');
+  document.getElementById("modalTitle").innerText = "Hapus Data Keuangan";
+  document.getElementById("modalMessage").innerHTML = "Tindakan ini tidak bisa dibatalkan.";
+  document.getElementById("modalActions").innerHTML = actions;
+  document.getElementById("modalOverlay").style.display = "flex";
+}
+
+function executeHapusDataKeuangan() {
+  var pwInput = document.getElementById("hapusKeuanganPw");
+  var pw = pwInput.value.trim();
+
+  if (!pw) {
+    showModal("warning", "Password Kosong", "Masukkan password kelas untuk verifikasi.");
+    return;
+  }
+
+  db.ref("kelas/" + kelasIdAktif).once("value").then(function(snap) {
+    if (!snap.exists()) {
+      showModal("error", "Kelas Tidak Ditemukan", "Data kelas tidak ditemukan di server.");
+      return;
+    }
+
+    var data = snap.val();
+    if (data.password !== pw) {
+      showModal("error", "Password Salah", "Password yang Anda masukkan salah.");
+      return;
+    }
+
+    showConfirmModal(
+      "Konfirmasi Terakhir",
+      "Yakin ingin menghapus seluruh data keuangan (kas & riwayat) kelas \"" + kelasAktif + "\"? Akun kelas tetap aktif dan bisa dipakai lagi di Absensi maupun Keuangan.",
+      function() {
+        var updates = {};
+        updates["kas/" + kelasIdAktif] = null;
+        updates["keuangan/" + kelasIdAktif] = null;
+
+        db.ref().update(updates)
+          .then(function() {
+            showModal("success", "Data Dihapus", "Data keuangan kelas berhasil dihapus permanen.");
+            setTimeout(function() {
+              kembaliKeLogin();
+            }, 1500);
+          })
+          .catch(function(err) {
+            showModal("error", "Gagal Hapus", err.message);
+          });
+      }
+    );
+  }).catch(function(err) {
+    showModal("error", "Gagal", err.message);
+  });
+}
+
+document.addEventListener("click", function(e) {
+  if (!e.target.closest(".custom-select")) {
+    closeDropdowns();
+  }
+});
+
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
+</script>
+</body>
+</html>

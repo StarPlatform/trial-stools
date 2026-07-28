@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Inggris - Star Tools</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+
+  body.dark {
+    background: #0B1120;
+    color: #F1F5F9;
+  }
+
+  body.dark .card-modern,
+  body.dark .app-header,
+  body.dark .sidebar-nav,
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  body.dark .materi-btn {
+    background: #1E293B;
+    border-color: #334155;
+    color: #E2E8F0;
+  }
+
+  body.dark .materi-btn.opened {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .box.benar {
+    background: #0F2A1A;
+    border-left-color: #34D399;
+    color: #86EFAC;
+  }
+
+  body.dark .box.salah {
+    background: #2A0F0F;
+    border-left-color: #F87171;
+    color: #FCA5A5;
+  }
+
+  .app-container {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #F1F5F9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  body.dark .app-container {
+    background: #0B1120;
+  }
+
+  .app-header {
+    background: #FFFFFF;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  body.dark .app-header {
+    background: #111827;
+    border-bottom-color: #1E293B;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-icon {
+    width: 40px;
+    height: 40px;
+    background: #F8FAFE;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .menu-icon {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .menu-icon svg {
+    stroke: #0F172A;
+  }
+
+  body.dark .menu-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .app-title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+  }
+
+  .sidebar-overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sidebar-nav {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 101;
+    transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    padding: 70px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-nav.active {
+    left: 0;
+  }
+
+  .sidebar-nav a {
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #0F172A;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  body.dark .sidebar-nav a {
+    color: #F1F5F9;
+  }
+
+  .sidebar-nav a:active {
+    background: #DBEAFE;
+  }
+
+  body.dark .sidebar-nav a:active {
+    background: #1E293B;
+  }
+
+  .logout-link {
+    margin-top: 20px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 16px;
+  }
+
+  body.dark .logout-link {
+    border-top-color: #334155;
+  }
+
+  .logout-link a {
+    color: #DC2626 !important;
+  }
+
+  .logout-link a svg {
+    stroke: #DC2626;
+  }
+
+  .close-sidebar-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+  }
+
+  .screen {
+    padding: 20px 18px 30px;
+    flex: 1;
+  }
+
+  .card-modern {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #E2E8F0;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .grid-bagian {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .materi-btn {
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    padding: 12px 6px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    color: #0F172A;
+    transition: 0.2s;
+  }
+
+  .materi-btn:active {
+    transform: scale(0.96);
+  }
+
+  .materi-btn.opened {
+    background: #2563EB;
+    color: white;
+    border-color: #2563EB;
+  }
+
+  .btn-full {
+    background: #2563EB;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 44px;
+    font-size: 15px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .btn-full:active {
+    transform: scale(0.97);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid #2563EB;
+    color: #2563EB;
+    padding: 12px;
+    border-radius: 44px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .nav-buttons button {
+    flex: 1;
+  }
+
+  .materi-content {
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  .materi-content h3 {
+    font-size: 18px;
+    margin: 16px 0 8px 0;
+    color: #2563EB;
+  }
+
+  body.dark .materi-content h3 {
+    color: #60A5FA;
+  }
+
+  .materi-content .box {
+    padding: 10px 12px;
+    margin: 6px 0;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    border-left: 5px solid;
+  }
+
+  .materi-content .benar {
+    background: #E8F8EE;
+    border-left-color: #2ECC71;
+    color: #1E7A3B;
+  }
+
+  .materi-content .salah {
+    background: #FDEAEA;
+    border-left-color: #E74C3C;
+    color: #A3261B;
+  }
+
+  .footer-app {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  body.dark .footer-app {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+  }
+
+  .alert-card {
+    background: #FFFFFF;
+    width: 300px;
+    border-radius: 32px;
+    padding: 24px 22px;
+    text-align: center;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .progress-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0 0 0;
+    font-size: 13px;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  body.dark .progress-stats {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
+  .progress-stats .stat {
+    font-weight: 600;
+    color: #2563EB;
+  }
+
+  body.dark .progress-stats .stat {
+    color: #60A5FA;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="menu-icon" onclick="openSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <span class="app-title">Star Tools • Inggris</span>
+    </div>
+    <button class="close-btn" onclick="goTo('bahasa.html')" aria-label="Kembali ke Beranda">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="close-sidebar-icon" onclick="closeSidebar()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <a href="#" onclick="goTo('index.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
+    </a>
+    <a href="#" onclick="goTo('berita.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
+    </a>
+    <a href="#" onclick="goTo('premium.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
+    </a>
+    <a href="#" onclick="goTo('akun.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
+    </a>
+    <div class="logout-link">
+      <a href="#" onclick="logoutAction()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.7"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Keluar
+      </a>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div id="halamanUtama">
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14z"/>
+            <path d="M9 7h6"/>
+            <path d="M9 11h6"/>
+          </svg>
+          Belajar Bahasa Inggris
+        </div>
+        <p style="margin-bottom: 16px;">Pelajari tata bahasa Inggris dari dasar hingga mahir. Semua materi tersedia gratis tanpa batas.</p>
+        
+        <div class="progress-stats">
+          <span>Progress Belajar</span>
+          <span><span class="stat" id="progressCount">0</span> / <span id="totalCount">50</span> materi</span>
+        </div>
+      </div>
+
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+          Daftar Materi (1-50)
+        </div>
+        <div id="listBagianGrid" class="grid-bagian"></div>
+      </div>
+    </div>
+
+    <div id="materiView" class="hidden">
+      <div class="card-modern">
+        <div class="section-title" id="judulMateriView">Materi Inggris</div>
+        <div id="isiMateriDetail" class="materi-content"></div>
+        <div class="nav-buttons">
+          <button class="btn-outline" id="prevBtn">Sebelumnya</button>
+          <button class="btn-full" id="nextBtn">Selanjutnya</button>
+        </div>
+        <button class="btn-outline" id="backToListBtn" style="margin-top: 12px;">Kembali ke Daftar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-app">
+    <p>Star Platform | Star Tools 2026</p>
+  </div>
+</div>
+
+<div id="globalAlert" class="alert-overlay">
+  <div class="alert-card">
+    <p id="alertMessage" style="margin-bottom: 20px;">Pemberitahuan</p>
+    <button class="btn-full" onclick="closeAlertGlobal()">Mengerti</button>
+    <div id="alertExtraBtn"></div>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.database();
+
+let currentUser = null;
+let openedIndexes = [];
+let currentMateriIdx = 0;
+
+// ======================== KEY LOCALSTORAGE ========================
+const STORAGE_KEY = 'inggrisProgress';
+
+// ======================== 50 MATERI BAHASA INGGRIS =======================
+const materiList = [
+  {
+    judul: "Bagian 1 - Simple Present Tense",
+    konten: '<h3>Pengertian</h3><p>Simple Present Tense adalah tense yang digunakan untuk menyatakan kebiasaan atau fakta.</p><h3>Penjelasan</h3><p>Menggunakan verb 1 dan ditambah s/es untuk he, she, it.</p><h3>Contoh</h3><div class="box benar">She eats every day.</div><div class="box salah">She eat every day.</div><h3>Kesimpulan</h3><p>Digunakan untuk aktivitas rutin dan fakta umum.</p>'
+  },
+  {
+    judul: "Bagian 2 - Simple Past Tense",
+    konten: '<h3>Pengertian</h3><p>Simple Past Tense digunakan untuk kejadian di masa lalu.</p><h3>Penjelasan</h3><p>Menggunakan verb 2 atau bentuk lampau.</p><h3>Contoh</h3><div class="box benar">I went to school yesterday.</div><div class="box salah">I go to school yesterday.</div><h3>Kesimpulan</h3><p>Digunakan untuk kejadian yang sudah terjadi.</p>'
+  },
+  {
+    judul: "Bagian 3 - Present Continuous Tense",
+    konten: '<h3>Pengertian</h3><p>Present Continuous Tense adalah kegiatan yang sedang berlangsung.</p><h3>Penjelasan</h3><p>to be (am/is/are) + verb ing.</p><h3>Contoh</h3><div class="box benar">She is studying now.</div><div class="box salah">She studying now.</div><h3>Kesimpulan</h3><p>Untuk aktivitas yang sedang terjadi saat ini.</p>'
+  },
+  {
+    judul: "Bagian 4 - Future Tense",
+    konten: '<h3>Pengertian</h3><p>Future Tense digunakan untuk masa depan.</p><h3>Penjelasan</h3><p>will + verb 1.</p><h3>Contoh</h3><div class="box benar">I will go tomorrow.</div><div class="box salah">I will went tomorrow.</div><h3>Kesimpulan</h3><p>Untuk rencana atau prediksi.</p>'
+  },
+  {
+    judul: "Bagian 5 - Noun",
+    konten: '<h3>Pengertian</h3><p>Noun adalah kata benda.</p><h3>Penjelasan</h3><p>Contoh: book, school, teacher.</p><h3>Contoh</h3><div class="box benar">I have a book.</div><div class="box salah">I have a read.</div><h3>Kesimpulan</h3><p>Noun digunakan untuk menyebut benda, orang, atau tempat.</p>'
+  },
+  {
+    judul: "Bagian 6 - Verb",
+    konten: '<h3>Pengertian</h3><p>Verb adalah kata kerja.</p><h3>Penjelasan</h3><p>Contoh: eat, run, study.</p><h3>Contoh</h3><div class="box benar">I run every morning.</div><div class="box salah">I running every morning.</div><h3>Kesimpulan</h3><p>Verb menunjukkan suatu tindakan.</p>'
+  },
+  {
+    judul: "Bagian 7 - Adjective",
+    konten: '<h3>Pengertian</h3><p>Adjective adalah kata sifat.</p><h3>Penjelasan</h3><p>Contoh: beautiful, tall, smart.</p><h3>Contoh</h3><div class="box benar">She is beautiful.</div><div class="box salah">She is beauty.</div><h3>Kesimpulan</h3><p>Adjective digunakan untuk mendeskripsikan noun.</p>'
+  },
+  {
+    judul: "Bagian 8 - Pronoun",
+    konten: '<h3>Pengertian</h3><p>Pronoun adalah kata ganti.</p><h3>Penjelasan</h3><p>Contoh: I, you, he, she, it, we, they.</p><h3>Contoh</h3><div class="box benar">She is my friend.</div><div class="box salah">Her is my friend.</div><h3>Kesimpulan</h3><p>Pronoun digunakan untuk mengganti noun.</p>'
+  },
+  {
+    judul: "Bagian 9 - Preposition",
+    konten: '<h3>Pengertian</h3><p>Preposition adalah kata depan.</p><h3>Penjelasan</h3><p>Contoh: in, on, at, under.</p><h3>Contoh</h3><div class="box benar">The book is on the table.</div><div class="box salah">The book is in the table.</div><h3>Kesimpulan</h3><p>Menunjukkan tempat atau waktu.</p>'
+  },
+  {
+    judul: "Bagian 10 - Conjunction",
+    konten: '<h3>Pengertian</h3><p>Conjunction adalah kata penghubung.</p><h3>Penjelasan</h3><p>Contoh: and, but, because.</p><h3>Contoh</h3><div class="box benar">I study because I want to pass.</div><div class="box salah">I study because want pass.</div><h3>Kesimpulan</h3><p>Menghubungkan kata atau kalimat.</p>'
+  },
+  {
+    judul: "Bagian 11 - Article",
+    konten: '<h3>Pengertian</h3><p>Article adalah kata sandang yang digunakan sebelum noun.</p><h3>Penjelasan</h3><p>Ada a, an, dan the.</p><h3>Contoh</h3><div class="box benar">I have a book.</div><div class="box salah">I have book.</div><h3>Kesimpulan</h3><p>Article membantu memperjelas noun.</p>'
+  },
+  {
+    judul: "Bagian 12 - Countable Noun",
+    konten: '<h3>Pengertian</h3><p>Countable noun adalah kata benda yang bisa dihitung.</p><h3>Penjelasan</h3><p>Bisa diberi angka seperti 1 apple, 2 apples.</p><h3>Contoh</h3><div class="box benar">I have two pens.</div><div class="box salah">I have two water.</div><h3>Kesimpulan</h3><p>Digunakan untuk benda yang bisa dihitung.</p>'
+  },
+  {
+    judul: "Bagian 13 - Uncountable Noun",
+    konten: '<h3>Pengertian</h3><p>Uncountable noun adalah kata benda yang tidak bisa dihitung.</p><h3>Penjelasan</h3><p>Contoh: water, milk, rice.</p><h3>Contoh</h3><div class="box benar">I drink water.</div><div class="box salah">I drink waters.</div><h3>Kesimpulan</h3><p>Tidak bisa diberi bentuk jamak.</p>'
+  },
+  {
+    judul: "Bagian 14 - Modal Verb",
+    konten: '<h3>Pengertian</h3><p>Modal verb adalah kata bantu dalam kalimat.</p><h3>Penjelasan</h3><p>Contoh: can, must, should.</p><h3>Contoh</h3><div class="box benar">I can swim.</div><div class="box salah">I cans swim.</div><h3>Kesimpulan</h3><p>Modal verb membantu makna kalimat.</p>'
+  },
+  {
+    judul: "Bagian 15 - Adverb",
+    konten: '<h3>Pengertian</h3><p>Adverb adalah kata keterangan.</p><h3>Penjelasan</h3><p>Menerangkan verb, adjective, atau adverb lain.</p><h3>Contoh</h3><div class="box benar">He runs quickly.</div><div class="box salah">He runs quick.</div><h3>Kesimpulan</h3><p>Adverb menjelaskan cara, waktu, atau tempat.</p>'
+  },
+  {
+    judul: "Bagian 16 - Comparative Adjective",
+    konten: '<h3>Pengertian</h3><p>Comparative adjective digunakan untuk membandingkan dua hal.</p><h3>Penjelasan</h3><p>Biasanya ditambah -er atau more.</p><h3>Contoh</h3><div class="box benar">He is taller than me.</div><div class="box salah">He is more tall than me.</div><h3>Kesimpulan</h3><p>Digunakan untuk perbandingan.</p>'
+  },
+  {
+    judul: "Bagian 17 - Superlative Adjective",
+    konten: '<h3>Pengertian</h3><p>Superlative adjective digunakan untuk yang paling.</p><h3>Penjelasan</h3><p>Biasanya ditambah -est atau most.</p><h3>Contoh</h3><div class="box benar">He is the tallest in class.</div><div class="box salah">He is more tallest in class.</div><h3>Kesimpulan</h3><p>Untuk menyatakan tingkat paling tinggi.</p>'
+  },
+  {
+    judul: "Bagian 18 - Question Word",
+    konten: '<h3>Pengertian</h3><p>Question word adalah kata tanya.</p><h3>Penjelasan</h3><p>Contoh: what, where, when, why, who.</p><h3>Contoh</h3><div class="box benar">Where do you live?</div><div class="box salah">Where you live?</div><h3>Kesimpulan</h3><p>Digunakan untuk bertanya.</p>'
+  },
+  {
+    judul: "Bagian 19 - Imperative Sentence",
+    konten: '<h3>Pengertian</h3><p>Imperative sentence adalah kalimat perintah.</p><h3>Penjelasan</h3><p>Biasanya tanpa subject.</p><h3>Contoh</h3><div class="box benar">Close the door.</div><div class="box salah">You close the door now.</div><h3>Kesimpulan</h3><p>Digunakan untuk memberi perintah.</p>'
+  },
+  {
+    judul: "Bagian 20 - Gerund",
+    konten: '<h3>Pengertian</h3><p>Gerund adalah verb yang berubah menjadi noun dengan -ing.</p><h3>Penjelasan</h3><p>Contoh: swimming, reading, playing.</p><h3>Contoh</h3><div class="box benar">Swimming is fun.</div><div class="box salah">Swim is fun.</div><h3>Kesimpulan</h3><p>Gerund berfungsi sebagai kata benda.</p>'
+  },
+  {
+    judul: "Bagian 21 - Infinitive",
+    konten: '<h3>Pengertian</h3><p>Infinitive adalah bentuk dasar verb yang diawali "to".</p><h3>Penjelasan</h3><p>Contoh: to eat, to go, to study.</p><h3>Contoh</h3><div class="box benar">I want to eat.</div><div class="box salah">I want eat.</div><h3>Kesimpulan</h3><p>Infinitive digunakan setelah kata kerja tertentu.</p>'
+  },
+  {
+    judul: "Bagian 22 - Auxiliary Verb",
+    konten: '<h3>Pengertian</h3><p>Auxiliary verb adalah kata kerja bantu.</p><h3>Penjelasan</h3><p>Contoh: do, does, did, is, am, are.</p><h3>Contoh</h3><div class="box benar">Do you like coffee?</div><div class="box salah">You like coffee?</div><h3>Kesimpulan</h3><p>Auxiliary membantu membentuk kalimat.</p>'
+  },
+  {
+    judul: "Bagian 23 - Passive Voice",
+    konten: '<h3>Pengertian</h3><p>Passive voice adalah kalimat pasif.</p><h3>Penjelasan</h3><p>Object menjadi subject.</p><h3>Contoh</h3><div class="box benar">The book is read by me.</div><div class="box salah">The book read by me.</div><h3>Kesimpulan</h3><p>Digunakan untuk fokus pada objek.</p>'
+  },
+  {
+    judul: "Bagian 24 - Active Voice",
+    konten: '<h3>Pengertian</h3><p>Active voice adalah kalimat aktif.</p><h3>Penjelasan</h3><p>Subject melakukan aksi.</p><h3>Contoh</h3><div class="box benar">I read a book.</div><div class="box salah">I am read a book.</div><h3>Kesimpulan</h3><p>Digunakan untuk kalimat langsung.</p>'
+  },
+  {
+    judul: "Bagian 25 - Present Perfect Tense",
+    konten: '<h3>Pengertian</h3><p>Present Perfect Tense digunakan untuk kejadian yang sudah terjadi dan masih relevan.</p><h3>Penjelasan</h3><p>Menggunakan have/has + verb 3.</p><h3>Contoh</h3><div class="box benar">I have finished my homework.</div><div class="box salah">I have finish my homework.</div><h3>Kesimpulan</h3><p>Digunakan untuk pengalaman atau hasil.</p>'
+  },
+  {
+    judul: "Bagian 26 - Past Continuous Tense",
+    konten: '<h3>Pengertian</h3><p>Past Continuous Tense digunakan untuk kejadian yang sedang berlangsung di masa lalu.</p><h3>Penjelasan</h3><p>was/were + verb ing.</p><h3>Contoh</h3><div class="box benar">I was sleeping at 8 PM.</div><div class="box salah">I was sleep at 8 PM.</div><h3>Kesimpulan</h3><p>Menjelaskan aktivitas yang sedang terjadi di masa lalu.</p>'
+  },
+  {
+    judul: "Bagian 27 - Future Continuous Tense",
+    konten: '<h3>Pengertian</h3><p>Future Continuous Tense adalah kegiatan yang akan sedang berlangsung.</p><h3>Penjelasan</h3><p>will be + verb ing.</p><h3>Contoh</h3><div class="box benar">I will be studying tomorrow.</div><div class="box salah">I will studying tomorrow.</div><h3>Kesimpulan</h3><p>Untuk aktivitas yang akan berlangsung.</p>'
+  },
+  {
+    judul: "Bagian 28 - There is / There are",
+    konten: '<h3>Pengertian</h3><p>There is / There are digunakan untuk menyatakan keberadaan.</p><h3>Penjelasan</h3><p>There is untuk tunggal, there are untuk jamak.</p><h3>Contoh</h3><div class="box benar">There are two books.</div><div class="box salah">There is two books.</div><h3>Kesimpulan</h3><p>Digunakan untuk menyatakan ada sesuatu.</p>'
+  },
+  {
+    judul: "Bagian 29 - Possessive Adjective",
+    konten: '<h3>Pengertian</h3><p>Possessive adjective menunjukkan kepemilikan.</p><h3>Penjelasan</h3><p>Contoh: my, your, his, her, our, their.</p><h3>Contoh</h3><div class="box benar">This is my bag.</div><div class="box salah">This is me bag.</div><h3>Kesimpulan</h3><p>Digunakan untuk menunjukkan milik.</p>'
+  },
+  {
+    judul: "Bagian 30 - Degrees of Comparison",
+    konten: '<h3>Pengertian</h3><p>Degrees of comparison adalah tingkat perbandingan.</p><h3>Penjelasan</h3><p>Positive, comparative, superlative.</p><h3>Contoh</h3><div class="box benar">She is smarter than me.</div><div class="box salah">She is more smarter than me.</div><h3>Kesimpulan</h3><p>Digunakan untuk membandingkan sesuatu.</p>'
+  },
+  {
+    judul: "Bagian 31 - Direct Speech",
+    konten: '<h3>Pengertian</h3><p>Direct speech adalah kalimat langsung yang mengutip perkataan seseorang.</p><h3>Penjelasan</h3><p>Biasanya memakai tanda kutip.</p><h3>Contoh</h3><div class="box benar">He said, "I am happy."</div><div class="box salah">He said I am happy.</div><h3>Kesimpulan</h3><p>Digunakan untuk menyampaikan ucapan langsung.</p>'
+  },
+  {
+    judul: "Bagian 32 - Indirect Speech",
+    konten: '<h3>Pengertian</h3><p>Indirect speech adalah kalimat tidak langsung.</p><h3>Penjelasan</h3><p>Tidak memakai tanda kutip.</p><h3>Contoh</h3><div class="box benar">He said that he was happy.</div><div class="box salah">He said "I am happy".</div><h3>Kesimpulan</h3><p>Digunakan untuk menyampaikan ulang ucapan.</p>'
+  },
+  {
+    judul: "Bagian 33 - Relative Pronoun",
+    konten: '<h3>Pengertian</h3><p>Relative pronoun adalah kata penghubung dalam kalimat.</p><h3>Penjelasan</h3><p>Contoh: who, which, that.</p><h3>Contoh</h3><div class="box benar">The man who came is my teacher.</div><div class="box salah">The man which came is my teacher.</div><h3>Kesimpulan</h3><p>Menghubungkan dua kalimat.</p>'
+  },
+  {
+    judul: "Bagian 34 - Preposition of Time",
+    konten: '<h3>Pengertian</h3><p>Preposition of time adalah kata depan waktu.</p><h3>Penjelasan</h3><p>Contoh: in, on, at.</p><h3>Contoh</h3><div class="box benar">I study at night.</div><div class="box salah">I study in night.</div><h3>Kesimpulan</h3><p>Menunjukkan waktu kejadian.</p>'
+  },
+  {
+    judul: "Bagian 35 - Preposition of Place",
+    konten: '<h3>Pengertian</h3><p>Preposition of place adalah kata depan tempat.</p><h3>Penjelasan</h3><p>Contoh: in, on, under.</p><h3>Contoh</h3><div class="box benar">The cat is under the table.</div><div class="box salah">The cat is under table the.</div><h3>Kesimpulan</h3><p>Menunjukkan posisi sesuatu.</p>'
+  },
+  {
+    judul: "Bagian 36 - Wh-Question",
+    konten: '<h3>Pengertian</h3><p>Wh-question adalah pertanyaan menggunakan kata tanya.</p><h3>Penjelasan</h3><p>What, where, when, why, who.</p><h3>Contoh</h3><div class="box benar">What is your name?</div><div class="box salah">What your name?</div><h3>Kesimpulan</h3><p>Digunakan untuk bertanya detail.</p>'
+  },
+  {
+    judul: "Bagian 37 - Yes/No Question",
+    konten: '<h3>Pengertian</h3><p>Yes/No question adalah pertanyaan jawaban ya atau tidak.</p><h3>Penjelasan</h3><p>Menggunakan auxiliary verb di awal.</p><h3>Contoh</h3><div class="box benar">Do you like pizza?</div><div class="box salah">You like pizza?</div><h3>Kesimpulan</h3><p>Jawabannya ya atau tidak.</p>'
+  },
+  {
+    judul: "Bagian 38 - Gerund after Preposition",
+    konten: '<h3>Pengertian</h3><p>Gerund after preposition adalah verb + ing setelah preposition.</p><h3>Penjelasan</h3><p>Contoh: interested in, good at.</p><h3>Contoh</h3><div class="box benar">I am good at swimming.</div><div class="box salah">I am good at swim.</div><h3>Kesimpulan</h3><p>Verb setelah preposition jadi -ing.</p>'
+  },
+  {
+    judul: "Bagian 39 - Conditional Sentence Type 1",
+    konten: '<h3>Pengertian</h3><p>Conditional sentence type 1 adalah kemungkinan di masa depan.</p><h3>Penjelasan</h3><p>If + present, will + verb.</p><h3>Contoh</h3><div class="box benar">If it rains, I will stay home.</div><div class="box salah">If it will rain, I stay home.</div><h3>Kesimpulan</h3><p>Untuk kondisi yang mungkin terjadi.</p>'
+  },
+  {
+    judul: "Bagian 40 - Comparative Adverb",
+    konten: '<h3>Pengertian</h3><p>Comparative adverb digunakan untuk membandingkan cara melakukan sesuatu.</p><h3>Penjelasan</h3><p>Biasanya ditambah more atau -er.</p><h3>Contoh</h3><div class="box benar">She runs faster than me.</div><div class="box salah">She runs more fast than me.</div><h3>Kesimpulan</h3><p>Digunakan untuk membandingkan tindakan.</p>'
+  },
+  {
+    judul: "Bagian 41 - Past Perfect Tense",
+    konten: '<h3>Pengertian</h3><p>Past Perfect Tense digunakan untuk kejadian yang sudah selesai sebelum kejadian lain di masa lalu.</p><h3>Penjelasan</h3><p>Menggunakan had + verb 3.</p><h3>Contoh</h3><div class="box benar">I had eaten before he came.</div><div class="box salah">I have eaten before he came.</div><h3>Kesimpulan</h3><p>Digunakan untuk menunjukkan urutan kejadian di masa lalu.</p>'
+  },
+  {
+    judul: "Bagian 42 - Past Perfect Continuous Tense",
+    konten: '<h3>Pengertian</h3><p>Past Perfect Continuous Tense digunakan untuk aktivitas yang sudah berlangsung sebelum masa lalu.</p><h3>Penjelasan</h3><p>Menggunakan had been + verb ing.</p><h3>Contoh</h3><div class="box benar">I had been studying for 2 hours.</div><div class="box salah">I had study for 2 hours.</div><h3>Kesimpulan</h3><p>Menjelaskan durasi sebelum kejadian lain di masa lalu.</p>'
+  },
+  {
+    judul: "Bagian 43 - Future Perfect Tense",
+    konten: '<h3>Pengertian</h3><p>Future Perfect Tense digunakan untuk kejadian yang akan selesai di masa depan.</p><h3>Penjelasan</h3><p>Menggunakan will have + verb 3.</p><h3>Contoh</h3><div class="box benar">I will have finished by tomorrow.</div><div class="box salah">I will finish have by tomorrow.</div><h3>Kesimpulan</h3><p>Menunjukkan sesuatu yang selesai di masa depan.</p>'
+  },
+  {
+    judul: "Bagian 44 - Future Perfect Continuous Tense",
+    konten: '<h3>Pengertian</h3><p>Future Perfect Continuous Tense digunakan untuk durasi sampai masa depan.</p><h3>Penjelasan</h3><p>Menggunakan will have been + verb ing.</p><h3>Contoh</h3><div class="box benar">I will have been working for 5 hours.</div><div class="box salah">I will have working for 5 hours.</div><h3>Kesimpulan</h3><p>Menjelaskan durasi sampai waktu tertentu di masa depan.</p>'
+  },
+  {
+    judul: "Bagian 45 - Reported Speech",
+    konten: '<h3>Pengertian</h3><p>Reported speech perubahan waktu dan kata dalam kalimat tidak langsung.</p><h3>Penjelasan</h3><p>Perubahan tense dari direct ke indirect.</p><h3>Contoh</h3><div class="box benar">He said he was tired.</div><div class="box salah">He said I am tired.</div><h3>Kesimpulan</h3><p>Digunakan untuk melaporkan ucapan orang lain.</p>'
+  },
+  {
+    judul: "Bagian 46 - Causative Verb",
+    konten: '<h3>Pengertian</h3><p>Causative verb digunakan untuk menyuruh orang lain melakukan sesuatu.</p><h3>Penjelasan</h3><p>Contoh: have, get.</p><h3>Contoh</h3><div class="box benar">I had my hair cut.</div><div class="box salah">I cut my hair by someone.</div><h3>Kesimpulan</h3><p>Menunjukkan seseorang melakukan sesuatu untuk kita.</p>'
+  },
+  {
+    judul: "Bagian 47 - Gerund vs Infinitive",
+    konten: '<h3>Pengertian</h3><p>Gerund vs Infinitive adalah perbedaan bentuk verb.</p><h3>Penjelasan</h3><p>Gerund (-ing), Infinitive (to + verb).</p><h3>Contoh</h3><div class="box benar">I like swimming.</div><div class="box salah">I like to swimming.</div><h3>Kesimpulan</h3><p>Beberapa verb mengikuti aturan berbeda.</p>'
+  },
+  {
+    judul: "Bagian 48 - Suggestion",
+    konten: '<h3>Pengertian</h3><p>Suggestion adalah ungkapan saran.</p><h3>Penjelasan</h3><p>Contoh: should, let\'s, why don\'t.</p><h3>Contoh</h3><div class="box benar">You should study more.</div><div class="box salah">You must study more now.</div><h3>Kesimpulan</h3><p>Digunakan untuk memberi saran.</p>'
+  },
+  {
+    judul: "Bagian 49 - Offering",
+    konten: '<h3>Pengertian</h3><p>Offering adalah ungkapan menawarkan sesuatu.</p><h3>Penjelasan</h3><p>Contoh: would you like, can I help.</p><h3>Contoh</h3><div class="box benar">Would you like some tea?</div><div class="box salah">You want tea now?</div><h3>Kesimpulan</h3><p>Digunakan untuk menawarkan bantuan atau barang.</p>'
+  },
+  {
+    judul: "Bagian 50 - Agreement and Disagreement",
+    konten: '<h3>Pengertian</h3><p>Agreement and disagreement adalah cara setuju atau tidak setuju.</p><h3>Penjelasan</h3><p>Contoh: I agree, I disagree.</p><h3>Contoh</h3><div class="box benar">I agree with you.</div><div class="box salah">I am agree you.</div><h3>Kesimpulan</h3><p>Digunakan untuk menyatakan pendapat.</p>'
+  }
+];
+
+// ======================== PROGRESS LOCALSTORAGE ========================
+function loadProgress() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    openedIndexes = JSON.parse(saved);
+  } else {
+    openedIndexes = [];
+  }
+}
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(openedIndexes));
+}
+
+function getProgressCount() {
+  return openedIndexes.length;
+}
+
+function isOpened(index) {
+  return openedIndexes.includes(index);
+}
+
+function markAsOpened(index) {
+  if (!openedIndexes.includes(index)) {
+    openedIndexes.push(index);
+    saveProgress();
+    updateProgressUI();
+  }
+}
+
+// ======================== UI FUNCTIONS ========================
+function renderBagian() {
+  const container = document.getElementById('listBagianGrid');
+  if (!container) return;
+  container.innerHTML = '';
+  
+  for (let i = 0; i < materiList.length; i++) {
+    const btn = document.createElement('div');
+    btn.className = 'materi-btn';
+    btn.innerText = 'Bagian ' + (i + 1);
+    
+    if (isOpened(i)) {
+      btn.classList.add('opened');
+    }
+    
+    btn.onclick = (function(idx) {
+      return function() { openMateri(idx); };
+    })(i);
+    
+    container.appendChild(btn);
+  }
+  
+  updateProgressUI();
+}
+
+function updateProgressUI() {
+  const count = getProgressCount();
+  const total = materiList.length;
+  document.getElementById('progressCount').innerText = count;
+  document.getElementById('totalCount').innerText = total;
+}
+
+function openMateri(index) {
+  currentMateriIdx = index;
+  markAsOpened(index);
+  renderBagian();
+  
+  document.getElementById('halamanUtama').classList.add('hidden');
+  document.getElementById('materiView').classList.remove('hidden');
+  
+  document.getElementById('judulMateriView').innerHTML = materiList[index].judul;
+  document.getElementById('isiMateriDetail').innerHTML = materiList[index].konten;
+}
+
+function nextMateri() {
+  if (currentMateriIdx + 1 < materiList.length) {
+    openMateri(currentMateriIdx + 1);
+  } else {
+    showAlert('Anda telah mencapai materi terakhir dalam daftar.');
+  }
+}
+
+function prevMateri() {
+  if (currentMateriIdx - 1 >= 0) {
+    openMateri(currentMateriIdx - 1);
+  } else {
+    showAlert('Ini adalah materi pertama.');
+  }
+}
+
+function backToList() {
+  document.getElementById('materiView').classList.add('hidden');
+  document.getElementById('halamanUtama').classList.remove('hidden');
+  renderBagian();
+}
+
+function balikKeBahasa() {
+  window.location.href = 'bahasa.html';
+}
+
+function goTo(page) {
+  window.location.href = page;
+}
+
+function openSidebar() {
+  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('sidebarNav').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('sidebarNav').classList.remove('active');
+}
+
+function closeAlertGlobal() {
+  document.getElementById('globalAlert').style.display = 'none';
+}
+
+function showAlert(message) {
+  const overlay = document.getElementById('globalAlert');
+  document.getElementById('alertMessage').innerText = message;
+  overlay.style.display = 'flex';
+}
+
+function logoutAction() {
+  firebase.auth().signOut().then(function() {
+    window.location.href = 'login.html';
+  });
+}
+
+document.getElementById('prevBtn').onclick = prevMateri;
+document.getElementById('nextBtn').onclick = nextMateri;
+document.getElementById('backToListBtn').onclick = backToList;
+
+if (localStorage.getItem('themeEkonomi') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (!user) {
+    const isGuest = localStorage.getItem('isGuest') === 'true';
+    if (!isGuest) {
+      window.location.href = 'login.html';
+    }
+  }
+});
+
+window.addEventListener('DOMContentLoaded', function() {
+  loadProgress();
+  renderBagian();
+});
+
+window.openSidebar = openSidebar;
+window.closeSidebar = closeSidebar;
+window.goTo = goTo;
+window.logoutAction = logoutAction;
+window.closeAlertGlobal = closeAlertGlobal;
+</script>
+
+</body>
+</html>

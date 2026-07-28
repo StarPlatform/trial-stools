@@ -637,6 +637,27 @@
     width: 16px;
     height: 16px;
   }
+
+  .feature-btn .badge-new {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #DC2626;
+    color: white;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+  }
+
+  @media (max-width: 400px) {
+    .grid-3 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 </style>
 </head>
 <body>
@@ -763,9 +784,15 @@
             </svg>
             <span>Keuangan Digital</span>
           </div>
-          <div class="feature-btn" onclick="goTo('nita.html')">
-            <svg viewBox="0 0 24 24" class="nita"><rect x="2" y="6" width="20" height="12"/><path d="M2 6l10 7 10-7"/></svg>
-            <span>Nita AI Asisten</span>
+          <div class="feature-btn" onclick="goTo('kelas.html')" style="position:relative;">
+            <svg viewBox="0 0 24 24" class="tugas">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span>Tugas Digital</span>
+            <span class="badge-new">NEW</span>
           </div>
         </div>
       </div>
@@ -807,9 +834,21 @@
           Fitur Pendukung
         </div>
         <div class="grid-3" id="allFeatureGrid"></div>
-      </div>
-    </div>
 
+        <div class="category-label" style="margin-top:3px;"></div>
+        <div class="grid-3">
+          <div class="feature-btn" onclick="goTo('kelas.html')" style="position:relative;">       <svg viewBox="0 0 24 24" class="tugas">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span>Tugas Digital</span>
+            <span class="badge-new">NEW</span>
+          </div>
+        </div>
+    </div>
+   </div>
   </div>
 
   <!-- FOOTER -->

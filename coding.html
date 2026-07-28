@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Coding - Star Tools</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+
+  /* Dark mode support */
+  body.dark {
+    background: #0B1120;
+    color: #F1F5F9;
+  }
+
+  body.dark .card-modern,
+  body.dark .app-header,
+  body.dark .sidebar-nav,
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  body.dark .btn-materi {
+    background: #1E293B;
+    border-color: #334155;
+    color: #E2E8F0;
+  }
+
+  body.dark .input-modern {
+    background: #1E293B;
+    border-color: #334155;
+    color: white;
+  }
+
+  body.dark .app-container {
+    background: #0B1120;
+  }
+
+  /* App container */
+  .app-container {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #F1F5F9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Header */
+  .app-header {
+    background: #FFFFFF;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  body.dark .app-header {
+    background: #111827;
+    border-bottom-color: #1E293B;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-icon {
+    width: 40px;
+    height: 40px;
+    background: #F8FAFE;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .menu-icon {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .menu-icon svg {
+    stroke: #0F172A;
+  }
+
+  body.dark .menu-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .app-title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Sidebar */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+  }
+
+  .sidebar-overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sidebar-nav {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 101;
+    transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    padding: 70px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-nav.active {
+    left: 0;
+  }
+
+  .sidebar-nav a {
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #0F172A;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  body.dark .sidebar-nav a {
+    color: #F1F5F9;
+  }
+
+  .sidebar-nav a:active {
+    background: #DBEAFE;
+  }
+
+  body.dark .sidebar-nav a:active {
+    background: #1E293B;
+  }
+
+  /* Logout khusus merah */
+  .logout-link {
+    margin-top: 20px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 16px;
+  }
+
+  body.dark .logout-link {
+    border-top-color: #334155;
+  }
+
+  .logout-link a {
+    color: #DC2626 !important;
+  }
+
+  .logout-link a svg {
+    stroke: #DC2626;
+  }
+
+  .close-sidebar-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+  }
+
+  .screen {
+    padding: 20px 18px 30px;
+    flex: 1;
+    animation: fadeSlide 0.25s ease;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(6px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+
+  .card-modern {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+    border: 1px solid #E2E8F0;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .premium-indicator {
+    background: #DBEAFE;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563EB;
+  }
+
+  body.dark .premium-indicator {
+    background: #1E293B;
+    color: #60A5FA;
+  }
+
+  .premium-indicator.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  .limit-indicator {
+    background: #F1F5F9;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  body.dark .limit-indicator {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  .grid-materi {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .btn-materi {
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    padding: 16px 20px;
+    border-radius: 24px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    transition: 0.2s;
+    cursor: pointer;
+    color: #0F172A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  body.dark .btn-materi {
+    background: #1E293B;
+    border-color: #334155;
+    color: #E2E8F0;
+  }
+
+  .btn-materi:active {
+    transform: scale(0.97);
+    background: #DBEAFE;
+  }
+
+  body.dark .btn-materi:active {
+    background: #334155;
+  }
+
+  .btn-materi.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-materi.disabled:active {
+    transform: none;
+  }
+
+  .btn-full {
+    background: #2563EB;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 44px;
+    font-size: 15px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-full:active {
+    transform: scale(0.97);
+    background: #1D4ED8;
+  }
+
+  .input-modern {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 60px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  body.dark .input-modern {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+  }
+
+  .alert-card {
+    background: #FFFFFF;
+    width: 300px;
+    border-radius: 32px;
+    padding: 24px 22px;
+    text-align: center;
+    animation: scaleIn 0.2s ease;
+    border: 1px solid #E2E8F0;
+  }
+
+  @keyframes scaleIn {
+    from { transform: scale(0.94); opacity: 0;}
+    to { transform: scale(1); opacity: 1;}
+  }
+
+  .footer-app {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  body.dark .footer-app {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
+  .text-muted {
+    color: #64748B;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  body.dark .text-muted {
+    color: #94A3B8;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+.close-btn {
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+  border: none;
+}
+
+body.dark .close-btn {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.close-btn:active {
+  transform: scale(0.92);
+}
+
+.close-btn svg {
+  stroke: #0F172A;
+  width: 22px;
+  height: 22px;
+}
+
+body.dark .close-btn svg {
+  stroke: #F1F5F9;
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="menu-icon" onclick="openSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <span class="app-title">Star Tools • Coding</span>
+    </div>
+  <button class="close-btn" onclick="goTo('index.html')" aria-label="Kembali ke Beranda">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="close-sidebar-icon" onclick="closeSidebar()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <a href="#" onclick="goTo('homePage')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
+    </a>
+    <a href="#" onclick="goTo('newsPage')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
+    </a>
+    <a href="#" onclick="goTo('premiumPage')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
+    </a>
+    <a href="#" onclick="goTo('accountPage')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
+    </a>
+    <div class="logout-link">
+      <a href="#" onclick="logoutAction()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.7"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Keluar
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Screen -->
+  <div class="screen" id="mainScreen">
+    <!-- Welcome Section tanpa nama akun -->
+    <div id="welcomeSection">
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+          Belajar Coding
+        </div>
+        <p style="margin-bottom: 16px;">Pelajari pemrograman dari dasar hingga mahir dengan materi terstruktur untuk Python, JavaScript, dan HTML & CSS.</p>
+        
+        <!-- Status Premium dan Limit dalam satu baris -->
+        <div class="status-row">
+          <span id="premiumStatusBadge" class="premium-indicator">Akun Standar</span>
+          <span id="limitCounter" class="limit-indicator">0/2 Hari Ini</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panduan Aplikasi -->
+    <div class="card-modern" id="caraPakaiCard">
+      <div class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 16v-4M12 8h.01"/>
+        </svg>
+        Panduan Aplikasi
+      </div>
+      <ul class="text-muted">
+        <li>Pilih materi pemrograman yang ingin dipelajari: Python, JavaScript, atau HTML & CSS.</li>
+        <li>Setiap materi memiliki bagian-bagian yang disusun secara bertahap dari dasar hingga mahir.</li>
+        <li>Akun standar dapat membuka maksimal 2 bagian materi per hari di setiap bahasa pemrograman.</li>
+        <li>Dengan akses premium, Anda dapat membuka seluruh materi tanpa batasan harian.</li>
+        <li>Materi akan terbuka setelah memilih bahasa dan bagian yang diinginkan.</li>
+      </ul>
+    </div>
+
+    <!-- Aktivasi Premium -->
+    <div class="card-modern">
+      <div class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        Aktivasi Premium
+      </div>
+      <input type="text" id="premiumCodeInput" class="input-modern" placeholder="Masukkan kode premium" autocomplete="off">
+      <button class="btn-full" onclick="activatePremium()">Aktifkan Akses Premium</button>
+    </div>
+
+    <!-- Pilih Materi Coding -->
+    <div class="card-modern" id="pilihMateriCard">
+      <div class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        Pilih Materi Pemrograman
+      </div>
+      <div class="grid-materi">
+        <button class="btn-materi" onclick="selectMateri('python')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+          Python
+        </button>
+        <button class="btn-materi" onclick="selectMateri('javascript')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+          JavaScript
+        </button>
+        <button class="btn-materi" onclick="selectMateri('htmlcss')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+          HTML &amp; CSS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-app">
+    <p>Star Platform | Star Tools 2026</p>
+  </div>
+</div>
+
+<!-- Alert Modal -->
+<div id="globalAlert" class="alert-overlay">
+  <div class="alert-card">
+    <p id="alertMessage" style="margin-bottom: 20px; font-weight: 500;">Pemberitahuan</p>
+    <button class="btn-full" onclick="closeAlertGlobal()">Mengerti</button>
+    <div id="alertExtraBtn"></div>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+  storageBucket: "laporanstartools-c18b2.firebasestorage.app",
+  messagingSenderId: "596585220522",
+  appId: "1:596585220522:web:d61e13c60daff6daca43d3"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.database();
+
+// Global Variables
+let currentUser = null;
+let isPremium = false;
+let premiumExpiry = null;
+let premiumMapel = null;
+
+// Daily limit per language
+let pythonOpened = [];
+let jsOpened = [];
+let htmlOpened = [];
+let pythonLimit = 0;
+let jsLimit = 0;
+let htmlLimit = 0;
+const todayStr = new Date().toDateString();
+
+// Load data from localStorage
+function loadLocalProgress() {
+  const storedDate = localStorage.getItem('codingDate');
+  if (storedDate === todayStr) {
+    pythonLimit = parseInt(localStorage.getItem('pythonLimit') || '0');
+    jsLimit = parseInt(localStorage.getItem('jsLimit') || '0');
+    htmlLimit = parseInt(localStorage.getItem('htmlLimit') || '0');
+    pythonOpened = JSON.parse(localStorage.getItem('pythonOpened') || '[]');
+    jsOpened = JSON.parse(localStorage.getItem('jsOpened') || '[]');
+    htmlOpened = JSON.parse(localStorage.getItem('htmlOpened') || '[]');
+  } else {
+    pythonLimit = 0;
+    jsLimit = 0;
+    htmlLimit = 0;
+    pythonOpened = [];
+    jsOpened = [];
+    htmlOpened = [];
+    localStorage.setItem('codingDate', todayStr);
+    localStorage.setItem('pythonLimit', '0');
+    localStorage.setItem('jsLimit', '0');
+    localStorage.setItem('htmlLimit', '0');
+    localStorage.setItem('pythonOpened', '[]');
+    localStorage.setItem('jsOpened', '[]');
+    localStorage.setItem('htmlOpened', '[]');
+  }
+}
+
+function saveLocalProgress() {
+  localStorage.setItem('pythonLimit', pythonLimit);
+  localStorage.setItem('jsLimit', jsLimit);
+  localStorage.setItem('htmlLimit', htmlLimit);
+  localStorage.setItem('pythonOpened', JSON.stringify(pythonOpened));
+  localStorage.setItem('jsOpened', JSON.stringify(jsOpened));
+  localStorage.setItem('htmlOpened', JSON.stringify(htmlOpened));
+}
+
+// Update UI berdasarkan status premium
+function updateUI() {
+  const badge = document.getElementById('premiumStatusBadge');
+  const limitCounter = document.getElementById('limitCounter');
+  
+  if (isPremium && premiumExpiry) {
+    const now = Date.now();
+    if (now > premiumExpiry) {
+      // Premium habis - langsung matikan
+      isPremium = false;
+      premiumExpiry = null;
+      premiumMapel = null;
+      badge.innerText = 'Premium Habis';
+      badge.className = 'premium-indicator warning';
+      limitCounter.innerText = '0/2 Hari Ini';
+      // Update di database
+      if (currentUser) {
+        db.ref(`users/${currentUser.uid}/premium/coding`).set(false);
+        db.ref(`users/${currentUser.uid}/premium/coding_expiry`).remove();
+      }
+      return;
+    }
+    
+    const sisaHari = Math.ceil((premiumExpiry - now) / (1000 * 60 * 60 * 24));
+    badge.innerText = 'Premium (' + sisaHari + ' hari)';
+    badge.className = 'premium-indicator active';
+    limitCounter.innerText = 'Tak Terbatas';
+  } else if (isPremium) {
+    // Premium tanpa expiry (harusnya gak terjadi, tapi jaga-jaga)
+    badge.innerText = 'Premium Coding';
+    badge.className = 'premium-indicator active';
+    limitCounter.innerText = 'Tak Terbatas';
+  } else {
+    badge.innerText = 'Akun Standar';
+    badge.className = 'premium-indicator';
+    const maxLimit = Math.max(pythonLimit, jsLimit, htmlLimit);
+    limitCounter.innerText = maxLimit + '/2 Hari Ini';
+  }
+}
+
+// Auth & Premium Check
+firebase.auth().onAuthStateChanged(async (user) => {
+  if (!user) {
+    currentUser = null;
+    isPremium = false;
+    premiumExpiry = null;
+    premiumMapel = null;
+    updateUI();
+    return;
+  }
+  
+  currentUser = user;
+  
+  try {
+    // Cek premium coding - PAKAI ONCE BIAR FRESH
+    const premSnap = await db.ref('users/' + user.uid + '/premium/coding').once('value');
+    const expirySnap = await db.ref('users/' + user.uid + '/premium/coding_expiry').once('value');
+    
+    isPremium = premSnap.val() === true;
+    premiumExpiry = expirySnap.val() || null;
+    
+    // Cek expiry
+    if (isPremium && premiumExpiry) {
+      const now = Date.now();
+      if (now > premiumExpiry) {
+        // Premium habis
+        isPremium = false;
+        premiumExpiry = null;
+        await db.ref('users/' + user.uid + '/premium/coding').set(false);
+        await db.ref('users/' + user.uid + '/premium/coding_expiry').remove();
+      }
+    } else if (isPremium && !premiumExpiry) {
+      // Premium tanpa expiry - kasih default 30 hari
+      const newExpiry = Date.now() + (30 * 24 * 60 * 60 * 1000);
+      await db.ref('users/' + user.uid + '/premium/coding_expiry').set(newExpiry);
+      premiumExpiry = newExpiry;
+    }
+    
+    // Load progress
+    const progressSnap = await db.ref('users/' + user.uid + '/progress/coding').once('value');
+    if (progressSnap.val()) {
+      const prog = progressSnap.val();
+      pythonOpened = prog.python || [];
+      jsOpened = prog.javascript || [];
+      htmlOpened = prog.htmlcss || [];
+      pythonLimit = prog.limits?.python || 0;
+      jsLimit = prog.limits?.javascript || 0;
+      htmlLimit = prog.limits?.htmlcss || 0;
+      saveLocalProgress();
+    } else {
+      loadLocalProgress();
+    }
+    
+    updateUI();
+    
+  } catch (error) {
+    console.error('Error loading data:', error);
+    // Fallback ke localStorage
+    loadLocalProgress();
+    updateUI();
+  }
+});
+
+// Theme dari localStorage
+if (localStorage.getItem('themeEkonomi') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+// Sidebar functions
+function openSidebar() {
+  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('sidebarNav').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('sidebarNav').classList.remove('active');
+}
+
+function goTo(page) {
+  localStorage.setItem('targetPage', page);
+  localStorage.setItem('activePage', page);
+  window.location.href = 'index.html';
+}
+
+function logoutAction() {
+  firebase.auth().signOut().then(() => {
+    window.location.reload();
+  });
+}
+
+// Alert functions
+function showAlert(message, showUpgrade) {
+  if (showUpgrade === undefined) showUpgrade = false;
+  const overlay = document.getElementById('globalAlert');
+  document.getElementById('alertMessage').innerText = message;
+  const extraDiv = document.getElementById('alertExtraBtn');
+  extraDiv.innerHTML = '';
+  
+  if (showUpgrade) {
+    const upgradeBtn = document.createElement('button');
+    upgradeBtn.className = 'btn-full';
+    upgradeBtn.innerText = 'Tingkatkan ke Premium';
+    upgradeBtn.style.marginTop = '12px';
+    upgradeBtn.onclick = function() {
+      closeAlertGlobal();
+      goTo('premiumPage');
+    };
+    extraDiv.appendChild(upgradeBtn);
+  }
+  
+  overlay.style.display = 'flex';
+}
+
+function closeAlertGlobal() {
+  document.getElementById('globalAlert').style.display = 'none';
+}
+
+// Pilih materi
+async function selectMateri(language) {
+  if (!currentUser) {
+    showAlert('Silakan masuk ke akun Anda terlebih dahulu untuk mengakses materi.', false);
+    return;
+  }
+  
+  const isGuest = localStorage.getItem('isGuest');
+  if (isGuest === 'true') {
+    localStorage.setItem('redirectAfterLogin', language + '.html');
+    showAlert('Silakan login terlebih dahulu untuk mengakses materi pembelajaran.', true);
+    return;
+  }
+  
+  // Refresh cek premium dulu
+  const premSnap = await db.ref('users/' + currentUser.uid + '/premium/coding').once('value');
+  const expirySnap = await db.ref('users/' + currentUser.uid + '/premium/coding_expiry').once('value');
+  
+  isPremium = premSnap.val() === true;
+  premiumExpiry = expirySnap.val() || null;
+  
+  // Cek apakah premium masih aktif
+  if (isPremium && premiumExpiry) {
+    const now = Date.now();
+    if (now > premiumExpiry) {
+      isPremium = false;
+      premiumExpiry = null;
+      await db.ref('users/' + currentUser.uid + '/premium/coding').set(false);
+      await db.ref('users/' + currentUser.uid + '/premium/coding_expiry').remove();
+      updateUI();
+      showAlert('Masa premium Anda telah berakhir. Silakan perpanjang untuk mengakses materi.', true);
+      return;
+    }
+  }
+  
+  localStorage.setItem('premiumCoding', isPremium);
+  localStorage.setItem('allowCodingAccess', 'true');
+  
+  var targetPage = '';
+  switch(language) {
+    case 'python':
+      targetPage = 'python.html';
+      break;
+    case 'javascript':
+      targetPage = 'javascript.html';
+      break;
+    case 'htmlcss':
+      targetPage = 'css.html';
+      break;
+    default:
+      targetPage = 'coding.html';
+  }
+  
+  window.location.href = targetPage;
+}
+
+// Aktivasi Premium dengan kode - KHUSUS CODING
+async function activatePremium() {
+  if (!currentUser) {
+    showAlert('Silakan login terlebih dahulu untuk mengaktifkan premium.', false);
+    return;
+  }
+  
+  var kodeInput = document.getElementById('premiumCodeInput');
+  var kode = kodeInput.value.trim().toUpperCase();
+  if (!kode) {
+    showAlert('Masukkan kode premium terlebih dahulu.', false);
+    return;
+  }
+  
+  // Cari kode di premiumCodes
+  var snap = await db.ref('premiumCodes').once('value');
+  var found = false;
+  var mapel = '';
+  var data = {};
+  
+  snap.forEach(function(mapelSnap) {
+    mapelSnap.forEach(function(codeSnap) {
+      if (codeSnap.key === kode) {
+        found = true;
+        mapel = mapelSnap.key;
+        data = codeSnap.val();
+      }
+    });
+  });
+  
+  if (!found) {
+    showAlert('Kode premium tidak valid.', false);
+    return;
+  }
+  
+  // CEK: Kode harus untuk CODING atau ALL
+  if (mapel !== 'coding' && mapel !== 'all' && mapel !== 'allpremium') {
+    showAlert('Kode ini untuk mapel "' + mapel + '", bukan untuk Coding.\n\nSilakan gunakan di halaman yang sesuai.', false);
+    return;
+  }
+  
+  // Cek apakah kode masih aktif
+  if (data.aktif === false) {
+    showAlert('Kode sudah pernah digunakan.', false);
+    return;
+  }
+  
+  // Cek apakah kode kadaluarsa (dihitung dari dibuat_pada + masa_aktif_hari)
+  var expired = data.dibuat_pada + (data.masa_aktif_hari * 24 * 60 * 60 * 1000);
+  if (Date.now() > expired) {
+    showAlert('Kode sudah kadaluarsa.', false);
+    return;
+  }
+  
+  // HITUNG TANGGAL AKTIF SAMPAI (dari SEKARANG + masa_aktif_hari)
+  var aktifSampai = Date.now() + (data.masa_aktif_hari * 24 * 60 * 60 * 1000);
+  
+  // Update data user - KHUSUS CODING
+  var updates = {};
+  updates['users/' + currentUser.uid + '/premium/coding'] = true;
+  updates['users/' + currentUser.uid + '/premium/coding_expiry'] = aktifSampai;
+  
+  // Tandai kode sudah dipakai
+  updates['premiumCodes/' + mapel + '/' + kode] = {
+    aktif: false,
+    dibuat_pada: data.dibuat_pada,
+    masa_aktif_hari: data.masa_aktif_hari,
+    digunakan_oleh: currentUser.uid,
+    digunakan_pada: Date.now()
+  };
+  
+  await db.ref().update(updates);
+  
+  // Update variable lokal
+  isPremium = true;
+  premiumExpiry = aktifSampai;
+  
+  // Update UI
+  updateUI();
+  
+  // Tampilkan pesan sukses
+  var hari = data.masa_aktif_hari;
+  var labelMapel = {
+    ekonomi: 'Ekonomi',
+    sains: 'Sains',
+    coding: 'Coding',
+    all: 'All Premium',
+    allpremium: 'All Premium'
+  };
+  
+  showAlert(
+    'Premium Coding berhasil diaktifkan!\n\n' +
+    'Durasi: ' + hari + ' hari\n' +
+    'Aktif sampai: ' + new Date(aktifSampai).toLocaleDateString('id-ID') + '\n\n' +
+    'Selamat belajar!',
+    false
+  );
+  
+  kodeInput.value = '';
+}
+
+// Simpan fungsi ke global
+window.openSidebar = openSidebar;
+window.closeSidebar = closeSidebar;
+window.goTo = goTo;
+window.logoutAction = logoutAction;
+window.selectMateri = selectMateri;
+window.activatePremium = activatePremium;
+window.closeAlertGlobal = closeAlertGlobal;
+</script>
+</body>
+</html>

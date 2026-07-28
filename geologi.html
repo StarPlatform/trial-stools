@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Geologi - Star Tools</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+
+  body.dark {
+    background: #0B1120;
+    color: #F1F5F9;
+  }
+
+  body.dark .card-modern,
+  body.dark .app-header,
+  body.dark .sidebar-nav,
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  body.dark .materi-btn {
+    background: #1E293B;
+    border-color: #334155;
+    color: #E2E8F0;
+  }
+
+  body.dark .code-block {
+    background: #0F172A;
+    border-color: #334155;
+    color: #4fc3f7;
+  }
+
+  body.dark .premium-indicator {
+    background: #1E293B;
+    color: #60A5FA;
+  }
+
+  body.dark .premium-indicator.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .premium-indicator.warning {
+    background: #78350F;
+    color: #FBBF24;
+  }
+
+  body.dark .limit-indicator {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  .app-container {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #F1F5F9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  body.dark .app-container {
+    background: #0B1120;
+  }
+
+  .app-header {
+    background: #FFFFFF;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  body.dark .app-header {
+    background: #111827;
+    border-bottom-color: #1E293B;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-icon {
+    width: 40px;
+    height: 40px;
+    background: #F8FAFE;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .menu-icon {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .menu-icon svg {
+    stroke: #0F172A;
+  }
+
+  body.dark .menu-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .app-title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+  }
+
+  .sidebar-overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sidebar-nav {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 101;
+    transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    padding: 70px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-nav.active {
+    left: 0;
+  }
+
+  .sidebar-nav a {
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #0F172A;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  body.dark .sidebar-nav a {
+    color: #F1F5F9;
+  }
+
+  .sidebar-nav a:active {
+    background: #DBEAFE;
+  }
+
+  body.dark .sidebar-nav a:active {
+    background: #1E293B;
+  }
+
+  .logout-link {
+    margin-top: 20px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 16px;
+  }
+
+  body.dark .logout-link {
+    border-top-color: #334155;
+  }
+
+  .logout-link a {
+    color: #DC2626 !important;
+  }
+
+  .logout-link a svg {
+    stroke: #DC2626;
+  }
+
+  .close-sidebar-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
+  }
+
+  .screen {
+    padding: 20px 18px 30px;
+    flex: 1;
+  }
+
+  .card-modern {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #E2E8F0;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .premium-indicator {
+    background: #DBEAFE;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563EB;
+  }
+
+  .premium-indicator.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  .premium-indicator.warning {
+    background: #FEF3C7;
+    color: #D97706;
+  }
+
+  .limit-indicator {
+    background: #F1F5F9;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  .grid-bagian {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .materi-btn {
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    padding: 12px 6px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    color: #0F172A;
+    transition: 0.2s;
+  }
+
+  .materi-btn:active {
+    transform: scale(0.96);
+  }
+
+  .materi-btn.opened {
+    background: #2563EB;
+    color: white;
+    border-color: #2563EB;
+  }
+
+  .materi-btn.locked {
+    opacity: 0.5;
+  }
+
+  .btn-full {
+    background: #2563EB;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 44px;
+    font-size: 15px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .btn-full:active {
+    transform: scale(0.97);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid #2563EB;
+    color: #2563EB;
+    padding: 12px;
+    border-radius: 44px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .nav-buttons button {
+    flex: 1;
+  }
+
+  .materi-content {
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  .materi-content h4 {
+    font-size: 18px;
+    margin: 20px 0 10px 0;
+    color: #2563EB;
+    font-weight: 700;
+  }
+
+  body.dark .materi-content h4 {
+    color: #60A5FA;
+  }
+
+  .materi-content p {
+    margin-bottom: 12px;
+    color: #334155;
+  }
+
+  body.dark .materi-content p {
+    color: #CBD5E1;
+  }
+
+  .alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+  }
+
+  .alert-card {
+    background: #FFFFFF;
+    width: 300px;
+    border-radius: 32px;
+    padding: 24px 22px;
+    text-align: center;
+    border: 1px solid #E2E8F0;
+  }
+
+  .footer-app {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="menu-icon" onclick="openSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <span class="app-title">Star Tools • Geologi</span>
+    </div>
+    <button class="close-btn" onclick="goTo('sains.html')" aria-label="Kembali">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="close-sidebar-icon" onclick="closeSidebar()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <a href="#" onclick="goTo('index.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
+    </a>
+    <a href="#" onclick="goTo('berita.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
+    </a>
+    <a href="#" onclick="goTo('premium.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
+    </a>
+    <a href="#" onclick="goTo('akun.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
+    </a>
+    <div class="logout-link">
+      <a href="#" onclick="logoutAction()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.7"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Keluar
+      </a>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div id="halamanUtama">
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+          Belajar Geologi
+        </div>
+        <p style="margin-bottom: 16px;">Pelajari ilmu tentang bumi, struktur, komposisi, dan proses yang membentuk permukaan serta isi bumi secara lengkap.</p>
+        
+        <div class="status-row">
+          <span id="premiumStatusBadge" class="premium-indicator">Akun Standar</span>
+          <span id="limitCounter" class="limit-indicator">0/2 Hari Ini</span>
+        </div>
+      </div>
+
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+          Daftar Materi Geologi (1-50)
+        </div>
+        <div id="listBagianGrid" class="grid-bagian"></div>
+      </div>
+    </div>
+
+    <div id="materiView" class="hidden">
+      <div class="card-modern">
+        <div class="section-title" id="judulMateriView">Materi Geologi</div>
+        <div id="isiMateriDetail" class="materi-content"></div>
+        <div class="nav-buttons">
+          <button class="btn-outline" id="prevBtn">Sebelumnya</button>
+          <button class="btn-full" id="nextBtn">Selanjutnya</button>
+        </div>
+        <button class="btn-outline" id="backToListBtn" style="margin-top: 12px;">Kembali ke Daftar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-app">
+    <p>Star Platform | Star Tools 2026</p>
+  </div>
+</div>
+
+<div id="globalAlert" class="alert-overlay">
+  <div class="alert-card">
+    <p id="alertMessage" style="margin-bottom: 20px;">Pemberitahuan</p>
+    <button class="btn-full" onclick="closeAlertGlobal()">Mengerti</button>
+    <div id="alertExtraBtn"></div>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.database();
+
+let currentUser = null;
+let isPremium = false;
+let premiumExpiry = null;
+let openedIndexes = [];
+let todayLimit = 0;
+let currentMateriIdx = 0;
+
+const todayStr = new Date().toDateString();
+
+// ======================== 50 MATERI GEOLOGI ========================
+const materiList = [
+  {
+    judul: "Geologi 1 - Pengertian Geologi",
+    konten: '<h4>Pengertian</h4><p>Geologi adalah ilmu yang mempelajari bumi, termasuk struktur, komposisi, dan proses yang membentuk permukaan serta isi bumi.</p><h4>Penjelasan</h4><p>Bumi terdiri dari berbagai lapisan seperti kerak, mantel, dan inti. Geologi mempelajari batuan, mineral, gunung, gempa bumi, serta proses alam seperti erosi, vulkanisme, dan tektonik lempeng.</p><h4>Contoh</h4><p>Memahami tektonik lempeng membantu menjelaskan gempa bumi dan letusan gunung berapi. Batuan sedimen bisa memberi informasi tentang lingkungan kuno tempat terbentuknya.</p><h4>Kesimpulan</h4><p>Geologi membantu manusia memahami bumi, memprediksi bencana alam, dan membuat belajar sains lebih menarik karena bisa diamati langsung.</p>'
+  },
+  {
+    judul: "Geologi 2 - Batuan dan Mineral",
+    konten: '<h4>Pengertian</h4><p>Batuan adalah agregat mineral penyusun kerak bumi, sedangkan mineral adalah zat alami dengan komposisi kimia tertentu.</p><h4>Penjelasan</h4><p>Batuan terbagi menjadi beku, sedimen, dan metamorf. Mineral punya sifat fisik dan kimia khas seperti keras, warna, dan kilap. Penting untuk mengetahui sejarah bumi dan sumber daya alam.</p><h4>Contoh</h4><p>Granit terbentuk dari mineral kuarsa dan feldspar, batubara berasal dari sisa tumbuhan purba.</p><h4>Kesimpulan</h4><p>Memahami batuan dan mineral membantu manusia memanfaatkan sumber daya bumi dan memahami proses alam.</p>'
+  },
+  {
+    judul: "Geologi 3 - Proses Vulkanik",
+    konten: '<h4>Pengertian</h4><p>Proses vulkanik adalah aktivitas magma yang keluar ke permukaan bumi membentuk gunung berapi atau lava.</p><h4>Penjelasan</h4><p>Magma naik melalui retakan kerak bumi dan membentuk lava, abu, dan gas. Vulkanisme membentuk gunung berapi, kaldera, lava plateau, dan memengaruhi tanah serta ekosistem sekitar.</p><h4>Contoh</h4><p>Gunung Merapi sering meletus dengan lava dan abu vulkanik. Pulau baru juga bisa terbentuk akibat letusan bawah laut.</p><h4>Kesimpulan</h4><p>Memahami vulkanisme membantu manusia memprediksi letusan gunung berapi dan meminimalkan risiko bencana.</p>'
+  },
+  {
+    judul: "Geologi 4 - Gempa Bumi",
+    konten: '<h4>Pengertian</h4><p>Gempa bumi adalah getaran atau guncangan bumi akibat pergerakan lempeng tektonik atau aktivitas vulkanik.</p><h4>Penjelasan</h4><p>Gempa terjadi ketika energi di dalam bumi terlepas secara tiba-tiba, menghasilkan gelombang seismik yang merambat ke permukaan.</p><h4>Contoh</h4><p>Gempa Aceh 2004 memicu tsunami besar. Di Jepang, gempa terjadi hampir tiap tahun karena tektonik aktif.</p><h4>Kesimpulan</h4><p>Memahami gempa bumi penting untuk keselamatan manusia dan mitigasi bencana.</p>'
+  },
+  {
+    judul: "Geologi 5 - Erosi dan Pelapukan",
+    konten: '<h4>Pengertian</h4><p>Erosi adalah proses pengikisan permukaan bumi oleh air, angin, atau es, sedangkan pelapukan adalah perombakan batuan di tempatnya.</p><h4>Penjelasan</h4><p>Erosi memindahkan material dari satu tempat ke tempat lain. Pelapukan mengubah batuan menjadi tanah atau sedimen, membentuk lanskap bumi.</p><h4>Contoh</h4><p>Sungai membentuk lembah akibat erosi. Batu hancur menjadi pasir karena pelapukan.</p><h4>Kesimpulan</h4><p>Erosi dan pelapukan membantu manusia memahami perubahan alam dan menjaga lingkungan.</p>'
+  },
+  {
+    judul: "Geologi 6 - Tektonik Lempeng",
+    konten: '<h4>Pengertian</h4><p>Tektonik lempeng adalah pergerakan kerak bumi yang membentuk gunung, lembah, dan aktivitas geologi lain.</p><h4>Penjelasan</h4><p>Lempeng bumi bergerak saling menjauh, bertabrakan, atau bergeser. Aktivitas ini menyebabkan gempa, gunung berapi, dan pembentukan benua.</p><h4>Contoh</h4><p>Tabrakan lempeng membentuk Pegunungan Himalaya. Pergeseran lempeng menyebabkan gempa di Sumatera.</p><h4>Kesimpulan</h4><p>Memahami tektonik lempeng membantu memprediksi bencana alam dan mengerti sejarah bumi.</p>'
+  },
+  {
+    judul: "Geologi 7 - Fosil",
+    konten: '<h4>Pengertian</h4><p>Fosil adalah sisa atau jejak makhluk hidup yang telah membatu dan tersimpan di batuan.</p><h4>Penjelasan</h4><p>Fosil memberi informasi tentang makhluk hidup purba dan lingkungan tempat mereka hidup, berupa tulang, jejak kaki, atau cetakan daun.</p><h4>Contoh</h4><p>Fosil dinosaurus di Mongolia, fosil trilobita di Amerika Utara.</p><h4>Kesimpulan</h4><p>Fosil membantu manusia mempelajari kehidupan masa lalu dan evolusi bumi.</p>'
+  },
+  {
+    judul: "Geologi 8 - Mineral Ekonomis",
+    konten: '<h4>Pengertian</h4><p>Mineral ekonomis adalah mineral yang bisa dimanfaatkan untuk kepentingan manusia, misal industri atau energi.</p><h4>Penjelasan</h4><p>Contohnya termasuk emas, tembaga, batubara, dan batu bara. Penambangan mineral ini memengaruhi ekonomi dan industri.</p><h4>Contoh</h4><p>Emas digunakan untuk perhiasan dan investasi. Batubara untuk energi listrik.</p><h4>Kesimpulan</h4><p>Memahami mineral ekonomis membantu manusia memanfaatkan sumber daya alam dengan bijak.</p>'
+  },
+  {
+    judul: "Geologi 9 - Tanah dan Pembentukan Tanah",
+    konten: '<h4>Pengertian</h4><p>Tanah adalah lapisan bumi tempat tumbuhan tumbuh, terbentuk dari pelapukan batuan dan sisa makhluk hidup.</p><h4>Penjelasan</h4><p>Tanah terdiri dari mineral, bahan organik, air, dan udara. Kualitas tanah mempengaruhi pertanian dan ekosistem.</p><h4>Contoh</h4><p>Tanah vulkanik subur untuk pertanian, tanah pasir kurang cocok untuk tanaman tertentu.</p><h4>Kesimpulan</h4><p>Memahami tanah membantu manusia mengelola pertanian dan menjaga lingkungan.</p>'
+  },
+  {
+    judul: "Geologi 10 - Gunung dan Pegunungan",
+    konten: '<h4>Pengertian</h4><p>Gunung adalah bentuk permukaan bumi yang menonjol, sedangkan pegunungan adalah rangkaian gunung.</p><h4>Penjelasan</h4><p>Gunung terbentuk akibat vulkanisme atau tektonik lempeng. Pegunungan memengaruhi iklim, hidrologi, dan ekosistem sekitar.</p><h4>Contoh</h4><p>Pegunungan Alpen di Eropa terbentuk akibat tabrakan lempeng, Gunung Krakatau terbentuk dari vulkanisme.</p><h4>Kesimpulan</h4><p>Memahami gunung dan pegunungan membantu manusia mengerti pembentukan bumi dan mitigasi bencana alam.</p>'
+  },
+  {
+    judul: "Geologi 11 - Sungai dan Danau",
+    konten: '<h4>Pengertian</h4><p>Sungai adalah aliran air di permukaan bumi, sedangkan danau adalah genangan air yang dikelilingi daratan.</p><h4>Penjelasan</h4><p>Sungai membawa sedimen dari hulu ke hilir dan membentuk lembah. Danau bisa terbentuk karena tektonik, vulkanik, atau gletser.</p><h4>Contoh</h4><p>Sungai Amazon di Amerika Selatan adalah sungai terpanjang. Danau Toba di Sumatera terbentuk akibat letusan vulkanik.</p><h4>Kesimpulan</h4><p>Memahami sungai dan danau membantu manusia mengelola sumber daya air dan ekosistem.</p>'
+  },
+  {
+    judul: "Geologi 12 - Gletser",
+    konten: '<h4>Pengertian</h4><p>Gletser adalah massa es besar yang bergerak perlahan di permukaan bumi.</p><h4>Penjelasan</h4><p>Gletser terbentuk dari salju yang menumpuk dan memadat selama ribuan tahun. Gletser memengaruhi bentuk lanskap melalui erosi dan deposisi.</p><h4>Contoh</h4><p>Gletser Greenland di Kutub Utara dan Gletser Perito Moreno di Argentina.</p><h4>Kesimpulan</h4><p>Memahami gletser membantu manusia mempelajari perubahan iklim dan sejarah bumi.</p>'
+  },
+  {
+    judul: "Geologi 13 - Gunung Berapi Bawah Laut",
+    konten: '<h4>Pengertian</h4><p>Gunung berapi bawah laut adalah gunung berapi yang berada di dasar laut dan memuntahkan magma ke bawah air.</p><h4>Penjelasan</h4><p>Gunung berapi bawah laut bisa membentuk pulau baru dan memengaruhi ekosistem laut. Aktivitasnya berbeda karena tekanan air dan interaksi dengan air laut.</p><h4>Contoh</h4><p>Pulau Surtsey di Islandia terbentuk akibat letusan gunung berapi bawah laut.</p><h4>Kesimpulan</h4><p>Memahami gunung berapi bawah laut membantu manusia memprediksi pembentukan pulau baru dan bencana alam laut.</p>'
+  },
+  {
+    judul: "Geologi 14 - Lempeng Oseanik dan Benua",
+    konten: '<h4>Pengertian</h4><p>Lempeng oseanik adalah lempeng yang berada di dasar laut, sedangkan lempeng benua membentuk daratan.</p><h4>Penjelasan</h4><p>Lempeng bergerak saling bertabrakan, menjauh, atau bergeser, memengaruhi terbentuknya gunung, lembah, dan aktivitas geologi lain.</p><h4>Contoh</h4><p>Pertemuan lempeng Indo-Australia dengan Eurasia membentuk Pegunungan Himalaya. Lempeng Pasifik memicu aktivitas vulkanik di Indonesia.</p><h4>Kesimpulan</h4><p>Memahami lempeng benua dan oseanik membantu manusia mengerti geologi bumi dan mitigasi bencana.</p>'
+  },
+  {
+    judul: "Geologi 15 - Tsunami",
+    konten: '<h4>Pengertian</h4><p>Tsunami adalah gelombang laut besar yang terjadi akibat gempa bumi, letusan gunung berapi bawah laut, atau longsoran bawah laut.</p><h4>Penjelasan</h4><p>Tsunami terbentuk karena pergeseran dasar laut secara tiba-tiba, merambat ke pantai dengan energi besar yang bisa merusak lingkungan dan pemukiman.</p><h4>Contoh</h4><p>Tsunami Aceh 2004 disebabkan gempa bawah laut. Tsunami di Jepang 2011 akibat gempa besar.</p><h4>Kesimpulan</h4><p>Memahami tsunami membantu manusia menyelamatkan nyawa dan mempersiapkan mitigasi bencana.</p>'
+  },
+  {
+    judul: "Geologi 16 - Fosil dan Stratigrafi",
+    konten: '<h4>Pengertian</h4><p>Stratigrafi adalah ilmu yang mempelajari lapisan batuan dan fosil untuk memahami sejarah bumi.</p><h4>Penjelasan</h4><p>Dengan mempelajari lapisan batuan dan fosil, geolog bisa mengetahui usia batuan, perubahan lingkungan, dan evolusi makhluk hidup.</p><h4>Contoh</h4><p>Lapisan batuan di Grand Canyon menunjukkan urutan geologi selama jutaan tahun. Fosil trilobita membantu menentukan usia batuan Paleozoikum.</p><h4>Kesimpulan</h4><p>Memahami stratigrafi dan fosil membantu manusia menelusuri sejarah bumi dan evolusi kehidupan.</p>'
+  },
+  {
+    judul: "Geologi 17 - Gunung Api Strato dan Perisai",
+    konten: '<h4>Pengertian</h4><p>Gunung api strato memiliki lereng curam dan terbentuk dari lava dan abu, sedangkan gunung perisai lebih landai dan terbentuk dari lava cair.</p><h4>Penjelasan</h4><p>Strato biasanya meletus eksplosif, perisai meletus effusif. Keduanya membentuk lanskap bumi yang berbeda.</p><h4>Contoh</h4><p>Gunung Fuji di Jepang adalah gunung strato, Gunung Mauna Loa di Hawaii adalah gunung perisai.</p><h4>Kesimpulan</h4><p>Memahami tipe gunung api membantu manusia memprediksi letusan dan mitigasi bencana.</p>'
+  },
+  {
+    judul: "Geologi 18 - Batuan Sedimen",
+    konten: '<h4>Pengertian</h4><p>Batuan sedimen terbentuk dari pengendapan partikel mineral dan organik di permukaan bumi.</p><h4>Penjelasan</h4><p>Proses sedimen meliputi erosi, transportasi, deposisi, dan litifikasi. Batuan ini menyimpan informasi lingkungan purba.</p><h4>Contoh</h4><p>Batugamping, batupasir, dan batubara adalah batuan sedimen.</p><h4>Kesimpulan</h4><p>Memahami batuan sedimen membantu manusia mengetahui lingkungan purba dan sumber daya alam.</p>'
+  },
+  {
+    judul: "Geologi 19 - Batuan Metamorf",
+    konten: '<h4>Pengertian</h4><p>Batuan metamorf adalah batuan yang berubah bentuk akibat tekanan dan suhu tinggi tanpa meleleh.</p><h4>Penjelasan</h4><p>Batuan ini bisa terbentuk dari batuan sedimen atau beku, memiliki tekstur dan mineral baru yang khas.</p><h4>Contoh</h4><p>Batu sabak, marmer, dan gneiss adalah batuan metamorf.</p><h4>Kesimpulan</h4><p>Memahami batuan metamorf membantu manusia mengetahui proses geologi dan sejarah bumi.</p>'
+  },
+  {
+    judul: "Geologi 20 - Energi Geotermal",
+    konten: '<h4>Pengertian</h4><p>Energi geotermal adalah energi panas bumi yang bisa dimanfaatkan untuk pembangkit listrik atau pemanasan.</p><h4>Penjelasan</h4><p>Panas bumi berasal dari inti bumi dan aktivitas vulkanik. Energi ini bisa dimanfaatkan secara berkelanjutan jika dikelola baik.</p><h4>Contoh</h4><p>Pembangkit listrik di Gunung Salak dan Wayang Windu menggunakan energi geotermal.</p><h4>Kesimpulan</h4><p>Memahami energi geotermal membantu manusia memanfaatkan sumber daya alam secara berkelanjutan.</p>'
+  },
+  {
+    judul: "Geologi 21 - Ombak dan Pesisir",
+    konten: '<h4>Pengertian</h4><p>Ombak adalah gelombang air laut yang terbentuk oleh angin, sedangkan pesisir adalah wilayah pertemuan laut dan daratan.</p><h4>Penjelasan</h4><p>Ombak mengikis atau mengendapkan material di pesisir, membentuk pantai, teluk, dan delta sungai.</p><h4>Contoh</h4><p>Pantai Kuta di Bali terbentuk oleh interaksi ombak dan pasir, delta Sungai Mississippi terbentuk dari endapan sungai.</p><h4>Kesimpulan</h4><p>Memahami ombak dan pesisir membantu manusia mengelola pantai dan mitigasi erosi.</p>'
+  },
+  {
+    judul: "Geologi 22 - Tanah Vulkanik",
+    konten: '<h4>Pengertian</h4><p>Tanah vulkanik adalah tanah yang terbentuk dari abu dan lava gunung berapi yang meletus.</p><h4>Penjelasan</h4><p>Tanah vulkanik kaya mineral dan subur untuk pertanian. Proses terbentuknya memakan waktu lama dari letusan gunung berapi.</p><h4>Contoh</h4><p>Tanah di lereng Gunung Merapi dan Gunung Bromo digunakan untuk pertanian subur.</p><h4>Kesimpulan</h4><p>Memahami tanah vulkanik membantu manusia memanfaatkan lahan secara optimal.</p>'
+  },
+  {
+    judul: "Geologi 23 - Tsunami dan Dampaknya",
+    konten: '<h4>Pengertian</h4><p>Tsunami adalah gelombang laut besar akibat gempa bumi, letusan gunung berapi bawah laut, atau longsoran.</p><h4>Penjelasan</h4><p>Tsunami merambat cepat dan bisa menimbulkan kerusakan besar di pesisir. Memerlukan sistem peringatan dini untuk mengurangi korban.</p><h4>Contoh</h4><p>Tsunami Aceh 2004 dan tsunami Jepang 2011 menyebabkan kerusakan masif.</p><h4>Kesimpulan</h4><p>Memahami tsunami penting untuk mitigasi bencana dan keselamatan manusia.</p>'
+  },
+  {
+    judul: "Geologi 24 - Hotspot dan Pulau Vulkanik",
+    konten: '<h4>Pengertian</h4><p>Hotspot adalah titik panas di mantel bumi yang menghasilkan magma dan membentuk pulau vulkanik.</p><h4>Penjelasan</h4><p>Magma naik ke permukaan membentuk pulau baru, meski lempeng tektonik bergerak di atasnya.</p><h4>Contoh</h4><p>Hawaii terbentuk dari aktivitas hotspot di Samudra Pasifik.</p><h4>Kesimpulan</h4><p>Memahami hotspot membantu manusia mengerti pembentukan pulau dan vulkanisme.</p>'
+  },
+  {
+    judul: "Geologi 25 - Endapan Sedimen",
+    konten: '<h4>Pengertian</h4><p>Endapan sedimen adalah material batuan yang terangkut dan menumpuk di tempat baru oleh air, angin, atau es.</p><h4>Penjelasan</h4><p>Proses pengendapan membentuk batuan sedimen dan memengaruhi bentuk permukaan bumi.</p><h4>Contoh</h4><p>Delta Sungai Nil dan delta Sungai Mahakam terbentuk dari endapan sedimen.</p><h4>Kesimpulan</h4><p>Memahami endapan sedimen membantu manusia mengetahui perubahan lanskap dan sumber daya alam.</p>'
+  },
+  {
+    judul: "Geologi 26 - Pegunungan Lipatan dan Blok",
+    konten: '<h4>Pengertian</h4><p>Pegunungan lipatan terbentuk karena tekanan yang melipat batuan, sedangkan pegunungan blok terbentuk karena patahan dan naik-turunnya kerak bumi.</p><h4>Penjelasan</h4><p>Pegunungan lipatan umumnya curam dan panjang, pegunungan blok lebih pendek dan terpisah.</p><h4>Contoh</h4><p>Pegunungan Alpen adalah pegunungan lipatan, pegunungan Sierra Nevada adalah pegunungan blok.</p><h4>Kesimpulan</h4><p>Memahami tipe pegunungan membantu manusia mengerti pembentukan bumi dan mitigasi bencana.</p>'
+  },
+  {
+    judul: "Geologi 27 - Energi Panas Bumi",
+    konten: '<h4>Pengertian</h4><p>Energi panas bumi adalah panas yang tersimpan di dalam bumi dan bisa dimanfaatkan untuk listrik atau pemanasan.</p><h4>Penjelasan</h4><p>Panas bumi berasal dari inti bumi dan aktivitas vulkanik. Energi ini dapat dimanfaatkan secara berkelanjutan jika dikelola baik.</p><h4>Contoh</h4><p>Pembangkit listrik di Wayang Windu dan Gunung Salak memanfaatkan energi panas bumi.</p><h4>Kesimpulan</h4><p>Memahami energi panas bumi membantu manusia memanfaatkan sumber daya alam secara berkelanjutan.</p>'
+  },
+  {
+    judul: "Geologi 28 - Sungai dan Erosi",
+    konten: '<h4>Pengertian</h4><p>Sungai mengalir di permukaan bumi dan dapat mengikis tanah serta batuan, membentuk lembah dan delta.</p><h4>Penjelasan</h4><p>Air sungai membawa sedimen dan membentuk fitur geologi. Erosi sungai memengaruhi lanskap dan ekosistem sekitar.</p><h4>Contoh</h4><p>Sungai Nil membentuk delta subur, Sungai Colorado membentuk Grand Canyon melalui erosi.</p><h4>Kesimpulan</h4><p>Memahami sungai dan erosi membantu manusia mengelola sumber daya air dan lanskap.</p>'
+  },
+  {
+    judul: "Geologi 29 - Tebing dan Karst",
+    konten: '<h4>Pengertian</h4><p>Tebing adalah permukaan bumi yang menonjol curam, sedangkan karst adalah lanskap berbatu kapur dengan gua dan stalaktit.</p><h4>Penjelasan</h4><p>Karst terbentuk akibat pelarutan batu kapur oleh air hujan. Tebing terbentuk dari erosi atau patahan batuan.</p><h4>Contoh</h4><p>Tebing Marmer di Italia dan Gua Batu Caves di Malaysia adalah lanskap karst.</p><h4>Kesimpulan</h4><p>Memahami tebing dan karst membantu manusia mengetahui proses alam dan pengelolaan lingkungan.</p>'
+  },
+  {
+    judul: "Geologi 30 - Pergerakan Tanah dan Longsor",
+    konten: '<h4>Pengertian</h4><p>Pergerakan tanah adalah perpindahan massa tanah akibat gravitasi, curah hujan, atau erosi.</p><h4>Penjelasan</h4><p>Longsor terjadi ketika tanah kehilangan kestabilan, bisa membahayakan pemukiman dan infrastruktur.</p><h4>Contoh</h4><p>Longsor di Banjarnegara dan Garut sering terjadi akibat hujan deras.</p><h4>Kesimpulan</h4><p>Memahami pergerakan tanah membantu manusia memprediksi bencana dan menjaga keselamatan.</p>'
+  },
+  {
+    judul: "Geologi 31 - Struktur Lapisan Bumi",
+    konten: '<h4>Pengertian</h4><p>Lapisan bumi terdiri dari kerak, mantel, dan inti yang memiliki sifat dan komposisi berbeda.</p><h4>Penjelasan</h4><p>Kerak adalah lapisan terluar, mantel berada di bawahnya dengan material semi cair, dan inti terdiri dari logam panas yang sangat padat.</p><h4>Contoh</h4><p>Kerak bumi tempat manusia hidup, mantel menyebabkan pergerakan lempeng, inti menghasilkan medan magnet bumi.</p><h4>Kesimpulan</h4><p>Memahami lapisan bumi membantu manusia mengetahui struktur dalam bumi dan proses geologi.</p>'
+  },
+  {
+    judul: "Geologi 32 - Mineral Logam",
+    konten: '<h4>Pengertian</h4><p>Mineral logam adalah mineral yang mengandung unsur logam dan dapat dimanfaatkan untuk industri.</p><h4>Penjelasan</h4><p>Mineral ini biasanya ditambang dan diolah menjadi bahan baku seperti besi, tembaga, dan aluminium.</p><h4>Contoh</h4><p>Bijih besi untuk baja, bauksit untuk aluminium, tembaga untuk kabel listrik.</p><h4>Kesimpulan</h4><p>Memahami mineral logam membantu manusia memanfaatkan sumber daya alam untuk kebutuhan industri.</p>'
+  },
+  {
+    judul: "Geologi 33 - Mineral Non Logam",
+    konten: '<h4>Pengertian</h4><p>Mineral non logam adalah mineral yang tidak mengandung logam dan digunakan untuk kebutuhan lain.</p><h4>Penjelasan</h4><p>Mineral ini biasanya digunakan dalam industri bangunan, keramik, dan kaca.</p><h4>Contoh</h4><p>Pasir untuk kaca, batu kapur untuk semen, gipsum untuk plester.</p><h4>Kesimpulan</h4><p>Memahami mineral non logam membantu manusia memenuhi kebutuhan pembangunan.</p>'
+  },
+  {
+    judul: "Geologi 34 - Siklus Batuan",
+    konten: '<h4>Pengertian</h4><p>Siklus batuan adalah proses perubahan batuan dari satu jenis ke jenis lain secara terus menerus.</p><h4>Penjelasan</h4><p>Batuan beku bisa menjadi sedimen, lalu berubah menjadi metamorf, kemudian kembali menjadi magma.</p><h4>Contoh</h4><p>Lava mendingin menjadi batuan beku, batuan hancur menjadi sedimen, lalu berubah jadi batuan metamorf.</p><h4>Kesimpulan</h4><p>Memahami siklus batuan membantu manusia mengetahui perubahan bumi dari waktu ke waktu.</p>'
+  },
+  {
+    judul: "Geologi 35 - Lapisan Tanah",
+    konten: '<h4>Pengertian</h4><p>Lapisan tanah adalah susunan tanah dari permukaan hingga ke dalam yang memiliki karakteristik berbeda.</p><h4>Penjelasan</h4><p>Terdiri dari lapisan humus, topsoil, subsoil, dan batuan induk yang memengaruhi kesuburan tanah.</p><h4>Contoh</h4><p>Lapisan humus kaya bahan organik, subsoil lebih keras dan sedikit unsur hara.</p><h4>Kesimpulan</h4><p>Memahami lapisan tanah membantu manusia dalam pertanian dan pengelolaan lahan.</p>'
+  },
+  {
+    judul: "Geologi 36 - Air Tanah",
+    konten: '<h4>Pengertian</h4><p>Air tanah adalah air yang tersimpan di bawah permukaan bumi dalam pori-pori tanah atau batuan.</p><h4>Penjelasan</h4><p>Air ini berasal dari air hujan yang meresap ke dalam tanah dan menjadi sumber air bagi manusia.</p><h4>Contoh</h4><p>Sumur gali dan sumur bor memanfaatkan air tanah.</p><h4>Kesimpulan</h4><p>Memahami air tanah membantu manusia menjaga sumber air bersih.</p>'
+  },
+  {
+    judul: "Geologi 37 - Karakteristik Gunung Api",
+    konten: '<h4>Pengertian</h4><p>Gunung api memiliki karakteristik berbeda tergantung jenis magma dan aktivitasnya.</p><h4>Penjelasan</h4><p>Ada gunung api aktif, tidur, dan mati yang dibedakan berdasarkan aktivitas letusannya.</p><h4>Contoh</h4><p>Gunung Merapi aktif, Gunung Lawu termasuk tidur.</p><h4>Kesimpulan</h4><p>Memahami karakteristik gunung api membantu mitigasi bencana.</p>'
+  },
+  {
+    judul: "Geologi 38 - Zona Subduksi",
+    konten: '<h4>Pengertian</h4><p>Zona subduksi adalah daerah pertemuan lempeng di mana satu lempeng masuk ke bawah lempeng lain.</p><h4>Penjelasan</h4><p>Proses ini menghasilkan gempa bumi, gunung berapi, dan palung laut.</p><h4>Contoh</h4><p>Zona subduksi di Indonesia menyebabkan banyak gunung api aktif.</p><h4>Kesimpulan</h4><p>Memahami zona subduksi penting untuk mitigasi bencana geologi.</p>'
+  },
+  {
+    judul: "Geologi 39 - Dataran Tinggi dan Rendah",
+    konten: '<h4>Pengertian</h4><p>Dataran tinggi adalah wilayah yang berada di ketinggian, sedangkan dataran rendah berada di dekat permukaan laut.</p><h4>Penjelasan</h4><p>Keduanya terbentuk dari proses geologi seperti erosi, sedimentasi, dan tektonik.</p><h4>Contoh</h4><p>Dataran tinggi Dieng dan dataran rendah pantai utara Jawa.</p><h4>Kesimpulan</h4><p>Memahami dataran membantu manusia dalam perencanaan wilayah.</p>'
+  },
+  {
+    judul: "Geologi 40 - Cuaca dan Iklim dalam Geologi",
+    konten: '<h4>Pengertian</h4><p>Cuaca adalah kondisi atmosfer jangka pendek, sedangkan iklim adalah kondisi rata-rata dalam jangka panjang.</p><h4>Penjelasan</h4><p>Cuaca dan iklim memengaruhi proses geologi seperti pelapukan, erosi, dan pembentukan tanah.</p><h4>Contoh</h4><p>Curah hujan tinggi mempercepat erosi, iklim kering membentuk gurun.</p><h4>Kesimpulan</h4><p>Memahami cuaca dan iklim membantu manusia memahami perubahan lingkungan dan geologi.</p>'
+  },
+  {
+    judul: "Geologi 41 - Gurun dan Pembentukannya",
+    konten: '<h4>Pengertian</h4><p>Gurun adalah wilayah kering dengan curah hujan sangat rendah dan sedikit vegetasi.</p><h4>Penjelasan</h4><p>Gurun terbentuk akibat iklim kering, bayangan hujan, atau jarak dari sumber air. Angin menjadi faktor utama dalam membentuk lanskap gurun.</p><h4>Contoh</h4><p>Gurun Sahara di Afrika dan Gurun Gobi di Asia.</p><h4>Kesimpulan</h4><p>Memahami gurun membantu manusia mengetahui kondisi ekstrem dan adaptasi lingkungan.</p>'
+  },
+  {
+    judul: "Geologi 42 - Delta Sungai",
+    konten: '<h4>Pengertian</h4><p>Delta adalah endapan material yang terbentuk di muara sungai saat aliran air melambat.</p><h4>Penjelasan</h4><p>Material seperti pasir dan lumpur mengendap membentuk daratan baru yang subur.</p><h4>Contoh</h4><p>Delta Sungai Nil dan Delta Mahakam di Indonesia.</p><h4>Kesimpulan</h4><p>Memahami delta membantu manusia dalam pertanian dan pengelolaan wilayah pesisir.</p>'
+  },
+  {
+    judul: "Geologi 43 - Palung Laut",
+    konten: '<h4>Pengertian</h4><p>Palung laut adalah bagian terdalam di dasar laut yang terbentuk akibat aktivitas tektonik.</p><h4>Penjelasan</h4><p>Palung terbentuk di zona subduksi ketika satu lempeng masuk ke bawah lempeng lain.</p><h4>Contoh</h4><p>Palung Mariana adalah palung terdalam di dunia.</p><h4>Kesimpulan</h4><p>Memahami palung laut membantu manusia mengetahui struktur bumi di bawah laut.</p>'
+  },
+  {
+    judul: "Geologi 44 - Gempa Vulkanik",
+    konten: '<h4>Pengertian</h4><p>Gempa vulkanik adalah gempa yang disebabkan oleh aktivitas magma di dalam gunung berapi.</p><h4>Penjelasan</h4><p>Terjadi sebelum atau saat letusan gunung api akibat tekanan magma yang naik ke permukaan.</p><h4>Contoh</h4><p>Gempa vulkanik sering terjadi di Gunung Merapi sebelum erupsi.</p><h4>Kesimpulan</h4><p>Memahami gempa vulkanik membantu mitigasi bencana gunung berapi.</p>'
+  },
+  {
+    judul: "Geologi 45 - Sumber Daya Alam",
+    konten: '<h4>Pengertian</h4><p>Sumber daya alam adalah segala sesuatu yang berasal dari bumi dan dapat dimanfaatkan manusia.</p><h4>Penjelasan</h4><p>Sumber daya alam meliputi mineral, air, tanah, dan energi yang terbentuk melalui proses geologi.</p><h4>Contoh</h4><p>Minyak bumi, gas alam, emas, dan batu bara.</p><h4>Kesimpulan</h4><p>Memahami sumber daya alam membantu manusia memanfaatkannya secara bijak dan berkelanjutan.</p>'
+  },
+  {
+    judul: "Geologi 46 - Lava dan Magma",
+    konten: '<h4>Pengertian</h4><p>Magma adalah batuan cair di dalam bumi, sedangkan lava adalah magma yang keluar ke permukaan.</p><h4>Penjelasan</h4><p>Magma memiliki suhu sangat tinggi dan mengandung gas. Saat keluar menjadi lava, bisa membentuk batuan beku.</p><h4>Contoh</h4><p>Lava yang keluar saat letusan Gunung Krakatau dan Gunung Etna.</p><h4>Kesimpulan</h4><p>Memahami magma dan lava membantu manusia mengetahui proses vulkanik.</p>'
+  },
+  {
+    judul: "Geologi 47 - Retakan dan Patahan",
+    konten: '<h4>Pengertian</h4><p>Patahan adalah retakan pada kerak bumi yang disertai pergeseran batuan.</p><h4>Penjelasan</h4><p>Patahan terjadi akibat tekanan dari pergerakan lempeng tektonik dan bisa menyebabkan gempa.</p><h4>Contoh</h4><p>Patahan San Andreas di Amerika Serikat dan patahan di Sumatera.</p><h4>Kesimpulan</h4><p>Memahami patahan membantu manusia mengantisipasi gempa bumi.</p>'
+  },
+  {
+    judul: "Geologi 48 - Gunung Api Aktif dan Tidak Aktif",
+    konten: '<h4>Pengertian</h4><p>Gunung api aktif adalah gunung yang masih sering meletus, sedangkan tidak aktif jarang atau tidak pernah meletus lagi.</p><h4>Penjelasan</h4><p>Gunung api diklasifikasikan berdasarkan aktivitasnya, yang memengaruhi tingkat bahaya bagi manusia.</p><h4>Contoh</h4><p>Gunung Merapi termasuk aktif, sedangkan beberapa gunung tua termasuk tidak aktif.</p><h4>Kesimpulan</h4><p>Memahami status gunung api membantu mitigasi bencana.</p>'
+  },
+  {
+    judul: "Geologi 49 - Lapisan Atmosfer dan Pengaruhnya",
+    konten: '<h4>Pengertian</h4><p>Atmosfer adalah lapisan udara yang menyelimuti bumi dan memengaruhi proses geologi.</p><h4>Penjelasan</h4><p>Atmosfer melindungi bumi dari radiasi matahari dan memengaruhi cuaca serta proses pelapukan.</p><h4>Contoh</h4><p>Lapisan ozon melindungi dari sinar UV, hujan menyebabkan erosi.</p><h4>Kesimpulan</h4><p>Memahami atmosfer membantu manusia memahami lingkungan dan perubahan bumi.</p>'
+  },
+  {
+    judul: "Geologi 50 - Peran Geologi dalam Kehidupan",
+    konten: '<h4>Pengertian</h4><p>Geologi berperan penting dalam kehidupan manusia karena berkaitan dengan bumi dan sumber daya alam.</p><h4>Penjelasan</h4><p>Geologi membantu memahami bencana, menemukan sumber daya, dan merencanakan pembangunan.</p><h4>Contoh</h4><p>Eksplorasi minyak bumi, mitigasi gempa, dan perencanaan kota berbasis geologi.</p><h4>Kesimpulan</h4><p>Geologi sangat penting untuk keberlangsungan hidup manusia dan pembangunan berkelanjutan.</p>'
+  }
+];
+
+function loadLocalProgress() {
+  const storedDate = localStorage.getItem('geologiDate');
+  if (storedDate === todayStr) {
+    todayLimit = parseInt(localStorage.getItem('geologiLimit') || '0');
+    const stored = localStorage.getItem('geologiOpened');
+    if (stored) openedIndexes = JSON.parse(stored);
+  } else {
+    todayLimit = 0;
+    openedIndexes = [];
+    localStorage.setItem('geologiDate', todayStr);
+    localStorage.setItem('geologiLimit', '0');
+    localStorage.setItem('geologiOpened', '[]');
+  }
+}
+
+function saveLocalProgress() {
+  localStorage.setItem('geologiLimit', todayLimit);
+  localStorage.setItem('geologiOpened', JSON.stringify(openedIndexes));
+}
+
+function updateUI() {
+  const badge = document.getElementById('premiumStatusBadge');
+  const limitSpan = document.getElementById('limitCounter');
+
+  if (isPremium && premiumExpiry) {
+    const now = Date.now();
+    if (now > premiumExpiry) {
+      isPremium = false;
+      premiumExpiry = null;
+      badge.innerText = 'Premium Habis';
+      badge.className = 'premium-indicator warning';
+      limitSpan.innerText = '0/2 Hari Ini';
+      if (currentUser) {
+        db.ref('users/' + currentUser.uid + '/premium/sains').set(false);
+        db.ref('users/' + currentUser.uid + '/premium/sains_expiry').remove();
+      }
+      return;
+    }
+
+    const sisaHari = Math.ceil((premiumExpiry - now) / (1000 * 60 * 60 * 24));
+    badge.innerText = 'Premium (' + sisaHari + ' hari)';
+    badge.className = 'premium-indicator active';
+    limitSpan.innerText = 'Tak Terbatas';
+  } else if (isPremium) {
+    badge.innerText = 'Premium Aktif';
+    badge.className = 'premium-indicator active';
+    limitSpan.innerText = 'Tak Terbatas';
+  } else {
+    badge.innerText = 'Akun Standar';
+    badge.className = 'premium-indicator';
+    limitSpan.innerText = todayLimit + '/2 Hari Ini';
+  }
+}
+
+function renderBagian() {
+  const container = document.getElementById('listBagianGrid');
+  if (!container) return;
+  container.innerHTML = '';
+
+  for (let i = 0; i < materiList.length; i++) {
+    const btn = document.createElement('div');
+    btn.className = 'materi-btn';
+    btn.innerText = 'Bagian ' + (i + 1);
+
+    if (openedIndexes.includes(i)) btn.classList.add('opened');
+    if (!openedIndexes.includes(i) && !isPremium && todayLimit >= 2) btn.classList.add('locked');
+
+    btn.onclick = (function(idx) {
+      return function() { openMateri(idx); };
+    })(i);
+
+    container.appendChild(btn);
+  }
+}
+
+function openMateri(index) {
+  if (!currentUser) {
+    showAlert('Silakan masuk ke akun Anda terlebih dahulu.', false);
+    return;
+  }
+
+  // Refresh cek premium expiry dari Firebase
+  db.ref('users/' + currentUser.uid + '/premium/sains').once('value').then(function(snap) {
+    isPremium = snap.val() === true;
+    return db.ref('users/' + currentUser.uid + '/premium/sains_expiry').once('value');
+  }).then(function(expirySnap) {
+    premiumExpiry = expirySnap.val() || null;
+
+    if (isPremium && premiumExpiry && Date.now() > premiumExpiry) {
+      isPremium = false;
+      premiumExpiry = null;
+      db.ref('users/' + currentUser.uid + '/premium/sains').set(false);
+      db.ref('users/' + currentUser.uid + '/premium/sains_expiry').remove();
+      updateUI();
+      renderBagian();
+      showAlert('Masa premium Anda telah berakhir. Silakan perpanjang untuk mengakses materi.', true);
+      return;
+    }
+
+    const isOpened = openedIndexes.includes(index);
+    const isLocked = !isOpened && !isPremium && todayLimit >= 2;
+
+    if (isLocked) {
+      showAlert('Batas harian untuk akun standar telah tercapai (2 materi). Dapatkan akses premium untuk membuka seluruh materi tanpa batas.', true);
+      return;
+    }
+
+    if (!isOpened) {
+      todayLimit++;
+      openedIndexes.push(index);
+      saveLocalProgress();
+      updateUI();
+      renderBagian();
+
+      if (currentUser) {
+        const openedObj = {};
+        openedIndexes.forEach(function(i) { openedObj[i] = true; });
+        db.ref('users/' + currentUser.uid + '/progress/geologi').set(openedObj);
+        db.ref('users/' + currentUser.uid + '/limit/geologi').set({ count: todayLimit, date: todayStr });
+      }
+    }
+
+    currentMateriIdx = index;
+
+    document.getElementById('halamanUtama').classList.add('hidden');
+    document.getElementById('materiView').classList.remove('hidden');
+
+    document.getElementById('judulMateriView').innerHTML = materiList[index].judul;
+    document.getElementById('isiMateriDetail').innerHTML = materiList[index].konten;
+  });
+}
+
+function nextMateri() {
+  if (currentMateriIdx + 1 < materiList.length) {
+    openMateri(currentMateriIdx + 1);
+  } else {
+    showAlert('Anda telah mencapai materi terakhir dalam daftar.', false);
+  }
+}
+
+function prevMateri() {
+  if (currentMateriIdx - 1 >= 0) {
+    openMateri(currentMateriIdx - 1);
+  } else {
+    showAlert('Ini adalah materi pertama.', false);
+  }
+}
+
+function backToList() {
+  document.getElementById('materiView').classList.add('hidden');
+  document.getElementById('halamanUtama').classList.remove('hidden');
+  renderBagian();
+}
+
+function balikKeSains() {
+  window.location.href = 'sains.html';
+}
+
+function showAlert(message, showUpgrade) {
+  const overlay = document.getElementById('globalAlert');
+  document.getElementById('alertMessage').innerText = message;
+  const extraDiv = document.getElementById('alertExtraBtn');
+  extraDiv.innerHTML = '';
+  if (showUpgrade) {
+    const btn = document.createElement('button');
+    btn.className = 'btn-full';
+    btn.innerText = 'Tingkatkan ke Premium';
+    btn.style.marginTop = '12px';
+    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
+    extraDiv.appendChild(btn);
+  }
+  overlay.style.display = 'flex';
+}
+
+function closeAlertGlobal() {
+  document.getElementById('globalAlert').style.display = 'none';
+}
+
+function openSidebar() {
+  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('sidebarNav').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('sidebarNav').classList.remove('active');
+}
+
+function goTo(page) {
+  window.location.href = page;
+}
+
+function logoutAction() {
+  if (confirm('Yakin ingin keluar?')) {
+    firebase.auth().signOut().then(function() {
+      window.location.href = 'login.html';
+    });
+  }
+}
+
+document.getElementById('prevBtn').onclick = prevMateri;
+document.getElementById('nextBtn').onclick = nextMateri;
+document.getElementById('backToListBtn').onclick = backToList;
+
+if (localStorage.getItem('isGuest') === 'true') {
+  showAlert('Silakan login terlebih dahulu untuk mengakses materi pembelajaran.', false);
+  setTimeout(function() { window.location.href = 'sains.html'; }, 2000);
+}
+
+if (localStorage.getItem('themeEkonomi') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  loadLocalProgress();
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (!user) {
+      currentUser = null;
+      isPremium = false;
+      premiumExpiry = null;
+      updateUI();
+      renderBagian();
+      return;
+    }
+
+    currentUser = user;
+
+    db.ref('users/' + user.uid + '/premium/sains').once('value').then(function(snap) {
+      isPremium = snap.val() === true;
+      return db.ref('users/' + user.uid + '/premium/sains_expiry').once('value');
+    }).then(function(expirySnap) {
+      premiumExpiry = expirySnap.val() || null;
+
+      if (isPremium && premiumExpiry) {
+        const now = Date.now();
+        if (now > premiumExpiry) {
+          isPremium = false;
+          premiumExpiry = null;
+          db.ref('users/' + user.uid + '/premium/sains').set(false);
+          db.ref('users/' + user.uid + '/premium/sains_expiry').remove();
+        }
+      }
+
+      return db.ref('users/' + user.uid + '/progress/geologi').once('value');
+    }).then(function(snap) {
+      if (snap.val()) {
+        const data = snap.val();
+        const newOpened = Array.isArray(data) ? data : Object.keys(data).map(Number);
+        if (JSON.stringify(newOpened) !== JSON.stringify(openedIndexes)) {
+          openedIndexes = newOpened;
+          saveLocalProgress();
+        }
+      }
+      return db.ref('users/' + user.uid + '/limit/geologi').once('value');
+    }).then(function(snap) {
+      const limitData = snap.val();
+      if (limitData && limitData.date === todayStr) {
+        if (todayLimit !== limitData.count) todayLimit = limitData.count;
+      } else {
+        todayLimit = 0;
+      }
+      saveLocalProgress();
+      updateUI();
+      renderBagian();
+    }).catch(function(e) {
+      console.error(e);
+      renderBagian();
+    });
+  });
+});
+</script>
+
+</body>
+</html>

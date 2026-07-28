@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Astronomi - Star Tools</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+
+  body.dark {
+    background: #0B1120;
+    color: #F1F5F9;
+  }
+
+  body.dark .card-modern,
+  body.dark .app-header,
+  body.dark .sidebar-nav,
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  body.dark .materi-btn {
+    background: #1E293B;
+    border-color: #334155;
+    color: #E2E8F0;
+  }
+
+  body.dark .code-block {
+    background: #0F172A;
+    border-color: #334155;
+    color: #4fc3f7;
+  }
+
+  body.dark .premium-indicator {
+    background: #1E293B;
+    color: #60A5FA;
+  }
+
+  body.dark .premium-indicator.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .premium-indicator.warning {
+    background: #78350F;
+    color: #FBBF24;
+  }
+
+  body.dark .limit-indicator {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  .app-container {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #F1F5F9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  body.dark .app-container {
+    background: #0B1120;
+  }
+
+  .app-header {
+    background: #FFFFFF;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  body.dark .app-header {
+    background: #111827;
+    border-bottom-color: #1E293B;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-icon {
+    width: 40px;
+    height: 40px;
+    background: #F8FAFE;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .menu-icon {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .menu-icon svg {
+    stroke: #0F172A;
+  }
+
+  body.dark .menu-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .app-title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+  }
+
+  .sidebar-overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sidebar-nav {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 101;
+    transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    padding: 70px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-nav.active {
+    left: 0;
+  }
+
+  .sidebar-nav a {
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #0F172A;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  body.dark .sidebar-nav a {
+    color: #F1F5F9;
+  }
+
+  .sidebar-nav a:active {
+    background: #DBEAFE;
+  }
+
+  body.dark .sidebar-nav a:active {
+    background: #1E293B;
+  }
+
+  .logout-link {
+    margin-top: 20px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 16px;
+  }
+
+  body.dark .logout-link {
+    border-top-color: #334155;
+  }
+
+  .logout-link a {
+    color: #DC2626 !important;
+  }
+
+  .logout-link a svg {
+    stroke: #DC2626;
+  }
+
+  .close-sidebar-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
+  }
+
+  .screen {
+    padding: 20px 18px 30px;
+    flex: 1;
+  }
+
+  .card-modern {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #E2E8F0;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .premium-indicator {
+    background: #DBEAFE;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563EB;
+  }
+
+  .premium-indicator.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  .premium-indicator.warning {
+    background: #FEF3C7;
+    color: #D97706;
+  }
+
+  .limit-indicator {
+    background: #F1F5F9;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  .grid-bagian {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .materi-btn {
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    padding: 12px 6px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    color: #0F172A;
+    transition: 0.2s;
+  }
+
+  .materi-btn:active {
+    transform: scale(0.96);
+  }
+
+  .materi-btn.opened {
+    background: #2563EB;
+    color: white;
+    border-color: #2563EB;
+  }
+
+  .materi-btn.locked {
+    opacity: 0.5;
+  }
+
+  .btn-full {
+    background: #2563EB;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 44px;
+    font-size: 15px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .btn-full:active {
+    transform: scale(0.97);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid #2563EB;
+    color: #2563EB;
+    padding: 12px;
+    border-radius: 44px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .nav-buttons button {
+    flex: 1;
+  }
+
+  .materi-content {
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  .materi-content h4 {
+    font-size: 18px;
+    margin: 20px 0 10px 0;
+    color: #2563EB;
+    font-weight: 700;
+  }
+
+  body.dark .materi-content h4 {
+    color: #60A5FA;
+  }
+
+  .materi-content p {
+    margin-bottom: 12px;
+    color: #334155;
+  }
+
+  body.dark .materi-content p {
+    color: #CBD5E1;
+  }
+
+  .alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+  }
+
+  .alert-card {
+    background: #FFFFFF;
+    width: 300px;
+    border-radius: 32px;
+    padding: 24px 22px;
+    text-align: center;
+    border: 1px solid #E2E8F0;
+  }
+
+  .footer-app {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="menu-icon" onclick="openSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <span class="app-title">Star Tools • Astronomi</span>
+    </div>
+    <button class="close-btn" onclick="goTo('sains.html')" aria-label="Kembali">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="close-sidebar-icon" onclick="closeSidebar()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <a href="#" onclick="goTo('index.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
+    </a>
+    <a href="#" onclick="goTo('berita.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
+    </a>
+    <a href="#" onclick="goTo('premium.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
+    </a>
+    <a href="#" onclick="goTo('akun.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
+    </a>
+    <div class="logout-link">
+      <a href="#" onclick="logoutAction()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.7"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Keluar
+      </a>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div id="halamanUtama">
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+            <circle cx="12" cy="12" r="3"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(45 12 12)"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-45 12 12)"/>
+          </svg>
+          Belajar Astronomi
+        </div>
+        <p style="margin-bottom: 16px;">Pelajari ilmu tentang bintang, planet, galaksi, dan fenomena luar angkasa secara lengkap dari dasar hingga mahir.</p>
+        
+        <div class="status-row">
+          <span id="premiumStatusBadge" class="premium-indicator">Akun Standar</span>
+          <span id="limitCounter" class="limit-indicator">0/2 Hari Ini</span>
+        </div>
+      </div>
+
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+          Daftar Materi Astronomi (1-50)
+        </div>
+        <div id="listBagianGrid" class="grid-bagian"></div>
+      </div>
+    </div>
+
+    <div id="materiView" class="hidden">
+      <div class="card-modern">
+        <div class="section-title" id="judulMateriView">Materi Astronomi</div>
+        <div id="isiMateriDetail" class="materi-content"></div>
+        <div class="nav-buttons">
+          <button class="btn-outline" id="prevBtn">Sebelumnya</button>
+          <button class="btn-full" id="nextBtn">Selanjutnya</button>
+        </div>
+        <button class="btn-outline" id="backToListBtn" style="margin-top: 12px;">Kembali ke Daftar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-app">
+    <p>Star Platform | Star Tools 2026</p>
+  </div>
+</div>
+
+<div id="globalAlert" class="alert-overlay">
+  <div class="alert-card">
+    <p id="alertMessage" style="margin-bottom: 20px;">Pemberitahuan</p>
+    <button class="btn-full" onclick="closeAlertGlobal()">Mengerti</button>
+    <div id="alertExtraBtn"></div>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.database();
+
+let currentUser = null;
+let isPremium = false;
+let premiumExpiry = null;
+let openedIndexes = [];
+let todayLimit = 0;
+let currentMateriIdx = 0;
+
+const todayStr = new Date().toDateString();
+
+// ======================== 50 MATERI ASTRONOMI ========================
+const materiList = [
+  {
+    judul: "Astronomi 1 - Pengertian Astronomi",
+    konten: '<h4>Pengertian</h4><p>Astronomi adalah ilmu yang mempelajari benda-benda langit seperti bintang, planet, bulan, dan fenomena yang terjadi di luar angkasa.</p><h4>Penjelasan</h4><p>Di alam semesta, banyak objek yang menarik untuk diamati, seperti Matahari, Bulan, planet, bintang, dan galaksi. Astronomi membantu kita memahami posisi Bumi, pergerakan benda langit, dan fenomena yang terjadi di luar angkasa, sehingga pengetahuan kita tentang alam semesta menjadi lebih luas.</p><h4>Contoh</h4><p>Contohnya, dengan memahami revolusi Bumi mengelilingi Matahari, kita bisa menjelaskan terjadinya pergantian musim. Atau dengan mempelajari fase Bulan, kita bisa mengetahui kapan gerhana terjadi.</p><h4>Kesimpulan</h4><p>Astronomi membantu manusia memahami alam semesta, memprediksi fenomena langit, dan membuat belajar sains menjadi lebih menarik karena bisa diamati secara langsung.</p>'
+  },
+  {
+    judul: "Astronomi 2 - Tata Surya",
+    konten: '<h4>Pengertian</h4><p>Tata Surya adalah sistem yang terdiri dari Matahari dan semua benda langit yang mengelilinginya, termasuk planet, satelit, asteroid, dan komet.</p><h4>Penjelasan</h4><p>Matahari adalah pusat Tata Surya dan sumber energi utama. Planet mengelilingi Matahari dalam orbit tertentu, sedangkan asteroid dan komet bergerak di jalur yang berbeda. Memahami Tata Surya membantu kita mengenal posisi Bumi dan benda langit lain serta fenomena yang terjadi di sekitar kita.</p><h4>Contoh</h4><p>Contohnya, gerhana Matahari terjadi saat Bulan berada di antara Matahari dan Bumi. Atau saat meteor memasuki atmosfer Bumi, kita bisa melihat hujan meteor.</p><h4>Kesimpulan</h4><p>Belajar Tata Surya membantu kita memahami posisi dan gerak benda langit, memprediksi fenomena alam, dan menumbuhkan rasa ingin tahu tentang alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 3 - Planet dan Satelit",
+    konten: '<h4>Pengertian</h4><p>Planet adalah benda langit yang mengorbit Matahari dan memiliki massa yang cukup untuk membentuk bentuk bulat. Satelit adalah benda langit yang mengorbit planet.</p><h4>Penjelasan</h4><p>Setiap planet memiliki karakteristik unik, seperti ukuran, komposisi, dan jumlah satelit. Satelit, seperti Bulan mengelilingi Bumi, memengaruhi pasang surut laut dan fenomena astronomi lainnya.</p><h4>Contoh</h4><p>Contohnya, Bumi memiliki satu satelit alami, yaitu Bulan, sedangkan Jupiter memiliki lebih dari 70 satelit. Planet Mars memiliki dua satelit kecil bernama Phobos dan Deimos.</p><h4>Kesimpulan</h4><p>Mempelajari planet dan satelit membantu memahami pergerakan benda langit, interaksi gravitasi, dan fenomena yang memengaruhi Bumi.</p>'
+  },
+  {
+    judul: "Astronomi 4 - Bintang",
+    konten: '<h4>Pengertian</h4><p>Bintang adalah bola gas panas yang menghasilkan cahaya dan energi melalui reaksi nuklir di intinya.</p><h4>Penjelasan</h4><p>Bintang memiliki umur, ukuran, dan warna yang berbeda-beda. Cahaya yang mereka pancarkan membantu ilmuwan mengetahui jarak, komposisi, dan suhu bintang tersebut.</p><h4>Contoh</h4><p>Contohnya, Matahari adalah bintang terdekat dengan Bumi. Bintang Sirius terlihat sangat terang di malam hari karena jaraknya relatif dekat.</p><h4>Kesimpulan</h4><p>Mempelajari bintang membantu kita memahami cahaya dan energi di alam semesta serta pola-pola langit yang bisa diamati.</p>'
+  },
+  {
+    judul: "Astronomi 5 - Galaksi",
+    konten: '<h4>Pengertian</h4><p>Galaksi adalah kumpulan besar bintang, gas, debu, dan materi gelap yang terikat oleh gravitasi.</p><h4>Penjelasan</h4><p>Galaksi memiliki berbagai bentuk, seperti spiral, elips, atau tak beraturan. Bima Sakti adalah galaksi tempat kita tinggal, dan mempelajari galaksi lain membantu memahami evolusi alam semesta.</p><h4>Contoh</h4><p>Contohnya, Andromeda adalah galaksi spiral yang paling dekat dengan Bima Sakti dan terlihat dengan teleskop amatir.</p><h4>Kesimpulan</h4><p>Mempelajari galaksi memberi wawasan tentang struktur besar alam semesta dan posisi Bumi di dalamnya.</p>'
+  },
+  {
+    judul: "Astronomi 6 - Meteor dan Komet",
+    konten: '<h4>Pengertian</h4><p>Meteor adalah benda kecil dari luar angkasa yang terbakar saat memasuki atmosfer Bumi, sedangkan komet adalah benda langit yang mengorbit Matahari dengan ekor bercahaya.</p><h4>Penjelasan</h4><p>Meteor biasanya terlihat sebagai cahaya singkat di langit malam. Komet memiliki inti dari es dan debu yang membentuk ekor saat mendekati Matahari.</p><h4>Contoh</h4><p>Contohnya, hujan meteor Perseid terjadi setiap Agustus, dan komet Halley muncul kira-kira setiap 76 tahun sekali.</p><h4>Kesimpulan</h4><p>Mempelajari meteor dan komet membantu memprediksi peristiwa langit dan menambah pengalaman observasi astronomi.</p>'
+  },
+  {
+    judul: "Astronomi 7 - Gerhana",
+    konten: '<h4>Pengertian</h4><p>Gerhana adalah peristiwa saat satu benda langit menutupi atau berada di antara Bumi dan Matahari atau Bulan.</p><h4>Penjelasan</h4><p>Ada dua jenis utama: gerhana Matahari dan gerhana Bulan. Gerhana Matahari terjadi saat Bulan menutupi Matahari, sedangkan gerhana Bulan terjadi saat Bumi berada di antara Matahari dan Bulan.</p><h4>Contoh</h4><p>Contohnya, gerhana Matahari total terjadi beberapa kali dalam satu dekade dan bisa diamati dengan alat khusus, sedangkan gerhana Bulan penuh terlihat dengan mata telanjang.</p><h4>Kesimpulan</h4><p>Mempelajari gerhana membantu memahami gerak benda langit dan posisi relatif antara Matahari, Bulan, dan Bumi.</p>'
+  },
+  {
+    judul: "Astronomi 8 - Rotasi dan Revolusi Bumi",
+    konten: '<h4>Pengertian</h4><p>Rotasi adalah perputaran Bumi pada porosnya, sedangkan revolusi adalah peredaran Bumi mengelilingi Matahari.</p><h4>Penjelasan</h4><p>Rotasi menyebabkan siang dan malam, sementara revolusi menyebabkan pergantian musim. Kedua gerakan ini memiliki kecepatan dan periode yang tetap dan dapat dihitung.</p><h4>Contoh</h4><p>Contohnya, waktu siang dan malam bergantung pada rotasi Bumi, sedangkan perbedaan musim di belahan bumi utara dan selatan terjadi karena revolusi.</p><h4>Kesimpulan</h4><p>Mempelajari rotasi dan revolusi Bumi membantu memahami fenomena harian dan musiman di Bumi.</p>'
+  },
+  {
+    judul: "Astronomi 9 - Cahaya dan Spektrum Bintang",
+    konten: '<h4>Pengertian</h4><p>Cahaya bintang adalah radiasi yang dipancarkan bintang dan dapat dianalisis menggunakan spektrum untuk mengetahui komposisi dan suhu.</p><h4>Penjelasan</h4><p>Spektrum cahaya bintang menunjukkan garis-garis tertentu yang menunjukkan unsur kimia di bintang tersebut. Warna bintang juga memberi tahu suhu permukaannya.</p><h4>Contoh</h4><p>Contohnya, bintang biru lebih panas daripada bintang merah, dan analisis spektrum Matahari menunjukkan unsur hidrogen dan helium.</p><h4>Kesimpulan</h4><p>Mempelajari cahaya dan spektrum bintang membantu memahami sifat bintang dan proses fisika yang terjadi di dalamnya.</p>'
+  },
+  {
+    judul: "Astronomi 10 - Eksplorasi Luar Angkasa",
+    konten: '<h4>Pengertian</h4><p>Eksplorasi luar angkasa adalah kegiatan mengamati dan mempelajari benda langit menggunakan wahana antariksa, satelit, atau teleskop canggih.</p><h4>Penjelasan</h4><p>Melalui eksplorasi, manusia dapat mengirim satelit untuk mempelajari planet, misi ke Bulan atau Mars, dan teleskop untuk mengamati galaksi jauh. Eksplorasi meningkatkan pengetahuan astronomi dan teknologi.</p><h4>Contoh</h4><p>Contohnya, misi Apollo 11 berhasil mendaratkan manusia di Bulan, dan teleskop Hubble mengirimkan gambar galaksi jauh ke Bumi.</p><h4>Kesimpulan</h4><p>Mempelajari eksplorasi luar angkasa membantu manusia memahami alam semesta lebih jauh dan menumbuhkan rasa ingin tahu serta inovasi teknologi.</p>'
+  },
+  {
+    judul: "Astronomi 11 - Lubang Hitam",
+    konten: '<h4>Pengertian</h4><p>Lubang hitam adalah daerah di ruang angkasa dengan gravitasi sangat kuat sehingga cahaya pun tidak bisa lolos darinya.</p><h4>Penjelasan</h4><p>Lubang hitam terbentuk dari runtuhnya bintang masif. Gravitasi ekstremnya memengaruhi objek di sekitarnya dan bisa menekuk cahaya.</p><h4>Contoh</h4><p>Contohnya, Sagittarius A* adalah lubang hitam supermasif di pusat Bima Sakti.</p><h4>Kesimpulan</h4><p>Mempelajari lubang hitam membantu memahami gravitasi ekstrem dan evolusi bintang di alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 12 - Nebula",
+    konten: '<h4>Pengertian</h4><p>Nebula adalah awan gas dan debu di luar angkasa yang sering menjadi tempat lahirnya bintang baru.</p><h4>Penjelasan</h4><p>Nebula bisa berbentuk berbagai macam dan berwarna-warni karena cahaya bintang yang diterangi atau gas yang memancarkan cahaya.</p><h4>Contoh</h4><p>Contohnya, Nebula Orion adalah tempat lahirnya bintang-bintang muda.</p><h4>Kesimpulan</h4><p>Mempelajari nebula membantu memahami proses kelahiran bintang dan struktur awan gas di alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 13 - Rasi Bintang",
+    konten: '<h4>Pengertian</h4><p>Rasi bintang adalah pola imajiner dari bintang-bintang yang terlihat dari Bumi.</p><h4>Penjelasan</h4><p>Rasi membantu penavigasian langit malam, penentuan musim, dan memiliki cerita legenda tertentu di berbagai budaya.</p><h4>Contoh</h4><p>Contohnya, rasi Orion, Ursa Major, dan Cassiopeia.</p><h4>Kesimpulan</h4><p>Mempelajari rasi bintang membantu navigasi, observasi, dan memahami sejarah astronomi dalam budaya manusia.</p>'
+  },
+  {
+    judul: "Astronomi 14 - Asteroid",
+    konten: '<h4>Pengertian</h4><p>Asteroid adalah benda langit kecil berbatu yang mengorbit Matahari, sebagian besar berada di Sabuk Asteroid antara Mars dan Jupiter.</p><h4>Penjelasan</h4><p>Asteroid memiliki berbagai ukuran dan bentuk. Beberapa asteroid bisa masuk ke orbit Bumi sebagai meteoroid.</p><h4>Contoh</h4><p>Contohnya, asteroid Ceres adalah yang terbesar di sabuk asteroid dan termasuk planet katai.</p><h4>Kesimpulan</h4><p>Mempelajari asteroid membantu memahami asal-usul Tata Surya dan risiko benda langit yang mendekati Bumi.</p>'
+  },
+  {
+    judul: "Astronomi 15 - Satelit Buatan",
+    konten: '<h4>Pengertian</h4><p>Satelit buatan adalah benda yang dibuat manusia untuk mengorbit Bumi dan melakukan berbagai fungsi.</p><h4>Penjelasan</h4><p>Satelit digunakan untuk komunikasi, observasi cuaca, pemetaan, navigasi, dan penelitian luar angkasa.</p><h4>Contoh</h4><p>Contohnya, satelit GPS untuk navigasi, satelit cuaca Himawari, dan satelit teleskop Hubble.</p><h4>Kesimpulan</h4><p>Mempelajari satelit buatan membantu manusia memanfaatkan teknologi luar angkasa untuk berbagai kebutuhan praktis.</p>'
+  },
+  {
+    judul: "Astronomi 16 - Eksoplanet",
+    konten: '<h4>Pengertian</h4><p>Eksoplanet adalah planet yang mengorbit bintang selain Matahari.</p><h4>Penjelasan</h4><p>Eksoplanet bisa berbeda ukuran, komposisi, dan jarak ke bintangnya. Penemuan eksoplanet membantu memahami kemungkinan kehidupan di luar Bumi.</p><h4>Contoh</h4><p>Contohnya, Kepler-22b adalah eksoplanet yang dipelajari kemungkinan layak huni.</p><h4>Kesimpulan</h4><p>Mempelajari eksoplanet memperluas pemahaman kita tentang planet di luar Tata Surya dan potensi kehidupan kosmik.</p>'
+  },
+  {
+    judul: "Astronomi 17 - Gravitasi",
+    konten: '<h4>Pengertian</h4><p>Gravitasi adalah gaya tarik menarik antara benda yang memiliki massa.</p><h4>Penjelasan</h4><p>Gravitasi menjaga planet tetap mengorbit bintang, Bulan tetap mengorbit Bumi, dan benda-benda di alam semesta tetap pada jalurnya.</p><h4>Contoh</h4><p>Contohnya, Bumi menarik Bulan sehingga tercipta pasang surut laut.</p><h4>Kesimpulan</h4><p>Mempelajari gravitasi membantu memahami gerak benda langit dan interaksi antarobjek di alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 18 - Teleskop",
+    konten: '<h4>Pengertian</h4><p>Teleskop adalah alat yang digunakan untuk memperbesar dan mengamati benda-benda langit.</p><h4>Penjelasan</h4><p>Teleskop dapat menggunakan cahaya tampak, radio, atau sinar-X untuk mengamati objek di luar angkasa.</p><h4>Contoh</h4><p>Contohnya, teleskop Hubble menangkap gambar galaksi jauh, sedangkan teleskop radio mempelajari gelombang dari bintang.</p><h4>Kesimpulan</h4><p>Mempelajari teleskop membantu memahami alat observasi astronomi dan cara mengamati alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 19 - Fenomena Alam Semesta",
+    konten: '<h4>Pengertian</h4><p>Fenomena alam semesta adalah kejadian yang terjadi di ruang angkasa, seperti supernova, hujan meteor, dan aurora.</p><h4>Penjelasan</h4><p>Fenomena ini terjadi karena interaksi benda langit, radiasi, dan energi yang dilepaskan di alam semesta.</p><h4>Contoh</h4><p>Contohnya, supernova adalah ledakan bintang, aurora terjadi akibat interaksi partikel Matahari dengan atmosfer Bumi.</p><h4>Kesimpulan</h4><p>Mempelajari fenomena alam semesta membantu memahami proses kosmik dan hubungan benda-benda langit.</p>'
+  },
+  {
+    judul: "Astronomi 20 - Evolusi Alam Semesta",
+    konten: '<h4>Pengertian</h4><p>Evolusi alam semesta adalah proses perubahan dan perkembangan alam semesta sejak Big Bang hingga sekarang.</p><h4>Penjelasan</h4><p>Alam semesta terus mengembang, bintang terbentuk dan mati, galaksi bergerak, dan materi mengalami perubahan sepanjang waktu.</p><h4>Contoh</h4><p>Contohnya, pembentukan Bima Sakti, kematian bintang menjadi supernova, dan pembentukan planet baru.</p><h4>Kesimpulan</h4><p>Mempelajari evolusi alam semesta membantu memahami sejarah kosmik dan masa depan alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 21 - Benda Langit Ekstragalaksi",
+    konten: '<h4>Pengertian</h4><p>Benda langit ekstragalaksi adalah objek yang berada di luar galaksi Bima Sakti, termasuk galaksi lain, quasar, dan nebula jauh.</p><h4>Penjelasan</h4><p>Objek-objek ini sangat jauh dan diamati menggunakan teleskop canggih untuk memahami struktur alam semesta yang lebih luas.</p><h4>Contoh</h4><p>Contohnya, galaksi Andromeda dan quasar 3C 273.</p><h4>Kesimpulan</h4><p>Mempelajari benda langit ekstragalaksi membantu memahami alam semesta di luar galaksi kita dan evolusi kosmik.</p>'
+  },
+  {
+    judul: "Astronomi 22 - Big Bang",
+    konten: '<h4>Pengertian</h4><p>Big Bang adalah teori tentang asal-usul alam semesta yang menyatakan bahwa alam semesta dimulai dari titik sangat padat dan panas.</p><h4>Penjelasan</h4><p>Setelah ledakan awal, alam semesta mengembang, membentuk galaksi, bintang, dan planet. Observasi radiasi latar belakang mendukung teori ini.</p><h4>Contoh</h4><p>Contohnya, radiasi kosmik latar belakang (CMB) adalah sisa energi dari Big Bang.</p><h4>Kesimpulan</h4><p>Mempelajari Big Bang membantu memahami awal mula alam semesta dan evolusi kosmik hingga sekarang.</p>'
+  },
+  {
+    judul: "Astronomi 23 - Nebula Emisi dan Refleksi",
+    konten: '<h4>Pengertian</h4><p>Nebula emisi adalah awan gas yang bersinar karena ionisasi cahaya bintang, sedangkan nebula refleksi bersinar karena memantulkan cahaya bintang.</p><h4>Penjelasan</h4><p>Nebula ini dapat diamati dengan teleskop dan sering menjadi tempat lahir bintang baru.</p><h4>Contoh</h4><p>Contohnya, Nebula Orion (emisi) dan Nebula Pleiades (refleksi).</p><h4>Kesimpulan</h4><p>Mempelajari nebula emisi dan refleksi membantu memahami proses pembentukan bintang dan interaksi cahaya-gas di ruang angkasa.</p>'
+  },
+  {
+    judul: "Astronomi 24 - Supernova",
+    konten: '<h4>Pengertian</h4><p>Supernova adalah ledakan bintang yang terjadi di akhir siklus hidupnya.</p><h4>Penjelasan</h4><p>Ledakan supernova melepaskan energi besar dan menyebarkan unsur-unsur berat ke ruang angkasa, menjadi bahan pembentuk bintang baru.</p><h4>Contoh</h4><p>Contohnya, supernova SN 1987A di Galaksi Besar Magellan.</p><h4>Kesimpulan</h4><p>Mempelajari supernova membantu memahami siklus hidup bintang dan pembentukan unsur kimia di alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 25 - Lubang Cacing",
+    konten: '<h4>Pengertian</h4><p>Lubang cacing adalah hipotesis tentang jalur atau "terowongan" yang menghubungkan dua titik berbeda di ruang-waktu.</p><h4>Penjelasan</h4><p>Lubang cacing masih teoritis, tapi dapat menjelaskan kemungkinan perjalanan cepat antar titik di alam semesta.</p><h4>Contoh</h4><p>Contohnya, prediksi lubang cacing dapat dijadikan inspirasi dalam sains fiksi dan penelitian kosmologi.</p><h4>Kesimpulan</h4><p>Mempelajari lubang cacing membantu mengeksplorasi konsep ruang-waktu dan kemungkinan perjalanan antar galaksi.</p>'
+  },
+  {
+    judul: "Astronomi 26 - Radiasi Kosmik",
+    konten: '<h4>Pengertian</h4><p>Radiasi kosmik adalah partikel energetik yang berasal dari luar Tata Surya dan memasuki atmosfer Bumi.</p><h4>Penjelasan</h4><p>Partikel ini bergerak dengan kecepatan tinggi dan berasal dari Matahari, bintang, atau ledakan supernova.</p><h4>Contoh</h4><p>Contohnya, proton dan inti atom yang sampai ke permukaan Bumi.</p><h4>Kesimpulan</h4><p>Mempelajari radiasi kosmik membantu memahami interaksi energi tinggi dan keselamatan perjalanan luar angkasa.</p>'
+  },
+  {
+    judul: "Astronomi 27 - Pulsar",
+    konten: '<h4>Pengertian</h4><p>Pulsar adalah bintang neutron yang berputar sangat cepat dan memancarkan gelombang radio secara periodik.</p><h4>Penjelasan</h4><p>Pulsar terbentuk dari inti bintang masif yang meledak. Gelombang yang dipancarkan bisa diamati sebagai detak periodik.</p><h4>Contoh</h4><p>Contohnya, pulsar PSR B1919+21 ditemukan pertama kali lewat gelombang radio.</p><h4>Kesimpulan</h4><p>Mempelajari pulsar membantu memahami bintang neutron dan sifat gelombang radio di alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 28 - Magnetar",
+    konten: '<h4>Pengertian</h4><p>Magnetar adalah bintang neutron dengan medan magnet sangat kuat, jutaan kali lebih kuat dari Bumi.</p><h4>Penjelasan</h4><p>Medan magnet ekstrim magnetar dapat memengaruhi materi di sekitarnya dan memancarkan sinar-X atau gamma.</p><h4>Contoh</h4><p>Contohnya, magnetar SGR 1806-20 menghasilkan ledakan energi tinggi yang terdeteksi dari Bumi.</p><h4>Kesimpulan</h4><p>Mempelajari magnetar membantu memahami medan magnet ekstrem dan perilaku materi di kondisi kosmik ekstrim.</p>'
+  },
+  {
+    judul: "Astronomi 29 - Kuasar",
+    konten: '<h4>Pengertian</h4><p>Quasar adalah inti galaksi yang sangat terang dan energik, biasanya akibat materi yang jatuh ke lubang hitam supermasif.</p><h4>Penjelasan</h4><p>Quasar memancarkan cahaya dan energi tinggi, terlihat dari jarak milyaran tahun cahaya.</p><h4>Contoh</h4><p>Contohnya, quasar 3C 273 adalah salah satu yang pertama ditemukan.</p><h4>Kesimpulan</h4><p>Mempelajari quasar membantu memahami energi ekstrem dan struktur inti galaksi.</p>'
+  },
+  {
+    judul: "Astronomi 30 - Multiverse",
+    konten: '<h4>Pengertian</h4><p>Multiverse adalah hipotesis bahwa ada banyak alam semesta lain selain alam semesta kita.</p><h4>Penjelasan</h4><p>Hipotesis ini masih teoritis, tapi bisa menjelaskan beberapa fenomena kosmologi yang sulit diterangkan dengan satu alam semesta.</p><h4>Contoh</h4><p>Contohnya, beberapa model inflasi kosmik memprediksi alam semesta paralel yang berbeda sifat fisiknya.</p><h4>Kesimpulan</h4><p>Mempelajari multiverse membantu mengeksplorasi kemungkinan alam semesta lain dan batas pengetahuan manusia tentang kosmos.</p>'
+  },
+  {
+    judul: "Astronomi 31 - Materi Gelap",
+    konten: '<h4>Pengertian</h4><p>Materi gelap adalah jenis materi yang tidak memancarkan cahaya dan tidak bisa dilihat langsung, tapi keberadaannya terdeteksi melalui gravitasi.</p><h4>Penjelasan</h4><p>Materi gelap membentuk sekitar 27% massa alam semesta dan memengaruhi gerak galaksi serta pembentukan struktur kosmik.</p><h4>Contoh</h4><p>Contohnya, gerak bintang di galaksi menunjukkan adanya materi gelap yang menahan bintang tetap di orbitnya.</p><h4>Kesimpulan</h4><p>Mempelajari materi gelap membantu memahami struktur alam semesta dan interaksi gravitasi yang tidak terlihat.</p>'
+  },
+  {
+    judul: "Astronomi 32 - Energi Gelap",
+    konten: '<h4>Pengertian</h4><p>Energi gelap adalah bentuk energi misterius yang menyebabkan alam semesta mengembang lebih cepat.</p><h4>Penjelasan</h4><p>Energi gelap memengaruhi percepatan ekspansi alam semesta dan diperkirakan menyumbang sekitar 68% total energi kosmik.</p><h4>Contoh</h4><p>Contohnya, pengamatan supernova jauh menunjukkan percepatan alam semesta akibat energi gelap.</p><h4>Kesimpulan</h4><p>Mempelajari energi gelap membantu memahami evolusi kosmik dan masa depan alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 33 - Kosmologi",
+    konten: '<h4>Pengertian</h4><p>Kosmologi adalah ilmu yang mempelajari asal-usul, struktur, evolusi, dan masa depan alam semesta.</p><h4>Penjelasan</h4><p>Kosmologi menggunakan teori fisika, observasi teleskop, dan simulasi komputer untuk memahami alam semesta secara menyeluruh.</p><h4>Contoh</h4><p>Contohnya, teori Big Bang, inflasi kosmik, dan distribusi galaksi di alam semesta.</p><h4>Kesimpulan</h4><p>Mempelajari kosmologi membantu memahami sejarah dan masa depan alam semesta secara menyeluruh.</p>'
+  },
+  {
+    judul: "Astronomi 34 - Teori Relativitas dan Astronomi",
+    konten: '<h4>Pengertian</h4><p>Teori relativitas adalah teori fisika yang menjelaskan hubungan ruang, waktu, dan gravitasi.</p><h4>Penjelasan</h4><p>Teori relativitas umum Einstein menjelaskan gravitasi sebagai lengkungan ruang-waktu dan memprediksi fenomena astronomi seperti lentur cahaya dan orbit bintang dekat lubang hitam.</p><h4>Contoh</h4><p>Contohnya, pembelokan cahaya bintang oleh Matahari saat gerhana mendukung teori relativitas.</p><h4>Kesimpulan</h4><p>Mempelajari teori relativitas dalam astronomi membantu memahami fenomena gravitasi yang kompleks di alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 35 - Gelombang Gravitasi",
+    konten: '<h4>Pengertian</h4><p>Gelombang gravitasi adalah riak di ruang-waktu yang dihasilkan oleh peristiwa kosmik besar, seperti penggabungan lubang hitam.</p><h4>Penjelasan</h4><p>Gelombang ini menyebar dengan kecepatan cahaya dan bisa dideteksi oleh observatorium khusus seperti LIGO dan Virgo.</p><h4>Contoh</h4><p>Contohnya, gelombang gravitasi pertama yang terdeteksi pada 2015 berasal dari penggabungan dua lubang hitam.</p><h4>Kesimpulan</h4><p>Mempelajari gelombang gravitasi membantu memahami peristiwa ekstrem dan struktur ruang-waktu.</p>'
+  },
+  {
+    judul: "Astronomi 36 - Exoplanet Layak Huni",
+    konten: '<h4>Pengertian</h4><p>Exoplanet layak huni adalah planet di luar Tata Surya yang memiliki kondisi memungkinkan adanya air cair dan potensi kehidupan.</p><h4>Penjelasan</h4><p>Planet ini biasanya berada di zona layak huni bintang induknya dan memiliki ukuran serta atmosfer yang sesuai.</p><h4>Contoh</h4><p>Contohnya, Kepler-452b yang disebut "Bumi kembar" karena kondisi mirip Bumi.</p><h4>Kesimpulan</h4><p>Mempelajari exoplanet layak huni membantu mengeksplorasi potensi kehidupan di alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 37 - Rotasi Bintang",
+    konten: '<h4>Pengertian</h4><p>Rotasi bintang adalah perputaran bintang pada porosnya.</p><h4>Penjelasan</h4><p>Kecepatan rotasi memengaruhi bentuk bintang, medan magnet, dan aktivitas bintang seperti bintik matahari.</p><h4>Contoh</h4><p>Contohnya, Matahari memiliki periode rotasi sekitar 25 hari di ekuator.</p><h4>Kesimpulan</h4><p>Mempelajari rotasi bintang membantu memahami aktivitas dan evolusi bintang.</p>'
+  },
+  {
+    judul: "Astronomi 38 - Aktivitas Matahari",
+    konten: '<h4>Pengertian</h4><p>Aktivitas Matahari adalah fenomena yang terjadi di permukaan dan atmosfer Matahari, seperti bintik matahari, flare, dan coronal mass ejection.</p><h4>Penjelasan</h4><p>Fenomena ini memengaruhi cuaca antariksa dan medan magnet Bumi.</p><h4>Contoh</h4><p>Contohnya, flare Matahari bisa menyebabkan gangguan satelit dan komunikasi radio.</p><h4>Kesimpulan</h4><p>Mempelajari aktivitas Matahari membantu memahami dampak Matahari terhadap Bumi dan sistem Tata Surya.</p>'
+  },
+  {
+    judul: "Astronomi 39 - Meteorit",
+    konten: '<h4>Pengertian</h4><p>Meteorit adalah fragmen meteoroid yang berhasil mencapai permukaan Bumi tanpa habis terbakar.</p><h4>Penjelasan</h4><p>Meteorit memberi informasi tentang komposisi awal Tata Surya dan proses pembentukan planet.</p><h4>Contoh</h4><p>Contohnya, meteorit Hoba di Namibia adalah meteorit terbesar yang pernah ditemukan di Bumi.</p><h4>Kesimpulan</h4><p>Mempelajari meteorit membantu memahami sejarah Tata Surya dan materi awal yang membentuk planet.</p>'
+  },
+  {
+    judul: "Astronomi 40 - Observatorium Luar Angkasa",
+    konten: '<h4>Pengertian</h4><p>Observatorium luar angkasa adalah fasilitas ilmiah di orbit Bumi atau jauh dari atmosfer untuk mengamati alam semesta.</p><h4>Penjelasan</h4><p>Observatorium ini mengamati cahaya, gelombang radio, sinar-X, dan gamma yang tidak bisa dilihat dari permukaan Bumi.</p><h4>Contoh</h4><p>Contohnya, Teleskop Hubble, Chandra X-ray Observatory, dan James Webb Space Telescope.</p><h4>Kesimpulan</h4><p>Mempelajari observatorium luar angkasa membantu manusia mengamati alam semesta dengan lebih detail dan akurat.</p>'
+  },
+  {
+    judul: "Astronomi 41 - Teleskop Radio",
+    konten: '<h4>Pengertian</h4><p>Teleskop radio adalah teleskop yang digunakan untuk menangkap gelombang radio dari benda langit.</p><h4>Penjelasan</h4><p>Gelombang radio memungkinkan astronom mempelajari objek yang tidak terlihat oleh cahaya tampak, seperti pulsar dan quasar.</p><h4>Contoh</h4><p>Contohnya, teleskop Arecibo (sebelum runtuh) dan Very Large Array (VLA) di AS.</p><h4>Kesimpulan</h4><p>Mempelajari teleskop radio membantu memahami benda langit yang memancarkan gelombang radio dan fenomena kosmik.</p>'
+  },
+  {
+    judul: "Astronomi 42 - Teleskop Inframerah",
+    konten: '<h4>Pengertian</h4><p>Teleskop inframerah adalah teleskop yang mendeteksi cahaya inframerah dari objek di luar angkasa.</p><h4>Penjelasan</h4><p>Cahaya inframerah memungkinkan melihat bintang dan galaksi yang tersembunyi oleh debu kosmik.</p><h4>Contoh</h4><p>Contohnya, Spitzer Space Telescope dan James Webb Space Telescope.</p><h4>Kesimpulan</h4><p>Mempelajari teleskop inframerah membantu memahami proses pembentukan bintang dan planet secara mendalam.</p>'
+  },
+  {
+    judul: "Astronomi 43 - Teori Inflasi Kosmik",
+    konten: '<h4>Pengertian</h4><p>Teori inflasi kosmik adalah teori bahwa alam semesta mengalami pengembangan sangat cepat di awal Big Bang.</p><h4>Penjelasan</h4><p>Inflasi menjelaskan homogenitas alam semesta dan distribusi galaksi saat ini.</p><h4>Contoh</h4><p>Contohnya, distribusi radiasi kosmik latar belakang yang merata di seluruh langit.</p><h4>Kesimpulan</h4><p>Mempelajari inflasi kosmik membantu memahami awal mula dan struktur besar alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 44 - Sistem Bintang Ganda",
+    konten: '<h4>Pengertian</h4><p>Sistem bintang ganda adalah dua bintang yang saling mengorbit satu sama lain karena gravitasi.</p><h4>Penjelasan</h4><p>Sistem ini umum ditemukan di galaksi, dan pengamatan orbitnya membantu menentukan massa bintang.</p><h4>Contoh</h4><p>Contohnya, Sirius A dan Sirius B merupakan sistem bintang ganda.</p><h4>Kesimpulan</h4><p>Mempelajari sistem bintang ganda membantu memahami interaksi gravitasi dan evolusi bintang.</p>'
+  },
+  {
+    judul: "Astronomi 45 - Awan Oort",
+    konten: '<h4>Pengertian</h4><p>Awan Oort adalah wilayah hipotetis di tepi Tata Surya yang berisi komet-komet es jauh dari Matahari.</p><h4>Penjelasan</h4><p>Awan ini menjadi sumber komet periode panjang yang kadang memasuki Tata Surya bagian dalam.</p><h4>Contoh</h4><p>Contohnya, komet Hale-Bopp berasal dari Awan Oort.</p><h4>Kesimpulan</h4><p>Mempelajari Awan Oort membantu memahami asal-usul komet dan dinamika Tata Surya jauh.</p>'
+  },
+  {
+    judul: "Astronomi 46 - Komet",
+    konten: '<h4>Pengertian</h4><p>Komet adalah benda langit yang terdiri dari es, debu, dan gas yang mengorbit Matahari.</p><h4>Penjelasan</h4><p>Ketika mendekati Matahari, es menguap membentuk ekor yang indah dan terlihat dari Bumi.</p><h4>Contoh</h4><p>Contohnya, komet Halley yang terkenal muncul setiap 76 tahun.</p><h4>Kesimpulan</h4><p>Mempelajari komet membantu memahami sejarah Tata Surya dan materi primitif.</p>'
+  },
+  {
+    judul: "Astronomi 47 - Planet Katai",
+    konten: '<h4>Pengertian</h4><p>Planet katai adalah benda langit yang mengorbit Matahari, cukup besar untuk berbentuk bulat, tapi tidak menguasai orbitnya.</p><h4>Penjelasan</h4><p>Planet katai berada di Sabuk Kuiper atau sabuk asteroid dan berbeda dari planet biasa karena orbitnya tidak bersih dari objek lain.</p><h4>Contoh</h4><p>Contohnya, Pluto, Eris, dan Ceres.</p><h4>Kesimpulan</h4><p>Mempelajari planet katai membantu memahami struktur Tata Surya dan evolusi orbit benda langit kecil.</p>'
+  },
+  {
+    judul: "Astronomi 48 - Sabuk Kuiper",
+    konten: '<h4>Pengertian</h4><p>Sabuk Kuiper adalah wilayah di luar orbit Neptunus yang berisi benda es kecil seperti planet katai dan komet.</p><h4>Penjelasan</h4><p>Wilayah ini penting untuk mempelajari asal-usul benda kecil dan evolusi Tata Surya.</p><h4>Contoh</h4><p>Contohnya, Pluto berada di Sabuk Kuiper.</p><h4>Kesimpulan</h4><p>Mempelajari Sabuk Kuiper membantu memahami dinamika objek es dan evolusi Tata Surya.</p>'
+  },
+  {
+    judul: "Astronomi 49 - Fenomena Transit Planet",
+    konten: '<h4>Pengertian</h4><p>Fenomena transit planet terjadi ketika planet melintas di depan bintang induknya dari perspektif pengamat.</p><h4>Penjelasan</h4><p>Transit menyebabkan sedikit penurunan cahaya bintang, yang digunakan untuk mendeteksi eksoplanet.</p><h4>Contoh</h4><p>Contohnya, pengamatan transit Kepler-22b untuk menentukan ukuran dan orbitnya.</p><h4>Kesimpulan</h4><p>Mempelajari fenomena transit planet membantu menemukan planet di luar Tata Surya dan mempelajari karakteristiknya.</p>'
+  },
+  {
+    judul: "Astronomi 50 - Observasi Spektroskopi",
+    konten: '<h4>Pengertian</h4><p>Observasi spektroskopi adalah teknik untuk mempelajari cahaya benda langit dan menganalisis komposisi, suhu, dan gerakannya.</p><h4>Penjelasan</h4><p>Dengan spektroskopi, astronom dapat mengetahui unsur yang membentuk bintang, planet, atau nebula.</p><h4>Contoh</h4><p>Contohnya, mempelajari garis spektrum Matahari untuk menentukan unsur kimia dan temperatur permukaannya.</p><h4>Kesimpulan</h4><p>Mempelajari observasi spektroskopi membantu memahami komposisi benda langit dan interaksi cahaya-materi di alam semesta.</p>'
+  }
+];
+
+function loadLocalProgress() {
+  const storedDate = localStorage.getItem('astronomiDate');
+  if (storedDate === todayStr) {
+    todayLimit = parseInt(localStorage.getItem('astronomiLimit') || '0');
+    const stored = localStorage.getItem('astronomiOpened');
+    if (stored) openedIndexes = JSON.parse(stored);
+  } else {
+    todayLimit = 0;
+    openedIndexes = [];
+    localStorage.setItem('astronomiDate', todayStr);
+    localStorage.setItem('astronomiLimit', '0');
+    localStorage.setItem('astronomiOpened', '[]');
+  }
+}
+
+function saveLocalProgress() {
+  localStorage.setItem('astronomiLimit', todayLimit);
+  localStorage.setItem('astronomiOpened', JSON.stringify(openedIndexes));
+}
+
+function updateUI() {
+  const badge = document.getElementById('premiumStatusBadge');
+  const limitSpan = document.getElementById('limitCounter');
+
+  if (isPremium && premiumExpiry) {
+    const now = Date.now();
+    if (now > premiumExpiry) {
+      isPremium = false;
+      premiumExpiry = null;
+      badge.innerText = 'Premium Habis';
+      badge.className = 'premium-indicator warning';
+      limitSpan.innerText = '0/2 Hari Ini';
+      if (currentUser) {
+        db.ref('users/' + currentUser.uid + '/premium/sains').set(false);
+        db.ref('users/' + currentUser.uid + '/premium/sains_expiry').remove();
+      }
+      return;
+    }
+
+    const sisaHari = Math.ceil((premiumExpiry - now) / (1000 * 60 * 60 * 24));
+    badge.innerText = 'Premium (' + sisaHari + ' hari)';
+    badge.className = 'premium-indicator active';
+    limitSpan.innerText = 'Tak Terbatas';
+  } else if (isPremium) {
+    badge.innerText = 'Premium Aktif';
+    badge.className = 'premium-indicator active';
+    limitSpan.innerText = 'Tak Terbatas';
+  } else {
+    badge.innerText = 'Akun Standar';
+    badge.className = 'premium-indicator';
+    limitSpan.innerText = todayLimit + '/2 Hari Ini';
+  }
+}
+
+function renderBagian() {
+  const container = document.getElementById('listBagianGrid');
+  if (!container) return;
+  container.innerHTML = '';
+
+  for (let i = 0; i < materiList.length; i++) {
+    const btn = document.createElement('div');
+    btn.className = 'materi-btn';
+    btn.innerText = 'Bagian ' + (i + 1);
+
+    if (openedIndexes.includes(i)) btn.classList.add('opened');
+    if (!openedIndexes.includes(i) && !isPremium && todayLimit >= 2) btn.classList.add('locked');
+
+    btn.onclick = (function(idx) {
+      return function() { openMateri(idx); };
+    })(i);
+
+    container.appendChild(btn);
+  }
+}
+
+function openMateri(index) {
+  if (!currentUser) {
+    showAlert('Silakan masuk ke akun Anda terlebih dahulu.', false);
+    return;
+  }
+
+  // Refresh cek premium expiry dari Firebase
+  db.ref('users/' + currentUser.uid + '/premium/sains').once('value').then(function(snap) {
+    isPremium = snap.val() === true;
+    return db.ref('users/' + currentUser.uid + '/premium/sains_expiry').once('value');
+  }).then(function(expirySnap) {
+    premiumExpiry = expirySnap.val() || null;
+
+    if (isPremium && premiumExpiry && Date.now() > premiumExpiry) {
+      isPremium = false;
+      premiumExpiry = null;
+      db.ref('users/' + currentUser.uid + '/premium/sains').set(false);
+      db.ref('users/' + currentUser.uid + '/premium/sains_expiry').remove();
+      updateUI();
+      renderBagian();
+      showAlert('Masa premium Anda telah berakhir. Silakan perpanjang untuk mengakses materi.', true);
+      return;
+    }
+
+    const isOpened = openedIndexes.includes(index);
+    const isLocked = !isOpened && !isPremium && todayLimit >= 2;
+
+    if (isLocked) {
+      showAlert('Batas harian untuk akun standar telah tercapai (2 materi). Dapatkan akses premium untuk membuka seluruh materi tanpa batas.', true);
+      return;
+    }
+
+    if (!isOpened) {
+      todayLimit++;
+      openedIndexes.push(index);
+      saveLocalProgress();
+      updateUI();
+      renderBagian();
+
+      if (currentUser) {
+        const openedObj = {};
+        openedIndexes.forEach(function(i) { openedObj[i] = true; });
+        db.ref('users/' + currentUser.uid + '/progress/astronomi').set(openedObj);
+        db.ref('users/' + currentUser.uid + '/limit/astronomi').set({ count: todayLimit, date: todayStr });
+      }
+    }
+
+    currentMateriIdx = index;
+
+    document.getElementById('halamanUtama').classList.add('hidden');
+    document.getElementById('materiView').classList.remove('hidden');
+
+    document.getElementById('judulMateriView').innerHTML = materiList[index].judul;
+    document.getElementById('isiMateriDetail').innerHTML = materiList[index].konten;
+  });
+}
+
+function nextMateri() {
+  if (currentMateriIdx + 1 < materiList.length) {
+    openMateri(currentMateriIdx + 1);
+  } else {
+    showAlert('Anda telah mencapai materi terakhir dalam daftar.', false);
+  }
+}
+
+function prevMateri() {
+  if (currentMateriIdx - 1 >= 0) {
+    openMateri(currentMateriIdx - 1);
+  } else {
+    showAlert('Ini adalah materi pertama.', false);
+  }
+}
+
+function backToList() {
+  document.getElementById('materiView').classList.add('hidden');
+  document.getElementById('halamanUtama').classList.remove('hidden');
+  renderBagian();
+}
+
+function balikKeSains() {
+  window.location.href = 'sains.html';
+}
+
+function showAlert(message, showUpgrade) {
+  const overlay = document.getElementById('globalAlert');
+  document.getElementById('alertMessage').innerText = message;
+  const extraDiv = document.getElementById('alertExtraBtn');
+  extraDiv.innerHTML = '';
+  if (showUpgrade) {
+    const btn = document.createElement('button');
+    btn.className = 'btn-full';
+    btn.innerText = 'Tingkatkan ke Premium';
+    btn.style.marginTop = '12px';
+    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
+    extraDiv.appendChild(btn);
+  }
+  overlay.style.display = 'flex';
+}
+
+function closeAlertGlobal() {
+  document.getElementById('globalAlert').style.display = 'none';
+}
+
+function openSidebar() {
+  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('sidebarNav').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('sidebarNav').classList.remove('active');
+}
+
+function goTo(page) {
+  window.location.href = page;
+}
+
+function logoutAction() {
+  if (confirm('Yakin ingin keluar?')) {
+    firebase.auth().signOut().then(function() {
+      window.location.href = 'login.html';
+    });
+  }
+}
+
+document.getElementById('prevBtn').onclick = prevMateri;
+document.getElementById('nextBtn').onclick = nextMateri;
+document.getElementById('backToListBtn').onclick = backToList;
+
+if (localStorage.getItem('isGuest') === 'true') {
+  showAlert('Silakan login terlebih dahulu untuk mengakses materi pembelajaran.', false);
+  setTimeout(function() { window.location.href = 'sains.html'; }, 2000);
+}
+
+if (localStorage.getItem('themeEkonomi') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  loadLocalProgress();
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (!user) {
+      currentUser = null;
+      isPremium = false;
+      premiumExpiry = null;
+      updateUI();
+      renderBagian();
+      return;
+    }
+
+    currentUser = user;
+
+    db.ref('users/' + user.uid + '/premium/sains').once('value').then(function(snap) {
+      isPremium = snap.val() === true;
+      return db.ref('users/' + user.uid + '/premium/sains_expiry').once('value');
+    }).then(function(expirySnap) {
+      premiumExpiry = expirySnap.val() || null;
+
+      if (isPremium && premiumExpiry) {
+        const now = Date.now();
+        if (now > premiumExpiry) {
+          isPremium = false;
+          premiumExpiry = null;
+          db.ref('users/' + user.uid + '/premium/sains').set(false);
+          db.ref('users/' + user.uid + '/premium/sains_expiry').remove();
+        }
+      }
+
+      return db.ref('users/' + user.uid + '/progress/astronomi').once('value');
+    }).then(function(snap) {
+      if (snap.val()) {
+        const data = snap.val();
+        const newOpened = Array.isArray(data) ? data : Object.keys(data).map(Number);
+        if (JSON.stringify(newOpened) !== JSON.stringify(openedIndexes)) {
+          openedIndexes = newOpened;
+          saveLocalProgress();
+        }
+      }
+      return db.ref('users/' + user.uid + '/limit/astronomi').once('value');
+    }).then(function(snap) {
+      const limitData = snap.val();
+      if (limitData && limitData.date === todayStr) {
+        if (todayLimit !== limitData.count) todayLimit = limitData.count;
+      } else {
+        todayLimit = 0;
+      }
+      saveLocalProgress();
+      updateUI();
+      renderBagian();
+    }).catch(function(e) {
+      console.error(e);
+      renderBagian();
+    });
+  });
+});
+</script>
+
+</body>
+</html>

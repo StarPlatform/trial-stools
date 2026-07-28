@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Star Tools | Ekonomi</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #F1F5F9;
+            color: #0F172A;
+        }
+        body.dark {
+            background: #0B1120;
+            color: #F1F5F9;
+        }
+        body.dark .card-modern,
+        body.dark .app-header,
+        body.dark .sidebar-nav,
+        body.dark .alert-card {
+            background: #111827;
+            border-color: #1E293B;
+        }
+        body.dark .materi-btn {
+            background: #1E293B;
+            border-color: #334155;
+            color: #E2E8F0;
+        }
+        body.dark .input-modern {
+            background: #1E293B;
+            border-color: #334155;
+            color: white;
+        }
+        .app-container {
+            max-width: 560px;
+            margin: 0 auto;
+            background: #F1F5F9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        body.dark .app-container {
+            background: #0B1120;
+        }
+        .app-header {
+            background: #FFFFFF;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+        body.dark .app-header {
+            background: #111827;
+            border-bottom-color: #1E293B;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-icon {
+            width: 40px;
+            height: 40px;
+            background: #F8FAFE;
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #E2E8F0;
+        }
+        body.dark .menu-icon {
+            background: #1E293B;
+            border-color: #334155;
+        }
+        .menu-icon svg {
+            stroke: #0F172A;
+        }
+        body.dark .menu-icon svg {
+            stroke: #F1F5F9;
+        }
+        .app-title {
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #2563EB, #60A5FA);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .close-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+        }
+        body.dark .close-btn {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .close-btn:active {
+            transform: scale(0.92);
+        }
+        .close-btn svg {
+            stroke: #0F172A;
+            width: 22px;
+            height: 22px;
+        }
+        body.dark .close-btn svg {
+            stroke: #F1F5F9;
+        }
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.25s;
+        }
+        .sidebar-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .sidebar-nav {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: #FFFFFF;
+            z-index: 101;
+            transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            padding: 70px 20px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar-nav.active {
+            left: 0;
+        }
+        .sidebar-nav a {
+            padding: 14px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 18px;
+            text-decoration: none;
+            color: #0F172A;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        body.dark .sidebar-nav a {
+            color: #F1F5F9;
+        }
+        .sidebar-nav a:active {
+            background: #DBEAFE;
+        }
+        body.dark .sidebar-nav a:active {
+            background: #1E293B;
+        }
+        .close-sidebar-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+        }
+        .logout-link {
+            margin-top: 20px;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 16px;
+        }
+        body.dark .logout-link {
+            border-top-color: #334155;
+        }
+        .logout-link a {
+            color: #DC2626 !important;
+        }
+        .logout-link a svg {
+            stroke: #DC2626;
+        }
+        .screen {
+            padding: 20px 18px 30px;
+            flex: 1;
+            animation: fadeSlide 0.25s ease;
+        }
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .card-modern {
+            background: #FFFFFF;
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+            border: 1px solid #E2E8F0;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .premium-indicator {
+            background: #DBEAFE;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2563EB;
+        }
+        body.dark .premium-indicator {
+            background: #1E293B;
+            color: #60A5FA;
+        }
+        .premium-indicator.active {
+            background: #2563EB;
+            color: white;
+        }
+        .premium-indicator.warning {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+        body.dark .premium-indicator.warning {
+            background: #78350F;
+            color: #FBBF24;
+        }
+        .limit-indicator {
+            background: #F1F5F9;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+        }
+        body.dark .limit-indicator {
+            background: #1E293B;
+            color: #94A3B8;
+        }
+        .btn-full {
+            background: #2563EB;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 44px;
+            font-size: 15px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-full:active {
+            transform: scale(0.97);
+            background: #1D4ED8;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #2563EB;
+            color: #2563EB;
+            padding: 12px;
+            border-radius: 44px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        .grid-bagian {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .materi-btn {
+            background: #F8FAFE;
+            border: 1px solid #E2E8F0;
+            padding: 12px 6px;
+            border-radius: 22px;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            transition: 0.2s;
+            cursor: pointer;
+            color: #0F172A;
+        }
+        body.dark .materi-btn {
+            background: #1E293B;
+            border-color: #334155;
+            color: #E2E8F0;
+        }
+        .materi-btn.opened {
+            background: #2563EB;
+            color: white;
+            border-color: #2563EB;
+        }
+        .materi-btn.locked {
+            opacity: 0.55;
+            filter: grayscale(0.1);
+        }
+        .input-modern {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 60px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            color: #0F172A;
+            font-size: 15px;
+            margin-bottom: 14px;
+        }
+        body.dark .input-modern {
+            background: #1E293B;
+            border-color: #334155;
+            color: #F1F5F9;
+        }
+        .alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+        .alert-card {
+            background: #FFFFFF;
+            width: 300px;
+            border-radius: 32px;
+            padding: 24px 22px;
+            text-align: center;
+            animation: scaleIn 0.2s ease;
+            border: 1px solid #E2E8F0;
+        }
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.94);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .footer-app {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #64748B;
+            border-top: 1px solid #E2E8F0;
+        }
+        body.dark .footer-app {
+            color: #94A3B8;
+            border-top-color: #1E293B;
+        }
+        .materi-content {
+            line-height: 1.65;
+            font-size: 15px;
+        }
+        .materi-content h3 {
+            margin: 16px 0 8px 0;
+            font-size: 18px;
+            color: #2563EB;
+        }
+        .materi-content ul {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        .materi-content p {
+            margin: 6px 0;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .nav-buttons button {
+            flex: 1;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <div class="logo-area">
+                <div class="menu-icon" onclick="openSidebar()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </div>
+                <span class="app-title">Star Tools • Ekonomi</span>
+            </div>
+            <button class="close-btn" onclick="goTo('index.html')" aria-label="Kembali ke Beranda">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+        <div class="sidebar-nav" id="sidebarNav">
+            <div class="close-sidebar-icon" onclick="closeSidebar()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </div>
+            <a href="#" onclick="navigateTo('home')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
+            </a>
+            <a href="#" onclick="navigateTo('news')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
+            </a>
+            <a href="#" onclick="navigateTo('premium')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
+            </a>
+            <a href="#" onclick="navigateTo('account')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
+            </a>
+            <div class="logout-link">
+                <a href="#" onclick="logoutAction()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.7"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Keluar
+                </a>
+            </div>
+        </div>
+        <div class="screen" id="mainScreen">
+            <div id="welcomeSection">
+                <div class="card-modern">
+                    <div class="section-title">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>
+                        Pembelajaran Ekonomi
+                    </div>
+                    <p style="margin-bottom: 16px;">Materi terstruktur dari konsep fundamental hingga aplikasi nyata dalam kegiatan ekonomi.</p>
+                    <div class="status-row">
+                        <span id="premiumStatusBadge" class="premium-indicator">Akun Standar</span>
+                        <span id="limitCounter" class="limit-indicator">0/2 Hari Ini</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-modern" id="caraPakaiCard">
+                <div class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                    Panduan Aplikasi
+                </div>
+                <ul style="padding-left: 20px; color: #475569; line-height: 1.5; font-size: 13px;">
+                    <li>Pilih materi di bawah (maksimal 2 bagian per hari untuk akun standar).</li>
+                    <li>Mode premium memberikan akses tanpa batas ke seluruh materi.</li>
+                    <li>Setiap materi memuat pengertian, penjelasan, contoh, dan kesimpulan.</li>
+                    <li>Gunakan navigasi Sebelumnya / Selanjutnya untuk berpindah antar materi.</li>
+                </ul>
+            </div>
+            <div class="card-modern">
+                <div class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Aktivasi Premium
+                </div>
+                <input type="text" id="premiumCodeInput" class="input-modern" placeholder="Masukkan kode premium" autocomplete="off">
+                <button class="btn-full" onclick="activatePremium()">Aktifkan Akses Premium</button>
+            </div>
+            <div class="card-modern" id="pilihBagianCard">
+                <div class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    Daftar Materi
+                </div>
+                <div id="listBagianGrid" class="grid-bagian"></div>
+            </div>
+            <div id="materiView" class="hidden">
+                <div class="card-modern">
+                    <div class="section-title" id="judulMateriView">Materi</div>
+                    <div id="isiMateriDetail" class="materi-content"></div>
+                    <div class="nav-buttons">
+                        <button class="btn-outline" onclick="prevMateri()">Sebelumnya</button>
+                        <button class="btn-full" onclick="nextMateri()">Selanjutnya</button>
+                    </div>
+                    <button class="btn-outline" onclick="backToList()" style="margin-top: 12px;">Kembali ke Daftar</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-app">
+            <p>Star Platform | Star Tools 2026</p>
+        </div>
+    </div>
+    <div id="globalAlert" class="alert-overlay">
+        <div class="alert-card">
+            <p id="alertMessage" style="margin-bottom: 20px; font-weight: 500;">Pemberitahuan</p>
+            <button class="btn-full" onclick="closeAlertGlobal()">Mengerti</button>
+            <div id="alertExtraBtn"></div>
+        </div>
+    </div>
+    <div id="materiRepository" style="display: none;">
+        <div class="materi" data-judul="1. Pengertian Ilmu Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Ilmu ekonomi adalah studi tentang bagaimana manusia mengelola sumber daya yang terbatas untuk memenuhi kebutuhan yang tidak terbatas.</p>
+            <h3>Penjelasan</h3>
+            <p>Setiap individu dihadapkan pada pilihan karena keterbatasan alat pemuas kebutuhan.</p>
+            <h3>Contoh</h3>
+            <p>Memilih antara membeli buku atau makan siang karena dana terbatas.</p>
+            <h3>Kesimpulan</h3>
+            <p>Ekonomi membantu pengambilan keputusan yang rasional.</p>
+        </div>
+        <div class="materi" data-judul="2. Masalah Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Tiga masalah pokok ekonomi: apa, bagaimana, untuk siapa.</p>
+            <h3>Penjelasan</h3>
+            <p>Kelangkaan menyebabkan kebutuhan akan pilihan produksi dan distribusi.</p>
+            <h3>Contoh</h3>
+            <p>Pabrik menentukan produk, metode, dan target pasar.</p>
+            <h3>Kesimpulan</h3>
+            <p>Masalah ekonomi diselesaikan dengan sistem alokasi yang efisien.</p>
+        </div>
+        <div class="materi" data-judul="3. Kebutuhan Manusia">
+            <h3>Pengertian</h3>
+            <p>Segala sesuatu yang diperlukan untuk kelangsungan hidup dan kesejahteraan.</p>
+            <h3>Penjelasan</h3>
+            <p>Kebutuhan primer, sekunder, tersier.</p>
+            <h3>Contoh</h3>
+            <p>Makanan, pakaian, rekreasi.</p>
+            <h3>Kesimpulan</h3>
+            <p>Skala prioritas penting untuk mengelola kebutuhan.</p>
+        </div>
+        <div class="materi" data-judul="4. Alat Pemuas Kebutuhan">
+            <h3>Pengertian</h3>
+            <p>Barang atau jasa yang digunakan untuk memenuhi kebutuhan.</p>
+            <h3>Penjelasan</h3>
+            <p>Barang ekonomi vs barang bebas.</p>
+            <h3>Contoh</h3>
+            <p>Air mineral kemasan vs air sungai.</p>
+            <h3>Kesimpulan</h3>
+            <p>Alat pemuas harus digunakan secara bijak.</p>
+        </div>
+        <div class="materi" data-judul="5. Prinsip Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Usaha mencapai hasil maksimal dengan pengorbanan minimal.</p>
+            <h3>Penjelasan</h3>
+            <p>Efisiensi dalam kegiatan ekonomi.</p>
+            <h3>Contoh</h3>
+            <p>Membeli barang dengan harga terbaik namun kualitas sama.</p>
+            <h3>Kesimpulan</h3>
+            <p>Prinsip ekonomi mendorong tindakan rasional.</p>
+        </div>
+        <div class="materi" data-judul="6. Motif Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Alasan seseorang melakukan kegiatan ekonomi.</p>
+            <h3>Penjelasan</h3>
+            <p>Motif intrinsik dan ekstrinsik.</p>
+            <h3>Contoh</h3>
+            <p>Bekerja untuk memenuhi kebutuhan atau mencari keuntungan.</p>
+            <h3>Kesimpulan</h3>
+            <p>Motif mempengaruhi perilaku ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="7. Tindakan Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Tindakan ekonomi adalah segala usaha manusia dalam memenuhi kebutuhan hidupnya berdasarkan pertimbangan tertentu.</p>
+            <h3>Penjelasan</h3>
+            <p>Setiap tindakan ekonomi dilakukan dengan tujuan memperoleh hasil terbaik, biasanya mempertimbangkan kebutuhan, kemampuan, dan kondisi yang ada sehingga keputusan yang diambil tidak merugikan diri sendiri maupun orang lain.</p>
+            <h3>Contoh</h3>
+            <p>Seorang pelajar memilih membeli buku pelajaran dibandingkan membeli barang hiburan karena lebih penting untuk masa depannya.</p>
+            <h3>Kesimpulan</h3>
+            <p>Tindakan ekonomi harus dilakukan secara rasional agar kebutuhan terpenuhi dengan baik dan efisien.</p>
+        </div>
+        <div class="materi" data-judul="8. Biaya Peluang">
+            <h3>Pengertian</h3>
+            <p>Biaya peluang adalah nilai dari pilihan terbaik yang harus dikorbankan ketika seseorang memilih pilihan lain.</p>
+            <h3>Penjelasan</h3>
+            <p>Dalam kehidupan sehari-hari, setiap pilihan pasti memiliki konsekuensi karena kita tidak bisa mendapatkan semua hal sekaligus, sehingga harus ada yang dikorbankan untuk mendapatkan sesuatu yang dianggap lebih penting.</p>
+            <h3>Contoh</h3>
+            <p>Memilih belajar daripada bermain berarti kehilangan waktu bermain. Menggunakan uang untuk makan berarti tidak bisa membeli barang lain.</p>
+            <h3>Kesimpulan</h3>
+            <p>Setiap keputusan memiliki biaya peluang sehingga manusia harus bijak dalam menentukan pilihan.</p>
+        </div>
+        <div class="materi" data-judul="9. Skala Prioritas">
+            <h3>Pengertian</h3>
+            <p>Skala prioritas adalah urutan kebutuhan yang disusun berdasarkan tingkat kepentingannya.</p>
+            <h3>Penjelasan</h3>
+            <p>Karena kebutuhan manusia banyak sementara sumber daya terbatas, maka perlu dibuat urutan kebutuhan dari yang paling penting hingga yang bisa ditunda agar tidak terjadi pemborosan dan kebutuhan utama tetap terpenuhi.</p>
+            <h3>Contoh</h3>
+            <p>Makan dan minum (utama), alat sekolah, hiburan seperti game atau nongkrong.</p>
+            <h3>Kesimpulan</h3>
+            <p>Skala prioritas membantu seseorang menentukan kebutuhan mana yang harus didahulukan.</p>
+        </div>
+        <div class="materi" data-judul="10. Kegiatan Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Kegiatan ekonomi adalah aktivitas yang dilakukan manusia untuk memenuhi kebutuhan hidupnya.</p>
+            <h3>Penjelasan</h3>
+            <p>Kegiatan ekonomi terbagi menjadi tiga jenis utama yang saling berhubungan, yaitu produksi, distribusi, dan konsumsi, dimana ketiganya membentuk siklus ekonomi dalam kehidupan sehari-hari.</p>
+            <h3>Contoh</h3>
+            <p>Produksi: membuat barang atau jasa. Distribusi: menyalurkan barang ke konsumen. Konsumsi: menggunakan barang atau jasa.</p>
+            <h3>Kesimpulan</h3>
+            <p>Kegiatan ekonomi merupakan bagian penting dalam kehidupan karena tanpa kegiatan ini kebutuhan manusia tidak akan terpenuhi.</p>
+        </div>
+        <div class="materi" data-judul="11. Produksi">
+            <h3>Pengertian</h3>
+            <p>Produksi adalah kegiatan menghasilkan atau menambah nilai guna suatu barang atau jasa.</p>
+            <h3>Penjelasan</h3>
+            <p>Kegiatan produksi dilakukan untuk memenuhi kebutuhan manusia dengan cara mengolah bahan mentah menjadi barang jadi atau setengah jadi sehingga memiliki nilai yang lebih tinggi.</p>
+            <h3>Contoh</h3>
+            <p>Pabrik mengolah kayu menjadi meja. Petani menanam padi menjadi beras.</p>
+            <h3>Kesimpulan</h3>
+            <p>Produksi merupakan awal dari kegiatan ekonomi karena menciptakan barang dan jasa yang dibutuhkan manusia.</p>
+        </div>
+        <div class="materi" data-judul="12. Distribusi">
+            <h3>Pengertian</h3>
+            <p>Distribusi adalah kegiatan menyalurkan barang atau jasa dari produsen ke konsumen.</p>
+            <h3>Penjelasan</h3>
+            <p>Distribusi bertujuan agar barang yang dihasilkan produsen dapat sampai ke tangan konsumen dengan tepat waktu dan tempat sehingga dapat digunakan sesuai kebutuhan.</p>
+            <h3>Contoh</h3>
+            <p>Barang dari pabrik dikirim ke toko lalu dibeli oleh masyarakat.</p>
+            <h3>Kesimpulan</h3>
+            <p>Distribusi menjadi penghubung antara produksi dan konsumsi dalam kegiatan ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="13. Konsumsi">
+            <h3>Pengertian</h3>
+            <p>Konsumsi adalah kegiatan menggunakan barang atau jasa untuk memenuhi kebutuhan.</p>
+            <h3>Penjelasan</h3>
+            <p>Kegiatan konsumsi dilakukan oleh manusia setiap hari untuk mempertahankan hidup dan mencapai kepuasan, baik kebutuhan primer maupun kebutuhan lainnya.</p>
+            <h3>Contoh</h3>
+            <p>Makan makanan, memakai pakaian, dan menggunakan transportasi.</p>
+            <h3>Kesimpulan</h3>
+            <p>Konsumsi merupakan tujuan akhir dari kegiatan ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="14. Pelaku Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Pelaku ekonomi adalah pihak-pihak yang terlibat dalam kegiatan ekonomi.</p>
+            <h3>Penjelasan</h3>
+            <p>Pelaku ekonomi terdiri dari beberapa pihak yang saling berinteraksi dalam kegiatan ekonomi untuk memenuhi kebutuhan dan menjaga keseimbangan ekonomi.</p>
+            <h3>Contoh</h3>
+            <p>Rumah tangga konsumen, rumah tangga produsen, pemerintah, masyarakat luar negeri.</p>
+            <h3>Kesimpulan</h3>
+            <p>Pelaku ekonomi memiliki peran penting dalam menjalankan sistem ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="15. Rumah Tangga Konsumen">
+            <h3>Pengertian</h3>
+            <p>Rumah tangga konsumen adalah individu atau kelompok yang menggunakan barang dan jasa.</p>
+            <h3>Penjelasan</h3>
+            <p>Rumah tangga konsumen berperan sebagai pengguna hasil produksi dan juga sebagai penyedia faktor produksi seperti tenaga kerja.</p>
+            <h3>Contoh</h3>
+            <p>Keluarga membeli makanan, pakaian, dan menggunakan jasa transportasi.</p>
+            <h3>Kesimpulan</h3>
+            <p>Rumah tangga konsumen berperan penting sebagai pengguna barang dan jasa dalam kegiatan ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="16. Rumah Tangga Produsen">
+            <h3>Pengertian</h3>
+            <p>Rumah tangga produsen adalah pihak yang menghasilkan barang atau jasa.</p>
+            <h3>Penjelasan</h3>
+            <p>Produsen memanfaatkan faktor produksi seperti tenaga kerja, modal, dan bahan baku untuk menghasilkan barang atau jasa yang akan dijual kepada konsumen.</p>
+            <h3>Contoh</h3>
+            <p>Pabrik, perusahaan, dan usaha kecil seperti warung.</p>
+            <h3>Kesimpulan</h3>
+            <p>Produsen berperan sebagai penghasil barang dan jasa dalam kegiatan ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="17. Pemerintah">
+            <h3>Pengertian</h3>
+            <p>Pemerintah adalah pelaku ekonomi yang mengatur dan mengawasi kegiatan ekonomi.</p>
+            <h3>Penjelasan</h3>
+            <p>Pemerintah berperan dalam membuat kebijakan, menyediakan fasilitas umum, serta menjaga stabilitas ekonomi agar berjalan dengan baik.</p>
+            <h3>Contoh</h3>
+            <p>Menetapkan pajak, membangun jalan, dan memberikan bantuan sosial.</p>
+            <h3>Kesimpulan</h3>
+            <p>Pemerintah berfungsi sebagai pengatur dalam sistem ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="18. Masyarakat Luar Negeri">
+            <h3>Pengertian</h3>
+            <p>Masyarakat luar negeri adalah pihak dari negara lain yang berhubungan dalam kegiatan ekonomi.</p>
+            <h3>Penjelasan</h3>
+            <p>Hubungan ekonomi dengan luar negeri terjadi melalui kegiatan ekspor dan impor yang membantu memenuhi kebutuhan dalam negeri.</p>
+            <h3>Contoh</h3>
+            <p>Indonesia mengekspor hasil alam dan mengimpor barang elektronik.</p>
+            <h3>Kesimpulan</h3>
+            <p>Masyarakat luar negeri membantu melengkapi kebutuhan ekonomi suatu negara.</p>
+        </div>
+        <div class="materi" data-judul="19. Pasar">
+            <h3>Pengertian</h3>
+            <p>Pasar adalah tempat bertemunya penjual dan pembeli untuk melakukan transaksi.</p>
+            <h3>Penjelasan</h3>
+            <p>Pasar tidak selalu berbentuk tempat fisik, tetapi juga bisa berupa online, yang penting terjadi interaksi antara penjual dan pembeli.</p>
+            <h3>Contoh</h3>
+            <p>Pasar tradisional, supermarket, dan marketplace online.</p>
+            <h3>Kesimpulan</h3>
+            <p>Pasar menjadi tempat terjadinya transaksi dalam kegiatan ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="20. Permintaan dan Penawaran">
+            <h3>Pengertian</h3>
+            <p>Permintaan adalah jumlah barang yang ingin dibeli konsumen, sedangkan penawaran adalah jumlah barang yang ingin dijual produsen.</p>
+            <h3>Penjelasan</h3>
+            <p>Harga suatu barang ditentukan oleh keseimbangan antara permintaan dan penawaran, jika permintaan tinggi harga naik, jika penawaran banyak harga bisa turun.</p>
+            <h3>Contoh</h3>
+            <p>Saat barang langka tapi banyak yang ingin membeli, harga akan naik.</p>
+            <h3>Kesimpulan</h3>
+            <p>Permintaan dan penawaran menentukan harga di pasar.</p>
+        </div>
+        <div class="materi" data-judul="21. Hukum Permintaan">
+            <h3>Pengertian</h3>
+            <p>Hukum permintaan menyatakan bahwa jika harga naik maka jumlah yang diminta turun, dan jika harga turun maka jumlah yang diminta naik.</p>
+            <h3>Penjelasan</h3>
+            <p>Hal ini terjadi karena kemampuan dan keinginan konsumen berubah sesuai harga, semakin mahal suatu barang maka semakin sedikit orang yang mampu membelinya.</p>
+            <h3>Contoh</h3>
+            <p>Saat harga mie instan naik, orang cenderung mengurangi pembelian.</p>
+            <h3>Kesimpulan</h3>
+            <p>Harga dan jumlah permintaan memiliki hubungan berbanding terbalik.</p>
+        </div>
+        <div class="materi" data-judul="22. Hukum Penawaran">
+            <h3>Pengertian</h3>
+            <p>Hukum penawaran menyatakan bahwa jika harga naik maka jumlah yang ditawarkan naik, dan jika harga turun maka jumlah yang ditawarkan turun.</p>
+            <h3>Penjelasan</h3>
+            <p>Produsen akan meningkatkan produksi ketika harga tinggi karena keuntungan lebih besar, sebaliknya jika harga rendah produksi akan dikurangi.</p>
+            <h3>Contoh</h3>
+            <p>Saat harga cabai naik, petani akan menanam lebih banyak cabai.</p>
+            <h3>Kesimpulan</h3>
+            <p>Harga dan jumlah penawaran memiliki hubungan searah.</p>
+        </div>
+        <div class="materi" data-judul="23. Kurva Permintaan">
+            <h3>Pengertian</h3>
+            <p>Kurva permintaan adalah grafik yang menunjukkan hubungan antara harga dan jumlah barang yang diminta.</p>
+            <h3>Penjelasan</h3>
+            <p>Kurva permintaan biasanya menurun dari kiri atas ke kanan bawah karena mengikuti hukum permintaan.</p>
+            <h3>Contoh</h3>
+            <p>Jika harga turun, titik pada grafik akan bergerak ke kanan karena jumlah yang diminta bertambah.</p>
+            <h3>Kesimpulan</h3>
+            <p>Kurva permintaan menggambarkan hubungan terbalik antara harga dan jumlah permintaan.</p>
+        </div>
+        <div class="materi" data-judul="24. Kurva Penawaran">
+            <h3>Pengertian</h3>
+            <p>Kurva penawaran adalah grafik yang menunjukkan hubungan antara harga dan jumlah barang yang ditawarkan.</p>
+            <h3>Penjelasan</h3>
+            <p>Kurva penawaran naik dari kiri bawah ke kanan atas karena mengikuti hukum penawaran.</p>
+            <h3>Contoh</h3>
+            <p>Jika harga naik, jumlah barang yang ditawarkan bertambah sehingga titik bergerak ke kanan atas.</p>
+            <h3>Kesimpulan</h3>
+            <p>Kurva penawaran menunjukkan hubungan searah antara harga dan jumlah penawaran.</p>
+        </div>
+        <div class="materi" data-judul="25. Keseimbangan Pasar">
+            <h3>Pengertian</h3>
+            <p>Keseimbangan pasar adalah keadaan ketika jumlah permintaan sama dengan jumlah penawaran.</p>
+            <h3>Penjelasan</h3>
+            <p>Pada titik ini tidak ada kelebihan atau kekurangan barang di pasar sehingga harga cenderung stabil.</p>
+            <h3>Contoh</h3>
+            <p>Harga yang disepakati antara penjual dan pembeli sehingga tidak ada pihak yang merasa dirugikan.</p>
+            <h3>Kesimpulan</h3>
+            <p>Keseimbangan pasar terjadi ketika permintaan dan penawaran bertemu.</p>
+        </div>
+        <div class="materi" data-judul="26. Elastisitas">
+            <h3>Pengertian</h3>
+            <p>Elastisitas adalah ukuran seberapa besar perubahan jumlah barang akibat perubahan harga.</p>
+            <h3>Penjelasan</h3>
+            <p>Jika perubahan kecil pada harga menyebabkan perubahan besar pada jumlah, maka disebut elastis, sebaliknya disebut inelastis.</p>
+            <h3>Contoh</h3>
+            <p>Barang mewah biasanya elastis, sedangkan kebutuhan pokok cenderung inelastis.</p>
+            <h3>Kesimpulan</h3>
+            <p>Elastisitas menunjukkan tingkat kepekaan terhadap perubahan harga.</p>
+        </div>
+        <div class="materi" data-judul="27. Uang">
+            <h3>Pengertian</h3>
+            <p>Uang adalah alat tukar yang sah dan diterima umum dalam kegiatan ekonomi.</p>
+            <h3>Penjelasan</h3>
+            <p>Uang mempermudah transaksi karena tidak perlu lagi sistem barter, selain itu juga berfungsi sebagai alat ukur nilai dan penyimpan kekayaan.</p>
+            <h3>Contoh</h3>
+            <p>Uang kertas dan uang logam yang digunakan dalam kehidupan sehari-hari.</p>
+            <h3>Kesimpulan</h3>
+            <p>Uang memegang peranan penting dalam memperlancar kegiatan ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="28. Bank">
+            <h3>Pengertian</h3>
+            <p>Bank adalah lembaga keuangan yang menghimpun dan menyalurkan dana kepada masyarakat.</p>
+            <h3>Penjelasan</h3>
+            <p>Bank berfungsi menyimpan uang, memberikan pinjaman, dan membantu transaksi keuangan sehingga mempermudah aktivitas ekonomi.</p>
+            <h3>Contoh</h3>
+            <p>Menabung di bank atau meminjam uang untuk usaha.</p>
+            <h3>Kesimpulan</h3>
+            <p>Bank berperan penting dalam sistem keuangan dan ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="29. Inflasi">
+            <h3>Pengertian</h3>
+            <p>Inflasi adalah kenaikan harga barang dan jasa secara umum dan terus-menerus.</p>
+            <h3>Penjelasan</h3>
+            <p>Inflasi menyebabkan daya beli masyarakat menurun karena uang yang dimiliki tidak bisa membeli barang sebanyak sebelumnya.</p>
+            <h3>Contoh</h3>
+            <p>Harga kebutuhan pokok naik secara terus-menerus dalam jangka waktu tertentu.</p>
+            <h3>Kesimpulan</h3>
+            <p>Inflasi berdampak pada penurunan nilai uang.</p>
+        </div>
+        <div class="materi" data-judul="30. Pengangguran">
+            <h3>Pengertian</h3>
+            <p>Pengangguran adalah keadaan seseorang yang tidak memiliki pekerjaan tetapi sedang mencari kerja.</p>
+            <h3>Penjelasan</h3>
+            <p>Pengangguran terjadi karena berbagai faktor seperti kurangnya lapangan kerja, rendahnya keterampilan, atau ketidaksesuaian antara pendidikan dan pekerjaan.</p>
+            <h3>Contoh</h3>
+            <p>Lulusan sekolah yang belum mendapatkan pekerjaan.</p>
+            <h3>Kesimpulan</h3>
+            <p>Pengangguran menjadi masalah ekonomi yang harus diatasi agar kesejahteraan meningkat.</p>
+        </div>
+        <div class="materi" data-judul="31. Tenaga Kerja">
+            <h3>Pengertian</h3>
+            <p>Tenaga kerja adalah setiap orang yang mampu melakukan pekerjaan untuk menghasilkan barang atau jasa.</p>
+            <h3>Penjelasan</h3>
+            <p>Tenaga kerja merupakan salah satu faktor produksi yang sangat penting karena tanpa tenaga kerja proses produksi tidak dapat berjalan dengan baik.</p>
+            <h3>Contoh</h3>
+            <p>Pekerja pabrik, guru, dan karyawan kantor termasuk tenaga kerja.</p>
+            <h3>Kesimpulan</h3>
+            <p>Tenaga kerja berperan penting dalam menghasilkan barang dan jasa.</p>
+        </div>
+        <div class="materi" data-judul="32. Upah">
+            <h3>Pengertian</h3>
+            <p>Upah adalah balas jasa yang diterima tenaga kerja atas pekerjaan yang dilakukan.</p>
+            <h3>Penjelasan</h3>
+            <p>Besarnya upah dipengaruhi oleh jenis pekerjaan, tingkat pendidikan, keterampilan, dan pengalaman kerja seseorang.</p>
+            <h3>Contoh</h3>
+            <p>Gaji bulanan yang diterima karyawan dari perusahaan.</p>
+            <h3>Kesimpulan</h3>
+            <p>Upah merupakan bentuk penghargaan atas kerja yang dilakukan tenaga kerja.</p>
+        </div>
+        <div class="materi" data-judul="33. Modal">
+            <h3>Pengertian</h3>
+            <p>Modal adalah segala sesuatu yang digunakan untuk membantu proses produksi.</p>
+            <h3>Penjelasan</h3>
+            <p>Modal dapat berupa uang, alat, mesin, atau bangunan yang digunakan untuk menghasilkan barang atau jasa.</p>
+            <h3>Contoh</h3>
+            <p>Mesin pabrik, uang untuk usaha, dan gedung toko.</p>
+            <h3>Kesimpulan</h3>
+            <p>Modal membantu memperlancar dan meningkatkan hasil produksi.</p>
+        </div>
+        <div class="materi" data-judul="34. Kewirausahaan">
+            <h3>Pengertian</h3>
+            <p>Kewirausahaan adalah kemampuan seseorang dalam mengelola usaha untuk mendapatkan keuntungan.</p>
+            <h3>Penjelasan</h3>
+            <p>Seorang wirausaha harus berani mengambil risiko, kreatif, dan mampu melihat peluang usaha di sekitarnya.</p>
+            <h3>Contoh</h3>
+            <p>Membuka usaha makanan, toko online, atau jasa.</p>
+            <h3>Kesimpulan</h3>
+            <p>Kewirausahaan mendorong pertumbuhan ekonomi dan menciptakan lapangan kerja.</p>
+        </div>
+        <div class="materi" data-judul="35. Laba">
+            <h3>Pengertian</h3>
+            <p>Laba adalah keuntungan yang diperoleh dari hasil usaha setelah dikurangi biaya.</p>
+            <h3>Penjelasan</h3>
+            <p>Laba menjadi tujuan utama dalam kegiatan usaha karena menunjukkan keberhasilan dalam menjalankan bisnis.</p>
+            <h3>Contoh</h3>
+            <p>Menjual barang dengan harga lebih tinggi dari modalnya.</p>
+            <h3>Kesimpulan</h3>
+            <p>Laba menunjukkan hasil dari kegiatan usaha yang dilakukan.</p>
+        </div>
+        <div class="materi" data-judul="36. Rugi">
+            <h3>Pengertian</h3>
+            <p>Rugi adalah keadaan ketika biaya lebih besar daripada pendapatan.</p>
+            <h3>Penjelasan</h3>
+            <p>Kerugian dapat terjadi karena penjualan rendah, biaya tinggi, atau kesalahan dalam pengelolaan usaha.</p>
+            <h3>Contoh</h3>
+            <p>Barang tidak laku sehingga modal tidak kembali.</p>
+            <h3>Kesimpulan</h3>
+            <p>Rugi harus dihindari dengan pengelolaan usaha yang baik.</p>
+        </div>
+        <div class="materi" data-judul="37. Pajak">
+            <h3>Pengertian</h3>
+            <p>Pajak adalah iuran wajib yang dibayarkan masyarakat kepada negara.</p>
+            <h3>Penjelasan</h3>
+            <p>Pajak digunakan oleh pemerintah untuk membiayai pembangunan dan pelayanan publik seperti jalan, sekolah, dan rumah sakit.</p>
+            <h3>Contoh</h3>
+            <p>Pajak kendaraan, pajak penghasilan.</p>
+            <h3>Kesimpulan</h3>
+            <p>Pajak berperan penting dalam pembangunan negara.</p>
+        </div>
+        <div class="materi" data-judul="38. APBN">
+            <h3>Pengertian</h3>
+            <p>APBN adalah rencana keuangan tahunan negara.</p>
+            <h3>Penjelasan</h3>
+            <p>APBN berisi pendapatan dan pengeluaran negara yang digunakan untuk mengatur keuangan negara agar tetap stabil.</p>
+            <h3>Contoh</h3>
+            <p>Anggaran untuk pendidikan, kesehatan, dan infrastruktur.</p>
+            <h3>Kesimpulan</h3>
+            <p>APBN membantu pemerintah mengelola keuangan negara.</p>
+        </div>
+        <div class="materi" data-judul="39. Ekspor">
+            <h3>Pengertian</h3>
+            <p>Ekspor adalah kegiatan menjual barang ke luar negeri.</p>
+            <h3>Penjelasan</h3>
+            <p>Ekspor dilakukan untuk mendapatkan devisa dan memperluas pasar bagi produk dalam negeri.</p>
+            <h3>Contoh</h3>
+            <p>Indonesia mengekspor kopi dan kelapa sawit ke negara lain.</p>
+            <h3>Kesimpulan</h3>
+            <p>Ekspor meningkatkan pendapatan negara.</p>
+        </div>
+        <div class="materi" data-judul="40. Impor">
+            <h3>Pengertian</h3>
+            <p>Impor adalah kegiatan membeli barang dari luar negeri.</p>
+            <h3>Penjelasan</h3>
+            <p>Impor dilakukan untuk memenuhi kebutuhan dalam negeri yang tidak bisa diproduksi sendiri atau jumlahnya kurang.</p>
+            <h3>Contoh</h3>
+            <p>Mengimpor barang elektronik dari luar negeri.</p>
+            <h3>Kesimpulan</h3>
+            <p>Impor membantu memenuhi kebutuhan yang tidak tersedia di dalam negeri.</p>
+        </div>
+        <div class="materi" data-judul="41. Sistem Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Sistem ekonomi adalah cara suatu negara mengatur kegiatan ekonominya untuk mencapai kesejahteraan.</p>
+            <h3>Penjelasan</h3>
+            <p>Sistem ekonomi terbagi menjadi beberapa jenis seperti sistem tradisional, komando, pasar, dan campuran, yang masing-masing memiliki kelebihan dan kekurangan.</p>
+            <h3>Contoh</h3>
+            <p>Indonesia menggunakan sistem ekonomi campuran yang menggabungkan mekanisme pasar dan intervensi pemerintah.</p>
+            <h3>Kesimpulan</h3>
+            <p>Pemilihan sistem ekonomi menentukan bagaimana sumber daya dialokasikan dan didistribusikan di masyarakat.</p>
+        </div>
+        <div class="materi" data-judul="42. Koperasi">
+            <h3>Pengertian</h3>
+            <p>Koperasi adalah badan usaha yang beranggotakan orang-orang atau badan hukum dengan landasan kekeluargaan.</p>
+            <h3>Penjelasan</h3>
+            <p>Tujuan koperasi adalah meningkatkan kesejahteraan anggota melalui kegiatan usaha bersama berdasarkan prinsip-prinsip gotong royong.</p>
+            <h3>Contoh</h3>
+            <p>Koperasi simpan pinjam yang membantu anggota dalam hal keuangan.</p>
+            <h3>Kesimpulan</h3>
+            <p>Koperasi berperan penting dalam memperkuat ekonomi rakyat dan mengurangi kesenjangan.</p>
+        </div>
+        <div class="materi" data-judul="43. BUMN">
+            <h3>Pengertian</h3>
+            <p>BUMN (Badan Usaha Milik Negara) adalah perusahaan yang seluruh atau sebagian besar modalnya dimiliki oleh negara.</p>
+            <h3>Penjelasan</h3>
+            <p>BUMN bertujuan untuk menyediakan layanan publik, mengelola sumber daya strategis, dan menjadi sumber pendapatan negara.</p>
+            <h3>Contoh</h3>
+            <p>PT PLN (listrik), PT Pertamina (migas), dan PT Kereta Api Indonesia.</p>
+            <h3>Kesimpulan</h3>
+            <p>BUMN memiliki peran strategis dalam perekonomian nasional.</p>
+        </div>
+        <div class="materi" data-judul="44. BUMS">
+            <h3>Pengertian</h3>
+            <p>BUMS (Badan Usaha Milik Swasta) adalah perusahaan yang modalnya dimiliki oleh pihak swasta atau individu.</p>
+            <h3>Penjelasan</h3>
+            <p>BUMS berperan dalam menciptakan lapangan kerja, berinovasi, dan meningkatkan efisiensi ekonomi melalui persaingan sehat.</p>
+            <h3>Contoh</h3>
+            <p>Perusahaan swasta seperti GoTo, Unilever, dan Indofood.</p>
+            <h3>Kesimpulan</h3>
+            <p>BUMS menjadi motor penggerak pertumbuhan ekonomi dan inovasi.</p>
+        </div>
+        <div class="materi" data-judul="45. Neraca Pembayaran">
+            <h3>Pengertian</h3>
+            <p>Neraca pembayaran adalah catatan sistematis tentang semua transaksi ekonomi antara penduduk suatu negara dengan penduduk negara lain dalam periode tertentu.</p>
+            <h3>Penjelasan</h3>
+            <p>Neraca pembayaran mencakup transaksi barang, jasa, modal, dan transfer, yang menggambarkan posisi keuangan suatu negara di mata dunia.</p>
+            <h3>Contoh</h3>
+            <p>Ekspor barang menghasilkan devisa, sedangkan impor menyebabkan pengeluaran devisa.</p>
+            <h3>Kesimpulan</h3>
+            <p>Neraca pembayaran mencerminkan kesehatan ekonomi suatu negara dalam hubungan internasional.</p>
+        </div>
+        <div class="materi" data-judul="46. Pertumbuhan Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Pertumbuhan ekonomi adalah peningkatan kapasitas produksi barang dan jasa suatu negara dari waktu ke waktu.</p>
+            <h3>Penjelasan</h3>
+            <p>Pertumbuhan ekonomi diukur dengan peningkatan Produk Domestik Bruto (PDB) riil dan mencerminkan kemajuan ekonomi suatu bangsa.</p>
+            <h3>Contoh</h3>
+            <p>Jika PDB Indonesia meningkat 5% per tahun, itu menunjukkan pertumbuhan ekonomi.</p>
+            <h3>Kesimpulan</h3>
+            <p>Pertumbuhan ekonomi menjadi indikator kemakmuran dan kesejahteraan masyarakat.</p>
+        </div>
+        <div class="materi" data-judul="47. Pembangunan Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Pembangunan ekonomi adalah proses perubahan struktural untuk meningkatkan kesejahteraan masyarakat secara berkelanjutan.</p>
+            <h3>Penjelasan</h3>
+            <p>Berbeda dengan pertumbuhan, pembangunan ekonomi mencakup aspek sosial, distribusi pendapatan, dan kualitas hidup.</p>
+            <h3>Contoh</h3>
+            <p>Program pengentasan kemiskinan, pembangunan infrastruktur, dan peningkatan pendidikan.</p>
+            <h3>Kesimpulan</h3>
+            <p>Pembangunan ekonomi bertujuan menciptakan kemakmuran yang merata dan berkelanjutan.</p>
+        </div>
+        <div class="materi" data-judul="48. Globalisasi Ekonomi">
+            <h3>Pengertian</h3>
+            <p>Globalisasi ekonomi adalah integrasi ekonomi antar negara yang semakin erat melalui perdagangan, investasi, dan arus modal.</p>
+            <h3>Penjelasan</h3>
+            <p>Globalisasi menciptakan pasar global yang kompetitif dan memungkinkan transfer teknologi serta pengetahuan antar negara.</p>
+            <h3>Contoh</h3>
+            <p>Perusahaan multinasional, perdagangan bebas, dan ketergantungan ekonomi antar negara.</p>
+            <h3>Kesimpulan</h3>
+            <p>Globalisasi ekonomi membawa peluang dan tantangan yang harus dikelola dengan baik.</p>
+        </div>
+        <div class="materi" data-judul="49. Kebijakan Moneter">
+            <h3>Pengertian</h3>
+            <p>Kebijakan moneter adalah kebijakan yang dilakukan bank sentral untuk mengontrol jumlah uang beredar dan suku bunga untuk mencapai stabilitas ekonomi.</p>
+            <h3>Penjelasan</h3>
+            <p>Bank sentral menggunakan instrumen seperti suku bunga, cadangan wajib, dan operasi pasar terbuka untuk menjaga inflasi dan nilai tukar.</p>
+            <h3>Contoh</h3>
+            <p>Bank Indonesia menaikkan suku bunga untuk menekan inflasi.</p>
+            <h3>Kesimpulan</h3>
+            <p>Kebijakan moneter penting untuk menjaga kestabilan nilai uang dan pertumbuhan ekonomi.</p>
+        </div>
+        <div class="materi" data-judul="50. Kebijakan Fiskal">
+            <h3>Pengertian</h3>
+            <p>Kebijakan fiskal adalah kebijakan pemerintah dalam mengatur penerimaan dan pengeluaran negara untuk mempengaruhi perekonomian.</p>
+            <h3>Penjelasan</h3>
+            <p>Melalui APBN, pemerintah dapat mendorong pertumbuhan ekonomi dengan menambah belanja publik atau mengurangi pajak, serta menjaga stabilitas ekonomi di masa krisis.</p>
+            <h3>Contoh</h3>
+            <p>Pemerintah memberikan subsidi atau bantuan sosial untuk meningkatkan daya beli masyarakat.</p>
+            <h3>Kesimpulan</h3>
+            <p>Kebijakan fiskal berperan penting dalam mengatur roda perekonomian dan mensejahterakan masyarakat.</p>
+        </div>
+    </div>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+            authDomain: "laporanstartools-c18b2.firebaseapp.com",
+            databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "laporanstartools-c18b2",
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let currentUser = null;
+        let isPremium = false;
+        let premiumExpiry = null;
+        let openedIndexes = [];
+        let todayLimit = 0;
+        let currentMateriIdx = 0;
+
+        const todayStr = new Date().toDateString();
+        let materiDatabase = [];
+
+        function loadMateriFromDOM() {
+            const repo = document.getElementById('materiRepository');
+            if (repo) {
+                const items = repo.querySelectorAll('.materi');
+                materiDatabase = Array.from(items).map((el, idx) => ({
+                    html: el.innerHTML,
+                    judul: el.getAttribute('data-judul') || `Materi ${idx + 1}`
+                }));
+            }
+            if (materiDatabase.length < 50) {
+                for (let i = materiDatabase.length + 1; i <= 50; i++) {
+                    materiDatabase.push({
+                        html: `<h3>Materi ${i}</h3><p>Konsep ekonomi lanjutan dan aplikasi nyata tersedia di versi premium.</p>`,
+                        judul: `Bagian ${i}`
+                    });
+                }
+            }
+        }
+
+        function loadLocalProgress() {
+            const storedDate = localStorage.getItem('ekonomiDate');
+            if (storedDate === todayStr) {
+                todayLimit = parseInt(localStorage.getItem('ekonomiLimit') || '0');
+                const stored = localStorage.getItem('ekonomiOpened');
+                if (stored) openedIndexes = JSON.parse(stored);
+            } else {
+                todayLimit = 0;
+                openedIndexes = [];
+                localStorage.setItem('ekonomiDate', todayStr);
+                localStorage.setItem('ekonomiLimit', '0');
+                localStorage.setItem('ekonomiOpened', '[]');
+            }
+        }
+
+        function saveLocalProgress() {
+            localStorage.setItem('ekonomiLimit', todayLimit);
+            localStorage.setItem('ekonomiOpened', JSON.stringify(openedIndexes));
+        }
+
+        function updateUI() {
+            const badge = document.getElementById('premiumStatusBadge');
+            const limitSpan = document.getElementById('limitCounter');
+
+            if (isPremium && premiumExpiry) {
+                const now = Date.now();
+                if (now > premiumExpiry) {
+                    isPremium = false;
+                    premiumExpiry = null;
+                    badge.innerText = 'Premium Habis';
+                    badge.className = 'premium-indicator warning';
+                    limitSpan.innerText = '0/2 Hari Ini';
+                    if (currentUser) {
+                        db.ref('users/' + currentUser.uid + '/premium/ekonomi').set(false);
+                        db.ref('users/' + currentUser.uid + '/premium/ekonomi_expiry').remove();
+                    }
+                    return;
+                }
+
+                const sisaHari = Math.ceil((premiumExpiry - now) / (1000 * 60 * 60 * 24));
+                badge.innerText = 'Premium (' + sisaHari + ' hari)';
+                badge.className = 'premium-indicator active';
+                limitSpan.innerText = 'Tak Terbatas';
+            } else if (isPremium) {
+                badge.innerText = 'Premium Aktif';
+                badge.className = 'premium-indicator active';
+                limitSpan.innerText = 'Tak Terbatas';
+            } else {
+                badge.innerText = 'Akun Standar';
+                badge.className = 'premium-indicator';
+                limitSpan.innerText = todayLimit + '/2 Hari Ini';
+            }
+        }
+
+        async function syncToFirebase() {
+            if (!currentUser) return;
+            try {
+                const openedObj = {};
+                openedIndexes.forEach(i => openedObj[i] = true);
+                await db.ref(`users/${currentUser.uid}/progress/ekonomi`).set(openedObj);
+                await db.ref(`users/${currentUser.uid}/limit/ekonomi`).set({ count: todayLimit, date: todayStr });
+            } catch (e) {
+                console.error('Sync error:', e);
+            }
+        }
+
+        function renderBagian() {
+            const container = document.getElementById('listBagianGrid');
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i = 0; i < materiDatabase.length; i++) {
+                const btn = document.createElement('div');
+                btn.className = 'materi-btn';
+                btn.innerText = `Bagian ${i + 1}`;
+                if (openedIndexes.includes(i)) btn.classList.add('opened');
+                if (!openedIndexes.includes(i) && !isPremium && todayLimit >= 2) btn.classList.add('locked');
+                btn.onclick = () => openMateri(i);
+                container.appendChild(btn);
+            }
+        }
+
+        async function openMateri(idx) {
+            if (!currentUser) {
+                showAlert("Silakan login terlebih dahulu.", false);
+                return;
+            }
+
+            // Refresh cek premium expiry
+            try {
+                const premSnap = await db.ref('users/' + currentUser.uid + '/premium/ekonomi').once('value');
+                const expirySnap = await db.ref('users/' + currentUser.uid + '/premium/ekonomi_expiry').once('value');
+
+                isPremium = premSnap.val() === true;
+                premiumExpiry = expirySnap.val() || null;
+
+                if (isPremium && premiumExpiry && Date.now() > premiumExpiry) {
+                    isPremium = false;
+                    premiumExpiry = null;
+                    await db.ref('users/' + currentUser.uid + '/premium/ekonomi').set(false);
+                    await db.ref('users/' + currentUser.uid + '/premium/ekonomi_expiry').remove();
+                    updateUI();
+                    renderBagian();
+                    showAlert('Masa premium Anda telah berakhir. Silakan perpanjang untuk mengakses materi.', true);
+                    return;
+                }
+            } catch (e) {
+                console.error('Premium check error:', e);
+            }
+
+            const isOpened = openedIndexes.includes(idx);
+            const isLocked = !isOpened && !isPremium && todayLimit >= 2;
+
+            if (isLocked) {
+                showAlert('Batas harian untuk akun standar telah tercapai (2 materi). Dapatkan premium untuk akses tanpa batas.', true);
+                return;
+            }
+
+            if (!isOpened) {
+                todayLimit++;
+                openedIndexes.push(idx);
+                saveLocalProgress();
+                updateUI();
+                renderBagian();
+                if (currentUser) syncToFirebase();
+            }
+
+            currentMateriIdx = idx;
+
+            document.getElementById('welcomeSection').style.display = 'none';
+            document.getElementById('caraPakaiCard').style.display = 'none';
+            document.getElementById('pilihBagianCard').style.display = 'none';
+            document.getElementById('materiView').classList.remove('hidden');
+
+            document.getElementById('judulMateriView').innerHTML = materiDatabase[idx].judul;
+            document.getElementById('isiMateriDetail').innerHTML = materiDatabase[idx].html;
+        }
+
+        function nextMateri() {
+            if (currentMateriIdx + 1 < materiDatabase.length) {
+                openMateri(currentMateriIdx + 1);
+            } else {
+                showAlert("Anda telah mencapai materi terakhir.", false);
+            }
+        }
+
+        function prevMateri() {
+            if (currentMateriIdx - 1 >= 0) {
+                openMateri(currentMateriIdx - 1);
+            } else {
+                showAlert("Ini adalah materi pertama.", false);
+            }
+        }
+
+        function backToList() {
+            document.getElementById('materiView').classList.add('hidden');
+            document.getElementById('welcomeSection').style.display = 'block';
+            document.getElementById('caraPakaiCard').style.display = 'block';
+            document.getElementById('pilihBagianCard').style.display = 'block';
+        }
+
+        async function activatePremium() {
+            if (!currentUser) {
+                showAlert("Login terlebih dahulu untuk mengaktifkan premium.", false);
+                return;
+            }
+
+            const kode = document.getElementById('premiumCodeInput').value.trim().toUpperCase();
+            if (!kode) {
+                showAlert("Kode premium tidak boleh kosong.", false);
+                return;
+            }
+
+            try {
+                // Cari kode di semua mapel (ekonomi, all, allpremium)
+                const snap = await db.ref('premiumCodes').once('value');
+                let found = false;
+                let mapel = '';
+                let data = {};
+
+                snap.forEach(function(mapelSnap) {
+                    mapelSnap.forEach(function(codeSnap) {
+                        if (codeSnap.key === kode) {
+                            found = true;
+                            mapel = mapelSnap.key;
+                            data = codeSnap.val();
+                        }
+                    });
+                });
+
+                if (!found) {
+                    showAlert("Kode premium tidak valid.", false);
+                    return;
+                }
+
+                // CEK: Kode harus untuk EKONOMI atau ALL
+                if (mapel !== 'ekonomi' && mapel !== 'all' && mapel !== 'allpremium') {
+                    showAlert('Kode ini untuk mapel "' + mapel + '", bukan untuk Ekonomi.\n\nSilakan gunakan di halaman yang sesuai.', false);
+                    return;
+                }
+
+                // Cek apakah kode masih aktif
+                if (data.aktif === false) {
+                    showAlert("Kode sudah pernah digunakan.", false);
+                    return;
+                }
+
+                // Cek apakah kode kadaluarsa
+                const expired = data.dibuat_pada + (data.masa_aktif_hari * 24 * 60 * 60 * 1000);
+                if (Date.now() > expired) {
+                    showAlert("Kode sudah kadaluarsa.", false);
+                    return;
+                }
+
+                // Hitung tanggal aktif sampai
+                const aktifSampai = Date.now() + (data.masa_aktif_hari * 24 * 60 * 60 * 1000);
+
+                // Update data user - EKONOMI
+                const updates = {};
+                updates['users/' + currentUser.uid + '/premium/ekonomi'] = true;
+                updates['users/' + currentUser.uid + '/premium/ekonomi_expiry'] = aktifSampai;
+
+                // Tandai kode sudah dipakai
+                updates['premiumCodes/' + mapel + '/' + kode] = {
+                    aktif: false,
+                    dibuat_pada: data.dibuat_pada,
+                    masa_aktif_hari: data.masa_aktif_hari,
+                    digunakan_oleh: currentUser.uid,
+                    digunakan_pada: Date.now()
+                };
+
+                await db.ref().update(updates);
+
+                // Update variable lokal
+                isPremium = true;
+                premiumExpiry = aktifSampai;
+                updateUI();
+                renderBagian();
+
+                const hari = data.masa_aktif_hari;
+                showAlert(
+                    'Premium Ekonomi berhasil diaktifkan!\n\n' +
+                    'Durasi: ' + hari + ' hari\n' +
+                    'Aktif sampai: ' + new Date(aktifSampai).toLocaleDateString('id-ID') + '\n\n' +
+                    'Selamat belajar!',
+                    false
+                );
+
+                document.getElementById('premiumCodeInput').value = '';
+
+            } catch (error) {
+                console.error('Activation error:', error);
+                showAlert('Terjadi kesalahan. Silakan coba lagi.', false);
+            }
+        }
+
+        function showAlert(msg, showUpgrade = false) {
+            const overlay = document.getElementById('globalAlert');
+            document.getElementById('alertMessage').innerText = msg;
+            const extraDiv = document.getElementById('alertExtraBtn');
+            extraDiv.innerHTML = '';
+            if (showUpgrade) {
+                const upBtn = document.createElement('button');
+                upBtn.className = 'btn-full';
+                upBtn.innerText = 'Tingkatkan ke Premium';
+                upBtn.style.marginTop = '12px';
+                upBtn.onclick = () => {
+                    closeAlertGlobal();
+                    navigateTo('premium');
+                };
+                extraDiv.appendChild(upBtn);
+            }
+            overlay.style.display = 'flex';
+        }
+
+        function closeAlertGlobal() {
+            document.getElementById('globalAlert').style.display = 'none';
+        }
+
+        function openSidebar() {
+            document.getElementById('sidebarOverlay').classList.add('active');
+            document.getElementById('sidebarNav').classList.add('active');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebarOverlay').classList.remove('active');
+            document.getElementById('sidebarNav').classList.remove('active');
+        }
+
+        function navigateTo(page) {
+            localStorage.setItem('activePage', page);
+            window.location.href = 'index.html';
+        }
+
+        function logoutAction() {
+            if (confirm('Yakin ingin keluar?')) {
+                firebase.auth().signOut().then(() => {
+                    window.location.reload();
+                });
+            }
+        }
+
+        function goTo(page) {
+            window.location.href = page;
+        }
+
+        // ========================
+        // INIT
+        // ========================
+        window.addEventListener('DOMContentLoaded', () => {
+            loadMateriFromDOM();
+            loadLocalProgress();
+            if (localStorage.getItem('themeEkonomi') === 'dark') document.body.classList.add('dark');
+
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (!user) {
+                    currentUser = null;
+                    isPremium = false;
+                    premiumExpiry = null;
+                    updateUI();
+                    renderBagian();
+                    return;
+                }
+                currentUser = user;
+
+                try {
+                    const premSnap = await db.ref(`users/${user.uid}/premium/ekonomi`).once('value');
+                    const expirySnap = await db.ref(`users/${user.uid}/premium/ekonomi_expiry`).once('value');
+
+                    isPremium = premSnap.val() === true;
+                    premiumExpiry = expirySnap.val() || null;
+
+                    if (isPremium && premiumExpiry && Date.now() > premiumExpiry) {
+                        isPremium = false;
+                        premiumExpiry = null;
+                        await db.ref(`users/${user.uid}/premium/ekonomi`).set(false);
+                        await db.ref(`users/${user.uid}/premium/ekonomi_expiry`).remove();
+                    }
+
+                    const progSnap = await db.ref(`users/${user.uid}/progress/ekonomi`).once('value');
+                    if (progSnap.val()) {
+                        const data = progSnap.val();
+                        const newOpened = Array.isArray(data) ? data : Object.keys(data).map(Number);
+                        if (JSON.stringify(newOpened) !== JSON.stringify(openedIndexes)) {
+                            openedIndexes = newOpened;
+                            saveLocalProgress();
+                        }
+                    }
+
+                    const limitSnap = await db.ref(`users/${user.uid}/limit/ekonomi`).once('value');
+                    const limitData = limitSnap.val();
+                    if (limitData && limitData.date === todayStr) {
+                        todayLimit = limitData.count;
+                    } else {
+                        todayLimit = 0;
+                    }
+                    saveLocalProgress();
+                    updateUI();
+                    renderBagian();
+
+                } catch (e) {
+                    console.error('Load data error:', e);
+                    updateUI();
+                    renderBagian();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

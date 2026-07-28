@@ -9,9 +9,6 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-<!-- ===== LANGUAGE LOADER ===== -->
-<script src="lang/loader.js"></script>
-
 <style>
   * {
     margin: 0;
@@ -135,12 +132,6 @@
 
   body.dark .logout-item-bottom {
     background: #1E293B !important;
-  }
-
-  body.dark #languageSelect {
-    background: #1E293B;
-    border-color: #334155;
-    color: #F1F5F9;
   }
 
   .app-container {
@@ -365,7 +356,9 @@
     color: #94A3B8;
   }
 
-  /* ===== PROFILE ===== */
+  /* ============================================================
+     PROFILE BANNER + LEVEL INFO CARD = SATU KESATUAN
+     ============================================================ */
   .profile-card-container {
     border-radius: 24px;
     overflow: hidden;
@@ -379,6 +372,7 @@
     background: #111827;
   }
 
+  /* BANNER ATAS */
   .profile-banner {
     width: 100%;
     min-height: 120px;
@@ -389,10 +383,12 @@
     overflow: hidden;
   }
 
+  /* STANDARD */
   .profile-banner.standard {
     background: linear-gradient(135deg, #475569, #64748B);
   }
 
+  /* SILVER */
   .profile-banner.silver {
     background: linear-gradient(135deg, #94A3B8, #CBD5E1);
     box-shadow: inset 0 0 60px rgba(255,255,255,0.1);
@@ -405,6 +401,7 @@
     pointer-events: none;
   }
 
+  /* GOLD */
   .profile-banner.gold {
     background: linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B);
     background-size: 200% 200%;
@@ -422,6 +419,7 @@
     50% { background-position: 100% 50%; }
   }
 
+  /* PLATINUM */
   .profile-banner.platinum {
     background: linear-gradient(135deg, #06B6D4, #3B82F6, #8B5CF6);
     background-size: 200% 200%;
@@ -480,24 +478,24 @@
     stroke: none;
   }
 
-  .banner-level-badge.gold { 
-    background: rgba(0,0,0,0.4); 
-    color: #FFFFFF; 
-    border-color: rgba(255,215,0,0.4); 
-    text-shadow: 0 0 12px rgba(255,215,0,0.3);
-  }
+.banner-level-badge.gold { 
+  background: rgba(0,0,0,0.4); 
+  color: #FFFFFF; 
+  border-color: rgba(255,215,0,0.4); 
+  text-shadow: 0 0 12px rgba(255,215,0,0.3);
+}
 
-  .banner-level-badge.platinum { 
-    background: rgba(0,0,0,0.4); 
-    color: #FFFFFF; 
-    border-color: rgba(147,197,253,0.4);
-  }
+.banner-level-badge.platinum { 
+  background: rgba(0,0,0,0.4); 
+  color: #FFFFFF; 
+  border-color: rgba(147,197,253,0.4);
+}
 
-  .banner-level-badge.silver { 
-    background: rgba(0,0,0,0.25); 
-    color: #FFFFFF; 
-    border-color: rgba(255,255,255,0.2);
-  }
+.banner-level-badge.silver { 
+  background: rgba(0,0,0,0.25); 
+  color: #FFFFFF; 
+  border-color: rgba(255,255,255,0.2);
+}
 
   .banner-avatar {
     width: 52px;
@@ -560,6 +558,7 @@
     height: 16px;
   }
 
+  /* LEVEL INFO CARD - LANGSUNG DI BAWAH BANNER, FULL WIDTH */
   .level-info-card {
     width: 100%;
     padding: 12px 20px;
@@ -948,17 +947,6 @@
     left: 23px;
   }
 
-  #languageSelect {
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: 1px solid #E2E8F0;
-    background: #FFFFFF;
-    color: #0F172A;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-  }
-
   .session-item {
     display: flex;
     align-items: center;
@@ -1257,7 +1245,7 @@
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
-        <span class="back-text" id="subHeaderTitle">Kembali</span>
+        <span id="subHeaderTitle">Kembali</span>
       </div>
     </div>
   </div>
@@ -1271,25 +1259,17 @@
       </svg>
     </div>
     <a href="#" onclick="goTo('index.html')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> <span class="sidebar-text sidebar-utama">Utama</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
     </a>
     <a href="#" onclick="goTo('berita.html')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> <span class="sidebar-text sidebar-berita">Berita</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
     </a>
     <a href="#" onclick="goTo('premium.html')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <span class="sidebar-text sidebar-premium">Premium</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
     </a>
     <a href="#" onclick="goTo('akun.html')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> <span class="sidebar-text sidebar-akun">Akun</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
     </a>
-    <a href="#" onclick="goTo('kelas.html')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> <span class="sidebar-text sidebar-kelas">Kelas</span>
-    </a>
-    <div class="logout-link" style="margin-top:20px;border-top:1px solid #E2E8F0;padding-top:16px;">
-      <a href="#" onclick="showLogoutAlert()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.7"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> <span class="sidebar-text sidebar-logout">Keluar</span>
-      </a>
-    </div>
   </div>
 
   <!-- TOAST -->
@@ -1301,8 +1281,9 @@
     <!-- ==================== HALAMAN UTAMA AKUN ==================== -->
     <div id="pageMain" class="page active">
 
-      <!-- PROFILE CARD CONTAINER -->
+      <!-- PROFILE CARD CONTAINER - SATU KESATUAN -->
       <div class="profile-card-container">
+        <!-- BANNER ATAS -->
         <div class="profile-banner standard" id="profileBanner">
           <span class="banner-stars s1">✦</span>
           <span class="banner-stars s2">✦</span>
@@ -1331,6 +1312,7 @@
           </div>
         </div>
 
+        <!-- LEVEL INFO CARD - LANGSUNG DI BAWAH, FULL WIDTH -->
         <div class="level-info-card" id="levelInfoCard" style="display:none;">
           <div class="left">
             <div class="icon" id="levelIcon">
@@ -1352,33 +1334,33 @@
         <div class="menu-grid">
           <div class="menu-item" onclick="showPage('pageEditProfile')">
             <svg viewBox="0 0 24 24" stroke="#60A5FA"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
-            <span class="menu-edit-profil">Edit Profil</span>
-            <span class="desc menu-ubah-data">Ubah data</span>
+            <span>Edit Profil</span>
+            <span class="desc">Ubah data</span>
           </div>
           <div class="menu-item" onclick="showPage('pageRiwayat')">
             <svg viewBox="0 0 24 24" stroke="#34D399"><path d="M3 12a9 9 0 1 0 3-6"/><polyline points="3 3 3 9 9 9"/><polyline points="12 7 12 12 16 14"/></svg>
-            <span class="menu-riwayat">Riwayat</span>
-            <span class="desc menu-aktivitas">Aktivitas</span>
+            <span>Riwayat</span>
+            <span class="desc">Aktivitas</span>
           </div>
           <div class="menu-item theme-item" onclick="toggleTheme()">
             <svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
             <span id="themeLabel">Mode Terang</span>
-            <span class="desc menu-ganti-tema">Ganti tema</span>
+            <span class="desc">Ganti tema</span>
           </div>
           <div class="menu-item" onclick="showPage('pageTentang')">
             <svg viewBox="0 0 24 24" stroke="#FBBF24"><circle cx="12" cy="12" r="9"/><path d="M12 10v6"/><path d="M12 7h.01"/></svg>
-            <span class="menu-tentang">Tentang</span>
-            <span class="desc menu-info-app">Info app</span>
+            <span>Tentang</span>
+            <span class="desc">Info app</span>
           </div>
           <div class="menu-item" onclick="showPage('pageBantuan')">
             <svg viewBox="0 0 24 24" stroke="#F472B6"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span class="menu-bantuan">Bantuan</span>
-            <span class="desc menu-pusat-bantuan">Pusat bantuan</span>
+            <span>Bantuan</span>
+            <span class="desc">Pusat bantuan</span>
           </div>
           <div class="menu-item" onclick="showPage('pageKelolaAkun')">
             <svg viewBox="0 0 24 24" stroke="#8B5CF6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span class="menu-kelola-akun">Kelola Akun</span>
-            <span class="desc menu-keamanan">Keamanan</span>
+            <span>Kelola Akun</span>
+            <span class="desc">Keamanan</span>
           </div>
         </div>
       </div>
@@ -1389,40 +1371,40 @@
           <div class="menu-list-item" onclick="showPage('pagePengaturan')">
             <svg viewBox="0 0 24 24" stroke="#8B5CF6"><circle cx="12" cy="12" r="3"/><path d="M19.14 12.94a7.49 7.49 0 0 0 .05-.94 7.49 7.49 0 0 0-.05-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.28 7.28 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54a7.28 7.28 0 0 0-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.84a.5.5 0 0 0 .12.64l2.03 1.58a7.49 7.49 0 0 0-.05.94 7.49 7.49 0 0 0 .05.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96a7.28 7.28 0 0 0 1.63.94l.36 2.54a.5.5 0 0 0 .5.42h3.84a.5.5 0 0 0 .5-.42l.36-2.54a7.28 7.28 0 0 0 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58z"/></svg>
             <div class="info">
-              <div class="title menu-pengaturan">Pengaturan</div>
-              <div class="sub menu-pengaturan-sub">Notifikasi, reset data, dan preferensi</div>
+              <div class="title">Pengaturan</div>
+              <div class="sub">Notifikasi, reset data, dan preferensi</div>
             </div>
             <span class="arrow">→</span>
           </div>
           <div class="menu-list-item" onclick="showPage('pagePrestasi')">
             <svg viewBox="0 0 24 24" stroke="#FBBF24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             <div class="info">
-              <div class="title menu-prestasi">Prestasi & Sertifikat</div>
-              <div class="sub menu-prestasi-sub">Lihat pencapaian yang diperoleh</div>
+              <div class="title">Prestasi & Sertifikat</div>
+              <div class="sub">Lihat pencapaian yang diperoleh</div>
             </div>
             <span class="arrow">→</span>
           </div>
           <div class="menu-list-item" onclick="showPage('pageKeamanan')">
             <svg viewBox="0 0 24 24" stroke="#34D399"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h8"/><path d="M8 12h8"/><path d="M8 17h4"/></svg>
             <div class="info">
-              <div class="title menu-privasi">Privasi & Keamanan</div>
-              <div class="sub menu-privasi-sub">Kelola data pribadi dan keamanan</div>
+              <div class="title">Privasi & Keamanan</div>
+              <div class="sub">Kelola data pribadi dan keamanan</div>
             </div>
             <span class="arrow">→</span>
           </div>
           <div class="menu-list-item" onclick="goTo('mailto:starprosperous13@gmail.com')">
             <svg viewBox="0 0 24 24" stroke="#60A5FA"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
             <div class="info">
-              <div class="title menu-pelayanan">Pelayanan Pelanggan</div>
-              <div class="sub menu-pelayanan-sub">Hubungi kami via email</div>
+              <div class="title">Pelayanan Pelanggan</div>
+              <div class="sub">Hubungi kami via email</div>
             </div>
             <span class="arrow">→</span>
           </div>
           <div class="menu-list-item" onclick="showLogoutAlert()">
             <svg viewBox="0 0 24 24" stroke="#DC2626"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             <div class="info">
-              <div class="title menu-logout" style="color:#DC2626;">Keluar</div>
-              <div class="sub menu-logout-sub">Logout dari akun kamu</div>
+              <div class="title" style="color:#DC2626;">Keluar</div>
+              <div class="sub">Logout dari akun kamu</div>
             </div>
             <span class="arrow">→</span>
           </div>
@@ -1433,13 +1415,13 @@
     <!-- HALAMAN EDIT PROFIL -->
     <div id="pageEditProfile" class="page">
       <div class="card-modern">
-        <div class="section-title page-edit-title">Edit Profil</div>
-        <div class="section-sub page-edit-sub">Kelola data pribadi kamu</div>
+        <div class="section-title">Edit Profil</div>
+        <div class="section-sub">Kelola data pribadi kamu</div>
 
         <div class="profile-pic-edit" onclick="document.getElementById('fotoInput').click()">
           <img id="fotoPreview" style="display:none;">
           <span class="placeholder" id="fotoPlaceholder">📷</span>
-          <span class="upload-hint page-tap-ganti">Tap untuk ganti</span>
+          <span class="upload-hint">Tap untuk ganti</span>
         </div>
         <input type="file" id="fotoInput" accept="image/*" style="display:none;">
 
@@ -1449,46 +1431,46 @@
         <input type="text" id="editKelas" class="input-field" placeholder="Kelas">
         <input type="text" id="editJurusan" class="input-field" placeholder="Jurusan">
 
-        <button class="btn-save page-simpan" onclick="saveProfile()">Simpan Perubahan</button>
+        <button class="btn-save" onclick="saveProfile()">Simpan Perubahan</button>
       </div>
     </div>
 
     <!-- HALAMAN KELOLA AKUN -->
     <div id="pageKelolaAkun" class="page">
       <div class="card-modern">
-        <div class="section-title page-kelola-title">Kelola Akun</div>
-        <div class="section-sub page-kelola-sub">Kelola keamanan dan pengaturan akun kamu.</div>
+        <div class="section-title">Kelola Akun</div>
+        <div class="section-sub">Kelola keamanan dan pengaturan akun kamu.</div>
 
         <div class="menu-list">
           <div class="menu-list-item" onclick="showPage('pageGantiPassword')">
             <svg viewBox="0 0 24 24" stroke="#F59E0B"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             <div class="info">
-              <div class="title page-ganti-pass">Ganti Password</div>
-              <div class="sub page-ganti-pass-sub">Perbarui kata sandi akun kamu</div>
+              <div class="title">Ganti Password</div>
+              <div class="sub">Perbarui kata sandi akun kamu</div>
             </div>
             <span class="arrow">→</span>
           </div>
           <div class="menu-list-item" onclick="showPage('pageGantiEmail')">
             <svg viewBox="0 0 24 24" stroke="#60A5FA"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
             <div class="info">
-              <div class="title page-ganti-email">Ganti Email</div>
-              <div class="sub page-ganti-email-sub">Perbarui alamat email akun kamu</div>
+              <div class="title">Ganti Email</div>
+              <div class="sub">Perbarui alamat email akun kamu</div>
             </div>
             <span class="arrow">→</span>
           </div>
           <div class="menu-list-item" onclick="showPage('pageKeamanan')">
             <svg viewBox="0 0 24 24" stroke="#34D399"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h8"/><path d="M8 12h8"/><path d="M8 17h4"/></svg>
             <div class="info">
-              <div class="title page-privasi">Privasi & Keamanan</div>
-              <div class="sub page-privasi-sub">Kelola data pribadi dan keamanan</div>
+              <div class="title">Privasi & Keamanan</div>
+              <div class="sub">Kelola data pribadi dan keamanan</div>
             </div>
             <span class="arrow">→</span>
           </div>
           <div class="menu-list-item" onclick="showPage('pageSession')">
             <svg viewBox="0 0 24 24" stroke="#8B5CF6"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M8 2v4"/><path d="M16 2v4"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
             <div class="info">
-              <div class="title page-sesi">Sesi Aktif</div>
-              <div class="sub page-sesi-sub">Lihat perangkat yang sedang login</div>
+              <div class="title">Sesi Aktif</div>
+              <div class="sub">Lihat perangkat yang sedang login</div>
             </div>
             <span class="arrow">→</span>
           </div>
@@ -1499,35 +1481,35 @@
     <!-- HALAMAN GANTI PASSWORD -->
     <div id="pageGantiPassword" class="page">
       <div class="card-modern">
-        <div class="section-title page-ganti-pass-title">Ganti Password</div>
-        <div class="section-sub page-ganti-pass-sub2">Perbarui kata sandi akun kamu.</div>
+        <div class="section-title">Ganti Password</div>
+        <div class="section-sub">Perbarui kata sandi akun kamu.</div>
 
         <input type="password" id="oldPassword" class="input-field" placeholder="Password lama">
         <input type="password" id="newPassword" class="input-field" placeholder="Password baru (min 6 karakter)">
         <input type="password" id="confirmPassword" class="input-field" placeholder="Konfirmasi password baru">
 
-        <button class="btn-save page-ganti-pass-btn" onclick="changePassword()">Ganti Password</button>
+        <button class="btn-save" onclick="changePassword()">Ganti Password</button>
       </div>
     </div>
 
     <!-- HALAMAN GANTI EMAIL -->
     <div id="pageGantiEmail" class="page">
       <div class="card-modern">
-        <div class="section-title page-ganti-email-title">Ganti Email</div>
-        <div class="section-sub page-ganti-email-sub2">Email digunakan untuk login dan menerima notifikasi penting.</div>
+        <div class="section-title">Ganti Email</div>
+        <div class="section-sub">Email digunakan untuk login dan menerima notifikasi penting.</div>
 
         <input type="email" id="newEmail" class="input-field" placeholder="Email baru">
         <input type="password" id="emailPassword" class="input-field" placeholder="Password untuk verifikasi">
 
-        <button class="btn-save page-ganti-email-btn" onclick="changeEmail()">Ganti Email</button>
+        <button class="btn-save" onclick="changeEmail()">Ganti Email</button>
       </div>
     </div>
 
     <!-- HALAMAN SESI AKTIF -->
     <div id="pageSession" class="page">
       <div class="card-modern">
-        <div class="section-title page-sesi-title">Sesi Aktif</div>
-        <div class="section-sub page-sesi-sub2">Perangkat yang sedang terhubung ke akun kamu.</div>
+        <div class="section-title">Sesi Aktif</div>
+        <div class="section-sub">Perangkat yang sedang terhubung ke akun kamu.</div>
 
         <div class="session-item">
           <div class="session-icon">
@@ -1537,18 +1519,18 @@
             <div class="session-name" id="deviceName">Perangkat Ini</div>
             <div class="session-detail" id="deviceDetail">Sedang aktif</div>
           </div>
-          <span class="session-status active page-aktif">Aktif</span>
+          <span class="session-status active">Aktif</span>
         </div>
 
-        <p style="font-size:12px;color:#94A3B8;text-align:center;margin-top:10px;" class="page-sesi-note">* Hanya menampilkan perangkat yang sedang login saat ini</p>
+        <p style="font-size:12px;color:#94A3B8;text-align:center;margin-top:10px;">* Hanya menampilkan perangkat yang sedang login saat ini</p>
       </div>
     </div>
 
     <!-- HALAMAN RIWAYAT -->
     <div id="pageRiwayat" class="page">
       <div class="card-modern">
-        <div class="section-title page-riwayat-title">Riwayat Belajar</div>
-        <div class="section-sub page-riwayat-sub">Catatan aktivitas belajar kamu.</div>
+        <div class="section-title">Riwayat Belajar</div>
+        <div class="section-sub">Catatan aktivitas belajar kamu.</div>
         <div id="riwayatContainer"></div>
       </div>
     </div>
@@ -1556,19 +1538,19 @@
     <!-- HALAMAN TENTANG -->
     <div id="pageTentang" class="page">
       <div class="card-modern">
-        <div class="section-title page-tentang-title">Tentang Aplikasi</div>
-        <div class="section-sub page-tentang-sub">Versi 2.1.0</div>
+        <div class="section-title">Tentang Aplikasi</div>
+        <div class="section-sub">Versi 2.1.0</div>
 
         <div class="about-box">
-          <p class="page-tentang-desc">Star Tools adalah platform pembelajaran digital yang dirancang untuk membantu siswa belajar dengan cara yang lebih fleksibel, modern, dan relevan.</p>
+          <p>Star Tools adalah platform pembelajaran digital yang dirancang untuk membantu siswa belajar dengan cara yang lebih fleksibel, modern, dan relevan.</p>
         </div>
 
         <div class="about-box">
-          <h3 class="page-tujuan">Tujuan Dibuat</h3>
+          <h3>Tujuan Dibuat</h3>
           <ul>
-            <li class="page-tujuan1">Membantu siswa memahami materi dengan lebih mudah</li>
-            <li class="page-tujuan2">Menyediakan tools belajar dalam satu platform</li>
-            <li class="page-tujuan3">Meningkatkan skill yang relevan dengan dunia kerja</li>
+            <li>Membantu siswa memahami materi dengan lebih mudah</li>
+            <li>Menyediakan tools belajar dalam satu platform</li>
+            <li>Meningkatkan skill yang relevan dengan dunia kerja</li>
           </ul>
         </div>
       </div>
@@ -1577,20 +1559,20 @@
     <!-- HALAMAN BANTUAN -->
     <div id="pageBantuan" class="page">
       <div class="card-modern">
-        <div class="section-title page-bantuan-title">Pusat Bantuan</div>
-        <div class="section-sub page-bantuan-sub">Temukan jawaban dari pertanyaan yang sering diajukan.</div>
+        <div class="section-title">Pusat Bantuan</div>
+        <div class="section-sub">Temukan jawaban dari pertanyaan yang sering diajukan.</div>
 
         <div class="help-item">
-          <div class="help-q page-faq1-q">Bagaimana cara upgrade ke Premium?</div>
-          <div class="help-a page-faq1-a">Klik menu Premium, pilih paket yang diinginkan, lalu ikuti instruksi pembayaran.</div>
+          <div class="help-q">Bagaimana cara upgrade ke Premium?</div>
+          <div class="help-a">Klik menu Premium, pilih paket yang diinginkan, lalu ikuti instruksi pembayaran.</div>
         </div>
         <div class="help-item">
-          <div class="help-q page-faq2-q">Mengapa materi saya tidak bisa dibuka?</div>
-          <div class="help-a page-faq2-a">Akun gratis hanya bisa membuka 2 materi per hari. Upgrade ke Premium untuk akses tanpa batas.</div>
+          <div class="help-q">Mengapa materi saya tidak bisa dibuka?</div>
+          <div class="help-a">Akun gratis hanya bisa membuka 2 materi per hari. Upgrade ke Premium untuk akses tanpa batas.</div>
         </div>
         <div class="help-item">
-          <div class="help-q page-faq3-q">Bagaimana cara menghubungi admin?</div>
-          <div class="help-a page-faq3-a">Kirim email ke starprosperous13@gmail.com untuk bantuan lebih lanjut.</div>
+          <div class="help-q">Bagaimana cara menghubungi admin?</div>
+          <div class="help-a">Kirim email ke starprosperous13@gmail.com untuk bantuan lebih lanjut.</div>
         </div>
       </div>
     </div>
@@ -1598,13 +1580,13 @@
     <!-- HALAMAN PENGATURAN -->
     <div id="pagePengaturan" class="page">
       <div class="card-modern">
-        <div class="section-title page-pengaturan-title">Pengaturan</div>
-        <div class="section-sub page-pengaturan-sub">Sesuaikan preferensi aplikasi sesuai dengan kebutuhan kamu.</div>
+        <div class="section-title">Pengaturan</div>
+        <div class="section-sub">Sesuaikan preferensi aplikasi sesuai dengan kebutuhan kamu.</div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <span class="page-notif-label">Notifikasi</span>
-            <div class="sub page-notif-sub">Terima notifikasi aktivitas belajar</div>
+            Notifikasi
+            <div class="sub">Terima notifikasi aktivitas belajar</div>
           </div>
           <div class="toggle-switch active" onclick="this.classList.toggle('active')">
             <div class="toggle-dot"></div>
@@ -1613,8 +1595,8 @@
 
         <div class="setting-item">
           <div class="setting-label">
-            <span class="page-dark-label">Mode Gelap Otomatis</span>
-            <div class="sub page-dark-sub">Ikuti tema sistem perangkat</div>
+            Mode Gelap Otomatis
+            <div class="sub">Ikuti tema sistem perangkat</div>
           </div>
           <div class="toggle-switch" onclick="this.classList.toggle('active')">
             <div class="toggle-dot"></div>
@@ -1623,21 +1605,10 @@
 
         <div class="setting-item">
           <div class="setting-label">
-            <span class="page-bahasa-label">Bahasa</span>
-            <div class="sub page-bahasa-sub">Pilih bahasa aplikasi</div>
+            Reset Data Lokal
+            <div class="sub">Hapus semua data tersimpan di perangkat</div>
           </div>
-          <select id="languageSelect">
-            <option value="id">🇮🇩 Indonesia</option>
-            <option value="en">🇬🇧 English</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-label">
-            <span class="page-reset-label">Reset Data Lokal</span>
-            <div class="sub page-reset-sub">Hapus semua data tersimpan di perangkat</div>
-          </div>
-          <button style="background:#DC2626;color:white;border:none;padding:6px 16px;border-radius:10px;font-weight:600;cursor:pointer;" onclick="resetData()" class="page-reset-btn">Reset</button>
+          <button style="background:#DC2626;color:white;border:none;padding:6px 16px;border-radius:10px;font-weight:600;cursor:pointer;" onclick="resetData()">Reset</button>
         </div>
       </div>
     </div>
@@ -1645,13 +1616,13 @@
     <!-- HALAMAN PRESTASI -->
     <div id="pagePrestasi" class="page">
       <div class="card-modern">
-        <div class="section-title page-prestasi-title">Prestasi & Sertifikat</div>
-        <div class="section-sub page-prestasi-sub2">Kumpulkan prestasi dan sertifikat seiring perjalanan belajar kamu.</div>
+        <div class="section-title">Prestasi & Sertifikat</div>
+        <div class="section-sub">Kumpulkan prestasi dan sertifikat seiring perjalanan belajar kamu.</div>
 
         <div class="about-box" style="text-align:center;padding:30px 20px;">
           <svg viewBox="0 0 24 24" stroke="#FBBF24" style="width:48px;height:48px;margin:0 auto 12px;fill:none;stroke-width:1.5;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <h3 style="margin-bottom:8px;" class="page-prestasi-empty">Belum Ada Prestasi</h3>
-          <p style="color:#94A3B8;font-size:14px;" class="page-prestasi-empty-desc">Selesaikan lebih banyak materi untuk mendapatkan sertifikat.</p>
+          <h3 style="margin-bottom:8px;">Belum Ada Prestasi</h3>
+          <p style="color:#94A3B8;font-size:14px;">Selesaikan lebih banyak materi untuk mendapatkan sertifikat.</p>
         </div>
       </div>
     </div>
@@ -1659,29 +1630,29 @@
     <!-- HALAMAN KEAMANAN -->
     <div id="pageKeamanan" class="page">
       <div class="card-modern">
-        <div class="section-title page-keamanan-title">Privasi & Keamanan</div>
-        <div class="section-sub page-keamanan-sub">Kelola data pribadi dan tingkat keamanan akun kamu.</div>
+        <div class="section-title">Privasi & Keamanan</div>
+        <div class="section-sub">Kelola data pribadi dan tingkat keamanan akun kamu.</div>
 
         <div class="about-box">
-          <h3 class="page-data-title">Data yang Tersimpan</h3>
+          <h3>Data yang Tersimpan</h3>
           <ul>
-            <li class="page-data1">Nama dan biodata</li>
-            <li class="page-data2">Riwayat belajar</li>
-            <li class="page-data3">Progress materi</li>
-            <li class="page-data4">Preferensi aplikasi</li>
+            <li>Nama dan biodata</li>
+            <li>Riwayat belajar</li>
+            <li>Progress materi</li>
+            <li>Preferensi aplikasi</li>
           </ul>
         </div>
 
         <div class="about-box">
-          <h3 class="page-keamanan-title2">Keamanan</h3>
+          <h3>Keamanan</h3>
           <ul>
-            <li class="page-keamanan1">Data dienkripsi dengan aman</li>
-            <li class="page-keamanan2">Login menggunakan akun Google</li>
-            <li class="page-keamanan3">Data tidak dibagikan ke pihak ketiga</li>
+            <li>Data dienkripsi dengan aman</li>
+            <li>Login menggunakan akun Google</li>
+            <li>Data tidak dibagikan ke pihak ketiga</li>
           </ul>
         </div>
 
-        <button class="btn-save btn-danger page-hapus-data" onclick="showToast('Data privasi telah dihapus!')">Hapus Data Pribadi</button>
+        <button class="btn-save btn-danger" onclick="showToast('Data privasi telah dihapus!')">Hapus Data Pribadi</button>
       </div>
     </div>
   </div>
@@ -1696,29 +1667,29 @@
 <div class="bottom-nav">
   <button class="nav-item" data-page="index.html" onclick="goTo('index.html')">
     <svg viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5"/><path d="M6 10v9h5v-5h2v5h5v-9"/></svg>
-    <span class="nav-utama">Utama</span>
+    <span>Utama</span>
   </button>
   <button class="nav-item" data-page="berita.html" onclick="goTo('berita.html')">
     <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="13" y2="16"/></svg>
-    <span class="nav-berita">Berita</span>
+    <span>Berita</span>
   </button>
   <button class="nav-item" data-page="premium.html" onclick="goTo('premium.html')">
     <svg viewBox="0 0 24 24"><path d="M12 2l2.5 6H21l-5 3.5L18 18l-6-4-6 4 2-6.5L3 8h6.5z"/></svg>
-    <span class="nav-premium">Premium</span>
+    <span>Premium</span>
   </button>
   <button class="nav-item active" data-page="akun.html" onclick="goTo('akun.html')">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
-    <span class="nav-akun">Akun</span>
+    <span>Akun</span>
   </button>
 </div>
 
 <!-- LOGOUT ALERT -->
 <div id="logoutAlert" class="alert-overlay">
   <div class="alert-card">
-    <p style="margin-bottom:20px;font-size:15px;" class="logout-confirm-text">Yakin ingin keluar dari akun?</p>
+    <p style="margin-bottom:20px;font-size:15px;">Yakin ingin keluar dari akun?</p>
     <div class="alert-actions">
-      <button class="btn-cancel logout-batal" onclick="closeLogoutAlert()">Batal</button>
-      <button class="btn-full btn-danger logout-keluar" onclick="confirmLogout()">Keluar</button>
+      <button class="btn-cancel" onclick="closeLogoutAlert()">Batal</button>
+      <button class="btn-full btn-danger" onclick="confirmLogout()">Keluar</button>
     </div>
   </div>
 </div>
@@ -1888,23 +1859,10 @@ function showPage(pageId) {
   if (pageId === 'pageRiwayat') loadRiwayat();
   if (pageId === 'pageEditProfile') loadProfileDataToEdit();
   if (pageId === 'pageSession') loadSession();
-  if (pageId === 'pagePengaturan') loadLanguageSetting();
 }
 
 function goToMainPage() {
   showPage('pageMain');
-}
-
-// ======================== LANGUAGE SETTING ========================
-function loadLanguageSetting() {
-  var select = document.getElementById('languageSelect');
-  if (select) {
-    var savedLang = localStorage.getItem('appLanguage') || 'id';
-    select.value = savedLang;
-    select.onchange = function() {
-      changeLanguage(this.value);
-    };
-  }
 }
 
 // ======================== FOTO PROFIL ========================
@@ -1986,6 +1944,7 @@ function updateUIProfile() {
   nameEl.innerText = nama;
   bioEl.innerText = bio;
   
+  // Avatar
   if (profileData.foto) {
     avatar.innerHTML = '<img src="' + profileData.foto + '">';
     avatar.style.background = 'transparent';
@@ -1994,12 +1953,14 @@ function updateUIProfile() {
     avatar.style.background = 'linear-gradient(135deg, #2563EB, #60A5FA)';
   }
 
+  // Verified
   if (profileData.verified === true) {
     verifiedEl.style.display = 'inline-flex';
   } else {
     verifiedEl.style.display = 'none';
   }
 
+  // Hitung premium
   var count = 0;
   var mapelList = ['ekonomi', 'sains', 'coding', 'matematika', 'bahasa', 'pendukung'];
   mapelList.forEach(function(m) {
@@ -2009,13 +1970,16 @@ function updateUIProfile() {
   var hasPremium = count > 0;
   var level = getPremiumLevel(premiumMapel);
 
+  // Update BANNER
   bannerEl.className = 'profile-banner ' + level.color;
   
+  // Level badge di pojok
   levelBadge.className = 'banner-level-badge ' + level.color;
   levelBadge.innerHTML = 
     '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ' +
     (hasPremium ? level.name : 'Standard');
 
+  // Level Info Card - FULL WIDTH
   if (hasPremium) {
     levelInfoCard.style.display = 'flex';
     levelIcon.className = 'icon ' + level.color;
@@ -2236,20 +2200,6 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     closeSidebar();
     closeLogoutAlert();
-  }
-});
-
-// ======================== INIT ========================
-document.addEventListener('DOMContentLoaded', function() {
-  initLanguage();
-  
-  // Select language
-  var select = document.getElementById('languageSelect');
-  if (select) {
-    select.value = localStorage.getItem('appLanguage') || 'id';
-    select.onchange = function() {
-      changeLanguage(this.value);
-    };
   }
 });
 </script>
