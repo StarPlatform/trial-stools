@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Owner Panel - Star Tools</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #0F172A;
+  color: #E2E8F0;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4fc3f7, #60A5FA);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.badge {
+  background: #1E293B;
+  padding: 4px 14px;
+  border-radius: 40px;
+  font-size: 11px;
+  color: #94A3B8;
+  border: 1px solid #334155;
+}
+
+.box {
+  background: #1E293B;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #334155;
+}
+
+.box h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #F1F5F9;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+select, input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #0F172A;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  flex: 1;
+  min-width: 100px;
+}
+
+select:focus, input:focus {
+  border-color: #4fc3f7;
+}
+
+select option {
+  background: #1E293B;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #4fc3f7;
+  color: #0F172A;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn-danger {
+  background: #EF4444;
+  color: white;
+}
+
+.btn-danger:active {
+  background: #DC2626;
+}
+
+.kode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.kode-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0F172A;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #1E293B;
+  font-size: 13px;
+}
+
+.kode-item .left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.kode-item .kode-text {
+  font-family: monospace;
+  font-weight: 700;
+  color: #4fc3f7;
+  font-size: 14px;
+}
+
+.kode-item .status {
+  font-size: 10px;
+  padding: 2px 10px;
+  border-radius: 40px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.kode-item .status.aktif {
+  background: #065F46;
+  color: #34D399;
+}
+
+.kode-item .status.dipakai {
+  background: #1E3A5F;
+  color: #60A5FA;
+}
+
+.kode-item .status.kadaluarsa {
+  background: #7F1D1D;
+  color: #F87171;
+}
+
+.kode-item .info {
+  font-size: 11px;
+  color: #94A3B8;
+}
+
+.kode-item .right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kode-item .btn-delete {
+  background: none;
+  border: none;
+  color: #64748B;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.kode-item .btn-delete:hover {
+  background: #1E293B;
+  color: #EF4444;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 30px 0;
+  color: #64748B;
+  font-size: 14px;
+}
+
+.mapel-tag {
+  display: inline-block;
+  background: #1E293B;
+  padding: 2px 10px;
+  border-radius: 40px;
+  font-size: 10px;
+  color: #94A3B8;
+  border: 1px solid #334155;
+}
+
+.footer-info {
+  text-align: center;
+  font-size: 12px;
+  color: #475569;
+  margin-top: 12px;
+}
+
+/* Scrollbar */
+.kode-list::-webkit-scrollbar {
+  width: 4px;
+}
+.kode-list::-webkit-scrollbar-track {
+  background: #1E293B;
+  border-radius: 4px;
+}
+.kode-list::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+@media (max-width: 500px) {
+  .row {
+    flex-direction: column;
+  }
+  .row select, .row input, .row .btn {
+    width: 100%;
+  }
+  .kode-item {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .kode-item .left {
+    width: 100%;
+  }
+  .kode-item .right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h2>🔥 Owner Panel</h2>
+    <span class="badge">v2.0</span>
+  </div>
+
+  <!-- GENERATE KODE -->
+  <div class="box">
+    <h3>Generate Kode Premium</h3>
+    <div class="row">
+      <select id="mapelKode">
+        <option value="ekonomi">📊 Ekonomi</option>
+        <option value="sains">🔬 Sains</option>
+        <option value="coding">💻 Coding</option>
+        <option value="all">⭐ All Premium</option>
+      </select>
+
+      <select id="masaAktif">
+        <option value="7">1 Minggu (7 hari)</option>
+        <option value="30">1 Bulan (30 hari)</option>
+        <option value="90">3 Bulan (90 hari)</option>
+        <option value="180">6 Bulan (180 hari)</option>
+        <option value="365">1 Tahun (365 hari)</option>
+      </select>
+
+      <input type="number" id="jumlahKode" placeholder="Jumlah" value="1" min="1" style="max-width:80px;">
+
+      <button class="btn" onclick="generateKode()">Generate</button>
+    </div>
+  </div>
+
+  <!-- DAFTAR KODE -->
+  <div class="box">
+    <h3>Daftar Kode Premium</h3>
+    <div id="listKode" class="kode-list">
+      <div class="empty-state">Memuat kode...</div>
+    </div>
+  </div>
+
+  <div class="footer-info">
+    Total kode akan muncul otomatis
+  </div>
+</div>
+
+<script>
+const password = prompt("Masukkan Password Owner:");
+
+if(password !== "BintangCeo"){
+  document.body.innerHTML = "<div style='display:flex;justify-content:center;align-items:center;height:100vh;'><h2 style='color:#EF4444;'>Akses Ditolak ❌</h2></div>";
+  throw new Error("Unauthorized");
+}
+
+// FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+  storageBucket: "laporanstartools-c18b2.firebasestorage.app",
+  messagingSenderId: "596585220522",
+  appId: "1:596585220522:web:d61e13c60daff6daca43d3"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.database();
+
+// GENERATE KODE RANDOM
+function randomKode() {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "STAR-";
+  for (let i = 0; i < 5; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+// GENERATE KODE
+async function generateKode() {
+  const jumlah = parseInt(document.getElementById("jumlahKode").value) || 1;
+  const mapel = document.getElementById("mapelKode").value;
+  const masaAktif = parseInt(document.getElementById("masaAktif").value);
+
+  if (jumlah > 50) {
+    alert('Maksimal 50 kode sekali generate!');
+    return;
+  }
+
+  let hasil = [];
+
+  for (let i = 0; i < jumlah; i++) {
+    const kode = randomKode();
+
+    await db.ref("premiumCodes/" + mapel + "/" + kode).set({
+      aktif: true,
+      dibuat_pada: Date.now(),
+      masa_aktif_hari: masaAktif,
+      digunakan_oleh: null,
+      digunakan_pada: null
+    });
+
+    hasil.push(kode);
+  }
+
+  const labelMapel = {
+    ekonomi: 'Ekonomi',
+    sains: 'Sains',
+    coding: 'Coding',
+    all: 'All Premium'
+  };
+
+  alert(
+    `✅ Kode berhasil dibuat!\n\n` +
+    `📚 Mapel: ${labelMapel[mapel]}\n` +
+    `📅 Masa Aktif: ${masaAktif} hari\n` +
+    `📦 Jumlah: ${jumlah}\n\n` +
+    `Kode:\n${hasil.join('\n')}`
+  );
+
+  loadKode();
+}
+
+// FORMAT WAKTU
+function formatWaktu(timestamp) {
+  if (!timestamp) return '-';
+  const date = new Date(timestamp);
+  return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+// CEK STATUS KODE
+function getStatus(kodeData) {
+  if (!kodeData || !kodeData.aktif) return { status: 'nonaktif', label: 'Nonaktif', color: 'kadaluarsa' };
+  
+  if (kodeData.digunakan_oleh) return { status: 'dipakai', label: 'Dipakai', color: 'dipakai' };
+  
+  const dibuat = kodeData.dibuat_pada || 0;
+  const masa = kodeData.masa_aktif_hari || 7;
+  const expired = dibuat + (masa * 24 * 60 * 60 * 1000);
+  
+  if (Date.now() > expired) {
+    return { status: 'kadaluarsa', label: 'Kadaluarsa', color: 'kadaluarsa' };
+  }
+  
+  return { status: 'aktif', label: 'Aktif', color: 'aktif' };
+}
+
+// LOAD KODE REALTIME
+function loadKode() {
+  const list = document.getElementById("listKode");
+
+  db.ref("premiumCodes").on("value", snapshot => {
+    list.innerHTML = "";
+
+    if (!snapshot.exists()) {
+      list.innerHTML = '<div class="empty-state">Belum ada kode premium</div>';
+      return;
+    }
+
+    let totalKode = 0;
+    let totalAktif = 0;
+    let totalDipakai = 0;
+
+    snapshot.forEach(mapelSnap => {
+      const mapel = mapelSnap.key;
+      
+      const labelMapel = {
+        ekonomi: '📊 Ekonomi',
+        sains: '🔬 Sains',
+        coding: '💻 Coding',
+        all: '⭐ All Premium'
+      };
+
+      const title = document.createElement("div");
+      title.style.cssText = 'font-size:13px;font-weight:700;color:#94A3B8;padding:8px 0 4px 0;border-bottom:1px solid #1E293B;margin-top:4px;';
+      title.innerText = labelMapel[mapel] || mapel.toUpperCase();
+      list.appendChild(title);
+
+      let mapelCount = 0;
+
+      mapelSnap.forEach(codeSnap => {
+        const kode = codeSnap.key;
+        const data = codeSnap.val();
+        totalKode++;
+        mapelCount++;
+
+        const status = getStatus(data);
+
+        if (status.status === 'aktif') totalAktif++;
+        if (status.status === 'dipakai') totalDipakai++;
+
+        const div = document.createElement("div");
+        div.className = "kode-item";
+
+        const left = document.createElement("div");
+        left.className = "left";
+
+        const kodeText = document.createElement("span");
+        kodeText.className = "kode-text";
+        kodeText.innerText = kode;
+
+        const statusBadge = document.createElement("span");
+        statusBadge.className = `status ${status.color}`;
+        statusBadge.innerText = status.label;
+
+        const info = document.createElement("span");
+        info.className = "info";
+
+        let infoText = `Hari: ${data.masa_aktif_hari || 7}`;
+        if (data.digunakan_oleh) {
+          infoText += ` | User: ${data.digunakan_oleh}`;
+        }
+        infoText += ` | Dibuat: ${formatWaktu(data.dibuat_pada)}`;
+        info.innerText = infoText;
+
+        left.appendChild(kodeText);
+        left.appendChild(statusBadge);
+        left.appendChild(info);
+
+        const right = document.createElement("div");
+        right.className = "right";
+
+        const delBtn = document.createElement("button");
+        delBtn.className = "btn-delete";
+        delBtn.innerText = "✕";
+        delBtn.title = "Hapus kode";
+        delBtn.onclick = () => {
+          if (confirm(`Hapus kode ${kode}?`)) {
+            db.ref("premiumCodes/" + mapel + "/" + kode).remove();
+          }
+        };
+
+        right.appendChild(delBtn);
+
+        div.appendChild(left);
+        div.appendChild(right);
+        list.appendChild(div);
+      });
+
+      // Mapel count
+      const countEl = document.createElement("div");
+      countEl.style.cssText = 'font-size:11px;color:#64748B;text-align:right;padding:4px 0 8px 0;border-bottom:1px solid #1E293B;';
+      countEl.innerText = `${mapelCount} kode`;
+      list.appendChild(countEl);
+    });
+
+    // Total stats di atas list
+    const statsEl = document.createElement("div");
+    statsEl.style.cssText = 'display:flex;gap:16px;padding:8px 0 12px 0;border-bottom:1px solid #334155;margin-bottom:4px;font-size:12px;color:#94A3B8;flex-wrap:wrap;';
+    statsEl.innerHTML = `
+      <span>📦 Total: <strong style="color:#F1F5F9;">${totalKode}</strong></span>
+      <span>🟢 Aktif: <strong style="color:#34D399;">${totalAktif}</strong></span>
+      <span>🔵 Dipakai: <strong style="color:#60A5FA;">${totalDipakai}</strong></span>
+      <span>🔴 Kadaluarsa: <strong style="color:#F87171;">${totalKode - totalAktif - totalDipakai}</strong></span>
+    `;
+    list.prepend(statsEl);
+  });
+}
+
+loadKode();
+
+// FUNGSI KE HALAMAN LAIN
+function goPage(page) {
+  window.location.href = page;
+}
+</script>
+
+</body>
+</html>

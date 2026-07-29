@@ -398,6 +398,9 @@
   .absensi { stroke: #22D3EE; }
   .keuangan { stroke: #FCD34D; }
   .nita { stroke: #818CF8; }
+  .rata { stroke: #34D399; }
+  .ranking { stroke: #A78BFA; }
+  .total { stroke: #FBBF24; }
   .tugas { stroke: #F59E0B; }
 
   .welcome-text {
@@ -981,8 +984,10 @@ const allSubjects = [
 const allFeatures = [
   { name: "Absensi Digital", icon: "absensi", link: "absensi.html" },
   { name: "Keuangan Digital", icon: "keuangan", link: "keuangan.html" },
-  { name: "Nita AI Asisten", icon: "nita", link: "nita.html" },
-  { name: "Manajemen Tugas", icon: "tugas", link: "tugas.html" }
+  { name: "Nilai Rata-Rata", icon: "rata", link: "rata.html" },
+  { name: "Rangking", icon: "ranking", link: "ranking.html" },
+  { name: "total", icon: "total", link: "total.html" },
+  { name: "Nita AI Asisten", icon: "nita", link: "nita.html" }
 ];
 
 const iconPaths = {
@@ -993,8 +998,10 @@ const iconPaths = {
   coding: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
   absensi: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 4v2"/><path d="M16 4v2"/><line x1="3" y1="10" x2="21" y2="10"/>',
   keuangan: '<rect x="2" y="6" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><circle cx="17" cy="14" r="1.5" fill="#FCD34D"/>',
-  nita: '<rect x="2" y="6" width="20" height="12"/><path d="M2 6l10 7 10-7"/>',
-  tugas: '<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>'
+  rata: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+  ranking: '<path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 4-4"/><path d="M7 10l4 4 4-4 4 4"/>',
+  total: ' <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>',
+  nita: '<rect x="2" y="6" width="20" height="12"/><path d="M2 6l10 7 10-7"/>'
 };
 
 function showAllFeatures() {
