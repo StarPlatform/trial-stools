@@ -733,65 +733,33 @@
     stroke: #F1F5F9;
   }
 
-  .table-wrap {
-    border: 1px solid #E2E8F0;
-    border-radius: 14px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  body.dark .table-wrap {
-    border-color: #334155;
-  }
-
-  .table-wrap table {
+  table {
     width: 100%;
-    min-width: 100%;
     border-collapse: collapse;
     font-size: 13px;
   }
 
-  .table-wrap table th {
-    padding: 8px 6px;
+  table th {
+    padding: 8px;
     border: 1px solid #E2E8F0;
     font-weight: 700;
     text-align: center;
     background: #F8FAFE;
   }
 
-  body.dark .table-wrap table th {
+  body.dark table th {
     background: #1E293B;
   }
 
-  .table-wrap table td {
-    padding: 6px 6px;
+  table td {
+    padding: 6px 8px;
     border: 1px solid #E2E8F0;
     text-align: center;
-    vertical-align: middle;
   }
 
-  body.dark .table-wrap table td,
-  body.dark .table-wrap table th {
+  body.dark table td,
+  body.dark table th {
     border-color: #334155 !important;
-  }
-
-  .sticky-col {
-    position: sticky;
-    left: 0;
-    background: #F8FAFE;
-    z-index: 1;
-  }
-
-  body.dark .sticky-col {
-    background: #1E293B;
-  }
-
-  .table-wrap td.sticky-col {
-    background: #FFFFFF;
-  }
-
-  body.dark .table-wrap td.sticky-col {
-    background: #111827;
   }
 
   table td.cel-editable {
@@ -921,6 +889,27 @@
 
   .hidden {
     display: none !important;
+  }
+
+  .verif-kelas-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid #E2E8F0;
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+  body.dark .verif-kelas-item { border-color: #334155; }
+  .verif-kelas-item:active { transform: scale(0.98); background: #EFF6FF; }
+  body.dark .verif-kelas-item:active { background: #1D2B4A; }
+  .verif-kelas-item .nama-kelas { font-size:13.5px; font-weight:700; }
+  .verif-kelas-item svg { width:16px; height:16px; stroke:#2563EB; flex-shrink:0; }
+
+  @keyframes pulseVerifDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.7); }
   }
 
   .text-center {
@@ -1402,6 +1391,7 @@
     transform: scale(0.96);
   }
 
+
   .modal-content {
     background: #FFFFFF;
     width: 320px;
@@ -1514,7 +1504,6 @@
     color: #64748B;
     margin-bottom: 16px;
     line-height: 1.5;
-    white-space: pre-line;
   }
 
   body.dark .modal-content p {
@@ -2093,111 +2082,57 @@
     color: #64748B;
   }
 
-  /* ===== Tampilan Laptop / PC ===== */
-  @media (min-width: 900px) {
-    body {
-      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
-      min-height: 100vh;
-    }
-
-    body.dark {
-      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
-    }
-
-    .app-container {
-      max-width: 720px;
-      margin: 36px auto;
-      background: #FFFFFF;
-      border-radius: 20px;
-      border: 1px solid #E2E8F0;
-      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
-      overflow: hidden;
-      min-height: auto;
-    }
-
-    body.dark .app-container {
-      background: #111827;
-      border-color: #1E293B;
-      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-
-    .app-header {
-      border-radius: 20px 20px 0 0;
-      position: relative;
-    }
-
-    .guide-overlay {
-      align-items: center;
-    }
-
-    .guide-content {
-      max-width: 480px;
-      height: auto;
-      max-height: 85vh;
-      border-radius: 20px;
-      border-bottom: 1px solid #E2E8F0;
-    }
-
-    body.dark .guide-content {
-      border-bottom-color: #1E293B;
-    }
-
-    .guide-content.expanded {
-      height: auto;
-      max-height: 90vh;
-      border-radius: 20px;
-    }
-
-    .guide-drag-zone {
-      cursor: default;
-    }
-
-    .guide-handle {
-      opacity: 0.4;
-    }
-
-    .qr-download-wrapper {
-      max-width: 280px;
-      padding: 16px;
-    }
-
-    .qr-download-wrapper #qrcode canvas {
-      width: 160px !important;
-      height: 160px !important;
-    }
-
-    .container {
-      margin: 12px 20px 0 20px;
-    }
-
-    .export-btn-group .btn {
-      padding: 10px 16px;
-      font-size: 13px;
-    }
-
-    .modal-content {
-      width: 360px;
-      padding: 28px;
-    }
-
-    #reader {
-      max-width: 350px;
-    }
-
-    .scan-area {
-      padding: 20px;
-    }
-
-    .table-wrap table {
-      font-size: 12px;
-    }
-
-    .table-wrap table th,
-    .table-wrap table td {
-      padding: 6px 10px;
-    }
+  .verif-kelas-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1.5px solid #E2E8F0;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.15s;
   }
+  body.dark .verif-kelas-card { border-color: #334155; }
+  .verif-kelas-card:active { transform: scale(0.98); background: #EFF6FF; }
+  body.dark .verif-kelas-card:active { background: #1D2B4A; }
+  .verif-kelas-card .nama { font-size:14px; font-weight:700; }
+  .verif-kelas-card .kode { font-size:11.5px; color:#94A3B8; }
+  .verif-kelas-card svg { width:18px; height:18px; stroke:#2563EB; flex-shrink:0; }
 
+  .verif-waiting-box {
+    text-align: center;
+    padding: 10px 6px 4px;
+  }
+  .verif-waiting-box #qrTungguGuru {
+    display: inline-block;
+    padding: 14px;
+    background: #fff;
+    border-radius: 16px;
+    margin: 10px 0;
+  }
+  .verif-waiting-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #EFF6FF;
+    color: #2563EB;
+    font-size:12.5px;
+    font-weight:700;
+    padding: 8px 14px;
+    border-radius: 30px;
+    margin-top: 10px;
+  }
+  body.dark .verif-waiting-pulse { background: #1D2B4A; color:#60A5FA; }
+  .verif-waiting-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #2563EB;
+    animation: verifPulse 1.2s ease-in-out infinite;
+  }
+  body.dark .verif-waiting-dot { background:#60A5FA; }
+  @keyframes verifPulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
 </style>
 </head>
 <body>
@@ -2212,7 +2147,7 @@
           <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </div>
-      <span class="app-title">Absensi Digital</span>
+      <span class="app-title">Absensi Mapel</span>
     </div>
     <div style="display:flex; align-items:center; gap:8px;">
       <button class="close-btn" onclick="openGuideModal()" aria-label="Panduan Penggunaan" style="font-weight:800; font-size:16px;">
@@ -2259,73 +2194,49 @@
   </div>
 
   <div class="container" id="welcomeBox">
-    <h3>Absensi Digital</h3>
-    <p>Kelola absensi kelas dengan mudah. Daftarkan murid, generate QR Code, dan scan untuk absen instan.</p>
-  </div>
-
-  <div class="container" id="promoMapelBox" onclick="goTo('mapel.html')" style="cursor:pointer; display:flex; align-items:center; gap:12px; padding:14px 16px;">
-    <div style="width:42px; height:42px; border-radius:13px; background:#2563EB18; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-        <path d="M9 11.5l1.5 1.5L14 9.5"/>
-      </svg>
-    </div>
-    <div style="flex:1;">
-      <div style="font-weight:700; font-size:14px;">Coba Absensi Mapel</div>
-      <div style="font-size:12.5px; color:#64748B;">Khusus guru mata pelajaran, nempel ke kelas yang sudah ada</div>
-    </div>
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
-      <polyline points="9 18 15 12 9 6"/>
-    </svg>
+    <h3>Absensi Mapel</h3>
+    <p>Absensi khusus untuk guru mata pelajaran. Nempel ke ID Kelas yang sudah terdaftar, tapi catatan kehadirannya kepisah per mapel. Scan QR murid yang sama dengan yang dipakai di Absensi Kelas.</p>
   </div>
 
   <div class="container" id="setupForm">
-    <h3>Daftarkan Kelas</h3>
+    <h3>Daftar Sesi Mapel Baru</h3>
+    <p style="font-size:12px; color:#94A3B8; margin-bottom:10px;">Nempel ke kelas yang sudah terdaftar di Absensi Kelas. Perlu ID &amp; password kelas untuk verifikasi.</p>
 
-    <input id="namaKelas" class="input" placeholder="Nama Kelas (contoh: XII IPA 1)">
-    
+    <input id="daftarKelasId" class="input" placeholder="ID Kelas (contoh: KLS-ABC123)">
     <div class="input-group">
-      <input id="pwKelas" type="password" class="input" placeholder="Password">
-      <button onclick="togglePassword('pwKelas', this)" class="btn-eye" type="button">
+      <input id="daftarKelasPw" type="password" class="input" placeholder="Password Kelas">
+      <button onclick="togglePassword('daftarKelasPw', this)" class="btn-eye" type="button">
         <svg class="icon-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         <svg class="icon-eye-slash" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
       </button>
     </div>
 
-    <div style="margin: 12px 0 8px 0;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <span style="font-size:13px; font-weight:600; color:#64748B; margin:auto;">ID Kelas (otomatis)</span>
-      </div>
-      <div class="kelas-id-box">
-        <span class="label">ID Kelas</span>
-        <span class="id-value" id="generatedKelasId">KLS-XXXXXX</span>
-        <button class="copy-btn" onclick="copyKelasId()">Salin</button>
-      </div>
-      <p style="font-size:12px; color:#94A3B8; margin-top:4px; text-align:center;">ID kelas digunakan untuk login. Simpan baik-baik!</p>
+    <input id="namaMapel" class="input" placeholder="Nama Mapel (contoh: Matematika)" style="margin-top:10px;">
+    <input id="namaGuru" class="input" placeholder="Nama Guru (opsional)">
+
+    <div class="input-group">
+      <input id="pwMapel" type="password" class="input" placeholder="Password Mapel (buat baru)">
+      <button onclick="togglePassword('pwMapel', this)" class="btn-eye" type="button">
+        <svg class="icon-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="icon-eye-slash" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+      </button>
     </div>
 
-    <button class="btn btn-primary" onclick="simpanPassword()">Daftarkan Kelas</button>
+    <button class="btn btn-primary" onclick="daftarMapel()">Daftarkan Mapel</button>
 
     <hr style="border:1px solid #E2E8F0; margin:16px 0;">
 
-    <h3>Login Kelas</h3>
-    <input id="loginKelasId" class="input" placeholder="ID Kelas (contoh: KLS-ABC123)">
+    <h3>Login Sesi Mapel</h3>
+    <input id="loginMapelId" class="input" placeholder="ID Mapel (contoh: MPL-ABC123)">
     <div class="input-group">
-      <input id="loginPw" type="password" class="input" placeholder="Password">
-      <button onclick="togglePassword('loginPw', this)" class="btn-eye" type="button">
+      <input id="loginMapelPw" type="password" class="input" placeholder="Password Mapel">
+      <button onclick="togglePassword('loginMapelPw', this)" class="btn-eye" type="button">
         <svg class="icon-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         <svg class="icon-eye-slash" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
       </button>
     </div>
-    <div class="input-group">
-      <input id="loginIdSekolah" class="input" placeholder="ID Sekolah (opsional, contoh: SKL-ABC123)">
-      </div>
-    <div class="input-group">
-      <p style="font-size:11.5px; color:#94A3B8; margin-top:4px; text-align:center;">Kosongkan jika kelas ini tidak terdaftar di sekolah manapun. Isi jika kamu ingin masuk sebagai kelas yang terdaftar di sekolah tersebut.</p>
-    </div>
-    <button class="btn btn-primary" onclick="loginKelas()">Login</button>
-    
+    <button class="btn btn-primary" onclick="loginMapel()">Login</button>
+
     <div style="display:flex; justify-content:center; margin-top:8px;">
       <button class="btn btn-outline btn-sm" onclick="showResetPasswordModal()" style="width:auto; padding:6px 16px; font-size:12px;">
         Lupa Password?
@@ -2334,8 +2245,39 @@
 
     <hr style="border:1px solid #E2E8F0; margin:16px 0;">
 
+    <div id="verifGuruStep0" class="hidden" style="text-align:center;">
+      <h3 id="verifGuruSapaan0">Halo, Guru!</h3>
+      <p style="font-size:12px; color:#94A3B8; margin-bottom:14px;">Tunjukkan QR ini ke admin/resepsionis untuk discan di Absensi Guru. Setelah discan, sesi hari ini otomatis terbuka.</p>
+      <div id="qrVerifContainer" style="display:flex; justify-content:center; padding:14px; background:#fff; border-radius:16px; margin:0 auto 14px; width:fit-content;"></div>
+      <div style="display:flex; align-items:center; justify-content:center; gap:8px; font-size:12.5px; color:#2563EB; font-weight:700; margin-bottom:14px;">
+        <span style="width:8px; height:8px; border-radius:50%; background:#2563EB; animation:pulseVerifDot 1.2s ease-in-out infinite;"></span>
+        Menunggu discan...
+      </div>
+      <button class="btn btn-outline" onclick="batalVerifGuru()">Batal, Verifikasi Ulang</button>
+    </div>
+
+    <div id="verifGuruStep1">
+      <h3>Masuk sebagai Guru Terdaftar (via Sekolah)</h3>
+      <p style="font-size:12px; color:#94A3B8; margin-bottom:10px;">Kalau sekolah kamu pakai Absensi Guru, verifikasi di sini — tanpa perlu ID Kelas & password mapel manual.</p>
+
+      <input id="verifIdSekolah" class="input" placeholder="ID Sekolah (contoh: SKL-ABC123)">
+      <input id="verifNamaGuru" class="input" placeholder="Nama Guru">
+      <input id="verifNamaMapel" class="input" placeholder="Mata Pelajaran yang Diajar">
+
+      <button class="btn btn-primary" onclick="verifikasiGuruSekolah()">Verifikasi</button>
+    </div>
+
+    <div id="verifGuruStep2" class="hidden">
+      <h3 id="verifGuruSapaan">Halo, Guru!</h3>
+      <p style="font-size:12px; color:#94A3B8; margin-bottom:10px;">Pilih kelas yang mau diabsen. Kelas ini yang di-assign untuk kamu di Absensi Guru.</p>
+      <div id="verifKelasList"></div>
+      <button class="btn btn-outline" onclick="batalVerifGuru()" style="margin-top:10px;">Batal, Verifikasi Ulang</button>
+    </div>
+
+    <hr style="border:1px solid #E2E8F0; margin:16px 0;">
+
     <div style="margin-top:16px;">
-      <p style="font-size:13px; font-weight:600; color:#64748B; margin-bottom:8px; text-align:center;">Kelas yang pernah anda masukkan</p>
+      <p style="font-size:13px; font-weight:600; color:#64748B; margin-bottom:8px; text-align:center;">Sesi mapel yang pernah anda masukkan</p>
       <div id="savedClassesList"></div>
     </div>
 
@@ -2345,52 +2287,24 @@
   <div id="absenBox" style="display:none;">
     <div class="container">
       <div class="kelas-id-display">
-        <span class="label">ID Kelas</span>
+        <span class="label">ID Mapel</span>
         <span class="id-value" id="displayKelasId">-</span>
         <button class="copy-btn-sm" onclick="copyDisplayKelasId()">Salin</button>
       </div>
-    </div>
-
-    <div class="container">
-      <h3>Tambah Murid</h3>
-      <div class="input-group">
-        <input id="namaMuridBaru" class="input" placeholder="Nama Murid">
-        <button class="btn btn-primary" style="width:auto; padding:12px 20px; flex-shrink:0;" onclick="tambahMurid()">Tambah</button>
-      </div>
+      <p style="font-size:12px; color:#94A3B8; margin-top:8px; text-align:center;" id="infoMapelBox">-</p>
     </div>
 
     <div class="container">
       <h3>Mode Absensi</h3>
       <div class="tab-container">
-        <button class="tab-btn active" data-tab="tabQR" onclick="switchTab('tabQR')">QR Code</button>
+        <button class="tab-btn active" data-tab="tabQR" onclick="switchTab('tabQR')">Scan QR</button>
         <button class="tab-btn" data-tab="tabManual" onclick="switchTab('tabManual')">Manual</button>
       </div>
 
       <div id="tabQR" class="tab-content active">
-        <div>
-          <div class="h4-title">Generate QR Code</div>
-          <div class="custom-select">
-            <div class="select-box" onclick="toggleDropdown('optionMuridQR')">
-              <span id="selectedMuridQR">Pilih Murid</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="options" id="optionMuridQR"></div>
-          </div>
-          <button class="btn btn-primary" onclick="generateQR()">Generate QR Code</button>
-          <div id="qrResult" class="qr-download-wrapper hidden">
-            <div class="qr-nama" id="qrNamaDisplay">Nama Murid</div>
-            <div class="qr-kelas" id="qrKelasDisplay">Kelas: -</div>
-            <div id="qrcode"></div>
-            <div class="qr-footer">
-              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              Star Tools
-            </div>
-            <button class="btn btn-outline btn-sm" onclick="downloadQR()" style="margin-top:12px;">Download QR</button>
-          </div>
-        </div>
-
         <div style="margin-top:16px;">
-          <div class="h4-title">Scan QR Code</div>
+          <div class="h4-title">Scan QR Code Murid</div>
+          <p style="font-size:12px; color:#94A3B8; margin-bottom:8px;">QR yang dipakai sama dengan QR yang digenerate di Absensi Kelas — murid gak perlu QR baru.</p>
 
           <div class="scan-mode-container">
             <div class="scan-mode-btn active" data-mode="camera" onclick="switchScanMode('camera')">
@@ -2539,8 +2453,8 @@
     </div>
 
     <div class="container" style="display:flex; gap:8px;">
-      <button class="btn btn-danger" onclick="logoutKelas()" style="flex:1;">Logout Kelas</button>
-      <button class="btn btn-danger" onclick="showHapusKelasModal()" style="flex:1;">Hapus Kelas</button>
+      <button class="btn btn-danger" onclick="logoutKelas()" style="flex:1;">Logout Mapel</button>
+      <button class="btn btn-danger" onclick="showHapusKelasModal()" style="flex:1;">Hapus Sesi Mapel</button>
     </div>
   </div>
 
@@ -2558,61 +2472,47 @@
   </div>
 </div>
 
-<div id="shareAbsenModal" class="modal-overlay">
-  <div class="modal-content">
-    <h3 style="margin-bottom:4px;">Bagikan Absensi</h3>
-    <p style="margin-bottom:14px;" id="shareAbsenNama">Link absensi murid</p>
-    <div style="background:#F8FAFE; border:1px solid #E2E8F0; border-radius:12px; padding:10px 12px; font-size:12px; word-break:break-all; margin-bottom:14px;" id="shareAbsenLink">-</div>
-    <p style="font-size:12px; color:#94A3B8; margin-bottom:16px;">Link ini bisa dibuka siapa saja tanpa login, menampilkan absensi murid secara real-time, dan tidak bisa diubah-ubah (khusus untuk dilihat).</p>
-    <div style="display:flex; gap:8px;">
-      <button class="btn btn-outline" style="flex:1;" onclick="closeShareAbsenModal()">Tutup</button>
-      <button class="btn btn-success" style="flex:1;" onclick="salinLinkAbsen()">Salin Link</button>
-    </div>
-    <button class="btn btn-primary" style="margin-top:8px;" onclick="shareWaAbsen()">Bagikan lewat WhatsApp</button>
-  </div>
-</div>
-
 <div id="guideOverlay" class="guide-overlay">
   <div class="guide-content" id="guideContent">
     <div class="guide-drag-zone" id="guideDragZone">
       <div class="guide-handle"></div>
     </div>
     <div class="guide-header">
-      <h3>Panduan Penggunaan Absensi Digital</h3>
+      <h3>Panduan Penggunaan Absensi Mapel</h3>
       <div class="guide-close" onclick="closeGuideModal()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </div>
     </div>
-    <p class="guide-subtitle">Ikuti langkah-langkah berikut agar proses absensi kelas Anda berjalan dengan lancar.</p>
+    <p class="guide-subtitle">Ikuti langkah-langkah berikut agar presensi per mata pelajaran berjalan dengan lancar.</p>
 
     <div class="guide-sim">
       <div class="sim-scene sim-scene-1">
         <div class="sim-scene-icons">
           <div class="sim-scene-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
         </div>
-        <div class="sim-scene-label">Masuk / Mendaftarkan Kelas</div>
+        <div class="sim-scene-label">Masukkan ID &amp; Password Kelas</div>
       </div>
 
       <div class="sim-scene sim-scene-2">
         <div class="sim-scene-icons">
           <div class="sim-scene-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="17" y1="11" x2="23" y2="11"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           </div>
         </div>
-        <div class="sim-scene-label">Menambahkan Peserta Didik</div>
+        <div class="sim-scene-label">Isi Nama Mapel &amp; Guru</div>
       </div>
 
       <div class="sim-scene sim-scene-3">
         <div class="sim-scene-icons">
           <div class="sim-scene-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><line x1="14" y1="14" x2="14" y2="21"/><line x1="21" y1="14" x2="21" y2="21"/><line x1="17" y1="17" x2="21" y2="17"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h3M15 12h3M6 16h12"/></svg>
           </div>
         </div>
-        <div class="sim-scene-label">Membuat Kode QR per Murid</div>
+        <div class="sim-scene-label">ID Mapel Otomatis Dibuat</div>
       </div>
 
       <div class="sim-scene sim-scene-4">
@@ -2636,7 +2536,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 12"/></svg>
           </div>
         </div>
-        <div class="sim-scene-label">Rekap Kehadiran Selesai</div>
+        <div class="sim-scene-label">Hadir di Mapel Otomatis Tercatat</div>
       </div>
 
       <div class="sim-dots">
@@ -2652,50 +2552,50 @@
       <div class="guide-step">
         <div class="guide-step-num">1</div>
         <div class="guide-step-text">
-          <b>Mendaftarkan Kelas</b>
-          <span>Isi nama kelas dan buat kata sandi untuk membuat kelas baru.</span>
+          <b>Menyiapkan ID Kelas</b>
+          <span>Pastikan kelas yang akan digunakan sudah terdaftar di Absensi Digital. Siapkan ID Kelas (contoh: KLS-ABC123) beserta password kelas tersebut — keduanya dibutuhkan untuk mendaftarkan sesi mapel.</span>
         </div>
       </div>
       <div class="guide-step">
         <div class="guide-step-num">2</div>
         <div class="guide-step-text">
-          <b>Menyimpan ID Kelas</b>
-          <span>Setelah kelas berhasil dibuat, sistem akan membuatkan ID Kelas secara otomatis (contoh: KLS-ABC123). ID inilah yang digunakan untuk login kembali ke kelas, bersama dengan kata sandi yang telah dibuat — bukan nama kelas. Simpan ID ini baik-baik, karena tanpanya Anda tidak dapat masuk kembali apabila keluar dari aplikasi.</span>
+          <b>Mendaftarkan Mapel</b>
+          <span>Masukkan ID Kelas dan password kelas, lalu isi Nama Mapel (contoh: Matematika), Nama Guru (opsional), dan buat Password Mapel baru untuk sesi ini.</span>
         </div>
       </div>
       <div class="guide-step">
         <div class="guide-step-num">3</div>
         <div class="guide-step-text">
-          <b>Menambahkan Peserta Didik</b>
-          <span>Masukkan nama setiap peserta didik satu per satu agar seluruh nama muncul pada daftar absensi.</span>
+          <b>Menyimpan ID Mapel</b>
+          <span>Setelah berhasil didaftarkan, sistem akan membuatkan ID Mapel secara otomatis (contoh: MPL-ABC123). Simpan ID ini — untuk login berikutnya, cukup masukkan ID Mapel beserta password mapel saja, tanpa perlu ID Kelas lagi.</span>
         </div>
       </div>
       <div class="guide-step">
         <div class="guide-step-num">4</div>
         <div class="guide-step-text">
-          <b>Membuat Kode QR per Peserta Didik</b>
-          <span>Pilih nama peserta didik pada tab Kamera/QR, lalu tekan "Generate QR Code". Kode QR ini bersifat permanen untuk peserta didik tersebut dan dapat diunduh untuk dicetak atau dibagikan langsung kepadanya.</span>
+          <b>Memindai QR Murid</b>
+          <span>Murid yang akan diabsen adalah murid yang QR Code-nya sudah dibuat lewat Absensi Digital (kelas). Guru memindai QR milik murid tersebut menggunakan kamera atau dari galeri.</span>
         </div>
       </div>
       <div class="guide-step">
         <div class="guide-step-num">5</div>
         <div class="guide-step-text">
-          <b>Memindai untuk Presensi</b>
-          <span>Setiap peserta didik menyimpan kode QR miliknya masing-masing. Saat presensi, guru memindai kode QR tersebut satu per satu menggunakan kamera aplikasi (atau dari galeri), dan status kehadiran akan otomatis tercatat sebagai Hadir.</span>
+          <b>Presensi Otomatis Tercatat</b>
+          <span>Begitu QR berhasil dipindai, nama murid otomatis masuk dan tercatat hadir pada sesi mata pelajaran ini — terpisah dari rekap Absensi Digital kelas.</span>
         </div>
       </div>
       <div class="guide-step">
         <div class="guide-step-num">6</div>
         <div class="guide-step-text">
           <b>Presensi Manual (opsional)</b>
-          <span>Apabila terdapat peserta didik yang tidak dapat memindai kode QR, gunakan tab Manual dengan memilih nama, tanggal, dan status kehadiran.</span>
+          <span>Apabila ada murid yang tidak dapat memindai kode QR, gunakan tab Manual dengan memilih nama, tanggal, dan status kehadiran.</span>
         </div>
       </div>
       <div class="guide-step">
         <div class="guide-step-num">7</div>
         <div class="guide-step-text">
           <b>Melihat dan Mengunduh Rekap</b>
-          <span>Rekap kehadiran dapat dilihat pada Tabel Kehadiran dan Rekap Bulanan, kemudian diunduh dalam format Excel atau CSV untuk keperluan laporan.</span>
+          <span>Rekap kehadiran per mapel dapat dilihat dan diunduh dalam format Excel atau CSV, terpisah untuk setiap mata pelajaran.</span>
         </div>
       </div>
     </div>
@@ -2710,7 +2610,6 @@
   </div>
 </div>
 
-
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
@@ -2724,8 +2623,11 @@ if (!firebase.apps.length) {
 }
 const db = firebase.database();
 
-let kelasAktif = localStorage.getItem("kelasAktif") || "";
-let kelasIdAktif = localStorage.getItem("kelasIdAktif") || "";
+let kelasAktif = localStorage.getItem("kelasAktif") || "";       // nama kelas yang ditempel (info)
+let kelasIdAktif = localStorage.getItem("kelasIdAktif") || "";   // ID kelas yang ditempel (buat baca murid & cocokin QR)
+let mapelAktif = localStorage.getItem("mapelAktif") || "";       // nama mapel
+let mapelIdAktif = localStorage.getItem("mapelIdAktif") || "";   // ID sesi mapel (buat simpan absen)
+let guruAktif = localStorage.getItem("guruAktif") || "";         // nama guru (opsional)
 let bulanDipilih = localStorage.getItem("selectedBulan") || "";
 let muridDipilih = "";
 let muridManual = "";
@@ -2739,9 +2641,9 @@ let undoStack = [];
 let redoStack = [];
 let resetMethod = "";
 
-function generateKelasId() {
+function generateMapelId() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let result = 'KLS-';
+  let result = 'MPL-';
   for (let i = 0; i < 6; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
@@ -2750,14 +2652,14 @@ function generateKelasId() {
 
 function getSavedClasses() {
   try {
-    return JSON.parse(localStorage.getItem("savedClasses") || "[]");
+    return JSON.parse(localStorage.getItem("savedMapelSessions") || "[]");
   } catch {
     return [];
   }
 }
 
 function saveSavedClasses(classes) {
-  localStorage.setItem("savedClasses", JSON.stringify(classes));
+  localStorage.setItem("savedMapelSessions", JSON.stringify(classes));
 }
 
 function addSavedClass(id, nama) {
@@ -2786,7 +2688,7 @@ function loadSavedClasses() {
   if (classes.length === 0) {
     container.innerHTML = `
       <div class="saved-class-empty">
-        Belum ada kelas yang disimpan
+        Belum ada sesi mapel yang disimpan
       </div>
     `;
     return;
@@ -2800,7 +2702,7 @@ function loadSavedClasses() {
           <div class="name">${item.nama}</div>
           <div class="id">${item.id}</div>
         </div>
-        <button class="delete-btn-session" onclick="confirmHapusSesi('${item.id}')" title="Hapus dari daftar">✕</button>
+        <button class="delete-btn-session" onclick="confirmHapusSesi('${item.id}')" title="Hapus dari daftar"></button>
       </div>
     `;
   });
@@ -2809,34 +2711,24 @@ function loadSavedClasses() {
 }
 
 function quickLogin(id, nama) {
-  db.ref("kelas/" + id).once("value").then(function(snap) {
-    if (!snap.exists()) {
-      showModal("error", "Kelas Tidak Ditemukan", "Kelas ini sudah dihapus dari server. Hapus dari daftar.");
+  db.ref("mapelIndex/" + id).once("value").then(function(idxSnap) {
+    if (!idxSnap.exists()) {
+      showModal("error", "Sesi Tidak Ditemukan", "Sesi mapel ini sudah dihapus dari server. Hapus dari daftar.");
       removeSavedClass(id);
       return;
     }
+    const kelasId = idxSnap.val();
+    return db.ref("kelas/" + kelasId + "/mapel/" + id).once("value").then(function(snap) {
+      if (!snap.exists()) {
+        showModal("error", "Sesi Tidak Ditemukan", "Sesi mapel ini sudah dihapus dari server. Hapus dari daftar.");
+        removeSavedClass(id);
+        return;
+      }
 
-    const data = snap.val();
-    
-    kelasAktif = data.nama;
-    kelasIdAktif = id;
-    localStorage.setItem("kelasAktif", data.nama);
-    localStorage.setItem("kelasIdAktif", id);
-
-    document.getElementById("setupForm").style.display = "none";
-    document.getElementById("absenBox").style.display = "block";
-
-    document.getElementById("displayKelasId").innerText = id;
-
-    const bulan = new Date().toLocaleString("id-ID", { month: "long" });
-    bulanDipilih = bulan;
-    localStorage.setItem("selectedBulan", bulan);
-    document.getElementById("selectedBulan").innerText = bulan;
-
-    loadMurid();
-    loadTabel();
-    loadRekap();
-    showModal("success", "Selamat Datang!", "Login berhasil ke kelas " + data.nama);
+      const data = snap.val();
+      aktifkanSesiMapel(kelasId, data.kelasNama, id, data.nama, data.guru);
+      showModal("success", "Selamat Datang!", "Login berhasil ke sesi mapel " + data.nama);
+    });
   });
 }
 
@@ -2847,7 +2739,7 @@ function confirmHapusSesi(id) {
 
   showConfirmModal(
     "Hapus Sesi Login",
-    "Yakin ingin menghapus sesi login untuk kelas \"" + item.nama + "\"?\n\nData kelas tetap aman di server.",
+    "Yakin ingin menghapus sesi login untuk mapel \"" + item.nama + "\"?\n\nData mapel tetap aman di server.",
     function() {
       removeSavedClass(id);
       showModal("success", "Sesi Dihapus", "Sesi login untuk " + item.nama + " berhasil dihapus.");
@@ -2860,31 +2752,37 @@ document.addEventListener("DOMContentLoaded", function() {
     document.body.classList.add('dark');
   }
 
-  const generatedId = generateKelasId();
-  document.getElementById("generatedKelasId").innerText = generatedId;
-  document.getElementById("generatedKelasId").dataset.kelasId = generatedId;
-
   renderTanggalManualOptions();
   loadSavedClasses();
 
-  if (kelasAktif && kelasIdAktif) {
-    document.getElementById("setupForm").style.display = "none";
-    document.getElementById("absenBox").style.display = "block";
+  const savedVerif = localStorage.getItem("verifDataAktif");
 
-    document.getElementById("displayKelasId").innerText = kelasIdAktif;
+  if (savedVerif) {
+    verifDataAktif = JSON.parse(savedVerif);
+    const verifTanggal = localStorage.getItem("verifKelasTanggal");
+    const sudahPilihKelasHariIni = (verifTanggal === todayKeyGuru()) && mapelAktif && mapelIdAktif && kelasIdAktif;
 
-    if (!bulanDipilih) {
-      const bulan = new Date().toLocaleString("id-ID", { month: "long" });
-      bulanDipilih = bulan;
-      localStorage.setItem("selectedBulan", bulan);
-      document.getElementById("selectedBulan").innerText = bulan;
+    if (sudahPilihKelasHariIni) {
+      resumeSesiMapelAktif();
     } else {
-      document.getElementById("selectedBulan").innerText = bulanDipilih;
-    }
+      kelasIdAktif = ""; kelasAktif = ""; mapelIdAktif = ""; mapelAktif = ""; guruAktif = "";
+      localStorage.removeItem("kelasIdAktif");
+      localStorage.removeItem("kelasAktif");
+      localStorage.removeItem("mapelIdAktif");
+      localStorage.removeItem("mapelAktif");
+      localStorage.removeItem("guruAktif");
 
-    loadMurid();
-    loadTabel();
-    loadRekap();
+      db.ref("sekolah/" + verifDataAktif.idSekolah + "/absensiGuru/" + todayKeyGuru() + "/" + verifDataAktif.guruId).once("value").then(function(snap) {
+        const data = snap.val();
+        if (data && data.status === "Hadir") {
+          tampilkanPilihanKelasVerif();
+        } else {
+          tampilkanQrTungguScan();
+        }
+      });
+    }
+  } else if (mapelAktif && mapelIdAktif && kelasIdAktif) {
+    resumeSesiMapelAktif();
   }
 
   document.getElementById("fileInput").addEventListener("change", function(e) {
@@ -2904,25 +2802,32 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-function copyKelasId() {
-  const id = document.getElementById("generatedKelasId").innerText;
-  navigator.clipboard.writeText(id).then(function() {
-    showModal("success", "Tersalin!", "ID Kelas berhasil disalin.");
-  }).catch(function() {
-    const input = document.createElement("input");
-    input.value = id;
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand("copy");
-    document.body.removeChild(input);
-    showModal("success", "Tersalin!", "ID Kelas berhasil disalin.");
-  });
+function resumeSesiMapelAktif() {
+  document.getElementById("setupForm").style.display = "none";
+  document.getElementById("absenBox").style.display = "block";
+
+  document.getElementById("displayKelasId").innerText = mapelIdAktif;
+  document.getElementById("infoMapelBox").innerText =
+    mapelAktif + (guruAktif ? " — " + guruAktif : "") + " · Kelas: " + kelasAktif;
+
+  if (!bulanDipilih) {
+    const bulan = new Date().toLocaleString("id-ID", { month: "long" });
+    bulanDipilih = bulan;
+    localStorage.setItem("selectedBulan", bulan);
+    document.getElementById("selectedBulan").innerText = bulan;
+  } else {
+    document.getElementById("selectedBulan").innerText = bulanDipilih;
+  }
+
+  loadMurid();
+  loadTabel();
+  loadRekap();
 }
 
 function copyDisplayKelasId() {
   const id = document.getElementById("displayKelasId").innerText;
   navigator.clipboard.writeText(id).then(function() {
-    showModal("success", "Tersalin!", "ID Kelas berhasil disalin.");
+    showModal("success", "Tersalin!", "ID Mapel berhasil disalin.");
   }).catch(function() {
     const input = document.createElement("input");
     input.value = id;
@@ -2930,7 +2835,7 @@ function copyDisplayKelasId() {
     input.select();
     document.execCommand("copy");
     document.body.removeChild(input);
-    showModal("success", "Tersalin!", "ID Kelas berhasil disalin.");
+    showModal("success", "Tersalin!", "ID Mapel berhasil disalin.");
   });
 }
 
@@ -3020,7 +2925,7 @@ function closeGuideModal() {
   document.body.style.overflow = "";
   const dontShow = document.getElementById("guideDontShow");
   if (dontShow && dontShow.checked) {
-    localStorage.setItem("absensiGuideSeen", "1");
+    localStorage.setItem("mapelGuideSeen", "1");
   }
 }
 
@@ -3070,7 +2975,7 @@ function closeGuideModal() {
 })();
 
 (function autoShowGuide() {
-  if (!localStorage.getItem("absensiGuideSeen")) {
+  if (!localStorage.getItem("mapelGuideSeen")) {
     document.addEventListener("DOMContentLoaded", function() {
       setTimeout(openGuideModal, 500);
     });
@@ -3107,153 +3012,326 @@ function closeConfirmModal(result) {
   }
 }
 
-function simpanPassword() {
-  const nama = document.getElementById("namaKelas").value.trim();
-  const pw = document.getElementById("pwKelas").value.trim();
-  const kelasId = document.getElementById("generatedKelasId").innerText;
+function aktifkanSesiMapel(kelasId, kelasNama, mapelId, mapelNama, guru) {
+  kelasIdAktif = kelasId;
+  kelasAktif = kelasNama;
+  mapelIdAktif = mapelId;
+  mapelAktif = mapelNama;
+  guruAktif = guru || "";
 
-  if (!nama || !pw) {
-    showModal("warning", "Data Kosong", "Harap isi nama kelas dan password.");
-    return;
+  localStorage.setItem("kelasIdAktif", kelasId);
+  localStorage.setItem("kelasAktif", kelasNama);
+  localStorage.setItem("mapelIdAktif", mapelId);
+  localStorage.setItem("mapelAktif", mapelNama);
+  localStorage.setItem("guruAktif", guruAktif);
+
+  document.getElementById("setupForm").style.display = "none";
+  document.getElementById("absenBox").style.display = "block";
+  document.getElementById("displayKelasId").innerText = mapelId;
+  document.getElementById("infoMapelBox").innerText =
+    mapelNama + (guruAktif ? " — " + guruAktif : "") + " · Kelas: " + kelasNama;
+
+  if (!bulanDipilih) {
+    const bulan = new Date().toLocaleString("id-ID", { month: "long" });
+    bulanDipilih = bulan;
+    localStorage.setItem("selectedBulan", bulan);
   }
+  document.getElementById("selectedBulan").innerText = bulanDipilih;
 
-  db.ref("kelas/" + kelasId).once("value").then(function(snap) {
-    if (snap.exists()) {
-      const newId = generateKelasId();
-      document.getElementById("generatedKelasId").innerText = newId;
-      showModal("warning", "ID Bentrok", "ID kelas sudah dipakai. ID baru telah dibuatkan otomatis.");
-      return;
-    }
-
-    const data = {
-      nama: nama,
-      password: pw,
-      dibuat: Date.now(),
-      id: kelasId
-    };
-
-    db.ref("kelas/" + kelasId).set(data)
-      .then(function() {
-        addSavedClass(kelasId, nama);
-        showModal("success", "Berhasil!", 
-          "Kelas " + nama + " berhasil dibuat!\n\n" +
-          "ID Kelas: " + kelasId + "\n\n" +
-          "Kelas sudah tersimpan di daftar 'Kelas yang Pernah Login'"
-        );
-      })
-      .catch(function(err) {
-        showModal("error", "Gagal", err.message);
-      });
-  });
+  loadMurid();
+  loadTabel();
+  loadRekap();
 }
 
-function loginKelas() {
-  const kelasId = document.getElementById("loginKelasId").value.trim().toUpperCase();
-  const pw = document.getElementById("loginPw").value.trim();
-  const idSekolah = document.getElementById("loginIdSekolah").value.trim().toUpperCase();
+function daftarMapel() {
+  const kelasId = document.getElementById("daftarKelasId").value.trim().toUpperCase();
+  const kelasPw = document.getElementById("daftarKelasPw").value.trim();
+  const namaMapel = document.getElementById("namaMapel").value.trim();
+  const namaGuru = document.getElementById("namaGuru").value.trim();
+  const pwMapel = document.getElementById("pwMapel").value.trim();
 
-  if (!kelasId || !pw) {
-    showModal("warning", "Data Kosong", "Harap isi ID Kelas dan password.");
+  if (!kelasId || !kelasPw || !namaMapel || !pwMapel) {
+    showModal("warning", "Data Kosong", "Harap isi ID Kelas, Password Kelas, Nama Mapel, dan Password Mapel.");
     return;
   }
 
   db.ref("kelas/" + kelasId).once("value").then(function(snap) {
     if (!snap.exists()) {
-      showModal("error", "Kelas Tidak Ditemukan", "Kelas dengan ID tersebut tidak ada.");
+      showModal("error", "Kelas Tidak Ditemukan", "Kelas dengan ID tersebut tidak ada. Pastikan ID kelas benar (bisa disalin dari aplikasi Absensi Kelas).");
       return;
     }
-    const data = snap.val();
-    if (data.password !== pw) {
-      showModal("error", "Password Salah", "Password yang Anda masukkan salah.");
-      return;
-    }
-
-    if (idSekolah && data.sekolahId !== idSekolah) {
-      showModal("error", "Tidak Terdaftar di Sekolah Ini", "Kelas ini tidak terdaftar di sekolah dengan ID tersebut. Kosongkan kolom ID Sekolah kalau ingin login biasa.");
+    const kelasData = snap.val();
+    if (kelasData.password !== kelasPw) {
+      showModal("error", "Password Kelas Salah", "Password kelas yang Anda masukkan salah. Minta ke wali kelas / pemegang akun kelas ini.");
       return;
     }
 
-    kelasAktif = data.nama;
-    kelasIdAktif = kelasId;
-    localStorage.setItem("kelasAktif", data.nama);
-    localStorage.setItem("kelasIdAktif", kelasId);
+    function buatMapel(id) {
+      return db.ref("kelas/" + kelasId + "/mapel/" + id).once("value").then(function(cek) {
+        if (cek.exists()) {
+          return buatMapel(generateMapelId());
+        }
+        const data = {
+          nama: namaMapel,
+          guru: namaGuru,
+          password: pwMapel,
+          kelasId: kelasId,
+          kelasNama: kelasData.nama,
+          dibuat: Date.now()
+        };
+        return db.ref("kelas/" + kelasId + "/mapel/" + id).set(data)
+          .then(function() { return db.ref("mapelIndex/" + id).set(kelasId); })
+          .then(function() { return id; });
+      });
+    }
 
-    addSavedClass(kelasId, data.nama);
-
-    document.getElementById("setupForm").style.display = "none";
-    document.getElementById("absenBox").style.display = "block";
-
-    document.getElementById("displayKelasId").innerText = kelasId;
-
-    const bulan = new Date().toLocaleString("id-ID", { month: "long" });
-    bulanDipilih = bulan;
-    localStorage.setItem("selectedBulan", bulan);
-    document.getElementById("selectedBulan").innerText = bulan;
-
-    loadMurid();
-    loadTabel();
-    loadRekap();
-    showModal("success", "Selamat Datang!", idSekolah
-      ? "Login berhasil ke kelas " + data.nama + " (terdaftar di sekolah)."
-      : "Login berhasil ke kelas " + data.nama);
+    buatMapel(generateMapelId()).then(function(finalId) {
+      addSavedClass(finalId, namaMapel + " (" + kelasData.nama + ")");
+      aktifkanSesiMapel(kelasId, kelasData.nama, finalId, namaMapel, namaGuru);
+      showModal("success", "Berhasil!",
+        "Sesi mapel " + namaMapel + " berhasil didaftarkan!\n\n" +
+        "ID Mapel: " + finalId + "\n\n" +
+        "Simpan ID ini untuk login berikutnya."
+      );
+    }).catch(function(err) {
+      showModal("error", "Gagal", err.message);
+    });
   });
 }
 
-function tambahMurid() {
-  const nama = document.getElementById("namaMuridBaru").value.trim();
-  if (!nama || !kelasIdAktif) {
-    showModal("warning", "Data Kosong", "Harap isi nama murid.");
+/* ===== Verifikasi Guru via Absensi Guru (Sekolah) ===== */
+var verifDataAktif = null;
+var verifScanListenerRef = null;
+
+function todayKeyGuru() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+
+function verifikasiGuruSekolah() {
+  const idSekolah = document.getElementById("verifIdSekolah").value.trim().toUpperCase();
+  const namaGuru = document.getElementById("verifNamaGuru").value.trim();
+  const namaMapelInput = document.getElementById("verifNamaMapel").value.trim();
+
+  if (!idSekolah || !namaGuru || !namaMapelInput) {
+    showModal("warning", "Data Kosong", "Harap isi ID Sekolah, Nama Guru, dan Mata Pelajaran.");
     return;
   }
 
-  db.ref("kelas/" + kelasIdAktif + "/siswa/" + nama).set({ nama: nama })
-    .then(function() {
-      document.getElementById("namaMuridBaru").value = "";
-      loadMurid();
-      showModal("success", "Berhasil!", "Murid " + nama + " ditambahkan.");
+  db.ref("sekolah/" + idSekolah).once("value").then(function(sekolahSnap) {
+    if (!sekolahSnap.exists()) {
+      showModal("error", "Sekolah Tidak Ditemukan", "ID Sekolah tidak ditemukan. Pastikan ID-nya benar.");
+      return;
+    }
+
+    const guruList = (sekolahSnap.val().guru) || {};
+    let guruCocok = null;
+    let guruIdCocok = null;
+
+    Object.keys(guruList).forEach(function(gid) {
+      const g = guruList[gid];
+      if (
+        g.nama.trim().toLowerCase() === namaGuru.toLowerCase() &&
+        g.mapel.trim().toLowerCase() === namaMapelInput.toLowerCase()
+      ) {
+        guruCocok = g;
+        guruIdCocok = gid;
+      }
     });
-}
 
-var linkAbsenAktif = "";
+    if (!guruCocok) {
+      showModal("error", "Verifikasi Gagal", "Nama guru dan mata pelajaran tidak cocok dengan data yang terdaftar di Absensi Guru sekolah ini. Cek lagi ejaan nama & mapelnya, atau hubungi admin sekolah.");
+      return;
+    }
 
-function bagikanAbsensi(nama) {
-  const baseUrl = window.location.href.replace(/absensi\.html.*$/, "lihat-absensi.html");
-  const link = baseUrl + "?kelas=" + encodeURIComponent(kelasIdAktif) + "&nama=" + encodeURIComponent(nama);
-  linkAbsenAktif = link;
+    verifDataAktif = {
+      idSekolah: idSekolah,
+      guruId: guruIdCocok,
+      namaGuru: guruCocok.nama,
+      namaMapel: guruCocok.mapel
+    };
+    localStorage.setItem("verifDataAktif", JSON.stringify(verifDataAktif));
 
-  document.getElementById("shareAbsenNama").innerText = "Link absensi untuk " + nama;
-  document.getElementById("shareAbsenLink").innerText = link;
-  document.getElementById("shareAbsenModal").style.display = "flex";
-}
-
-function closeShareAbsenModal() {
-  document.getElementById("shareAbsenModal").style.display = "none";
-}
-
-function salinLinkAbsen() {
-  navigator.clipboard.writeText(linkAbsenAktif).then(function() {
-    showModal("success", "Tersalin!", "Link absensi berhasil disalin. Tinggal kirim ke orang tua murid.");
+    tampilkanQrTungguScan();
   });
 }
 
-function shareWaAbsen() {
-  const pesan = "Halo, ini link untuk memantau absensi kehadiran anak Anda secara real-time:\n" + linkAbsenAktif;
-  window.open("https://wa.me/?text=" + encodeURIComponent(pesan), "_blank");
+function tampilkanQrTungguScan() {
+  if (!verifDataAktif) return;
+
+  document.getElementById("verifGuruStep1").classList.add("hidden");
+  document.getElementById("verifGuruStep2").classList.add("hidden");
+  document.getElementById("verifGuruStep0").classList.remove("hidden");
+  document.getElementById("verifGuruSapaan0").innerText = "Halo, " + verifDataAktif.namaGuru + "!";
+
+  const qrContainer = document.getElementById("qrVerifContainer");
+  qrContainer.innerHTML = "";
+  new QRCode(qrContainer, {
+    text: verifDataAktif.idSekolah + "|" + verifDataAktif.guruId,
+    width: 200,
+    height: 200,
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  if (verifScanListenerRef) verifScanListenerRef.off();
+  verifScanListenerRef = db.ref("sekolah/" + verifDataAktif.idSekolah + "/absensiGuru/" + todayKeyGuru() + "/" + verifDataAktif.guruId);
+  verifScanListenerRef.on("value", function(snap) {
+    const data = snap.val();
+    if (data && data.status === "Hadir") {
+      verifScanListenerRef.off();
+      verifScanListenerRef = null;
+      tampilkanPilihanKelasVerif();
+    }
+  });
 }
 
-function hapusMurid(nama) {
-  showConfirmModal(
-    "Hapus Murid",
-    "Yakin ingin menghapus murid \"" + nama + "\"?\n\nData absensi murid ini juga akan terhapus.",
-    function() {
-      db.ref("kelas/" + kelasIdAktif + "/siswa/" + nama).remove()
-        .then(function() {
-          loadMurid();
-          loadTabel();
-          showModal("success", "Berhasil!", "Murid " + nama + " dihapus.");
-        });
+function tampilkanPilihanKelasVerif() {
+  if (!verifDataAktif) return;
+
+  db.ref("sekolah/" + verifDataAktif.idSekolah + "/guru/" + verifDataAktif.guruId + "/kelasDiizinkan").once("value").then(function(kdSnap) {
+    const kelasDiizinkan = kdSnap.val() || {};
+    const kelasIds = Object.keys(kelasDiizinkan);
+
+    if (kelasIds.length === 0) {
+      showModal("warning", "Belum Ada Kelas", "Kamu sudah terverifikasi & discan, tapi admin sekolah belum meng-assign kelas untuk kamu. Hubungi admin Absensi Guru.");
+      return;
     }
-  );
+
+    Promise.all(kelasIds.map(function(kid) {
+      return db.ref("kelas/" + kid).once("value").then(function(ks) {
+        return { kelasId: kid, data: ks.val() };
+      });
+    })).then(function(hasil) {
+      document.getElementById("verifGuruSapaan").innerText = "Halo, " + verifDataAktif.namaGuru + "!";
+
+      const listEl = document.getElementById("verifKelasList");
+      listEl.innerHTML = "";
+      hasil.forEach(function(item) {
+        if (!item.data) return;
+        const row = document.createElement("div");
+        row.className = "verif-kelas-item";
+        row.innerHTML =
+          '<span class="nama-kelas">' + item.data.nama + '</span>' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+        row.onclick = function() { pilihKelasVerif(item.kelasId, item.data.nama); };
+        listEl.appendChild(row);
+      });
+
+      document.getElementById("verifGuruStep0").classList.add("hidden");
+      document.getElementById("verifGuruStep1").classList.add("hidden");
+      document.getElementById("verifGuruStep2").classList.remove("hidden");
+    });
+  });
+}
+
+function pilihKelasVerif(kelasId, kelasNama) {
+  if (!verifDataAktif) return;
+  const namaMapel = verifDataAktif.namaMapel;
+  const namaGuru = verifDataAktif.namaGuru;
+
+  db.ref("kelas/" + kelasId + "/mapel").once("value").then(function(mapelSnap) {
+    const mapelList = mapelSnap.val() || {};
+    let mapelIdCocok = null;
+
+    Object.keys(mapelList).forEach(function(mid) {
+      const m = mapelList[mid];
+      if (
+        m.nama.trim().toLowerCase() === namaMapel.toLowerCase() &&
+        (m.guru || "").trim().toLowerCase() === namaGuru.toLowerCase()
+      ) {
+        mapelIdCocok = mid;
+      }
+    });
+
+    if (mapelIdCocok) {
+      const m = mapelList[mapelIdCocok];
+      addSavedClass(mapelIdCocok, m.nama + " (" + kelasNama + ")");
+      aktifkanSesiMapel(kelasId, kelasNama, mapelIdCocok, m.nama, m.guru);
+      localStorage.setItem("verifKelasTanggal", todayKeyGuru());
+      showModal("success", "Selamat Datang!", "Berhasil masuk sebagai " + namaGuru + " untuk kelas " + kelasNama + ".");
+      return;
+    }
+
+    function buatMapelBaru(id) {
+      return db.ref("kelas/" + kelasId + "/mapel/" + id).once("value").then(function(cek) {
+        if (cek.exists()) {
+          return buatMapelBaru(generateMapelId());
+        }
+        const randomPw = Math.random().toString(36).substring(2, 10);
+        const data = {
+          nama: namaMapel,
+          guru: namaGuru,
+          password: randomPw,
+          kelasId: kelasId,
+          kelasNama: kelasNama,
+          dibuat: Date.now(),
+          viaAbsensiGuru: true
+        };
+        return db.ref("kelas/" + kelasId + "/mapel/" + id).set(data)
+          .then(function() { return db.ref("mapelIndex/" + id).set(kelasId); })
+          .then(function() { return { id: id, data: data }; });
+      });
+    }
+
+    buatMapelBaru(generateMapelId()).then(function(hasil) {
+      addSavedClass(hasil.id, namaMapel + " (" + kelasNama + ")");
+      aktifkanSesiMapel(kelasId, kelasNama, hasil.id, namaMapel, namaGuru);
+      localStorage.setItem("verifKelasTanggal", todayKeyGuru());
+      showModal("success", "Selamat Datang!", "Sesi mapel baru otomatis dibuat. Berhasil masuk sebagai " + namaGuru + " untuk kelas " + kelasNama + ".");
+    }).catch(function(err) {
+      showModal("error", "Gagal", err.message);
+    });
+  });
+}
+
+function batalVerifGuru() {
+  if (verifScanListenerRef) {
+    verifScanListenerRef.off();
+    verifScanListenerRef = null;
+  }
+  verifDataAktif = null;
+  localStorage.removeItem("verifDataAktif");
+  localStorage.removeItem("verifKelasTanggal");
+  document.getElementById("verifIdSekolah").value = "";
+  document.getElementById("verifNamaGuru").value = "";
+  document.getElementById("verifNamaMapel").value = "";
+  document.getElementById("verifKelasList").innerHTML = "";
+  document.getElementById("verifGuruStep0").classList.add("hidden");
+  document.getElementById("verifGuruStep2").classList.add("hidden");
+  document.getElementById("verifGuruStep1").classList.remove("hidden");
+}
+
+function loginMapel() {
+  const mapelId = document.getElementById("loginMapelId").value.trim().toUpperCase();
+  const pw = document.getElementById("loginMapelPw").value.trim();
+
+  if (!mapelId || !pw) {
+    showModal("warning", "Data Kosong", "Harap isi ID Mapel dan password.");
+    return;
+  }
+
+  db.ref("mapelIndex/" + mapelId).once("value").then(function(idxSnap) {
+    if (!idxSnap.exists()) {
+      showModal("error", "Mapel Tidak Ditemukan", "Sesi mapel dengan ID tersebut tidak ada.");
+      return;
+    }
+    const kelasId = idxSnap.val();
+    return db.ref("kelas/" + kelasId + "/mapel/" + mapelId).once("value").then(function(snap) {
+      if (!snap.exists()) {
+        showModal("error", "Mapel Tidak Ditemukan", "Sesi mapel ini sudah dihapus.");
+        return;
+      }
+      const data = snap.val();
+      if (data.password !== pw) {
+        showModal("error", "Password Salah", "Password yang Anda masukkan salah.");
+        return;
+      }
+
+      addSavedClass(mapelId, data.nama + " (" + data.kelasNama + ")");
+      aktifkanSesiMapel(kelasId, data.kelasNama, mapelId, data.nama, data.guru);
+      showModal("success", "Selamat Datang!", "Login berhasil ke sesi mapel " + data.nama);
+    });
+  });
 }
 
 let daftarMuridGlobal = [];
@@ -3261,23 +3339,13 @@ let daftarMuridGlobal = [];
 function loadMurid() {
   if (!kelasIdAktif) return;
 
-  const optionQR = document.getElementById("optionMuridQR");
-
   db.ref("kelas/" + kelasIdAktif + "/siswa").on("value", function(snap) {
     daftarMuridGlobal = [];
-    let html = "";
-    if (!snap.exists()) {
-      html = "<div style='color:#94A3B8;padding:8px;'>Belum ada murid</div>";
-    } else {
+    if (snap.exists()) {
       snap.forEach(function(c) {
-        const n = c.key;
-        daftarMuridGlobal.push(n);
-        html += '<div onclick="pilihMurid(\'' + n + '\')">' + n +
-          ' <span class="delete-btn" style="color:#2563EB;" onclick="event.stopPropagation();bagikanAbsensi(\'' + n + '\')">Bagikan</span>' +
-          ' <span class="delete-btn" onclick="event.stopPropagation();hapusMurid(\'' + n + '\')">Hapus</span></div>';
+        daftarMuridGlobal.push(c.key);
       });
     }
-    if (optionQR) optionQR.innerHTML = html;
 
     const searchInput = document.getElementById("searchMuridManual");
     renderOptionMuridManual(searchInput ? searchInput.value : "");
@@ -3325,15 +3393,6 @@ function renderOptionMuridManual(filter) {
       pilihMurid(n);
     });
 
-    const del = document.createElement("span");
-    del.className = "delete-btn";
-    del.innerText = "Hapus";
-    del.addEventListener("click", function(e) {
-      e.stopPropagation();
-      hapusMurid(n);
-    });
-    item.appendChild(del);
-
     container.appendChild(item);
   });
 }
@@ -3347,7 +3406,6 @@ function filterMuridManual(value) {
 function pilihMurid(nama) {
   muridDipilih = nama;
   muridManual = nama;
-  document.getElementById("selectedMuridQR").innerText = nama;
   document.getElementById("selectedMuridManual").innerText = nama;
 
   const searchInput = document.getElementById("searchMuridManual");
@@ -3505,76 +3563,6 @@ function processGalleryImage(imgData) {
     });
 }
 
-function generateQR() {
-  if (!muridDipilih || !kelasIdAktif) {
-    showModal("warning", "Pilih Murid", "Pilih murid terlebih dahulu.");
-    return;
-  }
-
-  const qrData = "STAR-ABSEN|" + kelasIdAktif + "|" + muridDipilih + "|" + Date.now();
-
-  const resultDiv = document.getElementById("qrResult");
-  resultDiv.classList.remove("hidden");
-
-  document.getElementById("qrNamaDisplay").innerText = muridDipilih;
-  document.getElementById("qrKelasDisplay").innerText = "Kelas: " + kelasAktif;
-
-  const qrContainer = document.getElementById("qrcode");
-  qrContainer.innerHTML = "";
-
-  new QRCode(qrContainer, {
-    text: qrData,
-    width: 200,
-    height: 200,
-    colorDark: "#0F172A",
-    colorLight: "#FFFFFF",
-    correctLevel: QRCode.CorrectLevel.H
-  });
-
-  db.ref("qr/" + kelasIdAktif + "/" + muridDipilih).set({
-    kode: qrData,
-    dibuat: Date.now(),
-    murid: muridDipilih,
-    kelas: kelasIdAktif
-  });
-
-  showModal("success", "QR Code Siap!", "QR Code untuk " + muridDipilih + " berhasil dibuat.\n\nQR ini permanen dan bisa digunakan kapan saja.");
-}
-
-function downloadQR() {
-  const qrContainer = document.getElementById("qrcode");
-  const canvas = qrContainer.querySelector("canvas");
-
-  if (!canvas) {
-    showModal("warning", "Tidak Ada QR", "Generate QR Code terlebih dahulu.");
-    return;
-  }
-
-  const nama = muridDipilih || "Murid";
-  const kelas = kelasAktif || "Kelas";
-
-  const tempCanvas = document.createElement("canvas");
-  const ctx = tempCanvas.getContext("2d");
-
-  const size = 280;
-  tempCanvas.width = size;
-  tempCanvas.height = size;
-
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, size, size);
-
-  const padding = 30;
-  const qrSize = size - (padding * 2);
-  ctx.drawImage(canvas, padding, padding, qrSize, qrSize);
-
-  const link = document.createElement("a");
-  link.download = "QR_" + nama + "_" + kelas + ".png";
-  link.href = tempCanvas.toDataURL("image/png");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
 function startScanner() {
   if (isScanning) return;
 
@@ -3642,53 +3630,55 @@ function handleScanResult(kode) {
   const murid = parts[2];
 
   if (kelas !== kelasIdAktif) {
-    showModal("warning", "Kelas Berbeda", "QR Code ini untuk kelas lain: " + kelas);
+    showModal("warning", "Kelas Berbeda", "QR Code ini bukan dari kelas yang tertaut ke sesi mapel ini.");
     return;
   }
 
   db.ref("kelas/" + kelasIdAktif + "/siswa/" + murid).once("value").then(function(snap) {
     if (!snap.exists()) {
       showModal("error", "Murid Tidak Ditemukan", "Murid " + murid + " tidak terdaftar di kelas ini.");
-      return;
+      return false;
     }
 
     const tgl = new Date().getDate();
-    const path = "kelas/" + kelasIdAktif + "/siswa/" + murid + "/absen/" + bulanDipilih + "/" + tgl;
+    const path = "kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/siswa/" + murid + "/absen/" + bulanDipilih + "/" + tgl;
 
-    db.ref(path).once("value").then(function(snapAbsen) {
+    return db.ref(path).once("value").then(function(snapAbsen) {
       if (snapAbsen.exists()) {
-        showModal("warning", "Sudah Absen", murid + " sudah absen hari ini.");
-        return;
+        showModal("warning", "Sudah Absen", murid + " sudah absen " + mapelAktif + " hari ini.");
+        return false;
       }
 
-      return db.ref(path).set({ status: "Hadir" });
-    }).then(function() {
-      if (document.querySelector(".scan-result.warning")) return;
+      return db.ref(path).set({ status: "Hadir" }).then(function() {
+        undoStack.push({
+          type: "absen",
+          path: path,
+          prev: null,
+          next: { status: "Hadir" }
+        });
+        redoStack = [];
 
-      undoStack.push({
-        type: "absen",
-        path: path,
-        prev: null,
-        next: { status: "Hadir" }
+        showModal("success", "Absen Berhasil!", murid + " berhasil dihadirkan untuk " + mapelAktif + ".");
+
+        loadTabel();
+        loadRekap();
+        updateRekap();
+
+        return true;
       });
-      redoStack = [];
-
-      showModal("success", "Absen Berhasil!", murid + " berhasil dihadirkan.");
-
-      loadTabel();
-      loadRekap();
-      updateRekap();
-
-      if (currentScanMode === 'gallery') {
-        document.getElementById('galleryResult').classList.add('hidden');
-      }
-
-      setTimeout(function() {
-        if (currentScanMode === 'camera') {
-          stopScanner();
-        }
-      }, 2000);
     });
+  }).then(function(sukses) {
+    if (!sukses) return;
+
+    if (currentScanMode === 'gallery') {
+      document.getElementById('galleryResult').classList.add('hidden');
+    }
+
+    setTimeout(function() {
+      if (currentScanMode === 'camera') {
+        stopScanner();
+      }
+    }, 2000);
   });
 }
 
@@ -3703,7 +3693,7 @@ function absenManual() {
   }
 
   const tgl = tanggalManual || new Date().getDate();
-  const path = "kelas/" + kelasIdAktif + "/siswa/" + muridManual + "/absen/" + bulanDipilih + "/" + tgl;
+  const path = "kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/siswa/" + muridManual + "/absen/" + bulanDipilih + "/" + tgl;
 
   db.ref(path).once("value").then(function(snap) {
     if (snap.exists()) {
@@ -3752,12 +3742,12 @@ function openEditCellModal(nama, tgl) {
 
 function simpanEditCell(status) {
   const target = window._editCellTarget;
-  if (!target || !kelasIdAktif || !bulanDipilih) {
+  if (!target || !kelasIdAktif || !mapelIdAktif || !bulanDipilih) {
     closeModal();
     return;
   }
 
-  const path = "kelas/" + kelasIdAktif + "/siswa/" + target.nama + "/absen/" + bulanDipilih + "/" + target.tgl;
+  const path = "kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/siswa/" + target.nama + "/absen/" + bulanDipilih + "/" + target.tgl;
 
   const finish = function() {
     closeModal();
@@ -3802,11 +3792,11 @@ function pilihBulan(bulan) {
 }
 
 function hadirSemua() {
-  if (!kelasIdAktif || !bulanDipilih) return;
+  if (!kelasIdAktif || !mapelIdAktif || !bulanDipilih) return;
 
   showConfirmModal(
     "Hadir Semua",
-    "Yakin ingin menghadirkan semua murid untuk hari ini?",
+    "Yakin ingin menghadirkan semua murid untuk " + mapelAktif + " hari ini?",
     function() {
       const tgl = new Date().getDate();
       db.ref("kelas/" + kelasIdAktif + "/siswa").once("value").then(function(snap) {
@@ -3814,7 +3804,7 @@ function hadirSemua() {
 
         snap.forEach(function(c) {
           const nama = c.key;
-          const path = "kelas/" + kelasIdAktif + "/siswa/" + nama + "/absen/" + bulanDipilih + "/" + tgl;
+          const path = "kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/siswa/" + nama + "/absen/" + bulanDipilih + "/" + tgl;
 
           undoStack.push({
             type: "absen",
@@ -3830,46 +3820,46 @@ function hadirSemua() {
         loadTabel();
         loadRekap();
         updateRekap();
-        showModal("success", "Hadir Semua", "Semua murid berhasil dihadirkan.");
+        showModal("success", "Hadir Semua", "Semua murid berhasil dihadirkan untuk " + mapelAktif + ".");
       });
     }
   );
 }
 
 function resetBulan() {
-  if (!bulanDipilih) return;
+  if (!bulanDipilih || !mapelIdAktif) return;
 
   showConfirmModal(
     "Reset Bulan",
-    "Yakin ingin mereset absensi bulan " + bulanDipilih + "?\n\nSemua data absensi bulan ini akan hilang!",
+    "Yakin ingin mereset absensi " + mapelAktif + " bulan " + bulanDipilih + "?\n\nSemua data absensi mapel ini bulan ini akan hilang! (Absensi kelas & mapel lain gak kepengaruh)",
     function() {
-      db.ref("kelas/" + kelasIdAktif + "/siswa").once("value").then(function(snap) {
+      db.ref("kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/siswa").once("value").then(function(snap) {
         snap.forEach(function(c) {
-          db.ref("kelas/" + kelasIdAktif + "/siswa/" + c.key + "/absen/" + bulanDipilih).remove();
+          db.ref("kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/siswa/" + c.key + "/absen/" + bulanDipilih).remove();
         });
-        db.ref("kelas/" + kelasIdAktif + "/rekapBulanan/" + bulanDipilih).remove();
+        db.ref("kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/rekapBulanan/" + bulanDipilih).remove();
         loadTabel();
         loadRekap();
-        showModal("success", "Reset Berhasil", "Absensi bulan " + bulanDipilih + " direset.");
+        showModal("success", "Reset Berhasil", "Absensi " + mapelAktif + " bulan " + bulanDipilih + " direset.");
       });
     }
   );
 }
 
 function updateRekap() {
-  if (!kelasIdAktif || !bulanDipilih) return;
+  if (!kelasIdAktif || !mapelIdAktif || !bulanDipilih) return;
 
   db.ref("kelas/" + kelasIdAktif + "/siswa").once("value").then(function(snap) {
     snap.forEach(function(c) {
       const nama = c.key;
-      db.ref("kelas/" + kelasIdAktif + "/siswa/" + nama + "/absen/" + bulanDipilih)
+      db.ref("kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/siswa/" + nama + "/absen/" + bulanDipilih)
         .once("value").then(function(s) {
           let data = { Hadir: 0, Izin: 0, Sakit: 0, Alpa: 0 };
           s.forEach(function(a) {
             const st = a.val().status;
             if (data[st] !== undefined) data[st]++;
           });
-          db.ref("kelas/" + kelasIdAktif + "/rekapBulanan/" + bulanDipilih + "/" + nama).set(data);
+          db.ref("kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/rekapBulanan/" + bulanDipilih + "/" + nama).set(data);
         });
     });
   });
@@ -3877,17 +3867,17 @@ function updateRekap() {
 
 function loadTabel() {
   const box = document.getElementById("tabelAbsen");
-  if (!box || !kelasIdAktif || !bulanDipilih) return;
+  if (!box || !kelasIdAktif || !mapelIdAktif || !bulanDipilih) return;
 
   db.ref("kelas/" + kelasIdAktif + "/siswa").once("value").then(function(snap) {
     if (!snap.exists()) {
-      box.innerHTML = "<p style='text-align:center;color:#94A3B8;padding:20px;'>Belum ada murid</p>";
+      box.innerHTML = "<p style='text-align:center;color:#94A3B8;padding:20px;'>Belum ada murid di kelas ini</p>";
       return;
     }
 
-    let html = '<div class="table-wrap"><table><tr><th class="sticky-col" style="min-width:100px;border:1px solid #E2E8F0;">Nama</th>';
+    let html = '<table><tr><th style="min-width:100px;">Nama</th>';
     for (let i = 1; i <= 31; i++) {
-      html += '<th style="min-width:32px;border:1px solid #E2E8F0;">' + i + '</th>';
+      html += '<th style="min-width:32px;">' + i + '</th>';
     }
     html += '</tr>';
 
@@ -3895,14 +3885,14 @@ function loadTabel() {
       const nama = c.key;
       const safe = nama.replace(/\s/g, "_");
       const namaAttr = nama.replace(/"/g, "&quot;");
-      html += '<tr><td class="sticky-col" style="text-align:left;font-weight:600;border:1px solid #E2E8F0;">' + nama + '</td>';
+      html += '<tr><td style="text-align:left;font-weight:600;">' + nama + '</td>';
 
       for (let i = 1; i <= 31; i++) {
-        html += '<td id="cel-' + safe + '-' + i + '" class="cel-editable" data-nama="' + namaAttr + '" data-tgl="' + i + '" style="border:1px solid #E2E8F0;">-</td>';
+        html += '<td id="cel-' + safe + '-' + i + '" class="cel-editable" data-nama="' + namaAttr + '" data-tgl="' + i + '">-</td>';
       }
       html += '</tr>';
 
-      db.ref("kelas/" + kelasIdAktif + "/siswa/" + nama + "/absen/" + bulanDipilih)
+      db.ref("kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/siswa/" + nama + "/absen/" + bulanDipilih)
         .once("value").then(function(s) {
           s.forEach(function(a) {
             const el = document.getElementById("cel-" + safe + "-" + a.key);
@@ -3919,47 +3909,33 @@ function loadTabel() {
         });
     });
 
-    html += '</table></div>';
+    html += '</table>';
     box.innerHTML = html;
   });
 }
 
 function loadRekap() {
   const box = document.getElementById("rekapBulanan");
-  if (!box || !kelasIdAktif || !bulanDipilih) {
-    box.innerHTML = "<p style='text-align:center;color:#94A3B8;padding:20px;'>Data tidak lengkap</p>";
-    return;
-  }
+  if (!box || !kelasIdAktif || !mapelIdAktif || !bulanDipilih) return;
 
-  db.ref("kelas/" + kelasIdAktif + "/rekapBulanan/" + bulanDipilih).once("value").then(function(snap) {
+  db.ref("kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif + "/rekapBulanan/" + bulanDipilih).once("value").then(function(snap) {
     if (!snap.exists()) {
       box.innerHTML = "<p style='text-align:center;color:#94A3B8;padding:20px;'>Belum ada data rekap</p>";
       return;
     }
 
-    let html = '<div class="table-wrap"><table>';
-    html += '<tr><th class="sticky-col" style="min-width:120px;text-align:left;border:1px solid #E2E8F0;">Nama</th>';
-    html += '<th style="border:1px solid #E2E8F0;color:#059669;">H</th>';
-    html += '<th style="border:1px solid #E2E8F0;color:#D97706;">I</th>';
-    html += '<th style="border:1px solid #E2E8F0;color:#FBBF24;">S</th>';
-    html += '<th style="border:1px solid #E2E8F0;color:#DC2626;">A</th>';
-    html += '</tr>';
-
+    let html = '<table><tr><th>Nama</th><th style="color:#059669;">H</th><th style="color:#D97706;">I</th><th style="color:#FBBF24;">S</th><th style="color:#DC2626;">A</th></tr>';
     snap.forEach(function(c) {
       const d = c.val();
-      html += '<tr>';
-      html += '<td class="sticky-col" style="text-align:left;font-weight:600;border:1px solid #E2E8F0;">' + c.key + '</td>';
-      html += '<td style="border:1px solid #E2E8F0;color:#059669;font-weight:700;text-align:center;">' + d.Hadir + '</td>';
-      html += '<td style="border:1px solid #E2E8F0;color:#D97706;font-weight:700;text-align:center;">' + d.Izin + '</td>';
-      html += '<td style="border:1px solid #E2E8F0;color:#FBBF24;font-weight:700;text-align:center;">' + d.Sakit + '</td>';
-      html += '<td style="border:1px solid #E2E8F0;color:#DC2626;font-weight:700;text-align:center;">' + d.Alpa + '</td>';
+      html += '<tr><td style="text-align:left;font-weight:600;">' + c.key + '</td>';
+      html += '<td style="color:#059669;font-weight:700;">' + d.Hadir + '</td>';
+      html += '<td style="color:#D97706;font-weight:700;">' + d.Izin + '</td>';
+      html += '<td style="color:#FBBF24;font-weight:700;">' + d.Sakit + '</td>';
+      html += '<td style="color:#DC2626;font-weight:700;">' + d.Alpa + '</td>';
       html += '</tr>';
     });
-
-    html += '</table></div>';
+    html += '</table>';
     box.innerHTML = html;
-  }).catch(function(err) {
-    box.innerHTML = "<p style='text-align:center;color:#DC2626;padding:20px;'>Error: " + err.message + "</p>";
   });
 }
 
@@ -4013,14 +3989,15 @@ function exportAbsensiDanRekapCSV() {
   }
 
   let csv = "\uFEFF";
-  csv += "Absensi Kelas " + kelasAktif + "\n";
-  csv += "ID Kelas: " + kelasIdAktif + "\n";
+  csv += "Absensi Mapel " + mapelAktif + (guruAktif ? " - " + guruAktif : "") + "\n";
+  csv += "Kelas: " + kelasAktif + " (ID: " + kelasIdAktif + ")\n";
+  csv += "ID Mapel: " + mapelIdAktif + "\n";
   csv += "Bulan: " + bulanDipilih + "\n";
   csv += "Tanggal Export: " + new Date().toLocaleString('id-ID') + "\n\n";
   csv += tableToCSVRows(tableEl);
 
   csv += "\n";
-  csv += "Rekap Bulanan - " + kelasAktif + "\n";
+  csv += "Rekap Bulanan - " + mapelAktif + "\n";
   const rekapBox = document.getElementById("rekapBulanan");
   const rekapTable = rekapBox ? rekapBox.querySelector("table") : null;
   if (rekapTable) {
@@ -4032,7 +4009,7 @@ function exportAbsensiDanRekapCSV() {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "Absensi_Rekap_" + kelasAktif + "_" + bulanDipilih + ".csv";
+  link.download = "Absensi_Rekap_" + mapelAktif + "_" + bulanDipilih + ".csv";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -4050,8 +4027,9 @@ function exportAbsensiCSV() {
   }
 
   let csv = "\uFEFF";
-  csv += "Absensi Kelas " + kelasAktif + "\n";
-  csv += "ID Kelas: " + kelasIdAktif + "\n";
+  csv += "Absensi Mapel " + mapelAktif + (guruAktif ? " - " + guruAktif : "") + "\n";
+  csv += "Kelas: " + kelasAktif + " (ID: " + kelasIdAktif + ")\n";
+  csv += "ID Mapel: " + mapelIdAktif + "\n";
   csv += "Bulan: " + bulanDipilih + "\n";
   csv += "Tanggal Export: " + new Date().toLocaleString('id-ID') + "\n\n";
 
@@ -4072,7 +4050,7 @@ function exportAbsensiCSV() {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "Absensi_" + kelasAktif + "_" + bulanDipilih + ".csv";
+  link.download = "Absensi_" + mapelAktif + "_" + bulanDipilih + ".csv";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -4090,8 +4068,9 @@ function exportRekapCSV() {
   }
 
   let csv = "\uFEFF";
-  csv += "Rekap Bulanan - " + kelasAktif + "\n";
-  csv += "ID Kelas: " + kelasIdAktif + "\n";
+  csv += "Rekap Bulanan - " + mapelAktif + (guruAktif ? " - " + guruAktif : "") + "\n";
+  csv += "Kelas: " + kelasAktif + " (ID: " + kelasIdAktif + ")\n";
+  csv += "ID Mapel: " + mapelIdAktif + "\n";
   csv += "Bulan: " + bulanDipilih + "\n";
   csv += "Tanggal Export: " + new Date().toLocaleString('id-ID') + "\n\n";
 
@@ -4112,7 +4091,7 @@ function exportRekapCSV() {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "Rekap_" + kelasAktif + "_" + bulanDipilih + ".csv";
+  link.download = "Rekap_" + mapelAktif + "_" + bulanDipilih + ".csv";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -4166,8 +4145,9 @@ function showResetPasswordModal() {
         Masukkan data kelas untuk verifikasi:
       </p>
       
-      <input id="resetNamaKelas" class="input" placeholder="Nama Kelas (contoh: XII IPA 1)" style="margin-bottom:8px;">
       <input id="resetKelasId" class="input" placeholder="ID Kelas (contoh: KLS-ABC123)" style="margin-bottom:8px;">
+      <input id="resetMapelId" class="input" placeholder="ID Mapel (contoh: MPL-ABC123)" style="margin-bottom:8px;">
+      <input id="resetNamaMapel" class="input" placeholder="Nama Mapel" style="margin-bottom:8px;">
       <input id="resetNamaMurid" class="input" placeholder="Salah satu nama murid di kelas" style="margin-bottom:8px;">
       <input id="resetNewPassword" type="password" class="input" placeholder="Password Baru (min 4 karakter)" style="margin-bottom:8px;">
       
@@ -4179,19 +4159,20 @@ function showResetPasswordModal() {
   `;
 
   document.getElementById("modalIcon").innerHTML = getIcon('info');
-  document.getElementById("modalTitle").innerText = "Reset Password Kelas";
-  document.getElementById("modalMessage").innerHTML = "Verifikasi data kelas untuk mereset password.\n\nData murid & absensi tetap aman!";
+  document.getElementById("modalTitle").innerText = "Reset Password Mapel";
+  document.getElementById("modalMessage").innerHTML = "Verifikasi data mapel untuk mereset password.\n\nData absensi tetap aman!";
   document.getElementById("modalActions").innerHTML = actions;
   document.getElementById("modalOverlay").style.display = "flex";
 }
 
 function executeResetPassword() {
-  const namaKelas = document.getElementById("resetNamaKelas").value.trim();
   const kelasId = document.getElementById("resetKelasId").value.trim().toUpperCase();
+  const mapelId = document.getElementById("resetMapelId").value.trim().toUpperCase();
+  const namaMapel = document.getElementById("resetNamaMapel").value.trim();
   const namaMurid = document.getElementById("resetNamaMurid").value.trim();
   const newPassword = document.getElementById("resetNewPassword").value.trim();
 
-  if (!namaKelas || !kelasId || !namaMurid || !newPassword) {
+  if (!kelasId || !mapelId || !namaMapel || !namaMurid || !newPassword) {
     showModal("warning", "Data Kurang", "Harap isi semua field.");
     return;
   }
@@ -4201,21 +4182,16 @@ function executeResetPassword() {
     return;
   }
 
-  db.ref("kelas/" + kelasId).once("value").then(function(snap) {
+  db.ref("kelas/" + kelasId + "/mapel/" + mapelId).once("value").then(function(snap) {
     if (!snap.exists()) {
-      showModal("error", "Kelas Tidak Ditemukan", "ID Kelas tidak ditemukan.");
+      showModal("error", "Sesi Tidak Ditemukan", "ID Kelas / ID Mapel tidak ditemukan atau tidak cocok satu sama lain.");
       return;
     }
 
     const data = snap.val();
 
-    if (!data.nama) {
-      showModal("error", "Data Kelas Rusak", "Kelas ini tidak memiliki data nama yang valid. Hubungi admin.");
-      return;
-    }
-
-    if (data.nama.toLowerCase() !== namaKelas.toLowerCase()) {
-      showModal("error", "Verifikasi Gagal", "Nama kelas tidak cocok.");
+    if (!data.nama || data.nama.toLowerCase() !== namaMapel.toLowerCase()) {
+      showModal("error", "Verifikasi Gagal", "Nama mapel tidak cocok.");
       return;
     }
 
@@ -4227,12 +4203,12 @@ function executeResetPassword() {
 
       showConfirmModal(
         "Reset Password",
-        "Yakin ingin mereset password kelas \"" + data.nama + "\"?\n\nPassword baru: " + newPassword + "\n\nData murid & absensi tetap aman!",
+        "Yakin ingin mereset password mapel \"" + data.nama + "\"?\n\nPassword baru: " + newPassword + "\n\nData absensi tetap aman!",
         function() {
-          db.ref("kelas/" + kelasId + "/password").set(newPassword)
+          db.ref("kelas/" + kelasId + "/mapel/" + mapelId + "/password").set(newPassword)
             .then(function() {
               showModal("success", "Password Berhasil Direset!", 
-                "Password kelas " + data.nama + " berhasil direset.\n\n" +
+                "Password mapel " + data.nama + " berhasil direset.\n\n" +
                 "Password baru: " + newPassword + "\n\n" +
                 "Jangan lupa simpan password baru ini!"
               );
@@ -4250,15 +4226,21 @@ function executeResetPassword() {
 
 function logoutKelas() {
   showConfirmModal(
-    "Logout Kelas",
-    "Yakin ingin logout dari kelas " + kelasAktif + "?",
+    "Logout Mapel",
+    "Yakin ingin logout dari sesi mapel " + mapelAktif + "?",
     function() {
       stopScanner();
       localStorage.removeItem("kelasAktif");
       localStorage.removeItem("kelasIdAktif");
+      localStorage.removeItem("mapelAktif");
+      localStorage.removeItem("mapelIdAktif");
+      localStorage.removeItem("guruAktif");
       localStorage.removeItem("selectedBulan");
       kelasAktif = "";
       kelasIdAktif = "";
+      mapelAktif = "";
+      mapelIdAktif = "";
+      guruAktif = "";
       bulanDipilih = "";
       location.reload();
     }
@@ -4269,11 +4251,11 @@ function showHapusKelasModal() {
   const actions = `
     <div style="margin-top:8px; text-align:left;">
       <p style="font-size:13px; color:#64748B; margin-bottom:12px; text-align:center;">
-        Semua data murid dan absensi kelas "${kelasAktif}" akan dihapus permanen.
+        Semua data absensi mapel "${mapelAktif}" akan dihapus permanen. Data kelas &amp; mapel lain tidak kepengaruh.
       </p>
 
       <div class="input-group">
-        <input id="hapusKelasPw" type="password" class="input" placeholder="Masukkan Password Kelas">
+        <input id="hapusKelasPw" type="password" class="input" placeholder="Masukkan Password Mapel">
         <button onclick="togglePassword('hapusKelasPw', this)" class="btn-eye" type="button">
           <svg class="icon-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           <svg class="icon-eye-slash" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -4282,13 +4264,13 @@ function showHapusKelasModal() {
 
       <div style="display:flex; gap:8px; margin-top:8px;">
         <button class="btn btn-outline" onclick="closeModal()" style="flex:1;">Batal</button>
-        <button class="btn btn-danger" onclick="executeHapusKelas()" style="flex:1;">Hapus Kelas</button>
+        <button class="btn btn-danger" onclick="executeHapusKelas()" style="flex:1;">Hapus Sesi Mapel</button>
       </div>
     </div>
   `;
 
   document.getElementById("modalIcon").innerHTML = getIcon('warning');
-  document.getElementById("modalTitle").innerText = "Hapus Kelas";
+  document.getElementById("modalTitle").innerText = "Hapus Sesi Mapel";
   document.getElementById("modalMessage").innerHTML = "Tindakan ini tidak bisa dibatalkan.";
   document.getElementById("modalActions").innerHTML = actions;
   document.getElementById("modalOverlay").style.display = "flex";
@@ -4299,13 +4281,13 @@ function executeHapusKelas() {
   const pw = pwInput.value.trim();
 
   if (!pw) {
-    showModal("warning", "Password Kosong", "Masukkan password kelas untuk verifikasi.");
+    showModal("warning", "Password Kosong", "Masukkan password mapel untuk verifikasi.");
     return;
   }
 
-  db.ref("kelas/" + kelasIdAktif).once("value").then(function(snap) {
+  db.ref("kelas/" + kelasIdAktif + "/mapel/" + mapelIdAktif).once("value").then(function(snap) {
     if (!snap.exists()) {
-      showModal("error", "Kelas Tidak Ditemukan", "Data kelas tidak ditemukan di server.");
+      showModal("error", "Sesi Tidak Ditemukan", "Data sesi mapel tidak ditemukan di server.");
       return;
     }
 
@@ -4318,19 +4300,27 @@ function executeHapusKelas() {
 
     showConfirmModal(
       "Konfirmasi Terakhir",
-      "Yakin ingin menghapus kelas \"" + kelasAktif + "\" beserta seluruh data murid dan absensinya? Tindakan ini permanen.",
+      "Yakin ingin menghapus sesi mapel \"" + mapelAktif + "\" beserta seluruh data absensinya? Tindakan ini permanen. Data kelas & mapel lain tetap aman.",
       function() {
-        db.ref("kelas/" + kelasIdAktif).remove()
+        const kid = kelasIdAktif, mid = mapelIdAktif;
+        db.ref("kelas/" + kid + "/mapel/" + mid).remove()
+          .then(function() { return db.ref("mapelIndex/" + mid).remove(); })
           .then(function() {
-            removeSavedClass(kelasIdAktif);
+            removeSavedClass(mid);
             stopScanner();
             localStorage.removeItem("kelasAktif");
             localStorage.removeItem("kelasIdAktif");
+            localStorage.removeItem("mapelAktif");
+            localStorage.removeItem("mapelIdAktif");
+            localStorage.removeItem("guruAktif");
             localStorage.removeItem("selectedBulan");
             kelasAktif = "";
             kelasIdAktif = "";
+            mapelAktif = "";
+            mapelIdAktif = "";
+            guruAktif = "";
             bulanDipilih = "";
-            showModal("success", "Kelas Dihapus", "Kelas berhasil dihapus permanen.");
+            showModal("success", "Sesi Dihapus", "Sesi mapel berhasil dihapus permanen.");
             setTimeout(function() {
               location.reload();
             }, 1500);

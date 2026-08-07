@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Absensi Guru - Star Tools</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+
+  body.dark { background:#0B1120; color:#F1F5F9; }
+
+  .app-container {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #F1F5F9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.dark .app-container { background:#0B1120; }
+
+  .app-header {
+    background:#FFFFFF;
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #E2E8F0;
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+
+  body.dark .app-header { background:#111827; border-bottom-color:#1E293B; }
+
+  .logo-area { display:flex; align-items:center; gap:12px; }
+
+  .menu-icon {
+    width:40px; height:40px; background:#F8FAFE; border-radius:32px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    border:1px solid #E2E8F0;
+  }
+  body.dark .menu-icon { background:#1E293B; border-color:#334155; }
+  .menu-icon svg { stroke:#0F172A; }
+  body.dark .menu-icon svg { stroke:#F1F5F9; }
+
+  .app-title {
+    font-weight:700; font-size:20px; letter-spacing:-0.3px;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  .close-btn {
+    width:40px; height:40px; background:rgba(0,0,0,0.05); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:0.2s; border:none;
+  }
+  body.dark .close-btn { background:rgba(255,255,255,0.05); }
+  .close-btn:active { transform:scale(0.92); }
+  .close-btn svg { stroke:#0F172A; width:22px; height:22px; }
+  body.dark .close-btn svg { stroke:#F1F5F9; }
+
+  .container {
+    background:#FFFFFF;
+    margin:14px 16px;
+    border-radius:16px;
+    padding:18px;
+    border:1px solid #E2E8F0;
+  }
+  body.dark .container { background:#111827; border-color:#1E293B; }
+
+  .container h3 { font-size:15px; margin-bottom:10px; }
+
+  .input-group { margin-bottom:12px; }
+  .input-group:last-child { margin-bottom:0; }
+  .input-group label {
+    display:block; font-size:12.5px; font-weight:600; color:#64748B; margin-bottom:6px;
+  }
+  body.dark .input-group label { color:#94A3B8; }
+
+  .input, .select-box {
+    width:100%; padding:11px 14px; border-radius:12px; border:1px solid #E2E8F0;
+    background:#F8FAFE; font-size:14px; color:#0F172A; font-family:inherit;
+  }
+  body.dark .input, body.dark .select-box { background:#1E293B; border-color:#334155; color:#F1F5F9; }
+
+  .btn {
+    width:100%; padding:12px; border-radius:12px; border:none; font-size:14px;
+    font-weight:700; cursor:pointer; font-family:inherit;
+  }
+  .btn-primary { background:#2563EB; color:#fff; }
+  .btn-primary:active { transform:scale(0.98); }
+  .btn-outline { background:transparent; border:1px solid #E2E8F0; color:#0F172A; }
+  body.dark .btn-outline { border-color:#334155; color:#F1F5F9; }
+  .btn-danger { background:#DC2626; color:#fff; }
+  .btn-success { background:#059669; color:#fff; }
+  .btn-sm { padding:9px; font-size:12.5px; }
+
+  .tabs-pill {
+    display:flex; gap:6px; background:#F8FAFE; padding:4px; border-radius:14px;
+    margin:0 16px 6px; overflow-x:auto;
+  }
+  body.dark .tabs-pill { background:#1E293B; }
+  .tab-item {
+    flex:1; text-align:center; padding:9px 6px; border-radius:10px; font-size:12.5px;
+    font-weight:700; color:#64748B; cursor:pointer; white-space:nowrap;
+  }
+  body.dark .tab-item { color:#94A3B8; }
+  .tab-item.active { background:#2563EB; color:#fff; }
+
+  .id-banner {
+    margin:14px 16px; padding:16px; border-radius:16px;
+    background:linear-gradient(135deg,#2563EB,#3B82F6);
+    color:#fff;
+  }
+  .id-banner .label { font-size:11.5px; opacity:0.85; margin-bottom:4px; }
+  .id-banner .id-value {
+    font-size:19px; font-weight:800; letter-spacing:0.5px; display:flex;
+    align-items:center; gap:8px;
+  }
+  .id-banner .copy-btn {
+    width:28px; height:28px; border-radius:8px; background:rgba(255,255,255,0.2);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+  }
+  .id-banner .copy-btn svg { width:14px; height:14px; stroke:#fff; }
+  .id-banner .sekolah-name { font-size:13px; opacity:0.9; margin-top:6px; }
+
+  .guru-card {
+    display:flex; align-items:center; gap:12px; padding:12px; border-radius:14px;
+    border:1px solid #E2E8F0; margin-bottom:10px;
+  }
+  body.dark .guru-card { border-color:#1E293B; }
+  .guru-card:last-child { margin-bottom:0; }
+
+  .guru-avatar {
+    width:42px; height:42px; border-radius:12px; background:#EFF6FF; color:#2563EB;
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px;
+    flex-shrink:0;
+  }
+  body.dark .guru-avatar { background:#1D2B4A; color:#60A5FA; }
+
+  .guru-info { flex:1; min-width:0; }
+  .guru-info .nama { font-size:13.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .guru-info .mapel { font-size:11.5px; color:#64748B; }
+  body.dark .guru-info .mapel { color:#94A3B8; }
+
+  .guru-actions { display:flex; gap:6px; flex-shrink:0; }
+  .icon-btn {
+    width:34px; height:34px; border-radius:10px; border:1px solid #E2E8F0; background:#F8FAFE;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  body.dark .icon-btn { background:#1E293B; border-color:#334155; }
+  .icon-btn svg { width:16px; height:16px; stroke:#0F172A; }
+  body.dark .icon-btn svg { stroke:#F1F5F9; }
+  .icon-btn.danger svg { stroke:#DC2626; }
+
+  .empty-state { text-align:center; padding:24px 12px; color:#94A3B8; font-size:12.5px; }
+
+  .kelas-chip-row { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-radius:12px; border:1px solid #E2E8F0; margin-bottom:8px; }
+  body.dark .kelas-chip-row { border-color:#1E293B; }
+  .kelas-chip-row:last-child { margin-bottom:0; }
+  .kelas-chip-row .nama-kelas { font-size:13px; font-weight:700; }
+  .kelas-chip-row .kode-kelas { font-size:11px; color:#94A3B8; }
+  .kelas-chip-row .guru-badge { font-size:10.5px; background:#EFF6FF; color:#2563EB; padding:3px 8px; border-radius:20px; font-weight:700; }
+  body.dark .kelas-chip-row .guru-badge { background:#1D2B4A; color:#60A5FA; }
+
+  #reader { width:100%; border-radius:14px; overflow:hidden; margin-bottom:12px; }
+  .scan-result-box {
+    padding:14px; border-radius:14px; background:#F0FDF4; border:1px solid #BBF7D0;
+    text-align:center; margin-top:12px;
+  }
+  body.dark .scan-result-box { background:#0F2A1B; border-color:#14532D; }
+  .scan-result-box .nama { font-weight:800; font-size:15px; color:#059669; }
+  .scan-result-box .jam { font-size:12px; color:#64748B; margin-top:2px; }
+
+  .table-wrap {
+    margin:0 16px 14px; border-radius:16px; border:1px solid #E2E8F0; overflow:auto;
+    background:#FFFFFF;
+  }
+  body.dark .table-wrap { background:#111827; border-color:#1E293B; }
+  table.absen-table { border-collapse:collapse; width:100%; font-size:12.5px; }
+  .absen-table th, .absen-table td {
+    border-bottom:1px solid #E2E8F0; padding:10px 8px; text-align:left; white-space:nowrap;
+  }
+  body.dark .absen-table th, body.dark .absen-table td { border-color:#1E293B; }
+  .absen-table thead th { background:#F1F5F9; color:#334155; font-weight:700; }
+  body.dark .absen-table thead th { background:#1E293B; color:#E2E8F0; }
+
+  .status-pill { font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; display:inline-block; }
+  .status-pill.hadir { background:#DCFCE7; color:#059669; }
+  .status-pill.sakit { background:#FEF9C3; color:#B45309; }
+  .status-pill.izin { background:#FFEDD5; color:#D97706; }
+  .status-pill.tidak-mengajar { background:#F1F5F9; color:#64748B; }
+  .status-pill.belum { background:#F1F5F9; color:#94A3B8; }
+  body.dark .status-pill.tidak-mengajar { background:#1E293B; color:#94A3B8; }
+  body.dark .status-pill.belum { background:#1E293B; color:#64748B; }
+
+  .status-btn-group { display:flex; gap:4px; }
+  .status-btn-group button {
+    font-size:10.5px; font-weight:700; padding:4px 7px; border-radius:8px; border:1px solid #E2E8F0;
+    background:#F8FAFE; cursor:pointer; color:#0F172A;
+  }
+  body.dark .status-btn-group button { background:#1E293B; border-color:#334155; color:#F1F5F9; }
+
+  .sidebar-overlay {
+    position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(4px); z-index:100; visibility:hidden; opacity:0; transition:0.25s;
+  }
+  .sidebar-overlay.active { visibility:visible; opacity:1; }
+  .sidebar-nav {
+    position:fixed; top:0; left:-280px; width:280px; height:100%; background:#FFFFFF;
+    z-index:101; transition:0.3s cubic-bezier(0.2,0.9,0.4,1.1); padding:70px 20px 30px;
+    display:flex; flex-direction:column; gap:4px; box-shadow:4px 0 20px rgba(0,0,0,0.1);
+  }
+  body.dark .sidebar-nav { background:#111827; }
+  .sidebar-nav.active { left:0; }
+  .sidebar-nav a {
+    padding:14px 18px; font-size:16px; font-weight:500; border-radius:18px; text-decoration:none;
+    color:#0F172A; display:flex; align-items:center; gap:14px;
+  }
+  body.dark .sidebar-nav a { color:#F1F5F9; }
+  .sidebar-nav a:active { background:#DBEAFE; }
+  .sidebar-nav a .icon { width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+  .logout-link { margin-top:20px; border-top:1px solid #E2E8F0; padding-top:16px; }
+  body.dark .logout-link { border-top-color:#1E293B; }
+  .logout-link a { color:#DC2626 !important; }
+  .logout-link a svg { stroke:#DC2626; }
+  .close-sidebar-icon { position:absolute; top:20px; right:20px; cursor:pointer; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:30px; }
+  .close-sidebar-icon svg { width:24px; height:24px; stroke:#0F172A; stroke-width:2; }
+  body.dark .close-sidebar-icon svg { stroke:#F1F5F9; }
+
+  .modal-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px);
+    display:none; place-items:center; z-index:300; padding:20px;
+  }
+  .modal-overlay.active { display:grid; }
+  .modal-content { background:#FFFFFF; width:100%; max-width:380px; border-radius:20px; padding:22px; }
+  body.dark .modal-content { background:#111827; }
+  .modal-content .modal-icon { margin-bottom:12px; display:flex; justify-content:center; }
+  .modal-content .modal-icon svg { width:48px; height:48px; stroke:#0F172A; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  body.dark .modal-content .modal-icon svg { stroke:#F1F5F9; }
+  .modal-content h3 { text-align:center; margin-bottom:8px; font-size:16px; }
+  .modal-content p { text-align:center; font-size:13px; color:#64748B; line-height:1.5; margin-bottom:4px; }
+  body.dark .modal-content p { color:#94A3B8; }
+  .modal-actions { margin-top:18px; }
+  #modalMessage { white-space: pre-line; }
+  .modal-actions .btn { flex:1; min-width:0; }
+
+  .qr-modal-box { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  #qrGuruContainer { padding:14px; background:#fff; border-radius:16px; }
+
+  .footer { text-align:center; padding:20px; color:#94A3B8; font-size:11.5px; }
+  .hidden { display:none !important; }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+    .app-container {
+      max-width: 760px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .app-header { border-radius: 20px 20px 0 0; }
+    .modal-overlay { align-items:center; }
+    .guru-grid-desktop { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="menu-icon" onclick="openSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <span class="app-title">Absensi Guru</span>
+    </div>
+    <button class="close-btn" onclick="goTo('index.html')" aria-label="Kembali">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="close-sidebar-icon" onclick="closeSidebar()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+    <a href="#" onclick="goTo('index.html')">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Utama
+    </a>
+    <a href="#" onclick="goTo('berita.html')">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
+      Berita
+    </a>
+    <a href="#" onclick="goTo('premium.html')">
+      <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <a href="#" onclick="goTo('akun.html')">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Akun
+    </a>
+    <div class="logout-link">
+      <a href="#" onclick="logoutAction()">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Keluar
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== LAYAR LOGIN / DAFTAR SEKOLAH ===== -->
+  <div id="layarLogin">
+    <div class="tabs-pill" style="margin-top:14px;">
+      <div class="tab-item active" id="tabDaftarBtn" onclick="switchAuthTab('daftar')">Daftar Sekolah</div>
+      <div class="tab-item" id="tabLoginBtn" onclick="switchAuthTab('login')">Login Sekolah</div>
+    </div>
+
+    <div class="container" id="formDaftarSekolah">
+      <h3>Daftarkan Sekolah</h3>
+      <div class="input-group">
+        <label>Nama Sekolah</label>
+        <input id="daftarNamaSekolah" class="input" placeholder="Contoh: SMK Star Tools 1">
+      </div>
+      <div class="input-group">
+        <label>Buat Password Sekolah</label>
+        <input id="daftarPwSekolah" type="password" class="input" placeholder="Password">
+      </div>
+      <button class="btn btn-primary" onclick="daftarSekolah()">Daftarkan Sekolah</button>
+    </div>
+
+    <div class="container hidden" id="formLoginSekolah">
+      <h3>Login Sekolah</h3>
+      <div class="input-group">
+        <label>ID Sekolah</label>
+        <input id="loginIdSekolah" class="input" placeholder="Contoh: SKL-ABC123">
+      </div>
+      <div class="input-group">
+        <label>Password Sekolah</label>
+        <input id="loginPwSekolah" type="password" class="input" placeholder="Password">
+      </div>
+      <button class="btn btn-primary" onclick="loginSekolah()">Masuk</button>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD SEKOLAH ===== -->
+  <div id="layarDashboard" class="hidden">
+
+    <div class="id-banner">
+      <div class="label">ID Sekolah</div>
+      <div class="id-value">
+        <span id="idSekolahText">SKL-XXXXXX</span>
+        <div class="copy-btn" onclick="copyIdSekolah()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </div>
+      </div>
+      <div class="sekolah-name" id="namaSekolahText">Nama Sekolah</div>
+    </div>
+
+    <div class="tabs-pill">
+      <div class="tab-item active" id="tabGuruBtn" onclick="switchDashTab('guru')">Guru</div>
+      <div class="tab-item" id="tabKelasBtn" onclick="switchDashTab('kelas')">Kelas</div>
+      <div class="tab-item" id="tabScanBtn" onclick="switchDashTab('scan')">Scan</div>
+      <div class="tab-item" id="tabRekapBtn" onclick="switchDashTab('rekap')">Rekap Hari Ini</div>
+    </div>
+
+    <!-- TAB: GURU -->
+    <div id="tabGuru">
+      <div class="container">
+        <h3>Tambah Guru Baru</h3>
+        <div class="input-group">
+          <label>Nama Guru</label>
+          <input id="namaGuruBaru" class="input" placeholder="Contoh: Budi Santoso">
+        </div>
+        <div class="input-group">
+          <label>Mata Pelajaran yang Diajar</label>
+          <input id="mapelGuruBaru" class="input" placeholder="Contoh: Matematika">
+        </div>
+        <button class="btn btn-primary" onclick="tambahGuru()">Tambah Guru & Buat QR</button>
+      </div>
+
+      <div class="container">
+        <h3>Daftar Guru</h3>
+        <div id="daftarGuruList">
+          <div class="empty-state">Belum ada guru yang ditambahkan.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: KELAS -->
+    <div id="tabKelas" class="hidden">
+      <div class="container">
+        <h3>Buat Kelas Baru</h3>
+        <p style="font-size:12px; color:#94A3B8; margin-bottom:12px;">Kelas yang dibuat di sini langsung terafiliasi ke sekolah ini. Setelah jadi, ID Kelas & password tinggal dikasih ke wali kelas/sekretaris.</p>
+        <div class="input-group">
+          <label>Nama Kelas</label>
+          <input id="namaKelasBaru" class="input" placeholder="Contoh: XI TJKT 1">
+        </div>
+        <div class="input-group">
+          <label>Buat Password Kelas</label>
+          <input id="pwKelasBaru" type="password" class="input" placeholder="Password">
+        </div>
+        <button class="btn btn-primary" onclick="buatKelasBaru()">Buat Kelas</button>
+      </div>
+
+      <div class="container">
+        <h3>Kelas Terdaftar</h3>
+        <p style="font-size:12px; color:#94A3B8; margin-bottom:12px;">Kelas yang mendaftar di Absensi Digital menggunakan ID Sekolah ini juga otomatis muncul di sini.</p>
+        <div id="daftarKelasList">
+          <div class="empty-state">Belum ada kelas yang terdaftar dengan ID Sekolah ini.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: SCAN -->
+    <div id="tabScan" class="hidden">
+      <div class="container">
+        <h3>Scan QR Absensi Guru</h3>
+        <p style="font-size:12px; color:#94A3B8; margin-bottom:12px;">Arahkan kamera ke QR milik guru untuk mencatat kehadiran hari ini secara otomatis.</p>
+        <div id="reader"></div>
+        <button class="btn btn-primary" id="startScanBtn" onclick="startScanner()">Mulai Scan</button>
+        <button class="btn btn-danger hidden" id="stopScanBtn" onclick="stopScanner()">Berhenti Scan</button>
+        <div id="scanResultBox" class="scan-result-box hidden">
+          <div class="nama" id="scanResultNama"></div>
+          <div class="jam" id="scanResultJam"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: REKAP -->
+    <div id="tabRekap" class="hidden">
+      <div class="container" style="margin-bottom:8px;">
+        <h3 style="margin-bottom:2px;">Rekap Absensi Hari Ini</h3>
+        <p style="font-size:12px; color:#94A3B8;" id="tanggalRekapText">-</p>
+      </div>
+      <div class="table-wrap">
+        <table class="absen-table">
+          <thead>
+            <tr>
+              <th>Nama Guru</th>
+              <th>Mapel</th>
+              <th>Status</th>
+              <th>Jam Scan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="rekapTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">Star Platform | Star Tools 2026</div>
+</div>
+
+<!-- MODAL: alert / confirm custom -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-icon" id="modalIcon"></div>
+    <h3 id="modalTitle">Sukses!</h3>
+    <p id="modalMessage">Pesan berhasil</p>
+    <div id="modalActions" class="modal-actions"></div>
+  </div>
+</div>
+
+<!-- MODAL: lihat/download QR guru -->
+<div id="qrModalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <div class="qr-modal-box">
+      <h3 id="qrModalNama" style="margin-bottom:0;">Nama Guru</h3>
+      <p style="margin-bottom:4px;" id="qrModalMapel">Mapel</p>
+      <div id="qrGuruContainer"></div>
+      <p style="font-size:11px; color:#94A3B8;">QR ini dipakai guru untuk check-in absensi setiap hari.</p>
+    </div>
+    <div class="modal-actions" style="display:flex; gap:8px;">
+      <button class="btn btn-outline" onclick="closeQrModal()" style="flex:1;">Tutup</button>
+      <button class="btn btn-primary" onclick="downloadQrGuru()" style="flex:1;">Unduh QR</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: assign kelas ke guru -->
+<div id="assignModalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="text-align:left; margin-bottom:4px;" id="assignModalNama">Assign Kelas</h3>
+    <p style="text-align:left; margin-bottom:12px;">Pilih kelas yang boleh diabsen oleh guru ini di Absensi Mapel.</p>
+    <div id="assignKelasList" style="max-height:320px; overflow-y:auto;">
+      <div class="empty-state">Belum ada kelas terdaftar.</div>
+    </div>
+    <div class="modal-actions" style="display:flex; gap:8px;">
+      <button class="btn btn-outline" onclick="closeAssignModal()" style="flex:1;">Batal</button>
+      <button class="btn btn-primary" onclick="simpanAssignKelas()" style="flex:1;">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+};
+
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+var db = firebase.database();
+
+function goTo(page) { window.location.href = page; }
+
+function openSidebar() {
+  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('sidebarNav').classList.add('active');
+}
+function closeSidebar() {
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('sidebarNav').classList.remove('active');
+}
+
+/* ===== Modal custom alert/confirm ===== */
+function getIcon(type) {
+  if (type === 'success') return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>';
+  if (type === 'error') return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+  if (type === 'warning') return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  return '';
+}
+function showModal(iconType, title, message, actions) {
+  document.getElementById('modalIcon').innerHTML = getIcon(iconType);
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalMessage').innerText = message;
+  document.getElementById('modalActions').innerHTML = actions || '<button class="btn btn-primary" onclick="closeModal()">Mengerti</button>';
+  document.getElementById('modalOverlay').classList.add('active');
+}
+var pendingConfirmAction = null;
+function showConfirmModal(title, message, onConfirm) {
+  pendingConfirmAction = onConfirm;
+  document.getElementById('modalIcon').innerHTML = getIcon('warning');
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalMessage').innerText = message;
+  document.getElementById('modalActions').innerHTML =
+    '<div style="display:flex; gap:8px;">' +
+    '<button class="btn btn-outline" onclick="closeModal()" style="flex:1;">Batal</button>' +
+    '<button class="btn btn-danger" onclick="runPendingConfirm()" style="flex:1;">Ya</button>' +
+    '</div>';
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function runPendingConfirm() {
+  var a = pendingConfirmAction; pendingConfirmAction = null; closeModal(); if (a) a();
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+
+/* ===== State ===== */
+var sekolahIdAktif = localStorage.getItem('sekolahIdAktif') || '';
+var sekolahPwAktif = localStorage.getItem('sekolahPwAktif') || '';
+var namaSekolahAktif = '';
+var daftarGuru = {};
+var daftarKelasTerdaftar = {};
+var html5QrCode = null;
+var isScanning = false;
+var guruAktifModal = null;
+var guruAktifAssign = null;
+
+function switchAuthTab(tab) {
+  document.getElementById('tabDaftarBtn').classList.toggle('active', tab === 'daftar');
+  document.getElementById('tabLoginBtn').classList.toggle('active', tab === 'login');
+  document.getElementById('formDaftarSekolah').classList.toggle('hidden', tab !== 'daftar');
+  document.getElementById('formLoginSekolah').classList.toggle('hidden', tab !== 'login');
+}
+
+function switchDashTab(tab) {
+  ['guru', 'kelas', 'scan', 'rekap'].forEach(function(t) {
+    document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1) + 'Btn').classList.toggle('active', t === tab);
+    document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('hidden', t !== tab);
+  });
+  if (tab !== 'scan' && isScanning) stopScanner();
+  if (tab === 'rekap') renderRekapTable();
+}
+
+function generateId(prefix) {
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var s = '';
+  for (var i = 0; i < 6; i++) s += chars.charAt(Math.floor(Math.random() * chars.length));
+  return prefix + '-' + s;
+}
+
+/* ===== Daftar / Login Sekolah ===== */
+function daftarSekolah() {
+  var nama = document.getElementById('daftarNamaSekolah').value.trim();
+  var pw = document.getElementById('daftarPwSekolah').value;
+
+  if (!nama || !pw) {
+    showModal('warning', 'Belum Lengkap', 'Isi nama sekolah dan password terlebih dahulu.');
+    return;
+  }
+
+  var id = generateId('SKL');
+  db.ref('sekolah/' + id).set({
+    nama: nama,
+    password: pw,
+    dibuatPada: Date.now()
+  }).then(function() {
+    sekolahIdAktif = id;
+    sekolahPwAktif = pw;
+    localStorage.setItem('sekolahIdAktif', id);
+    localStorage.setItem('sekolahPwAktif', pw);
+    showModal('success', 'Sekolah Terdaftar!', 'ID Sekolah kamu: ' + id + '. Simpan ID ini baik-baik untuk login berikutnya.', '<button class="btn btn-primary" onclick="closeModal(); masukDashboard();">Lanjut</button>');
+  });
+}
+
+function loginSekolah() {
+  var id = document.getElementById('loginIdSekolah').value.trim().toUpperCase();
+  var pw = document.getElementById('loginPwSekolah').value;
+
+  if (!id || !pw) {
+    showModal('warning', 'Belum Lengkap', 'Isi ID Sekolah dan password terlebih dahulu.');
+    return;
+  }
+
+  db.ref('sekolah/' + id).once('value').then(function(snap) {
+    var data = snap.val();
+    if (!data) {
+      showModal('error', 'Tidak Ditemukan', 'ID Sekolah tidak ditemukan.');
+      return;
+    }
+    if (data.password !== pw) {
+      showModal('error', 'Password Salah', 'Password sekolah yang kamu masukkan salah.');
+      return;
+    }
+    sekolahIdAktif = id;
+    sekolahPwAktif = pw;
+    localStorage.setItem('sekolahIdAktif', id);
+    localStorage.setItem('sekolahPwAktif', pw);
+    masukDashboard();
+  });
+}
+
+function logoutSekolah() {
+  showConfirmModal('Logout Sekolah', 'Yakin ingin keluar dari sesi sekolah ini?', function() {
+    localStorage.removeItem('sekolahIdAktif');
+    localStorage.removeItem('sekolahPwAktif');
+    sekolahIdAktif = '';
+    sekolahPwAktif = '';
+    document.getElementById('layarDashboard').classList.add('hidden');
+    document.getElementById('layarLogin').classList.remove('hidden');
+    closeSidebar();
+  });
+}
+
+function masukDashboard() {
+  document.getElementById('layarLogin').classList.add('hidden');
+  document.getElementById('layarDashboard').classList.remove('hidden');
+  document.getElementById('idSekolahText').innerText = sekolahIdAktif;
+
+  db.ref('sekolah/' + sekolahIdAktif + '/nama').once('value').then(function(snap) {
+    namaSekolahAktif = snap.val() || '';
+    document.getElementById('namaSekolahText').innerText = namaSekolahAktif;
+  });
+
+  loadGuru();
+  loadKelasTerdaftar();
+}
+
+function copyIdSekolah() {
+  navigator.clipboard.writeText(sekolahIdAktif).then(function() {
+    showModal('success', 'Tersalin', 'ID Sekolah berhasil disalin.');
+  });
+}
+
+/* ===== Kelola Guru ===== */
+function tambahGuru() {
+  var nama = document.getElementById('namaGuruBaru').value.trim();
+  var mapel = document.getElementById('mapelGuruBaru').value.trim();
+
+  if (!nama || !mapel) {
+    showModal('warning', 'Belum Lengkap', 'Isi nama guru dan mata pelajaran terlebih dahulu.');
+    return;
+  }
+
+  var guruId = generateId('GRU');
+  db.ref('sekolah/' + sekolahIdAktif + '/guru/' + guruId).set({
+    nama: nama,
+    mapel: mapel,
+    dibuatPada: Date.now(),
+    kelasDiizinkan: {}
+  }).then(function() {
+    document.getElementById('namaGuruBaru').value = '';
+    document.getElementById('mapelGuruBaru').value = '';
+    showModal('success', 'Guru Ditambahkan', nama + ' berhasil ditambahkan. QR check-in sudah siap digunakan.');
+    loadGuru();
+  });
+}
+
+function loadGuru() {
+  db.ref('sekolah/' + sekolahIdAktif + '/guru').on('value', function(snap) {
+    daftarGuru = snap.val() || {};
+    renderGuruList();
+  });
+}
+
+function renderGuruList() {
+  var container = document.getElementById('daftarGuruList');
+  var ids = Object.keys(daftarGuru);
+
+  if (ids.length === 0) {
+    container.innerHTML = '<div class="empty-state">Belum ada guru yang ditambahkan.</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+  ids.forEach(function(guruId) {
+    var g = daftarGuru[guruId];
+    var initial = (g.nama || '?').charAt(0).toUpperCase();
+    var div = document.createElement('div');
+    div.className = 'guru-card';
+    div.innerHTML =
+      '<div class="guru-avatar">' + initial + '</div>' +
+      '<div class="guru-info"><div class="nama">' + g.nama + '</div><div class="mapel">' + g.mapel + '</div></div>' +
+      '<div class="guru-actions">' +
+        '<div class="icon-btn" title="Lihat QR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><line x1="14" y1="14" x2="14" y2="21"/><line x1="21" y1="14" x2="21" y2="21"/><line x1="17" y1="17" x2="21" y2="17"/></svg></div>' +
+        '<div class="icon-btn" title="Assign Kelas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>' +
+        '<div class="icon-btn danger" title="Hapus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></div>' +
+      '</div>';
+
+    var actionBtns = div.querySelectorAll('.icon-btn');
+    actionBtns[0].onclick = function() { openQrModal(guruId); };
+    actionBtns[1].onclick = function() { openAssignModal(guruId); };
+    actionBtns[2].onclick = function() { hapusGuru(guruId); };
+
+    container.appendChild(div);
+  });
+}
+
+function hapusGuru(guruId) {
+  var g = daftarGuru[guruId];
+  showConfirmModal('Hapus Guru?', 'Data guru ' + (g ? g.nama : '') + ' beserta akses absensinya akan dihapus permanen.', function() {
+    db.ref('sekolah/' + sekolahIdAktif + '/guru/' + guruId).remove().then(function() {
+      showModal('success', 'Berhasil', 'Data guru telah dihapus.');
+    });
+  });
+}
+
+/* ===== QR Guru ===== */
+function openQrModal(guruId) {
+  guruAktifModal = guruId;
+  var g = daftarGuru[guruId];
+  document.getElementById('qrModalNama').innerText = g.nama;
+  document.getElementById('qrModalMapel').innerText = g.mapel;
+
+  var qrContainer = document.getElementById('qrGuruContainer');
+  qrContainer.innerHTML = '';
+  new QRCode(qrContainer, {
+    text: sekolahIdAktif + '|' + guruId,
+    width: 200,
+    height: 200,
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  document.getElementById('qrModalOverlay').classList.add('active');
+}
+function closeQrModal() {
+  document.getElementById('qrModalOverlay').classList.remove('active');
+  guruAktifModal = null;
+}
+function downloadQrGuru() {
+  var canvas = document.querySelector('#qrGuruContainer canvas');
+  if (!canvas) return;
+  var g = daftarGuru[guruAktifModal];
+  var link = document.createElement('a');
+  link.download = 'QR-Guru-' + (g ? g.nama.replace(/\s+/g, '_') : 'guru') + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+/* ===== Assign Kelas ke Guru ===== */
+function openAssignModal(guruId) {
+  guruAktifAssign = guruId;
+  var g = daftarGuru[guruId];
+  document.getElementById('assignModalNama').innerText = 'Assign Kelas — ' + g.nama;
+
+  var list = document.getElementById('assignKelasList');
+  var kelasIds = Object.keys(daftarKelasTerdaftar);
+
+  if (kelasIds.length === 0) {
+    list.innerHTML = '<div class="empty-state">Belum ada kelas terdaftar dengan ID Sekolah ini.</div>';
+  } else {
+    list.innerHTML = '';
+    kelasIds.forEach(function(kelasId) {
+      var k = daftarKelasTerdaftar[kelasId];
+      var checked = g.kelasDiizinkan && g.kelasDiizinkan[kelasId] ? 'checked' : '';
+      var row = document.createElement('label');
+      row.className = 'kelas-chip-row';
+      row.style.cursor = 'pointer';
+      row.innerHTML =
+        '<div><div class="nama-kelas">' + k.namaKelas + '</div><div class="kode-kelas">' + kelasId + '</div></div>' +
+        '<input type="checkbox" data-kelas-id="' + kelasId + '" ' + checked + ' style="width:20px;height:20px;accent-color:#2563EB;">';
+      list.appendChild(row);
+    });
+  }
+
+  document.getElementById('assignModalOverlay').classList.add('active');
+}
+function closeAssignModal() {
+  document.getElementById('assignModalOverlay').classList.remove('active');
+  guruAktifAssign = null;
+}
+function simpanAssignKelas() {
+  var checkboxes = document.querySelectorAll('#assignKelasList input[type="checkbox"]');
+  var kelasDiizinkan = {};
+  checkboxes.forEach(function(cb) {
+    if (cb.checked) kelasDiizinkan[cb.getAttribute('data-kelas-id')] = true;
+  });
+
+  db.ref('sekolah/' + sekolahIdAktif + '/guru/' + guruAktifAssign + '/kelasDiizinkan').set(kelasDiizinkan).then(function() {
+    closeAssignModal();
+    showModal('success', 'Berhasil', 'Akses kelas untuk guru ini sudah diperbarui.');
+  });
+}
+
+/* ===== Buat Kelas Baru (langsung dari Absensi Guru) ===== */
+function generateKelasId() {
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var result = 'KLS-';
+  for (var i = 0; i < 6; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+function buatKelasBaru() {
+  var nama = document.getElementById('namaKelasBaru').value.trim();
+  var pw = document.getElementById('pwKelasBaru').value.trim();
+
+  if (!nama || !pw) {
+    showModal('warning', 'Belum Lengkap', 'Isi nama kelas dan password terlebih dahulu.');
+    return;
+  }
+
+  buatKelasDenganIdBaru(nama, pw);
+}
+
+function buatKelasDenganIdBaru(nama, pw) {
+  var kelasId = generateKelasId();
+
+  db.ref('kelas/' + kelasId).once('value').then(function(snap) {
+    if (snap.exists()) {
+      buatKelasDenganIdBaru(nama, pw);
+      return;
+    }
+
+    var kelasData = {
+      nama: nama,
+      password: pw,
+      dibuat: Date.now(),
+      id: kelasId,
+      sekolahId: sekolahIdAktif
+    };
+
+    db.ref('kelas/' + kelasId).set(kelasData).then(function() {
+      return db.ref('sekolah/' + sekolahIdAktif + '/kelasTerdaftar/' + kelasId).set({
+        namaKelas: nama,
+        didaftarkanPada: Date.now()
+      });
+    }).then(function() {
+      document.getElementById('namaKelasBaru').value = '';
+      document.getElementById('pwKelasBaru').value = '';
+      showModal('success', 'Kelas Berhasil Dibuat!',
+        'Kelas ' + nama + ' sudah jadi.\n\nID Kelas: ' + kelasId + '\nPassword: ' + pw + '\n\nBerikan ID & password ini ke wali kelas untuk login di Absensi Digital.',
+        '<button class="btn btn-primary" onclick="closeModal()">Mengerti</button>'
+      );
+    }).catch(function(err) {
+      showModal('error', 'Gagal', err.message);
+    });
+  });
+}
+
+/* ===== Kelas Terdaftar ===== */
+function loadKelasTerdaftar() {
+  db.ref('sekolah/' + sekolahIdAktif + '/kelasTerdaftar').on('value', function(snap) {
+    daftarKelasTerdaftar = snap.val() || {};
+    renderKelasList();
+  });
+}
+
+function renderKelasList() {
+  var container = document.getElementById('daftarKelasList');
+  var kelasIds = Object.keys(daftarKelasTerdaftar);
+
+  if (kelasIds.length === 0) {
+    container.innerHTML = '<div class="empty-state">Belum ada kelas yang terdaftar dengan ID Sekolah ini.</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+  kelasIds.forEach(function(kelasId) {
+    var k = daftarKelasTerdaftar[kelasId];
+
+    var guruAssigned = Object.keys(daftarGuru).filter(function(gid) {
+      return daftarGuru[gid].kelasDiizinkan && daftarGuru[gid].kelasDiizinkan[kelasId];
+    }).map(function(gid) { return daftarGuru[gid].nama; });
+
+    var row = document.createElement('div');
+    row.className = 'kelas-chip-row';
+    row.innerHTML =
+      '<div><div class="nama-kelas">' + k.namaKelas + '</div><div class="kode-kelas">' + kelasId + '</div></div>' +
+      (guruAssigned.length > 0
+        ? '<span class="guru-badge">' + guruAssigned.join(', ') + '</span>'
+        : '<span class="guru-badge" style="background:#F1F5F9; color:#94A3B8;">Belum di-assign</span>');
+    container.appendChild(row);
+  });
+}
+
+/* ===== Scanner QR Absensi Guru ===== */
+function startScanner() {
+  if (isScanning) return;
+
+  document.getElementById('reader').innerHTML = '';
+  document.getElementById('scanResultBox').classList.add('hidden');
+
+  if (typeof Html5Qrcode === 'undefined') {
+    showModal('error', 'Library Error', 'Library scanner tidak dimuat. Coba refresh halaman.');
+    return;
+  }
+
+  html5QrCode = new Html5Qrcode('reader');
+  var config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 };
+
+  html5QrCode.start(
+    { facingMode: 'environment' },
+    config,
+    function(decodedText) { handleScanGuru(decodedText); },
+    function() {}
+  ).then(function() {
+    isScanning = true;
+    document.getElementById('startScanBtn').classList.add('hidden');
+    document.getElementById('stopScanBtn').classList.remove('hidden');
+  }).catch(function(err) {
+    showModal('error', 'Gagal Mulai Scan', err.message);
+  });
+}
+
+function stopScanner() {
+  if (html5QrCode && isScanning) {
+    html5QrCode.stop().then(function() {
+      isScanning = false;
+      document.getElementById('startScanBtn').classList.remove('hidden');
+      document.getElementById('stopScanBtn').classList.add('hidden');
+      document.getElementById('reader').innerHTML = '';
+    });
+  }
+}
+
+function todayKey() {
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function handleScanGuru(kode) {
+  var parts = kode.split('|');
+  if (parts.length !== 2 || parts[0] !== sekolahIdAktif) {
+    showModal('error', 'QR Tidak Valid', 'QR ini bukan QR guru dari sekolah yang sedang login.');
+    return;
+  }
+  var guruId = parts[1];
+  var g = daftarGuru[guruId];
+  if (!g) {
+    showModal('error', 'Guru Tidak Ditemukan', 'QR ini tidak terdaftar di sekolah ini.');
+    return;
+  }
+
+  var now = new Date();
+  var jam = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+
+  db.ref('sekolah/' + sekolahIdAktif + '/absensiGuru/' + todayKey() + '/' + guruId).set({
+    status: 'Hadir',
+    jamScan: jam,
+    waktu: Date.now()
+  }).then(function() {
+    document.getElementById('scanResultBox').classList.remove('hidden');
+    document.getElementById('scanResultNama').innerText = g.nama + ' — Hadir';
+    document.getElementById('scanResultJam').innerText = 'Tercatat pukul ' + jam;
+  });
+}
+
+/* ===== Rekap Absensi Hari Ini ===== */
+function renderRekapTable() {
+  var tanggal = todayKey();
+  document.getElementById('tanggalRekapText').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  db.ref('sekolah/' + sekolahIdAktif + '/absensiGuru/' + tanggal).once('value').then(function(snap) {
+    var absenHariIni = snap.val() || {};
+    var tbody = document.getElementById('rekapTableBody');
+    var guruIds = Object.keys(daftarGuru);
+
+    if (guruIds.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#94A3B8; padding:20px;">Belum ada guru terdaftar.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = '';
+    guruIds.forEach(function(guruId) {
+      var g = daftarGuru[guruId];
+      var rec = absenHariIni[guruId];
+      var status = rec ? rec.status : 'Belum Absen';
+      var jam = rec ? rec.jamScan : '-';
+
+      var statusClass = 'belum';
+      if (status === 'Hadir') statusClass = 'hadir';
+      else if (status === 'Sakit') statusClass = 'sakit';
+      else if (status === 'Izin') statusClass = 'izin';
+      else if (status === 'Tidak Mengajar') statusClass = 'tidak-mengajar';
+
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + g.nama + '</td>' +
+        '<td>' + g.mapel + '</td>' +
+        '<td><span class="status-pill ' + statusClass + '">' + status + '</span></td>' +
+        '<td>' + jam + '</td>' +
+        '<td><div class="status-btn-group">' +
+          '<button data-status="Sakit">Sakit</button>' +
+          '<button data-status="Izin">Izin</button>' +
+          '<button data-status="Tidak Mengajar">TM</button>' +
+        '</div></td>';
+
+      var btns = tr.querySelectorAll('.status-btn-group button');
+      btns.forEach(function(btn) {
+        btn.onclick = function() { setStatusManual(guruId, btn.getAttribute('data-status')); };
+      });
+
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+function setStatusManual(guruId, status) {
+  db.ref('sekolah/' + sekolahIdAktif + '/absensiGuru/' + todayKey() + '/' + guruId).set({
+    status: status,
+    jamScan: '-',
+    waktu: Date.now()
+  }).then(function() {
+    renderRekapTable();
+  });
+}
+
+/* ===== Init ===== */
+window.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+  }
+
+  if (sekolahIdAktif && sekolahPwAktif) {
+    db.ref('sekolah/' + sekolahIdAktif).once('value').then(function(snap) {
+      var data = snap.val();
+      if (data && data.password === sekolahPwAktif) {
+        masukDashboard();
+      } else {
+        localStorage.removeItem('sekolahIdAktif');
+        localStorage.removeItem('sekolahPwAktif');
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>
