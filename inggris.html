@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Inggris - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -42,9 +58,35 @@
     color: #E2E8F0;
   }
 
+  body.dark .materi-btn .materi-num {
+    background: #1D2B4A;
+    color: #60A5FA;
+  }
+
+  body.dark .materi-btn .materi-text .materi-sub {
+    color: #94A3B8;
+  }
+
+  body.dark .materi-btn .materi-status {
+    color: #475569;
+  }
+
   body.dark .materi-btn.opened {
-    background: #2563EB;
-    color: white;
+    background: #111827;
+    border-color: #1D3A6E;
+  }
+
+  body.dark .materi-btn.opened .materi-status {
+    background: #14311F;
+    color: #4ADE80;
+  }
+
+  body.dark .materi-content p {
+    color: #CBD5E1;
+  }
+
+  body.dark .materi-content h4 {
+    color: #60A5FA;
   }
 
   body.dark .box.benar {
@@ -57,6 +99,15 @@
     background: #2A0F0F;
     border-left-color: #F87171;
     color: #FCA5A5;
+  }
+
+  body.dark .progress-stats {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
+  body.dark .progress-stats .stat {
+    color: #60A5FA;
   }
 
   .app-container {
@@ -129,37 +180,6 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-  }
-
-  .close-btn {
-    width: 40px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 0.2s;
-    border: none;
-  }
-
-  body.dark .close-btn {
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .close-btn:active {
-    transform: scale(0.92);
-  }
-
-  .close-btn svg {
-    stroke: #0F172A;
-    width: 22px;
-    height: 22px;
-  }
-
-  body.dark .close-btn svg {
-    stroke: #F1F5F9;
   }
 
   .sidebar-overlay {
@@ -257,6 +277,37 @@
     border-radius: 30px;
   }
 
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
+  }
+
   .screen {
     padding: 20px 18px 30px;
     flex: 1;
@@ -281,33 +332,92 @@
   }
 
   .grid-bagian {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 10px;
     margin-top: 8px;
   }
 
   .materi-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
     background: #F8FAFE;
-    border: 1px solid #E2E8F0;
-    padding: 12px 6px;
+    border: 1.5px solid #E2E8F0;
+    padding: 14px;
     border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    text-align: center;
     cursor: pointer;
     color: #0F172A;
-    transition: 0.2s;
+    transition: 0.15s;
   }
 
   .materi-btn:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
+  }
+
+  .materi-btn .materi-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: #EFF6FF;
+    color: #2563EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: 0.15s;
+  }
+
+  .materi-btn .materi-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .materi-btn .materi-text .materi-title {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .materi-btn .materi-text .materi-sub {
+    font-size: 12px;
+    color: #64748B;
+    margin-top: 2px;
+  }
+
+  .materi-btn .materi-status {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #CBD5E1;
+  }
+
+  .materi-btn .materi-status svg {
+    width: 16px;
+    height: 16px;
   }
 
   .materi-btn.opened {
+    background: #FFFFFF;
+    border-color: #BFDBFE;
+  }
+
+  .materi-btn.opened .materi-num {
     background: #2563EB;
-    color: white;
-    border-color: #2563EB;
+    color: #fff;
+  }
+
+  .materi-btn.opened .materi-status {
+    background: #DCFCE7;
+    color: #16A34A;
   }
 
   .btn-full {
@@ -353,14 +463,16 @@
     font-size: 15px;
   }
 
-  .materi-content h3 {
+  .materi-content h4 {
     font-size: 18px;
-    margin: 16px 0 8px 0;
+    margin: 20px 0 10px 0;
     color: #2563EB;
+    font-weight: 700;
   }
 
-  body.dark .materi-content h3 {
-    color: #60A5FA;
+  .materi-content p {
+    margin-bottom: 12px;
+    color: #334155;
   }
 
   .materi-content .box {
@@ -382,23 +494,6 @@
     background: #FDEAEA;
     border-left-color: #E74C3C;
     color: #A3261B;
-  }
-
-  .footer-app {
-    text-align: center;
-    padding: 20px;
-    font-size: 12px;
-    color: #64748B;
-    border-top: 1px solid #E2E8F0;
-  }
-
-  body.dark .footer-app {
-    color: #94A3B8;
-    border-top-color: #1E293B;
-  }
-
-  .hidden {
-    display: none;
   }
 
   .alert-overlay {
@@ -429,6 +524,19 @@
     border-color: #1E293B;
   }
 
+  .footer-app {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  body.dark .footer-app {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
   .progress-stats {
     display: flex;
     justify-content: space-between;
@@ -454,6 +562,63 @@
   body.dark .progress-stats .stat {
     color: #60A5FA;
   }
+
+  .hidden {
+    display: none;
+  }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .grid-bagian {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .card-modern {
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .materi-content {
+      font-size: 16px;
+    }
+
+    .materi-content h4 {
+      font-size: 20px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -470,7 +635,7 @@
       </div>
       <span class="app-title">Star Tools • Inggris</span>
     </div>
-    <button class="close-btn" onclick="goTo('bahasa.html')" aria-label="Kembali ke Beranda">
+    <button class="close-btn" onclick="goTo('bahasa.html')" aria-label="Kembali">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"/>
         <line x1="6" y1="6" x2="18" y2="18"/>
@@ -516,10 +681,10 @@
           Belajar Bahasa Inggris
         </div>
         <p style="margin-bottom: 16px;">Pelajari tata bahasa Inggris dari dasar hingga mahir. Semua materi tersedia gratis tanpa batas.</p>
-        
+
         <div class="progress-stats">
           <span>Progress Belajar</span>
-          <span><span class="stat" id="progressCount">0</span> / <span id="totalCount">50</span> materi</span>
+          <span><span class="stat" id="progressCount">0</span> / <span id="totalCount">100</span> materi</span>
         </div>
       </div>
 
@@ -529,7 +694,7 @@
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
           </svg>
-          Daftar Materi (1-50)
+          Daftar Materi
         </div>
         <div id="listBagianGrid" class="grid-bagian"></div>
       </div>
@@ -578,210 +743,413 @@ let currentUser = null;
 let openedIndexes = [];
 let currentMateriIdx = 0;
 
-// ======================== KEY LOCALSTORAGE ========================
 const STORAGE_KEY = 'inggrisProgress';
 
-// ======================== 50 MATERI BAHASA INGGRIS =======================
+// ======================== 100 MATERI BAHASA INGGRIS ========================
 const materiList = [
+  // 1-25: DASAR TATA BAHASA
   {
-    judul: "Bagian 1 - Simple Present Tense",
-    konten: '<h3>Pengertian</h3><p>Simple Present Tense adalah tense yang digunakan untuk menyatakan kebiasaan atau fakta.</p><h3>Penjelasan</h3><p>Menggunakan verb 1 dan ditambah s/es untuk he, she, it.</p><h3>Contoh</h3><div class="box benar">She eats every day.</div><div class="box salah">She eat every day.</div><h3>Kesimpulan</h3><p>Digunakan untuk aktivitas rutin dan fakta umum.</p>'
+    judul: "Inggris 1 - Simple Present Tense",
+    konten: '<h4>Pengertian</h4><p>Simple Present Tense adalah tense yang digunakan untuk menyatakan kebiasaan atau fakta.</p><h4>Penjelasan</h4><p>Menggunakan verb 1 dan ditambah s/es untuk he, she, it.</p><h4>Contoh</h4><div class="box benar">She eats every day.</div><div class="box salah">She eat every day.</div><h4>Kesimpulan</h4><p>Digunakan untuk aktivitas rutin dan fakta umum.</p>'
   },
   {
-    judul: "Bagian 2 - Simple Past Tense",
-    konten: '<h3>Pengertian</h3><p>Simple Past Tense digunakan untuk kejadian di masa lalu.</p><h3>Penjelasan</h3><p>Menggunakan verb 2 atau bentuk lampau.</p><h3>Contoh</h3><div class="box benar">I went to school yesterday.</div><div class="box salah">I go to school yesterday.</div><h3>Kesimpulan</h3><p>Digunakan untuk kejadian yang sudah terjadi.</p>'
+    judul: "Inggris 2 - Simple Past Tense",
+    konten: '<h4>Pengertian</h4><p>Simple Past Tense digunakan untuk kejadian di masa lalu.</p><h4>Penjelasan</h4><p>Menggunakan verb 2 atau bentuk lampau.</p><h4>Contoh</h4><div class="box benar">I went to school yesterday.</div><div class="box salah">I go to school yesterday.</div><h4>Kesimpulan</h4><p>Digunakan untuk kejadian yang sudah terjadi.</p>'
   },
   {
-    judul: "Bagian 3 - Present Continuous Tense",
-    konten: '<h3>Pengertian</h3><p>Present Continuous Tense adalah kegiatan yang sedang berlangsung.</p><h3>Penjelasan</h3><p>to be (am/is/are) + verb ing.</p><h3>Contoh</h3><div class="box benar">She is studying now.</div><div class="box salah">She studying now.</div><h3>Kesimpulan</h3><p>Untuk aktivitas yang sedang terjadi saat ini.</p>'
+    judul: "Inggris 3 - Present Continuous Tense",
+    konten: '<h4>Pengertian</h4><p>Present Continuous Tense adalah kegiatan yang sedang berlangsung.</p><h4>Penjelasan</h4><p>to be (am/is/are) + verb ing.</p><h4>Contoh</h4><div class="box benar">She is studying now.</div><div class="box salah">She studying now.</div><h4>Kesimpulan</h4><p>Untuk aktivitas yang sedang terjadi saat ini.</p>'
   },
   {
-    judul: "Bagian 4 - Future Tense",
-    konten: '<h3>Pengertian</h3><p>Future Tense digunakan untuk masa depan.</p><h3>Penjelasan</h3><p>will + verb 1.</p><h3>Contoh</h3><div class="box benar">I will go tomorrow.</div><div class="box salah">I will went tomorrow.</div><h3>Kesimpulan</h3><p>Untuk rencana atau prediksi.</p>'
+    judul: "Inggris 4 - Future Tense",
+    konten: '<h4>Pengertian</h4><p>Future Tense digunakan untuk masa depan.</p><h4>Penjelasan</h4><p>will + verb 1.</p><h4>Contoh</h4><div class="box benar">I will go tomorrow.</div><div class="box salah">I will went tomorrow.</div><h4>Kesimpulan</h4><p>Untuk rencana atau prediksi.</p>'
   },
   {
-    judul: "Bagian 5 - Noun",
-    konten: '<h3>Pengertian</h3><p>Noun adalah kata benda.</p><h3>Penjelasan</h3><p>Contoh: book, school, teacher.</p><h3>Contoh</h3><div class="box benar">I have a book.</div><div class="box salah">I have a read.</div><h3>Kesimpulan</h3><p>Noun digunakan untuk menyebut benda, orang, atau tempat.</p>'
+    judul: "Inggris 5 - Noun",
+    konten: '<h4>Pengertian</h4><p>Noun adalah kata benda.</p><h4>Penjelasan</h4><p>Contoh: book, school, teacher.</p><h4>Contoh</h4><div class="box benar">I have a book.</div><div class="box salah">I have a read.</div><h4>Kesimpulan</h4><p>Noun digunakan untuk menyebut benda, orang, atau tempat.</p>'
   },
   {
-    judul: "Bagian 6 - Verb",
-    konten: '<h3>Pengertian</h3><p>Verb adalah kata kerja.</p><h3>Penjelasan</h3><p>Contoh: eat, run, study.</p><h3>Contoh</h3><div class="box benar">I run every morning.</div><div class="box salah">I running every morning.</div><h3>Kesimpulan</h3><p>Verb menunjukkan suatu tindakan.</p>'
+    judul: "Inggris 6 - Verb",
+    konten: '<h4>Pengertian</h4><p>Verb adalah kata kerja.</p><h4>Penjelasan</h4><p>Contoh: eat, run, study.</p><h4>Contoh</h4><div class="box benar">I run every morning.</div><div class="box salah">I running every morning.</div><h4>Kesimpulan</h4><p>Verb menunjukkan suatu tindakan.</p>'
   },
   {
-    judul: "Bagian 7 - Adjective",
-    konten: '<h3>Pengertian</h3><p>Adjective adalah kata sifat.</p><h3>Penjelasan</h3><p>Contoh: beautiful, tall, smart.</p><h3>Contoh</h3><div class="box benar">She is beautiful.</div><div class="box salah">She is beauty.</div><h3>Kesimpulan</h3><p>Adjective digunakan untuk mendeskripsikan noun.</p>'
+    judul: "Inggris 7 - Adjective",
+    konten: '<h4>Pengertian</h4><p>Adjective adalah kata sifat.</p><h4>Penjelasan</h4><p>Contoh: beautiful, tall, smart.</p><h4>Contoh</h4><div class="box benar">She is beautiful.</div><div class="box salah">She is beauty.</div><h4>Kesimpulan</h4><p>Adjective digunakan untuk mendeskripsikan noun.</p>'
   },
   {
-    judul: "Bagian 8 - Pronoun",
-    konten: '<h3>Pengertian</h3><p>Pronoun adalah kata ganti.</p><h3>Penjelasan</h3><p>Contoh: I, you, he, she, it, we, they.</p><h3>Contoh</h3><div class="box benar">She is my friend.</div><div class="box salah">Her is my friend.</div><h3>Kesimpulan</h3><p>Pronoun digunakan untuk mengganti noun.</p>'
+    judul: "Inggris 8 - Pronoun",
+    konten: '<h4>Pengertian</h4><p>Pronoun adalah kata ganti.</p><h4>Penjelasan</h4><p>Contoh: I, you, he, she, it, we, they.</p><h4>Contoh</h4><div class="box benar">She is my friend.</div><div class="box salah">Her is my friend.</div><h4>Kesimpulan</h4><p>Pronoun digunakan untuk mengganti noun.</p>'
   },
   {
-    judul: "Bagian 9 - Preposition",
-    konten: '<h3>Pengertian</h3><p>Preposition adalah kata depan.</p><h3>Penjelasan</h3><p>Contoh: in, on, at, under.</p><h3>Contoh</h3><div class="box benar">The book is on the table.</div><div class="box salah">The book is in the table.</div><h3>Kesimpulan</h3><p>Menunjukkan tempat atau waktu.</p>'
+    judul: "Inggris 9 - Preposition",
+    konten: '<h4>Pengertian</h4><p>Preposition adalah kata depan.</p><h4>Penjelasan</h4><p>Contoh: in, on, at, under.</p><h4>Contoh</h4><div class="box benar">The book is on the table.</div><div class="box salah">The book is in the table.</div><h4>Kesimpulan</h4><p>Menunjukkan tempat atau waktu.</p>'
   },
   {
-    judul: "Bagian 10 - Conjunction",
-    konten: '<h3>Pengertian</h3><p>Conjunction adalah kata penghubung.</p><h3>Penjelasan</h3><p>Contoh: and, but, because.</p><h3>Contoh</h3><div class="box benar">I study because I want to pass.</div><div class="box salah">I study because want pass.</div><h3>Kesimpulan</h3><p>Menghubungkan kata atau kalimat.</p>'
+    judul: "Inggris 10 - Conjunction",
+    konten: '<h4>Pengertian</h4><p>Conjunction adalah kata penghubung.</p><h4>Penjelasan</h4><p>Contoh: and, but, because.</p><h4>Contoh</h4><div class="box benar">I study because I want to pass.</div><div class="box salah">I study because want pass.</div><h4>Kesimpulan</h4><p>Menghubungkan kata atau kalimat.</p>'
   },
   {
-    judul: "Bagian 11 - Article",
-    konten: '<h3>Pengertian</h3><p>Article adalah kata sandang yang digunakan sebelum noun.</p><h3>Penjelasan</h3><p>Ada a, an, dan the.</p><h3>Contoh</h3><div class="box benar">I have a book.</div><div class="box salah">I have book.</div><h3>Kesimpulan</h3><p>Article membantu memperjelas noun.</p>'
+    judul: "Inggris 11 - Article",
+    konten: '<h4>Pengertian</h4><p>Article adalah kata sandang yang digunakan sebelum noun.</p><h4>Penjelasan</h4><p>Ada a, an, dan the.</p><h4>Contoh</h4><div class="box benar">I have a book.</div><div class="box salah">I have book.</div><h4>Kesimpulan</h4><p>Article membantu memperjelas noun.</p>'
   },
   {
-    judul: "Bagian 12 - Countable Noun",
-    konten: '<h3>Pengertian</h3><p>Countable noun adalah kata benda yang bisa dihitung.</p><h3>Penjelasan</h3><p>Bisa diberi angka seperti 1 apple, 2 apples.</p><h3>Contoh</h3><div class="box benar">I have two pens.</div><div class="box salah">I have two water.</div><h3>Kesimpulan</h3><p>Digunakan untuk benda yang bisa dihitung.</p>'
+    judul: "Inggris 12 - Countable Noun",
+    konten: '<h4>Pengertian</h4><p>Countable noun adalah kata benda yang bisa dihitung.</p><h4>Penjelasan</h4><p>Bisa diberi angka seperti 1 apple, 2 apples.</p><h4>Contoh</h4><div class="box benar">I have two pens.</div><div class="box salah">I have two water.</div><h4>Kesimpulan</h4><p>Digunakan untuk benda yang bisa dihitung.</p>'
   },
   {
-    judul: "Bagian 13 - Uncountable Noun",
-    konten: '<h3>Pengertian</h3><p>Uncountable noun adalah kata benda yang tidak bisa dihitung.</p><h3>Penjelasan</h3><p>Contoh: water, milk, rice.</p><h3>Contoh</h3><div class="box benar">I drink water.</div><div class="box salah">I drink waters.</div><h3>Kesimpulan</h3><p>Tidak bisa diberi bentuk jamak.</p>'
+    judul: "Inggris 13 - Uncountable Noun",
+    konten: '<h4>Pengertian</h4><p>Uncountable noun adalah kata benda yang tidak bisa dihitung.</p><h4>Penjelasan</h4><p>Contoh: water, milk, rice.</p><h4>Contoh</h4><div class="box benar">I drink water.</div><div class="box salah">I drink waters.</div><h4>Kesimpulan</h4><p>Tidak bisa diberi bentuk jamak.</p>'
   },
   {
-    judul: "Bagian 14 - Modal Verb",
-    konten: '<h3>Pengertian</h3><p>Modal verb adalah kata bantu dalam kalimat.</p><h3>Penjelasan</h3><p>Contoh: can, must, should.</p><h3>Contoh</h3><div class="box benar">I can swim.</div><div class="box salah">I cans swim.</div><h3>Kesimpulan</h3><p>Modal verb membantu makna kalimat.</p>'
+    judul: "Inggris 14 - Modal Verb",
+    konten: '<h4>Pengertian</h4><p>Modal verb adalah kata bantu dalam kalimat.</p><h4>Penjelasan</h4><p>Contoh: can, must, should.</p><h4>Contoh</h4><div class="box benar">I can swim.</div><div class="box salah">I cans swim.</div><h4>Kesimpulan</h4><p>Modal verb membantu makna kalimat.</p>'
   },
   {
-    judul: "Bagian 15 - Adverb",
-    konten: '<h3>Pengertian</h3><p>Adverb adalah kata keterangan.</p><h3>Penjelasan</h3><p>Menerangkan verb, adjective, atau adverb lain.</p><h3>Contoh</h3><div class="box benar">He runs quickly.</div><div class="box salah">He runs quick.</div><h3>Kesimpulan</h3><p>Adverb menjelaskan cara, waktu, atau tempat.</p>'
+    judul: "Inggris 15 - Adverb",
+    konten: '<h4>Pengertian</h4><p>Adverb adalah kata keterangan.</p><h4>Penjelasan</h4><p>Menerangkan verb, adjective, atau adverb lain.</p><h4>Contoh</h4><div class="box benar">He runs quickly.</div><div class="box salah">He runs quick.</div><h4>Kesimpulan</h4><p>Adverb menjelaskan cara, waktu, atau tempat.</p>'
   },
   {
-    judul: "Bagian 16 - Comparative Adjective",
-    konten: '<h3>Pengertian</h3><p>Comparative adjective digunakan untuk membandingkan dua hal.</p><h3>Penjelasan</h3><p>Biasanya ditambah -er atau more.</p><h3>Contoh</h3><div class="box benar">He is taller than me.</div><div class="box salah">He is more tall than me.</div><h3>Kesimpulan</h3><p>Digunakan untuk perbandingan.</p>'
+    judul: "Inggris 16 - Comparative Adjective",
+    konten: '<h4>Pengertian</h4><p>Comparative adjective digunakan untuk membandingkan dua hal.</p><h4>Penjelasan</h4><p>Biasanya ditambah -er atau more.</p><h4>Contoh</h4><div class="box benar">He is taller than me.</div><div class="box salah">He is more tall than me.</div><h4>Kesimpulan</h4><p>Digunakan untuk perbandingan.</p>'
   },
   {
-    judul: "Bagian 17 - Superlative Adjective",
-    konten: '<h3>Pengertian</h3><p>Superlative adjective digunakan untuk yang paling.</p><h3>Penjelasan</h3><p>Biasanya ditambah -est atau most.</p><h3>Contoh</h3><div class="box benar">He is the tallest in class.</div><div class="box salah">He is more tallest in class.</div><h3>Kesimpulan</h3><p>Untuk menyatakan tingkat paling tinggi.</p>'
+    judul: "Inggris 17 - Superlative Adjective",
+    konten: '<h4>Pengertian</h4><p>Superlative adjective digunakan untuk yang paling.</p><h4>Penjelasan</h4><p>Biasanya ditambah -est atau most.</p><h4>Contoh</h4><div class="box benar">He is the tallest in class.</div><div class="box salah">He is more tallest in class.</div><h4>Kesimpulan</h4><p>Untuk menyatakan tingkat paling tinggi.</p>'
   },
   {
-    judul: "Bagian 18 - Question Word",
-    konten: '<h3>Pengertian</h3><p>Question word adalah kata tanya.</p><h3>Penjelasan</h3><p>Contoh: what, where, when, why, who.</p><h3>Contoh</h3><div class="box benar">Where do you live?</div><div class="box salah">Where you live?</div><h3>Kesimpulan</h3><p>Digunakan untuk bertanya.</p>'
+    judul: "Inggris 18 - Question Word",
+    konten: '<h4>Pengertian</h4><p>Question word adalah kata tanya.</p><h4>Penjelasan</h4><p>Contoh: what, where, when, why, who.</p><h4>Contoh</h4><div class="box benar">Where do you live?</div><div class="box salah">Where you live?</div><h4>Kesimpulan</h4><p>Digunakan untuk bertanya.</p>'
   },
   {
-    judul: "Bagian 19 - Imperative Sentence",
-    konten: '<h3>Pengertian</h3><p>Imperative sentence adalah kalimat perintah.</p><h3>Penjelasan</h3><p>Biasanya tanpa subject.</p><h3>Contoh</h3><div class="box benar">Close the door.</div><div class="box salah">You close the door now.</div><h3>Kesimpulan</h3><p>Digunakan untuk memberi perintah.</p>'
+    judul: "Inggris 19 - Imperative Sentence",
+    konten: '<h4>Pengertian</h4><p>Imperative sentence adalah kalimat perintah.</p><h4>Penjelasan</h4><p>Biasanya tanpa subject.</p><h4>Contoh</h4><div class="box benar">Close the door.</div><div class="box salah">You close the door now.</div><h4>Kesimpulan</h4><p>Digunakan untuk memberi perintah.</p>'
   },
   {
-    judul: "Bagian 20 - Gerund",
-    konten: '<h3>Pengertian</h3><p>Gerund adalah verb yang berubah menjadi noun dengan -ing.</p><h3>Penjelasan</h3><p>Contoh: swimming, reading, playing.</p><h3>Contoh</h3><div class="box benar">Swimming is fun.</div><div class="box salah">Swim is fun.</div><h3>Kesimpulan</h3><p>Gerund berfungsi sebagai kata benda.</p>'
+    judul: "Inggris 20 - Gerund",
+    konten: '<h4>Pengertian</h4><p>Gerund adalah verb yang berubah menjadi noun dengan -ing.</p><h4>Penjelasan</h4><p>Contoh: swimming, reading, playing.</p><h4>Contoh</h4><div class="box benar">Swimming is fun.</div><div class="box salah">Swim is fun.</div><h4>Kesimpulan</h4><p>Gerund berfungsi sebagai kata benda.</p>'
   },
   {
-    judul: "Bagian 21 - Infinitive",
-    konten: '<h3>Pengertian</h3><p>Infinitive adalah bentuk dasar verb yang diawali "to".</p><h3>Penjelasan</h3><p>Contoh: to eat, to go, to study.</p><h3>Contoh</h3><div class="box benar">I want to eat.</div><div class="box salah">I want eat.</div><h3>Kesimpulan</h3><p>Infinitive digunakan setelah kata kerja tertentu.</p>'
+    judul: "Inggris 21 - Infinitive",
+    konten: '<h4>Pengertian</h4><p>Infinitive adalah bentuk dasar verb yang diawali "to".</p><h4>Penjelasan</h4><p>Contoh: to eat, to go, to study.</p><h4>Contoh</h4><div class="box benar">I want to eat.</div><div class="box salah">I want eat.</div><h4>Kesimpulan</h4><p>Infinitive digunakan setelah kata kerja tertentu.</p>'
   },
   {
-    judul: "Bagian 22 - Auxiliary Verb",
-    konten: '<h3>Pengertian</h3><p>Auxiliary verb adalah kata kerja bantu.</p><h3>Penjelasan</h3><p>Contoh: do, does, did, is, am, are.</p><h3>Contoh</h3><div class="box benar">Do you like coffee?</div><div class="box salah">You like coffee?</div><h3>Kesimpulan</h3><p>Auxiliary membantu membentuk kalimat.</p>'
+    judul: "Inggris 22 - Auxiliary Verb",
+    konten: '<h4>Pengertian</h4><p>Auxiliary verb adalah kata kerja bantu.</p><h4>Penjelasan</h4><p>Contoh: do, does, did, is, am, are.</p><h4>Contoh</h4><div class="box benar">Do you like coffee?</div><div class="box salah">You like coffee?</div><h4>Kesimpulan</h4><p>Auxiliary membantu membentuk kalimat.</p>'
   },
   {
-    judul: "Bagian 23 - Passive Voice",
-    konten: '<h3>Pengertian</h3><p>Passive voice adalah kalimat pasif.</p><h3>Penjelasan</h3><p>Object menjadi subject.</p><h3>Contoh</h3><div class="box benar">The book is read by me.</div><div class="box salah">The book read by me.</div><h3>Kesimpulan</h3><p>Digunakan untuk fokus pada objek.</p>'
+    judul: "Inggris 23 - Passive Voice",
+    konten: '<h4>Pengertian</h4><p>Passive voice adalah kalimat pasif.</p><h4>Penjelasan</h4><p>Object menjadi subject.</p><h4>Contoh</h4><div class="box benar">The book is read by me.</div><div class="box salah">The book read by me.</div><h4>Kesimpulan</h4><p>Digunakan untuk fokus pada objek.</p>'
   },
   {
-    judul: "Bagian 24 - Active Voice",
-    konten: '<h3>Pengertian</h3><p>Active voice adalah kalimat aktif.</p><h3>Penjelasan</h3><p>Subject melakukan aksi.</p><h3>Contoh</h3><div class="box benar">I read a book.</div><div class="box salah">I am read a book.</div><h3>Kesimpulan</h3><p>Digunakan untuk kalimat langsung.</p>'
+    judul: "Inggris 24 - Active Voice",
+    konten: '<h4>Pengertian</h4><p>Active voice adalah kalimat aktif.</p><h4>Penjelasan</h4><p>Subject melakukan aksi.</p><h4>Contoh</h4><div class="box benar">I read a book.</div><div class="box salah">I am read a book.</div><h4>Kesimpulan</h4><p>Digunakan untuk kalimat langsung.</p>'
   },
   {
-    judul: "Bagian 25 - Present Perfect Tense",
-    konten: '<h3>Pengertian</h3><p>Present Perfect Tense digunakan untuk kejadian yang sudah terjadi dan masih relevan.</p><h3>Penjelasan</h3><p>Menggunakan have/has + verb 3.</p><h3>Contoh</h3><div class="box benar">I have finished my homework.</div><div class="box salah">I have finish my homework.</div><h3>Kesimpulan</h3><p>Digunakan untuk pengalaman atau hasil.</p>'
+    judul: "Inggris 25 - Present Perfect Tense",
+    konten: '<h4>Pengertian</h4><p>Present Perfect Tense digunakan untuk kejadian yang sudah terjadi dan masih relevan.</p><h4>Penjelasan</h4><p>Menggunakan have/has + verb 3.</p><h4>Contoh</h4><div class="box benar">I have finished my homework.</div><div class="box salah">I have finish my homework.</div><h4>Kesimpulan</h4><p>Digunakan untuk pengalaman atau hasil.</p>'
+  },
+  // 26-50: LANJUTAN TATA BAHASA
+  {
+    judul: "Inggris 26 - Past Continuous Tense",
+    konten: '<h4>Pengertian</h4><p>Past Continuous Tense digunakan untuk kejadian yang sedang berlangsung di masa lalu.</p><h4>Penjelasan</h4><p>was/were + verb ing.</p><h4>Contoh</h4><div class="box benar">I was sleeping at 8 PM.</div><div class="box salah">I was sleep at 8 PM.</div><h4>Kesimpulan</h4><p>Menjelaskan aktivitas yang sedang terjadi di masa lalu.</p>'
   },
   {
-    judul: "Bagian 26 - Past Continuous Tense",
-    konten: '<h3>Pengertian</h3><p>Past Continuous Tense digunakan untuk kejadian yang sedang berlangsung di masa lalu.</p><h3>Penjelasan</h3><p>was/were + verb ing.</p><h3>Contoh</h3><div class="box benar">I was sleeping at 8 PM.</div><div class="box salah">I was sleep at 8 PM.</div><h3>Kesimpulan</h3><p>Menjelaskan aktivitas yang sedang terjadi di masa lalu.</p>'
+    judul: "Inggris 27 - Future Continuous Tense",
+    konten: '<h4>Pengertian</h4><p>Future Continuous Tense adalah kegiatan yang akan sedang berlangsung.</p><h4>Penjelasan</h4><p>will be + verb ing.</p><h4>Contoh</h4><div class="box benar">I will be studying tomorrow.</div><div class="box salah">I will studying tomorrow.</div><h4>Kesimpulan</h4><p>Untuk aktivitas yang akan berlangsung.</p>'
   },
   {
-    judul: "Bagian 27 - Future Continuous Tense",
-    konten: '<h3>Pengertian</h3><p>Future Continuous Tense adalah kegiatan yang akan sedang berlangsung.</p><h3>Penjelasan</h3><p>will be + verb ing.</p><h3>Contoh</h3><div class="box benar">I will be studying tomorrow.</div><div class="box salah">I will studying tomorrow.</div><h3>Kesimpulan</h3><p>Untuk aktivitas yang akan berlangsung.</p>'
+    judul: "Inggris 28 - There is / There are",
+    konten: '<h4>Pengertian</h4><p>There is / There are digunakan untuk menyatakan keberadaan.</p><h4>Penjelasan</h4><p>There is untuk tunggal, there are untuk jamak.</p><h4>Contoh</h4><div class="box benar">There are two books.</div><div class="box salah">There is two books.</div><h4>Kesimpulan</h4><p>Digunakan untuk menyatakan ada sesuatu.</p>'
   },
   {
-    judul: "Bagian 28 - There is / There are",
-    konten: '<h3>Pengertian</h3><p>There is / There are digunakan untuk menyatakan keberadaan.</p><h3>Penjelasan</h3><p>There is untuk tunggal, there are untuk jamak.</p><h3>Contoh</h3><div class="box benar">There are two books.</div><div class="box salah">There is two books.</div><h3>Kesimpulan</h3><p>Digunakan untuk menyatakan ada sesuatu.</p>'
+    judul: "Inggris 29 - Possessive Adjective",
+    konten: '<h4>Pengertian</h4><p>Possessive adjective menunjukkan kepemilikan.</p><h4>Penjelasan</h4><p>Contoh: my, your, his, her, our, their.</p><h4>Contoh</h4><div class="box benar">This is my bag.</div><div class="box salah">This is me bag.</div><h4>Kesimpulan</h4><p>Digunakan untuk menunjukkan milik.</p>'
   },
   {
-    judul: "Bagian 29 - Possessive Adjective",
-    konten: '<h3>Pengertian</h3><p>Possessive adjective menunjukkan kepemilikan.</p><h3>Penjelasan</h3><p>Contoh: my, your, his, her, our, their.</p><h3>Contoh</h3><div class="box benar">This is my bag.</div><div class="box salah">This is me bag.</div><h3>Kesimpulan</h3><p>Digunakan untuk menunjukkan milik.</p>'
+    judul: "Inggris 30 - Degrees of Comparison",
+    konten: '<h4>Pengertian</h4><p>Degrees of comparison adalah tingkat perbandingan.</p><h4>Penjelasan</h4><p>Positive, comparative, superlative.</p><h4>Contoh</h4><div class="box benar">She is smarter than me.</div><div class="box salah">She is more smarter than me.</div><h4>Kesimpulan</h4><p>Digunakan untuk membandingkan sesuatu.</p>'
   },
   {
-    judul: "Bagian 30 - Degrees of Comparison",
-    konten: '<h3>Pengertian</h3><p>Degrees of comparison adalah tingkat perbandingan.</p><h3>Penjelasan</h3><p>Positive, comparative, superlative.</p><h3>Contoh</h3><div class="box benar">She is smarter than me.</div><div class="box salah">She is more smarter than me.</div><h3>Kesimpulan</h3><p>Digunakan untuk membandingkan sesuatu.</p>'
+    judul: "Inggris 31 - Direct Speech",
+    konten: '<h4>Pengertian</h4><p>Direct speech adalah kalimat langsung yang mengutip perkataan seseorang.</p><h4>Penjelasan</h4><p>Biasanya memakai tanda kutip.</p><h4>Contoh</h4><div class="box benar">He said, "I am happy."</div><div class="box salah">He said I am happy.</div><h4>Kesimpulan</h4><p>Digunakan untuk menyampaikan ucapan langsung.</p>'
   },
   {
-    judul: "Bagian 31 - Direct Speech",
-    konten: '<h3>Pengertian</h3><p>Direct speech adalah kalimat langsung yang mengutip perkataan seseorang.</p><h3>Penjelasan</h3><p>Biasanya memakai tanda kutip.</p><h3>Contoh</h3><div class="box benar">He said, "I am happy."</div><div class="box salah">He said I am happy.</div><h3>Kesimpulan</h3><p>Digunakan untuk menyampaikan ucapan langsung.</p>'
+    judul: "Inggris 32 - Indirect Speech",
+    konten: '<h4>Pengertian</h4><p>Indirect speech adalah kalimat tidak langsung.</p><h4>Penjelasan</h4><p>Tidak memakai tanda kutip.</p><h4>Contoh</h4><div class="box benar">He said that he was happy.</div><div class="box salah">He said "I am happy".</div><h4>Kesimpulan</h4><p>Digunakan untuk menyampaikan ulang ucapan.</p>'
   },
   {
-    judul: "Bagian 32 - Indirect Speech",
-    konten: '<h3>Pengertian</h3><p>Indirect speech adalah kalimat tidak langsung.</p><h3>Penjelasan</h3><p>Tidak memakai tanda kutip.</p><h3>Contoh</h3><div class="box benar">He said that he was happy.</div><div class="box salah">He said "I am happy".</div><h3>Kesimpulan</h3><p>Digunakan untuk menyampaikan ulang ucapan.</p>'
+    judul: "Inggris 33 - Relative Pronoun",
+    konten: '<h4>Pengertian</h4><p>Relative pronoun adalah kata penghubung dalam kalimat.</p><h4>Penjelasan</h4><p>Contoh: who, which, that.</p><h4>Contoh</h4><div class="box benar">The man who came is my teacher.</div><div class="box salah">The man which came is my teacher.</div><h4>Kesimpulan</h4><p>Menghubungkan dua kalimat.</p>'
   },
   {
-    judul: "Bagian 33 - Relative Pronoun",
-    konten: '<h3>Pengertian</h3><p>Relative pronoun adalah kata penghubung dalam kalimat.</p><h3>Penjelasan</h3><p>Contoh: who, which, that.</p><h3>Contoh</h3><div class="box benar">The man who came is my teacher.</div><div class="box salah">The man which came is my teacher.</div><h3>Kesimpulan</h3><p>Menghubungkan dua kalimat.</p>'
+    judul: "Inggris 34 - Preposition of Time",
+    konten: '<h4>Pengertian</h4><p>Preposition of time adalah kata depan waktu.</p><h4>Penjelasan</h4><p>Contoh: in, on, at.</p><h4>Contoh</h4><div class="box benar">I study at night.</div><div class="box salah">I study in night.</div><h4>Kesimpulan</h4><p>Menunjukkan waktu kejadian.</p>'
   },
   {
-    judul: "Bagian 34 - Preposition of Time",
-    konten: '<h3>Pengertian</h3><p>Preposition of time adalah kata depan waktu.</p><h3>Penjelasan</h3><p>Contoh: in, on, at.</p><h3>Contoh</h3><div class="box benar">I study at night.</div><div class="box salah">I study in night.</div><h3>Kesimpulan</h3><p>Menunjukkan waktu kejadian.</p>'
+    judul: "Inggris 35 - Preposition of Place",
+    konten: '<h4>Pengertian</h4><p>Preposition of place adalah kata depan tempat.</p><h4>Penjelasan</h4><p>Contoh: in, on, under.</p><h4>Contoh</h4><div class="box benar">The cat is under the table.</div><div class="box salah">The cat is under table the.</div><h4>Kesimpulan</h4><p>Menunjukkan posisi sesuatu.</p>'
   },
   {
-    judul: "Bagian 35 - Preposition of Place",
-    konten: '<h3>Pengertian</h3><p>Preposition of place adalah kata depan tempat.</p><h3>Penjelasan</h3><p>Contoh: in, on, under.</p><h3>Contoh</h3><div class="box benar">The cat is under the table.</div><div class="box salah">The cat is under table the.</div><h3>Kesimpulan</h3><p>Menunjukkan posisi sesuatu.</p>'
+    judul: "Inggris 36 - Wh-Question",
+    konten: '<h4>Pengertian</h4><p>Wh-question adalah pertanyaan menggunakan kata tanya.</p><h4>Penjelasan</h4><p>What, where, when, why, who.</p><h4>Contoh</h4><div class="box benar">What is your name?</div><div class="box salah">What your name?</div><h4>Kesimpulan</h4><p>Digunakan untuk bertanya detail.</p>'
   },
   {
-    judul: "Bagian 36 - Wh-Question",
-    konten: '<h3>Pengertian</h3><p>Wh-question adalah pertanyaan menggunakan kata tanya.</p><h3>Penjelasan</h3><p>What, where, when, why, who.</p><h3>Contoh</h3><div class="box benar">What is your name?</div><div class="box salah">What your name?</div><h3>Kesimpulan</h3><p>Digunakan untuk bertanya detail.</p>'
+    judul: "Inggris 37 - Yes/No Question",
+    konten: '<h4>Pengertian</h4><p>Yes/No question adalah pertanyaan jawaban ya atau tidak.</p><h4>Penjelasan</h4><p>Menggunakan auxiliary verb di awal.</p><h4>Contoh</h4><div class="box benar">Do you like pizza?</div><div class="box salah">You like pizza?</div><h4>Kesimpulan</h4><p>Jawabannya ya atau tidak.</p>'
   },
   {
-    judul: "Bagian 37 - Yes/No Question",
-    konten: '<h3>Pengertian</h3><p>Yes/No question adalah pertanyaan jawaban ya atau tidak.</p><h3>Penjelasan</h3><p>Menggunakan auxiliary verb di awal.</p><h3>Contoh</h3><div class="box benar">Do you like pizza?</div><div class="box salah">You like pizza?</div><h3>Kesimpulan</h3><p>Jawabannya ya atau tidak.</p>'
+    judul: "Inggris 38 - Gerund after Preposition",
+    konten: '<h4>Pengertian</h4><p>Gerund after preposition adalah verb + ing setelah preposition.</p><h4>Penjelasan</h4><p>Contoh: interested in, good at.</p><h4>Contoh</h4><div class="box benar">I am good at swimming.</div><div class="box salah">I am good at swim.</div><h4>Kesimpulan</h4><p>Verb setelah preposition jadi -ing.</p>'
   },
   {
-    judul: "Bagian 38 - Gerund after Preposition",
-    konten: '<h3>Pengertian</h3><p>Gerund after preposition adalah verb + ing setelah preposition.</p><h3>Penjelasan</h3><p>Contoh: interested in, good at.</p><h3>Contoh</h3><div class="box benar">I am good at swimming.</div><div class="box salah">I am good at swim.</div><h3>Kesimpulan</h3><p>Verb setelah preposition jadi -ing.</p>'
+    judul: "Inggris 39 - Conditional Sentence Type 1",
+    konten: '<h4>Pengertian</h4><p>Conditional sentence type 1 adalah kemungkinan di masa depan.</p><h4>Penjelasan</h4><p>If + present, will + verb.</p><h4>Contoh</h4><div class="box benar">If it rains, I will stay home.</div><div class="box salah">If it will rain, I stay home.</div><h4>Kesimpulan</h4><p>Untuk kondisi yang mungkin terjadi.</p>'
   },
   {
-    judul: "Bagian 39 - Conditional Sentence Type 1",
-    konten: '<h3>Pengertian</h3><p>Conditional sentence type 1 adalah kemungkinan di masa depan.</p><h3>Penjelasan</h3><p>If + present, will + verb.</p><h3>Contoh</h3><div class="box benar">If it rains, I will stay home.</div><div class="box salah">If it will rain, I stay home.</div><h3>Kesimpulan</h3><p>Untuk kondisi yang mungkin terjadi.</p>'
+    judul: "Inggris 40 - Comparative Adverb",
+    konten: '<h4>Pengertian</h4><p>Comparative adverb digunakan untuk membandingkan cara melakukan sesuatu.</p><h4>Penjelasan</h4><p>Biasanya ditambah more atau -er.</p><h4>Contoh</h4><div class="box benar">She runs faster than me.</div><div class="box salah">She runs more fast than me.</div><h4>Kesimpulan</h4><p>Digunakan untuk membandingkan tindakan.</p>'
   },
   {
-    judul: "Bagian 40 - Comparative Adverb",
-    konten: '<h3>Pengertian</h3><p>Comparative adverb digunakan untuk membandingkan cara melakukan sesuatu.</p><h3>Penjelasan</h3><p>Biasanya ditambah more atau -er.</p><h3>Contoh</h3><div class="box benar">She runs faster than me.</div><div class="box salah">She runs more fast than me.</div><h3>Kesimpulan</h3><p>Digunakan untuk membandingkan tindakan.</p>'
+    judul: "Inggris 41 - Past Perfect Tense",
+    konten: '<h4>Pengertian</h4><p>Past Perfect Tense digunakan untuk kejadian yang sudah selesai sebelum kejadian lain di masa lalu.</p><h4>Penjelasan</h4><p>Menggunakan had + verb 3.</p><h4>Contoh</h4><div class="box benar">I had eaten before he came.</div><div class="box salah">I have eaten before he came.</div><h4>Kesimpulan</h4><p>Digunakan untuk menunjukkan urutan kejadian di masa lalu.</p>'
   },
   {
-    judul: "Bagian 41 - Past Perfect Tense",
-    konten: '<h3>Pengertian</h3><p>Past Perfect Tense digunakan untuk kejadian yang sudah selesai sebelum kejadian lain di masa lalu.</p><h3>Penjelasan</h3><p>Menggunakan had + verb 3.</p><h3>Contoh</h3><div class="box benar">I had eaten before he came.</div><div class="box salah">I have eaten before he came.</div><h3>Kesimpulan</h3><p>Digunakan untuk menunjukkan urutan kejadian di masa lalu.</p>'
+    judul: "Inggris 42 - Past Perfect Continuous Tense",
+    konten: '<h4>Pengertian</h4><p>Past Perfect Continuous Tense digunakan untuk aktivitas yang sudah berlangsung sebelum masa lalu.</p><h4>Penjelasan</h4><p>Menggunakan had been + verb ing.</p><h4>Contoh</h4><div class="box benar">I had been studying for 2 hours.</div><div class="box salah">I had study for 2 hours.</div><h4>Kesimpulan</h4><p>Menjelaskan durasi sebelum kejadian lain di masa lalu.</p>'
   },
   {
-    judul: "Bagian 42 - Past Perfect Continuous Tense",
-    konten: '<h3>Pengertian</h3><p>Past Perfect Continuous Tense digunakan untuk aktivitas yang sudah berlangsung sebelum masa lalu.</p><h3>Penjelasan</h3><p>Menggunakan had been + verb ing.</p><h3>Contoh</h3><div class="box benar">I had been studying for 2 hours.</div><div class="box salah">I had study for 2 hours.</div><h3>Kesimpulan</h3><p>Menjelaskan durasi sebelum kejadian lain di masa lalu.</p>'
+    judul: "Inggris 43 - Future Perfect Tense",
+    konten: '<h4>Pengertian</h4><p>Future Perfect Tense digunakan untuk kejadian yang akan selesai di masa depan.</p><h4>Penjelasan</h4><p>Menggunakan will have + verb 3.</p><h4>Contoh</h4><div class="box benar">I will have finished by tomorrow.</div><div class="box salah">I will finish have by tomorrow.</div><h4>Kesimpulan</h4><p>Menunjukkan sesuatu yang selesai di masa depan.</p>'
   },
   {
-    judul: "Bagian 43 - Future Perfect Tense",
-    konten: '<h3>Pengertian</h3><p>Future Perfect Tense digunakan untuk kejadian yang akan selesai di masa depan.</p><h3>Penjelasan</h3><p>Menggunakan will have + verb 3.</p><h3>Contoh</h3><div class="box benar">I will have finished by tomorrow.</div><div class="box salah">I will finish have by tomorrow.</div><h3>Kesimpulan</h3><p>Menunjukkan sesuatu yang selesai di masa depan.</p>'
+    judul: "Inggris 44 - Future Perfect Continuous Tense",
+    konten: '<h4>Pengertian</h4><p>Future Perfect Continuous Tense digunakan untuk durasi sampai masa depan.</p><h4>Penjelasan</h4><p>Menggunakan will have been + verb ing.</p><h4>Contoh</h4><div class="box benar">I will have been working for 5 hours.</div><div class="box salah">I will have working for 5 hours.</div><h4>Kesimpulan</h4><p>Menjelaskan durasi sampai waktu tertentu di masa depan.</p>'
   },
   {
-    judul: "Bagian 44 - Future Perfect Continuous Tense",
-    konten: '<h3>Pengertian</h3><p>Future Perfect Continuous Tense digunakan untuk durasi sampai masa depan.</p><h3>Penjelasan</h3><p>Menggunakan will have been + verb ing.</p><h3>Contoh</h3><div class="box benar">I will have been working for 5 hours.</div><div class="box salah">I will have working for 5 hours.</div><h3>Kesimpulan</h3><p>Menjelaskan durasi sampai waktu tertentu di masa depan.</p>'
+    judul: "Inggris 45 - Reported Speech",
+    konten: '<h4>Pengertian</h4><p>Reported speech perubahan waktu dan kata dalam kalimat tidak langsung.</p><h4>Penjelasan</h4><p>Perubahan tense dari direct ke indirect.</p><h4>Contoh</h4><div class="box benar">He said he was tired.</div><div class="box salah">He said I am tired.</div><h4>Kesimpulan</h4><p>Digunakan untuk melaporkan ucapan orang lain.</p>'
   },
   {
-    judul: "Bagian 45 - Reported Speech",
-    konten: '<h3>Pengertian</h3><p>Reported speech perubahan waktu dan kata dalam kalimat tidak langsung.</p><h3>Penjelasan</h3><p>Perubahan tense dari direct ke indirect.</p><h3>Contoh</h3><div class="box benar">He said he was tired.</div><div class="box salah">He said I am tired.</div><h3>Kesimpulan</h3><p>Digunakan untuk melaporkan ucapan orang lain.</p>'
+    judul: "Inggris 46 - Causative Verb",
+    konten: '<h4>Pengertian</h4><p>Causative verb digunakan untuk menyuruh orang lain melakukan sesuatu.</p><h4>Penjelasan</h4><p>Contoh: have, get.</p><h4>Contoh</h4><div class="box benar">I had my hair cut.</div><div class="box salah">I cut my hair by someone.</div><h4>Kesimpulan</h4><p>Menunjukkan seseorang melakukan sesuatu untuk kita.</p>'
   },
   {
-    judul: "Bagian 46 - Causative Verb",
-    konten: '<h3>Pengertian</h3><p>Causative verb digunakan untuk menyuruh orang lain melakukan sesuatu.</p><h3>Penjelasan</h3><p>Contoh: have, get.</p><h3>Contoh</h3><div class="box benar">I had my hair cut.</div><div class="box salah">I cut my hair by someone.</div><h3>Kesimpulan</h3><p>Menunjukkan seseorang melakukan sesuatu untuk kita.</p>'
+    judul: "Inggris 47 - Gerund vs Infinitive",
+    konten: '<h4>Pengertian</h4><p>Gerund vs Infinitive adalah perbedaan bentuk verb.</p><h4>Penjelasan</h4><p>Gerund (-ing), Infinitive (to + verb).</p><h4>Contoh</h4><div class="box benar">I like swimming.</div><div class="box salah">I like to swimming.</div><h4>Kesimpulan</h4><p>Beberapa verb mengikuti aturan berbeda.</p>'
   },
   {
-    judul: "Bagian 47 - Gerund vs Infinitive",
-    konten: '<h3>Pengertian</h3><p>Gerund vs Infinitive adalah perbedaan bentuk verb.</p><h3>Penjelasan</h3><p>Gerund (-ing), Infinitive (to + verb).</p><h3>Contoh</h3><div class="box benar">I like swimming.</div><div class="box salah">I like to swimming.</div><h3>Kesimpulan</h3><p>Beberapa verb mengikuti aturan berbeda.</p>'
+    judul: "Inggris 48 - Suggestion",
+    konten: '<h4>Pengertian</h4><p>Suggestion adalah ungkapan saran.</p><h4>Penjelasan</h4><p>Contoh: should, let\'s, why don\'t.</p><h4>Contoh</h4><div class="box benar">You should study more.</div><div class="box salah">You must study more now.</div><h4>Kesimpulan</h4><p>Digunakan untuk memberi saran.</p>'
   },
   {
-    judul: "Bagian 48 - Suggestion",
-    konten: '<h3>Pengertian</h3><p>Suggestion adalah ungkapan saran.</p><h3>Penjelasan</h3><p>Contoh: should, let\'s, why don\'t.</p><h3>Contoh</h3><div class="box benar">You should study more.</div><div class="box salah">You must study more now.</div><h3>Kesimpulan</h3><p>Digunakan untuk memberi saran.</p>'
+    judul: "Inggris 49 - Offering",
+    konten: '<h4>Pengertian</h4><p>Offering adalah ungkapan menawarkan sesuatu.</p><h4>Penjelasan</h4><p>Contoh: would you like, can I help.</p><h4>Contoh</h4><div class="box benar">Would you like some tea?</div><div class="box salah">You want tea now?</div><h4>Kesimpulan</h4><p>Digunakan untuk menawarkan bantuan atau barang.</p>'
   },
   {
-    judul: "Bagian 49 - Offering",
-    konten: '<h3>Pengertian</h3><p>Offering adalah ungkapan menawarkan sesuatu.</p><h3>Penjelasan</h3><p>Contoh: would you like, can I help.</p><h3>Contoh</h3><div class="box benar">Would you like some tea?</div><div class="box salah">You want tea now?</div><h3>Kesimpulan</h3><p>Digunakan untuk menawarkan bantuan atau barang.</p>'
+    judul: "Inggris 50 - Agreement and Disagreement",
+    konten: '<h4>Pengertian</h4><p>Agreement and disagreement adalah cara setuju atau tidak setuju.</p><h4>Penjelasan</h4><p>Contoh: I agree, I disagree.</p><h4>Contoh</h4><div class="box benar">I agree with you.</div><div class="box salah">I am agree you.</div><h4>Kesimpulan</h4><p>Digunakan untuk menyatakan pendapat.</p>'
+  },
+  // 51-75: TOPIK LANJUTAN
+  {
+    judul: "Inggris 51 - Conditional Sentence Type 2",
+    konten: '<h4>Pengertian</h4><p>Conditional sentence type 2 adalah pengandaian yang tidak realistis.</p><h4>Penjelasan</h4><p>If + past, would + verb.</p><h4>Contoh</h4><div class="box benar">If I were rich, I would travel.</div><div class="box salah">If I am rich, I travel.</div><h4>Kesimpulan</h4><p>Untuk kondisi yang tidak nyata.</p>'
   },
   {
-    judul: "Bagian 50 - Agreement and Disagreement",
-    konten: '<h3>Pengertian</h3><p>Agreement and disagreement adalah cara setuju atau tidak setuju.</p><h3>Penjelasan</h3><p>Contoh: I agree, I disagree.</p><h3>Contoh</h3><div class="box benar">I agree with you.</div><div class="box salah">I am agree you.</div><h3>Kesimpulan</h3><p>Digunakan untuk menyatakan pendapat.</p>'
+    judul: "Inggris 52 - Conditional Sentence Type 3",
+    konten: '<h4>Pengertian</h4><p>Conditional sentence type 3 adalah pengandaian masa lalu.</p><h4>Penjelasan</h4><p>If + past perfect, would have + verb 3.</p><h4>Contoh</h4><div class="box benar">If I had studied, I would have passed.</div><div class="box salah">If I studied, I would passed.</div><h4>Kesimpulan</h4><p>Untuk penyesalan masa lalu.</p>'
+  },
+  {
+    judul: "Inggris 53 - Subjunctive Mood",
+    konten: '<h4>Pengertian</h4><p>Subjunctive mood digunakan untuk menyatakan keinginan atau pengandaian.</p><h4>Penjelasan</h4><p>Menggunakan "were" untuk semua subject.</p><h4>Contoh</h4><div class="box benar">I wish I were a bird.</div><div class="box salah">I wish I was a bird.</div><h4>Kesimpulan</h4><p>Untuk keinginan yang tidak nyata.</p>'
+  },
+  {
+    judul: "Inggris 54 - Question Tag",
+    konten: '<h4>Pengertian</h4><p>Question tag adalah pertanyaan pendek di akhir kalimat.</p><h4>Penjelasan</h4><p>Kalimat positif diikuti tag negatif, dan sebaliknya.</p><h4>Contoh</h4><div class="box benar">You are coming, aren\'t you?</div><div class="box salah">You coming, aren\'t you?</div><h4>Kesimpulan</h4><p>Untuk meminta konfirmasi.</p>'
+  },
+  {
+    judul: "Inggris 55 - Emphatic Sentence",
+    konten: '<h4>Pengertian</h4><p>Emphatic sentence adalah kalimat penegasan.</p><h4>Penjelasan</h4><p>Menggunakan do/does/did di awal.</p><h4>Contoh</h4><div class="box benar">I do like it.</div><div class="box salah">I like it very much.</div><h4>Kesimpulan</h4><p>Untuk menekankan suatu pernyataan.</p>'
+  },
+  {
+    judul: "Inggris 56 - Ellipsis",
+    konten: '<h4>Pengertian</h4><p>Ellipsis adalah penghilangan kata dalam kalimat.</p><h4>Penjelasan</h4><p>Menghilangkan kata yang sudah dimengerti.</p><h4>Contoh</h4><div class="box benar">I can swim and she can too.</div><div class="box salah">I can swim and she can swim too.</div><h4>Kesimpulan</h4><p>Untuk menghindari pengulangan kata.</p>'
+  },
+  {
+    judul: "Inggris 57 - Inversion",
+    konten: '<h4>Pengertian</h4><p>Inversion adalah pembalikan kata dalam kalimat.</p><h4>Penjelasan</h4><p>Subject dan verb dibalik untuk penekanan.</p><h4>Contoh</h4><div class="box benar">Never have I seen such beauty.</div><div class="box salah">Never I have seen such beauty.</div><h4>Kesimpulan</h4><p>Untuk kalimat dengan kata negatif di awal.</p>'
+  },
+  {
+    judul: "Inggris 58 - Preposition of Manner",
+    konten: '<h4>Pengertian</h4><p>Preposition of manner adalah kata depan cara.</p><h4>Penjelasan</h4><p>Contoh: by, with, in.</p><h4>Contoh</h4><div class="box benar">He goes by bus.</div><div class="box salah">He goes with bus.</div><h4>Kesimpulan</h4><p>Menunjukkan cara melakukan sesuatu.</p>'
+  },
+  {
+    judul: "Inggris 59 - Preposition of Purpose",
+    konten: '<h4>Pengertian</h4><p>Preposition of purpose adalah kata depan tujuan.</p><h4>Penjelasan</h4><p>Contoh: for, to.</p><h4>Contoh</h4><div class="box benar">I go to school for learning.</div><div class="box salah">I go to school for learn.</div><h4>Kesimpulan</h4><p>Menunjukkan tujuan tindakan.</p>'
+  },
+  {
+    judul: "Inggris 60 - Preposition of Source",
+    konten: '<h4>Pengertian</h4><p>Preposition of source adalah kata depan asal.</p><h4>Penjelasan</h4><p>Contoh: from, of.</p><h4>Contoh</h4><div class="box benar">I come from Jakarta.</div><div class="box salah">I come of Jakarta.</div><h4>Kesimpulan</h4><p>Menunjukkan asal atau sumber.</p>'
+  },
+  {
+    judul: "Inggris 61 - Preposition of Opposition",
+    konten: '<h4>Pengertian</h4><p>Preposition of opposition adalah kata depan pertentangan.</p><h4>Penjelasan</h4><p>Contoh: despite, in spite of.</p><h4>Contoh</h4><div class="box benar">Despite the rain, we went out.</div><div class="box salah">Despite rain, we went out.</div><h4>Kesimpulan</h4><p>Menunjukkan pertentangan.</p>'
+  },
+  {
+    judul: "Inggris 62 - Preposition of Cause",
+    konten: '<h4>Pengertian</h4><p>Preposition of cause adalah kata depan sebab.</p><h4>Penjelasan</h4><p>Contoh: because of, due to.</p><h4>Contoh</h4><div class="box benar">Because of the rain, we stayed.</div><div class="box salah">Because the rain, we stayed.</div><h4>Kesimpulan</h4><p>Menunjukkan sebab.</p>'
+  },
+  {
+    judul: "Inggris 63 - Preposition of Result",
+    konten: '<h4>Pengertian</h4><p>Preposition of result adalah kata depan akibat.</p><h4>Penjelasan</h4><p>Contoh: so, such.</p><h4>Contoh</h4><div class="box benar">He is so tall that he reaches it.</div><div class="box salah">He is tall so that he reaches it.</div><h4>Kesimpulan</h4><p>Menunjukkan akibat.</p>'
+  },
+  {
+    judul: "Inggris 64 - Preposition of Comparison",
+    konten: '<h4>Pengertian</h4><p>Preposition of comparison adalah kata depan perbandingan.</p><h4>Penjelasan</h4><p>Contoh: like, as.</p><h4>Contoh</h4><div class="box benar">She is like her mother.</div><div class="box salah">She is as her mother.</div><h4>Kesimpulan</h4><p>Menunjukkan perbandingan.</p>'
+  },
+  {
+    judul: "Inggris 65 - Correlative Conjunction",
+    konten: '<h4>Pengertian</h4><p>Correlative conjunction adalah konjungsi berpasangan.</p><h4>Penjelasan</h4><p>Contoh: both...and, either...or, not only...but also.</p><h4>Contoh</h4><div class="box benar">Both Jack and Jill are here.</div><div class="box salah">Both Jack and Jill is here.</div><h4>Kesimpulan</h4><p>Menghubungkan dua elemen setara.</p>'
+  },
+  {
+    judul: "Inggris 66 - Subordinate Conjunction",
+    konten: '<h4>Pengertian</h4><p>Subordinate conjunction adalah konjungsi subordinatif.</p><h4>Penjelasan</h4><p>Contoh: although, because, while.</p><h4>Contoh</h4><div class="box benar">Although it rained, we played.</div><div class="box salah">Although it was rain, we played.</div><h4>Kesimpulan</h4><p>Menghubungkan klausa utama dan anak.</p>'
+  },
+  {
+    judul: "Inggris 67 - Adverbial Clause of Time",
+    konten: '<h4>Pengertian</h4><p>Adverbial clause of time adalah klausa keterangan waktu.</p><h4>Penjelasan</h4><p>Contoh: when, while, after, before.</p><h4>Contoh</h4><div class="box benar">I was eating when he came.</div><div class="box salah">I was eating when he comes.</div><h4>Kesimpulan</h4><p>Menjelaskan waktu kejadian.</p>'
+  },
+  {
+    judul: "Inggris 68 - Adverbial Clause of Place",
+    konten: '<h4>Pengertian</h4><p>Adverbial clause of place adalah klausa keterangan tempat.</p><h4>Penjelasan</h4><p>Contoh: where, wherever.</p><h4>Contoh</h4><div class="box benar">I will go where you go.</div><div class="box salah">I will go where you will go.</div><h4>Kesimpulan</h4><p>Menjelaskan tempat kejadian.</p>'
+  },
+  {
+    judul: "Inggris 69 - Adverbial Clause of Reason",
+    konten: '<h4>Pengertian</h4><p>Adverbial clause of reason adalah klausa keterangan sebab.</p><h4>Penjelasan</h4><p>Contoh: because, since, as.</p><h4>Contoh</h4><div class="box benar">I study because I want to pass.</div><div class="box salah">I study because wanting pass.</div><h4>Kesimpulan</h4><p>Menjelaskan alasan.</p>'
+  },
+  {
+    judul: "Inggris 70 - Adverbial Clause of Purpose",
+    konten: '<h4>Pengertian</h4><p>Adverbial clause of purpose adalah klausa keterangan tujuan.</p><h4>Penjelasan</h4><p>Contoh: so that, in order to.</p><h4>Contoh</h4><div class="box benar">I study so that I can pass.</div><div class="box salah">I study so that I can passed.</div><h4>Kesimpulan</h4><p>Menjelaskan tujuan.</p>'
+  },
+  {
+    judul: "Inggris 71 - Adverbial Clause of Result",
+    konten: '<h4>Pengertian</h4><p>Adverbial clause of result adalah klausa keterangan akibat.</p><h4>Penjelasan</h4><p>Contoh: so...that, such...that.</p><h4>Contoh</h4><div class="box benar">He is so tall that he hits the roof.</div><div class="box salah">He is tall so that he hits the roof.</div><h4>Kesimpulan</h4><p>Menjelaskan akibat.</p>'
+  },
+  {
+    judul: "Inggris 72 - Adverbial Clause of Condition",
+    konten: '<h4>Pengertian</h4><p>Adverbial clause of condition adalah klausa keterangan syarat.</p><h4>Penjelasan</h4><p>Contoh: if, unless, provided that.</p><h4>Contoh</h4><div class="box benar">You will pass if you study.</div><div class="box salah">You will pass if you will study.</div><h4>Kesimpulan</h4><p>Menjelaskan syarat.</p>'
+  },
+  {
+    judul: "Inggris 73 - Adverbial Clause of Concession",
+    konten: '<h4>Pengertian</h4><p>Adverbial clause of concession adalah klausa keterangan konsesi.</p><h4>Penjelasan</h4><p>Contoh: although, even though, though.</p><h4>Contoh</h4><div class="box benar">Although it was raining, we played.</div><div class="box salah">Although it rains, we played.</div><h4>Kesimpulan</h4><p>Menjelaskan pertentangan.</p>'
+  },
+  {
+    judul: "Inggris 74 - Adverbial Clause of Manner",
+    konten: '<h4>Pengertian</h4><p>Adverbial clause of manner adalah klausa keterangan cara.</p><h4>Penjelasan</h4><p>Contoh: as, like, as if.</p><h4>Contoh</h4><div class="box benar">He acted as if he owned it.</div><div class="box salah">He acted as he owned it.</div><h4>Kesimpulan</h4><p>Menjelaskan cara.</p>'
+  },
+  {
+    judul: "Inggris 75 - Adverbial Clause of Comparison",
+    konten: '<h4>Pengertian</h4><p>Adverbial clause of comparison adalah klausa keterangan perbandingan.</p><h4>Penjelasan</h4><p>Contoh: as...as, than.</p><h4>Contoh</h4><div class="box benar">He is as tall as his father.</div><div class="box salah">He is tall as his father.</div><h4>Kesimpulan</h4><p>Menjelaskan perbandingan.</p>'
+  },
+  // 76-100: TOPIK LANJUTAN DAN PRAKTIS
+  {
+    judul: "Inggris 76 - Noun Clause",
+    konten: '<h4>Pengertian</h4><p>Noun clause adalah klausa yang berfungsi sebagai kata benda.</p><h4>Penjelasan</h4><p>Dimulai dengan that, whether, if, wh-words.</p><h4>Contoh</h4><div class="box benar">I know that he is honest.</div><div class="box salah">I know that he honest.</div><h4>Kesimpulan</h4><p>Berfungsi sebagai subject atau object.</p>'
+  },
+  {
+    judul: "Inggris 77 - Adjective Clause",
+    konten: '<h4>Pengertian</h4><p>Adjective clause adalah klausa yang berfungsi sebagai kata sifat.</p><h4>Penjelasan</h4><p>Dimulai dengan who, whom, which, whose, that.</p><h4>Contoh</h4><div class="box benar">The man who came is my father.</div><div class="box salah">The man came is my father.</div><h4>Kesimpulan</h4><p>Menjelaskan noun.</p>'
+  },
+  {
+    judul: "Inggris 78 - Adverb Clause",
+    konten: '<h4>Pengertian</h4><p>Adverb clause adalah klausa yang berfungsi sebagai kata keterangan.</p><h4>Penjelasan</h4><p>Dimulai dengan when, where, because, if, etc.</p><h4>Contoh</h4><div class="box benar">I was sleeping when he came.</div><div class="box salah">I was sleeping when he comes.</div><h4>Kesimpulan</h4><p>Menjelaskan verb, adjective, atau adverb.</p>'
+  },
+  {
+    judul: "Inggris 79 - Reduksi Klausa",
+    konten: '<h4>Pengertian</h4><p>Reduksi klausa adalah pemendekan klausa menjadi frasa.</p><h4>Penjelasan</h4><p>Menghilangkan subject dan mengubah verb menjadi -ing.</p><h4>Contoh</h4><div class="box benar">The man sitting there is my brother.</div><div class="box salah">The man who sitting there is my brother.</div><h4>Kesimpulan</h4><p>Untuk membuat kalimat lebih pendek.</p>'
+  },
+  {
+    judul: "Inggris 80 - Elliptical Construction",
+    konten: '<h4>Pengertian</h4><p>Elliptical construction adalah penghilangan kata dalam kalimat majemuk.</p><h4>Penjelasan</h4><p>Menghilangkan kata yang sama pada dua klausa.</p><h4>Contoh</h4><div class="box benar">I like coffee and she tea.</div><div class="box salah">I like coffee and she like tea.</div><h4>Kesimpulan</h4><p>Untuk menghindari pengulangan.</p>'
+  },
+  {
+    judul: "Inggris 81 - Parallel Structure",
+    konten: '<h4>Pengertian</h4><p>Parallel structure adalah struktur kalimat yang sejajar.</p><h4>Penjelasan</h4><p>Menggunakan bentuk yang sama dalam satu rangkaian.</p><h4>Contoh</h4><div class="box benar">I like reading, writing, and swimming.</div><div class="box salah">I like reading, write, and swimming.</div><h4>Kesimpulan</h4><p>Untuk keseimbangan kalimat.</p>'
+  },
+  {
+    judul: "Inggris 82 - Split Infinitive",
+    konten: '<h4>Pengertian</h4><p>Split infinitive adalah infinitive yang dipisah oleh kata lain.</p><h4>Penjelasan</h4><p>To + adverb + verb.</p><h4>Contoh</h4><div class="box benar">I want to quickly eat.</div><div class="box salah">I want quickly to eat.</div><h4>Kesimpulan</h4><p>Memberi penekanan pada adverb.</p>'
+  },
+  {
+    judul: "Inggris 83 - Dangling Modifier",
+    konten: '<h4>Pengertian</h4><p>Dangling modifier adalah kata keterangan yang menggantung.</p><h4>Penjelasan</h4><p>Modifier tidak jelas menerangkan apa.</p><h4>Contoh</h4><div class="box benar">Walking to school, I saw a dog.</div><div class="box salah">Walking to school, a dog was seen.</div><h4>Kesimpulan</h4><p>Modifier harus jelas menerangkan subject.</p>'
+  },
+  {
+    judul: "Inggris 84 - Misplaced Modifier",
+    konten: '<h4>Pengertian</h4><p>Misplaced modifier adalah kata keterangan yang salah tempat.</p><h4>Penjelasan</h4><p>Modifier diletakkan jauh dari kata yang diterangkan.</p><h4>Contoh</h4><div class="box benar">I only ate the cake.</div><div class="box salah">Only I ate the cake.</div><h4>Kesimpulan</h4><p>Letakkan modifier dekat kata yang diterangkan.</p>'
+  },
+  {
+    judul: "Inggris 85 - Absolute Phrase",
+    konten: '<h4>Pengertian</h4><p>Absolute phrase adalah frasa yang berdiri sendiri dalam kalimat.</p><h4>Penjelasan</h4><p>Mengandung noun dan participle.</p><h4>Contoh</h4><div class="box benar">The sun having set, we went home.</div><div class="box salah">The sun set, we went home.</div><h4>Kesimpulan</h4><p>Memberi informasi tambahan pada kalimat.</p>'
+  },
+  {
+    judul: "Inggris 86 - Appositive Phrase",
+    konten: '<h4>Pengertian</h4><p>Appositive phrase adalah frasa yang menjelaskan noun.</p><h4>Penjelasan</h4><p>Diletakkan di samping noun.</p><h4>Contoh</h4><div class="box benar">My teacher, Mr. Smith, is kind.</div><div class="box salah">My teacher Mr. Smith is kind.</div><h4>Kesimpulan</h4><p>Untuk memberi penjelasan tambahan.</p>'
+  },
+  {
+    judul: "Inggris 87 - Participial Phrase",
+    konten: '<h4>Pengertian</h4><p>Participial phrase adalah frasa yang diawali dengan participle.</p><h4>Penjelasan</h4><p>Bisa present atau past participle.</p><h4>Contoh</h4><div class="box benar">The dog barking loudly is mine.</div><div class="box salah">The dog barking loudly mine.</div><h4>Kesimpulan</h4><p>Memberi informasi tentang noun.</p>'
+  },
+  {
+    judul: "Inggris 88 - Gerund Phrase",
+    konten: '<h4>Pengertian</h4><p>Gerund phrase adalah frasa yang diawali dengan gerund.</p><h4>Penjelasan</h4><p>Berfungsi sebagai noun.</p><h4>Contoh</h4><div class="box benar">Running every day is healthy.</div><div class="box salah">Run every day is healthy.</div><h4>Kesimpulan</h4><p>Berfungsi sebagai subject atau object.</p>'
+  },
+  {
+    judul: "Inggris 89 - Infinitive Phrase",
+    konten: '<h4>Pengertian</h4><p>Infinitive phrase adalah frasa yang diawali dengan infinitive.</p><h4>Penjelasan</h4><p>to + verb dan kata-kata lain.</p><h4>Contoh</h4><div class="box benar">I want to go home.</div><div class="box salah">I want go home.</div><h4>Kesimpulan</h4><p>Berfungsi sebagai noun, adjective, atau adverb.</p>'
+  },
+  {
+    judul: "Inggris 90 - Prepositional Phrase",
+    konten: '<h4>Pengertian</h4><p>Prepositional phrase adalah frasa yang diawali dengan preposition.</p><h4>Penjelasan</h4><p>Preposition + noun/pronoun.</p><h4>Contoh</h4><div class="box benar">The book on the table is mine.</div><div class="box salah">The book on table is mine.</div><h4>Kesimpulan</h4><p>Menunjukkan hubungan antara kata-kata.</p>'
+  },
+  {
+    judul: "Inggris 91 - Adjective Phrase",
+    konten: '<h4>Pengertian</h4><p>Adjective phrase adalah frasa yang berfungsi sebagai kata sifat.</p><h4>Penjelasan</h4><p>Menjelaskan noun atau pronoun.</p><h4>Contoh</h4><div class="box benar">The man with red hair is my uncle.</div><div class="box salah">The man with red hair my uncle.</div><h4>Kesimpulan</h4><p>Memberi informasi tentang noun.</p>'
+  },
+  {
+    judul: "Inggris 92 - Adverb Phrase",
+    konten: '<h4>Pengertian</h4><p>Adverb phrase adalah frasa yang berfungsi sebagai kata keterangan.</p><h4>Penjelasan</h4><p>Menjelaskan verb, adjective, atau adverb.</p><h4>Contoh</h4><div class="box benar">He runs very fast.</div><div class="box salah">He runs very faster.</div><h4>Kesimpulan</h4><p>Menjelaskan cara, waktu, atau tempat.</p>'
+  },
+  {
+    judul: "Inggris 93 - Noun Phrase",
+    konten: '<h4>Pengertian</h4><p>Noun phrase adalah frasa yang berfungsi sebagai kata benda.</p><h4>Penjelasan</h4><p>Bisa berupa noun dengan modifier.</p><h4>Contoh</h4><div class="box benar">The beautiful girl is my sister.</div><div class="box salah">Beautiful girl is my sister.</div><h4>Kesimpulan</h4><p>Berfungsi sebagai subject atau object.</p>'
+  },
+  {
+    judul: "Inggris 94 - Verb Phrase",
+    konten: '<h4>Pengertian</h4><p>Verb phrase adalah frasa yang berfungsi sebagai kata kerja.</p><h4>Penjelasan</h4><p>Bisa berupa verb dengan auxiliary.</p><h4>Contoh</h4><div class="box benar">He has been studying all day.</div><div class="box salah">He has studying all day.</div><h4>Kesimpulan</h4><p>Menunjukkan tindakan atau keadaan.</p>'
+  },
+  {
+    judul: "Inggris 95 - Public Speaking",
+    konten: '<h4>Pengertian</h4><p>Public speaking adalah berbicara di depan umum dalam bahasa Inggris.</p><h4>Penjelasan</h4><p>Meliputi persiapan, bahasa tubuh, dan intonasi.</p><h4>Contoh</h4><div class="box benar">Ladies and gentlemen, thank you for coming.</div><div class="box salah">Thank you for coming ladies and gentlemen.</div><h4>Kesimpulan</h4><p>Penting untuk komunikasi efektif.</p>'
+  },
+  {
+    judul: "Inggris 96 - Business English",
+    konten: '<h4>Pengertian</h4><p>Business English adalah bahasa Inggris untuk bisnis.</p><h4>Penjelasan</h4><p>Meliputi surat bisnis, presentasi, dan negosiasi.</p><h4>Contoh</h4><div class="box benar">I am writing to apply for the position.</div><div class="box salah">I write for apply position.</div><h4>Kesimpulan</h4><p>Penting untuk karir dan bisnis.</p>'
+  },
+  {
+    judul: "Inggris 97 - Academic English",
+    konten: '<h4>Pengertian</h4><p>Academic English adalah bahasa Inggris untuk akademik.</p><h4>Penjelasan</h4><p>Meliputi penulisan esai, thesis, dan presentasi akademik.</p><h4>Contoh</h4><div class="box benar">The results indicate that the hypothesis is correct.</div><div class="box salah">The results show the hypothesis true.</div><h4>Kesimpulan</h4><p>Penting untuk studi dan penelitian.</p>'
+  },
+  {
+    judul: "Inggris 98 - Casual English",
+    konten: '<h4>Pengertian</h4><p>Casual English adalah bahasa Inggris santai untuk percakapan sehari-hari.</p><h4>Penjelasan</h4><p>Meliputi slang, idiom, dan ekspresi informal.</p><h4>Contoh</h4><div class="box benar">What\'s up? How\'s it going?</div><div class="box salah">What is up? How is it going?</div><h4>Kesimpulan</h4><p>Penting untuk komunikasi sosial.</p>'
+  },
+  {
+    judul: "Inggris 99 - Idiom Bahasa Inggris",
+    konten: '<h4>Pengertian</h4><p>Idiom adalah ungkapan khusus dalam bahasa Inggris.</p><h4>Penjelasan</h4><p>Memiliki makna yang tidak bisa diterjemahkan kata per kata.</p><h4>Contoh</h4><div class="box benar">It\'s raining cats and dogs.</div><div class="box salah">It\'s raining heavily.</div><h4>Kesimpulan</h4><p>Memperkaya kosakata dan percakapan.</p>'
+  },
+  {
+    judul: "Inggris 100 - Tips Belajar Bahasa Inggris",
+    konten: '<h4>Pengertian</h4><p>Belajar bahasa Inggris memerlukan strategi yang tepat.</p><h4>Penjelasan</h4><p>Tips: baca, dengar, bicara, tulis, dan berlatih setiap hari.</p><h4>Contoh</h4><div class="box benar">Practice makes perfect.</div><div class="box salah">Practice makes you perfect.</div><h4>Kesimpulan</h4><p>Konsistensi adalah kunci sukses belajar bahasa Inggris.</p>'
   }
 ];
 
@@ -820,23 +1188,38 @@ function renderBagian() {
   const container = document.getElementById('listBagianGrid');
   if (!container) return;
   container.innerHTML = '';
-  
+
+  const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const iconChevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
   for (let i = 0; i < materiList.length; i++) {
+    const opened = isOpened(i);
+
+    const rawTitle = materiList[i].judul;
+    const dashIdx = rawTitle.indexOf(' - ');
+    const shortTitle = dashIdx !== -1 ? rawTitle.substring(dashIdx + 3) : rawTitle;
+
     const btn = document.createElement('div');
     btn.className = 'materi-btn';
-    btn.innerText = 'Bagian ' + (i + 1);
-    
-    if (isOpened(i)) {
-      btn.classList.add('opened');
-    }
-    
+    if (opened) btn.classList.add('opened');
+
+    const statusIcon = opened ? iconCheck : iconChevron;
+
+    btn.innerHTML =
+      '<div class="materi-num">' + (i + 1) + '</div>' +
+      '<div class="materi-text">' +
+        '<div class="materi-title">' + shortTitle + '</div>' +
+        '<div class="materi-sub">Materi ' + (i + 1) + ' dari ' + materiList.length + '</div>' +
+      '</div>' +
+      '<div class="materi-status">' + statusIcon + '</div>';
+
     btn.onclick = (function(idx) {
       return function() { openMateri(idx); };
     })(i);
-    
+
     container.appendChild(btn);
   }
-  
+
   updateProgressUI();
 }
 
@@ -851,10 +1234,10 @@ function openMateri(index) {
   currentMateriIdx = index;
   markAsOpened(index);
   renderBagian();
-  
+
   document.getElementById('halamanUtama').classList.add('hidden');
   document.getElementById('materiView').classList.remove('hidden');
-  
+
   document.getElementById('judulMateriView').innerHTML = materiList[index].judul;
   document.getElementById('isiMateriDetail').innerHTML = materiList[index].konten;
 }
@@ -881,12 +1264,14 @@ function backToList() {
   renderBagian();
 }
 
-function balikKeBahasa() {
-  window.location.href = 'bahasa.html';
+function showAlert(message) {
+  const overlay = document.getElementById('globalAlert');
+  document.getElementById('alertMessage').innerText = message;
+  overlay.style.display = 'flex';
 }
 
-function goTo(page) {
-  window.location.href = page;
+function closeAlertGlobal() {
+  document.getElementById('globalAlert').style.display = 'none';
 }
 
 function openSidebar() {
@@ -899,14 +1284,8 @@ function closeSidebar() {
   document.getElementById('sidebarNav').classList.remove('active');
 }
 
-function closeAlertGlobal() {
-  document.getElementById('globalAlert').style.display = 'none';
-}
-
-function showAlert(message) {
-  const overlay = document.getElementById('globalAlert');
-  document.getElementById('alertMessage').innerText = message;
-  overlay.style.display = 'flex';
+function goTo(page) {
+  window.location.href = page;
 }
 
 function logoutAction() {
@@ -919,7 +1298,7 @@ document.getElementById('prevBtn').onclick = prevMateri;
 document.getElementById('nextBtn').onclick = nextMateri;
 document.getElementById('backToListBtn').onclick = backToList;
 
-if (localStorage.getItem('themeEkonomi') === 'dark') {
+if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
 

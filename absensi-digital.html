@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Total Nilai - Star Tools</title>
+<title>Absensi Digital - Star Tools</title>
 
 <link rel="icon" type="image/png" href="logo.jpg">
 <link rel="apple-touch-icon" href="logo.jpg">
@@ -52,50 +52,18 @@
     border-color: #1E293B;
   }
 
-  body.dark .btn-modern {
+  body.dark .btn-materi {
     background: #1E293B;
     border-color: #334155;
     color: #E2E8F0;
   }
 
-  body.dark .btn-modern.primary {
-    background: #2563EB;
-    color: white;
+  body.dark .btn-materi:active {
+    background: #334155;
   }
 
-  body.dark .btn-modern.success {
-    background: #059669;
-    color: white;
-  }
-
-  body.dark .btn-modern.danger {
-    background: #DC2626;
-    color: white;
-  }
-
-  body.dark .input-modern {
-    background: #1E293B;
-    border-color: #334155;
-    color: #F1F5F9;
-  }
-
-  body.dark .input-modern::placeholder {
-    color: #64748B;
-  }
-
-  body.dark .table-wrap {
-    border-color: #334155;
-  }
-
-  body.dark .table-wrap table th {
-    background: #1E293B;
-    color: #F1F5F9;
-    border-color: #334155;
-  }
-
-  body.dark .table-wrap table td {
-    color: #E2E8F0;
-    border-color: #334155;
+  body.dark .text-muted {
+    color: #94A3B8;
   }
 
   body.dark .footer-app {
@@ -103,33 +71,24 @@
     border-top-color: #1E293B;
   }
 
-  body.dark .rank-1 {
-    color: #FBBF24;
+  body.dark .badge-new {
+    background: #DC2626;
   }
 
-  body.dark .rank-2 {
-    color: #94A3B8;
+  body.dark .btn-materi svg {
+    stroke: #60A5FA;
   }
 
-  body.dark .rank-3 {
-    color: #CD7F32;
+  body.dark .btn-materi.murid svg {
+    stroke: #60A5FA;
   }
 
-  body.dark .text-muted {
-    color: #94A3B8;
+  body.dark .btn-materi.guru svg {
+    stroke: #FCD34D;
   }
 
-  body.dark .bottom-nav {
-    background: #111827;
-    border-top-color: #1E293B;
-  }
-
-  body.dark .alert-card h3 {
-    color: #F1F5F9;
-  }
-
-  body.dark .alert-card p {
-    color: #94A3B8;
+  body.dark .btn-materi.mapel svg {
+    stroke: #A78BFA;
   }
 
   .app-container {
@@ -202,6 +161,37 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
   }
 
   .sidebar-overlay {
@@ -299,46 +289,22 @@
     border-radius: 30px;
   }
 
-  .close-btn {
-    width: 40px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: none;
-  }
-
-  body.dark .close-btn {
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .close-btn:active {
-    transform: scale(0.92);
-  }
-
-  .close-btn svg {
-    stroke: #0F172A;
-    width: 22px;
-    height: 22px;
-  }
-
-  body.dark .close-btn svg {
-    stroke: #F1F5F9;
-  }
-
   .screen {
     padding: 20px 18px 30px;
     flex: 1;
+    animation: fadeSlide 0.25s ease;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(6px);}
+    to { opacity: 1; transform: translateY(0);}
   }
 
   .card-modern {
     background: #FFFFFF;
-    border-radius: 28px;
+    border-radius: 24px;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     border: 1px solid #E2E8F0;
   }
@@ -351,179 +317,89 @@
   .section-title {
     font-size: 18px;
     font-weight: 700;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .btn-modern {
+  .grid-materi {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .btn-materi {
     background: #F8FAFE;
     border: 1px solid #E2E8F0;
-    color: #0F172A;
-    padding: 12px 16px;
-    margin: 2px 0;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.2s;
+    padding: 18px 12px;
+    border-radius: 20px;
     font-size: 14px;
     font-weight: 600;
+    text-align: center;
+    transition: 0.2s;
+    cursor: pointer;
+    color: #0F172A;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    min-height: 90px;
+    position: relative;
   }
 
-  body.dark .btn-modern {
+  body.dark .btn-materi {
     background: #1E293B;
     border-color: #334155;
     color: #E2E8F0;
   }
 
-  .btn-modern:active {
-    transform: scale(0.97);
+  .btn-materi:active {
+    transform: scale(0.96);
+    background: #DBEAFE;
   }
 
-  .btn-modern.primary {
-    background: #2563EB;
-    color: white;
-    border-color: #2563EB;
+  body.dark .btn-materi:active {
+    background: #334155;
   }
 
-  .btn-modern.primary:active {
-    background: #1D4ED8;
+  .btn-materi .icon {
+    width: 32px;
+    height: 32px;
+    display: block;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
-  .btn-modern.success {
-    background: #059669;
-    color: white;
-    border-color: #059669;
+  .btn-materi.murid .icon { stroke: #60A5FA; }
+  .btn-materi.guru .icon { stroke: #F59E0B; }
+  .btn-materi.mapel .icon { stroke: #A78BFA; }
+
+  .btn-materi .label {
+    font-size: 13px;
+    font-weight: 600;
   }
 
-  .btn-modern.success:active {
-    background: #047857;
-  }
-
-  .btn-modern.danger {
+  .btn-materi .badge-new {
+    position: absolute;
+    top: -6px;
+    right: -6px;
     background: #DC2626;
     color: white;
-    border-color: #DC2626;
-  }
-
-  .btn-modern.danger:active {
-    background: #B91C1C;
-  }
-
-  .btn-modern.outline {
-    background: transparent;
-    border: 2px solid #2563EB;
-    color: #2563EB;
-  }
-
-  body.dark .btn-modern.outline {
-    border-color: #60A5FA;
-    color: #60A5FA;
-  }
-
-  .btn-sm {
-    padding: 8px 16px;
-    font-size: 12px;
-    width: auto;
-    display: inline-flex;
-    margin: 2px 0;
-  }
-
-  .input-modern {
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid #E2E8F0;
-    background: #FFFFFF;
-    color: #0F172A;
-    font-size: 14px;
-    margin-bottom: 10px;
-    outline: none;
-    transition: 0.2s;
-  }
-
-  body.dark .input-modern {
-    background: #1E293B;
-    border-color: #334155;
-    color: #F1F5F9;
-  }
-
-  .input-modern:focus {
-    border-color: #2563EB;
-  }
-
-  .input-modern::placeholder {
-    color: #94A3B8;
-  }
-
-  body.dark .input-modern::placeholder {
-    color: #64748B;
-  }
-
-  .input-group {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .input-group .input-modern {
-    flex: 1;
-    margin-bottom: 0;
-  }
-
-  .table-wrap {
-    border: 1px solid #E2E8F0;
-    border-radius: 14px;
-    overflow: hidden;
-    margin-top: 8px;
-  }
-
-  .table-wrap table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-
-  .table-wrap table th {
-    padding: 10px 12px;
-    border: 1px solid #E2E8F0;
+    font-size: 8px;
     font-weight: 700;
-    text-align: center;
-    background: #F8FAFE;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  body.dark .table-wrap table th {
-    background: #1E293B;
-  }
-
-  .table-wrap table td {
-    padding: 10px 12px;
-    border: 1px solid #E2E8F0;
-    text-align: center;
-  }
-
-  .table-wrap table tr:last-child td {
-    border-bottom: none;
-  }
-
-  .flex {
-    display: flex;
-  }
-
-  .gap-8 {
-    gap: 8px;
-  }
-
-  .flex-wrap {
-    flex-wrap: wrap;
-  }
-
-  .text-center {
-    text-align: center;
+  body.dark .btn-materi .badge-new {
+    background: #DC2626;
   }
 
   .text-muted {
@@ -536,16 +412,12 @@
     color: #94A3B8;
   }
 
-  .rank-1 {
-    color: #FBBF24;
+  ul {
+    padding-left: 20px;
   }
 
-  .rank-2 {
-    color: #94A3B8;
-  }
-
-  .rank-3 {
-    color: #CD7F32;
+  li {
+    margin-bottom: 6px;
   }
 
   .footer-app {
@@ -556,63 +428,9 @@
     border-top: 1px solid #E2E8F0;
   }
 
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    max-width: 560px;
-    margin: 0 auto;
-    right: 0;
-    background: #FFFFFF;
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0 12px 0;
-    z-index: 50;
-    border-top: 1px solid #E2E8F0;
-  }
-
-  body.dark .bottom-nav {
-    background: #111827;
-    border-top-color: #1E293B;
-  }
-
-  .bottom-nav .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
+  body.dark .footer-app {
     color: #94A3B8;
-    font-size: 10px;
-    cursor: pointer;
-    transition: 0.2s;
-    padding: 4px 12px;
-    border-radius: 12px;
-    background: transparent;
-    border: none;
-  }
-
-  .bottom-nav .nav-item:active {
-    transform: scale(0.95);
-  }
-
-  .bottom-nav svg {
-    width: 22px;
-    height: 22px;
-    stroke: #94A3B8;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: 0.2s;
-  }
-
-  .bottom-nav .nav-item.active {
-    color: #2563EB;
-  }
-
-  .bottom-nav .nav-item.active svg {
-    stroke: #2563EB;
+    border-top-color: #1E293B;
   }
 
   .alert-overlay {
@@ -632,8 +450,8 @@
   .alert-card {
     background: #FFFFFF;
     width: 300px;
-    border-radius: 24px;
-    padding: 24px;
+    border-radius: 28px;
+    padding: 24px 22px;
     text-align: center;
     border: 1px solid #E2E8F0;
   }
@@ -643,45 +461,22 @@
     border-color: #1E293B;
   }
 
-  .alert-card h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
-    color: #0F172A;
-  }
-
-  body.dark .alert-card h3 {
-    color: #F1F5F9;
-  }
-
-  .alert-card p {
-    font-size: 14px;
-    color: #64748B;
-    margin-bottom: 16px;
-    line-height: 1.5;
-  }
-
-  body.dark .alert-card p {
-    color: #94A3B8;
-  }
-
   .btn-full {
     background: #2563EB;
     border: none;
     color: white;
     font-weight: 600;
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 14px;
+    padding: 14px;
+    border-radius: 40px;
+    font-size: 15px;
     width: 100%;
     cursor: pointer;
+    transition: 0.2s;
   }
 
   .btn-full:active {
     transform: scale(0.97);
-  }
-
-  .hidden {
-    display: none !important;
+    background: #1D4ED8;
   }
 
   /* ===== Tampilan Laptop / PC ===== */
@@ -698,16 +493,17 @@
     .app-container {
       max-width: 720px;
       margin: 36px auto;
-      background: #FFFFFF;
+      min-height: auto;
+      background: #F1F5F9;
       border-radius: 20px;
       border: 1px solid #E2E8F0;
       box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
       overflow: hidden;
-      min-height: auto;
+      padding-bottom: 24px;
     }
 
     body.dark .app-container {
-      background: #111827;
+      background: #0B1120;
       border-color: #1E293B;
       box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
     }
@@ -729,54 +525,39 @@
       border-radius: 20px;
     }
 
-    .bottom-nav {
-      max-width: 720px;
-      border-radius: 0 0 20px 20px;
-    }
-
     .section-title {
       font-size: 20px;
     }
 
-    .input-modern {
-      padding: 14px 18px;
-      border-radius: 14px;
+    .grid-materi {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .btn-materi {
+      padding: 24px 16px;
+      border-radius: 24px;
       font-size: 15px;
+      min-height: 110px;
     }
 
-    .btn-modern {
-      padding: 14px 20px;
-      border-radius: 14px;
-      font-size: 15px;
+    .btn-materi .icon {
+      width: 36px;
+      height: 36px;
     }
 
-    .btn-sm {
-      padding: 10px 20px;
-      font-size: 13px;
-    }
-
-    .table-wrap {
-      border-radius: 16px;
-    }
-
-    .table-wrap table th,
-    .table-wrap table td {
-      padding: 12px 16px;
+    .btn-materi .label {
       font-size: 14px;
     }
 
-    .footer-app {
-      margin-bottom: 0;
+    .text-muted {
+      font-size: 14px;
     }
 
     .alert-card {
       max-width: 360px;
-      padding: 28px;
+      padding: 28px 26px;
       border-radius: 28px;
-    }
-
-    .input-group .input-modern:last-child {
-      max-width: 120px;
     }
   }
 </style>
@@ -793,9 +574,9 @@
           <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </div>
-      <span class="app-title">Star Tools • Total</span>
+      <span class="app-title">Star Tools • Absensi</span>
     </div>
-    <button class="close-btn" onclick="goBack()" aria-label="Kembali">
+    <button class="close-btn" onclick="goTo('index.html')" aria-label="Kembali ke Beranda">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"/>
         <line x1="6" y1="6" x2="18" y2="18"/>
@@ -830,20 +611,37 @@
   </div>
 
   <div class="screen">
-    <!-- Welcome -->
-    <div class="card-modern">
-      <div class="section-title">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="16"/>
-          <line x1="8" y1="12" x2="16" y2="12"/>
-        </svg>
-        Hitung Nilai Utama & Tambahan
+    <div id="welcomeSection">
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+            <rect x="3" y="4" width="18" height="16" rx="3"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+            <circle cx="9" cy="10" r="2"/>
+            <path d="M15 8h3M15 12h3M6 16h12"/>
+          </svg>
+          Absensi Digital
+        </div>
+        <p style="margin-bottom: 16px;">Kelola absensi dengan mudah. Pilih jenis absensi yang sesuai dengan kebutuhan Anda.</p>
       </div>
-      <p class="text-muted">Gabungkan nilai utama dan nilai tambahan, lalu lihat peringkatnya secara otomatis.</p>
     </div>
 
-    <!-- Input Nilai -->
+    <div class="card-modern" id="caraPakaiCard">
+      <div class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 16v-4M12 8h.01"/>
+        </svg>
+        Pilih Jenis Absensi
+      </div>
+      <ul class="text-muted">
+        <li><strong>Absensi Murid</strong> — Untuk guru/wali kelas mengelola absensi siswa per kelas.</li>
+        <li><strong>Absensi Guru</strong> — Untuk admin sekolah mengelola absensi guru per sekolah.</li>
+        <li><strong>Absensi Mapel</strong> — Untuk guru mata pelajaran mengelola absensi per mapel.</li>
+        <li>Semua data tersimpan aman di cloud dan dapat diexport kapan saja.</li>
+      </ul>
+    </div>
+
     <div class="card-modern">
       <div class="section-title">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
@@ -851,47 +649,43 @@
           <line x1="8" y1="21" x2="16" y2="21"/>
           <line x1="12" y1="17" x2="12" y2="21"/>
         </svg>
-        Input Nilai
+        Pilih Jenis Absensi
       </div>
-      <input id="namaMuridNilai" class="input-modern" placeholder="Nama Murid">
-      <input id="nilaiUtama" class="input-modern" type="number" placeholder="Nilai Utama">
-      <input id="nilaiTambahan" class="input-modern" type="number" placeholder="Nilai Tambahan">
-      
-      <div style="display:flex; justify-content:center; margin-top:4px;">
-        <button class="btn-modern primary btn-sm" onclick="simpanNilai()" style="width:auto; padding:8px 24px;">Simpan</button>
-      </div>
-    </div>
+      <div class="grid-materi">
+        <!-- Absensi Murid -->
+        <button class="btn-materi murid" onclick="pilihAbsensi('murid')">
+          <svg class="icon" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="16" rx="3"/>
+            <path d="M8 2v4"/><path d="M16 2v4"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+            <path d="M8.5 15l2 2 4-4"/>
+          </svg>
+          <span class="label">Absensi Murid</span>
+        </button>
 
-    <!-- Tombol Aksi -->
-    <div class="card-modern">
-      <div class="flex gap-8 flex-wrap">
-        <button class="btn-modern danger btn-sm" onclick="resetNilai()" style="flex:1;">Reset Semua</button>
-      </div>
-    </div>
+        <!-- Absensi Guru -->
+        <button class="btn-materi guru" onclick="pilihAbsensi('guru')">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <span class="label">Absensi Guru</span>
+          <span class="badge-new">Baru</span>
+        </button>
 
-    <!-- Tabel Ranking -->
-    <div class="card-modern">
-      <div class="section-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-          <path d="M3 3v18h18"/>
-          <path d="M7 14l4-4 4 4 4-4"/>
-          <path d="M7 10l4 4 4-4 4 4"/>
-        </svg>
-        Ranking Nilai
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Nama</th>
-              <th>Utama</th>
-              <th>Tambahan</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody id="tabelNilai"></tbody>
-        </table>
+        <!-- Absensi Mapel -->
+        <button class="btn-materi mapel" onclick="pilihAbsensi('mapel')">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            <path d="M9 8h7"/>
+            <path d="M9 11.5l1.5 1.5L14 9.5"/>
+          </svg>
+          <span class="label">Absensi Mapel</span>
+          <span class="badge-new">Baru</span>
+        </button>
       </div>
     </div>
   </div>
@@ -901,11 +695,9 @@
   </div>
 </div>
 
-<!-- GLOBAL ALERT -->
 <div id="globalAlert" class="alert-overlay">
   <div class="alert-card">
-    <h3 id="alertTitle">Pemberitahuan</h3>
-    <p id="alertMessage">Pesan</p>
+    <p id="alertMessage" style="margin-bottom: 20px; font-weight: 500;">Pemberitahuan</p>
     <button class="btn-full" onclick="closeAlertGlobal()">Mengerti</button>
     <div id="alertExtraBtn"></div>
   </div>
@@ -931,25 +723,6 @@ if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
 
-// ==================== ACTIVE NAV ====================
-const currentPage = window.location.pathname.split('/').pop() || 'total.html';
-document.querySelectorAll('.nav-item').forEach(function(item) {
-  item.classList.toggle('active', item.dataset.page === currentPage);
-});
-
-// ==================== AUTH ====================
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    currentUser = user;
-  } else {
-    const isGuest = localStorage.getItem('isGuest') === 'true';
-    if (!isGuest) {
-      showAlert('Harap Login', 'Silakan login terlebih dahulu.');
-      setTimeout(function() { window.location.href = 'login.html'; }, 2000);
-    }
-  }
-});
-
 // ==================== SIDEBAR ====================
 function openSidebar() {
   document.getElementById('sidebarOverlay').classList.add('active');
@@ -973,26 +746,26 @@ function logoutAction() {
   }
 }
 
-function goBack() {
-  window.location.href = 'index.html';
-}
-
 // ==================== ALERT ====================
-function showAlert(title, message, showUpgrade) {
+function showAlert(message, showUpgrade) {
   if (showUpgrade === undefined) showUpgrade = false;
   var overlay = document.getElementById('globalAlert');
-  document.getElementById('alertTitle').innerText = title;
   document.getElementById('alertMessage').innerText = message;
   var extraDiv = document.getElementById('alertExtraBtn');
   extraDiv.innerHTML = '';
+  
   if (showUpgrade) {
-    var btn = document.createElement('button');
-    btn.className = 'btn-full';
-    btn.innerText = 'Tingkatkan ke Premium';
-    btn.style.marginTop = '12px';
-    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
-    extraDiv.appendChild(btn);
+    var upgradeBtn = document.createElement('button');
+    upgradeBtn.className = 'btn-full';
+    upgradeBtn.innerText = 'Tingkatkan ke Premium';
+    upgradeBtn.style.marginTop = '12px';
+    upgradeBtn.onclick = function() {
+      closeAlertGlobal();
+      goTo('premium.html');
+    };
+    extraDiv.appendChild(upgradeBtn);
   }
+  
   overlay.style.display = 'flex';
 }
 
@@ -1000,96 +773,49 @@ function closeAlertGlobal() {
   document.getElementById('globalAlert').style.display = 'none';
 }
 
-// ==================== NILAI FUNCTIONS ====================
-
-// SIMPAN NILAI
-function simpanNilai() {
-  var nama = document.getElementById('namaMuridNilai').value.trim();
-  var utama = Number(document.getElementById('nilaiUtama').value);
-  var tambahan = Number(document.getElementById('nilaiTambahan').value);
-
-  if (!nama || isNaN(utama) || isNaN(tambahan)) {
-    showAlert('Data Kurang', 'Harap isi semua data dengan benar!');
+// ==================== PILIH ABSENSI ====================
+function pilihAbsensi(jenis) {
+  var targetPage = '';
+  switch(jenis) {
+    case 'murid':
+      targetPage = 'absensi.html';
+      break;
+    case 'guru':
+      targetPage = 'absensiguru.html';
+      break;
+    case 'mapel':
+      targetPage = 'mapel.html';
+      break;
+    default:
+      targetPage = 'absensi.html';
+  }
+  
+  var isGuest = localStorage.getItem('isGuest');
+  if (isGuest === 'true') {
+    localStorage.setItem('redirectAfterLogin', targetPage);
+    showAlert('Silakan login terlebih dahulu untuk mengakses fitur absensi.', true);
     return;
   }
-
-  if (utama < 0 || utama > 100 || tambahan < 0 || tambahan > 100) {
-    showAlert('Error', 'Nilai harus antara 0 - 100!');
-    return;
-  }
-
-  var total = utama + tambahan;
-
-  var data = JSON.parse(localStorage.getItem('nilaiSiswa') || '{}');
-
-  data[nama] = {
-    nama: nama,
-    utama: utama,
-    tambahan: tambahan,
-    total: total
-  };
-
-  localStorage.setItem('nilaiSiswa', JSON.stringify(data));
-
-  document.getElementById('namaMuridNilai').value = '';
-  document.getElementById('nilaiUtama').value = '';
-  document.getElementById('nilaiTambahan').value = '';
-
-  loadNilai();
-  showAlert('Berhasil', 'Data nilai berhasil disimpan!');
+  
+  window.location.href = targetPage;
 }
 
-// LOAD NILAI
-function loadNilai() {
-  var box = document.getElementById('tabelNilai');
-  var data = JSON.parse(localStorage.getItem('nilaiSiswa') || '{}');
-  var arr = Object.values(data);
-
-  if (arr.length === 0) {
-    box.innerHTML = '<tr><td colspan="5" style="padding:20px; color:#94A3B8; text-align:center;">Belum ada data nilai</td></tr>';
-    return;
+// ==================== AUTH ====================
+firebase.auth().onAuthStateChanged(function(user) {
+  if (!user) {
+    var isGuest = localStorage.getItem('isGuest') === 'true';
+    if (!isGuest) {
+      // Biarkan user melihat halaman utama tanpa login
+      // Tapi saat klik tombol akan diarahkan ke login
+    }
+  } else {
+    currentUser = user;
   }
-
-  arr.sort(function(a, b) { return b.total - a.total; });
-
-  var html = '';
-  for (var i = 0; i < arr.length; i++) {
-    var d = arr[i];
-    var badge = '';
-    var rankClass = '';
-    if (i === 0) { badge = '🥇'; rankClass = 'rank-1'; }
-    else if (i === 1) { badge = '🥈'; rankClass = 'rank-2'; }
-    else if (i === 2) { badge = '🥉'; rankClass = 'rank-3'; }
-    else { badge = (i + 1); }
-
-    html += '<tr>' +
-      '<td class="' + rankClass + '" style="font-weight:700;">' + badge + '</td>' +
-      '<td style="font-weight:500;">' + d.nama + '</td>' +
-      '<td>' + d.utama + '</td>' +
-      '<td>' + d.tambahan + '</td>' +
-      '<td style="font-weight:700; color:#2563EB;">' + d.total + '</td>' +
-    '</tr>';
-  }
-
-  box.innerHTML = html;
-}
-
-// RESET NILAI
-function resetNilai() {
-  if (!confirm('Yakin ingin menghapus semua data nilai?')) return;
-  localStorage.removeItem('nilaiSiswa');
-  loadNilai();
-  showAlert('Berhasil', 'Semua data nilai berhasil dihapus!');
-}
+});
 
 // ==================== KEYBOARD ====================
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeSidebar();
-});
-
-// ==================== AUTO LOAD ====================
-document.addEventListener('DOMContentLoaded', function() {
-  loadNilai();
 });
 
 // ==================== EXPOSE GLOBAL ====================
@@ -1097,12 +823,9 @@ window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
 window.goTo = goTo;
 window.logoutAction = logoutAction;
-window.goBack = goBack;
-window.simpanNilai = simpanNilai;
-window.loadNilai = loadNilai;
-window.resetNilai = resetNilai;
-window.showAlert = showAlert;
+window.pilihAbsensi = pilihAbsensi;
 window.closeAlertGlobal = closeAlertGlobal;
+window.showAlert = showAlert;
 </script>
 
 </body>

@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Star Tools - Akun</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -381,6 +397,7 @@
     padding: 16px 20px;
     position: relative;
     overflow: hidden;
+    box-shadow: inset 0 -20px 40px rgba(0,0,0,0.08);
   }
 
   /* STANDARD */
@@ -391,7 +408,7 @@
   /* SILVER */
   .profile-banner.silver {
     background: linear-gradient(135deg, #94A3B8, #CBD5E1);
-    box-shadow: inset 0 0 60px rgba(255,255,255,0.1);
+    box-shadow: inset 0 0 60px rgba(255,255,255,0.1), inset 0 -20px 40px rgba(0,0,0,0.08);
   }
   .profile-banner.silver::after {
     content: '';
@@ -403,15 +420,15 @@
 
   /* GOLD */
   .profile-banner.gold {
-    background: linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B);
-    background-size: 200% 200%;
-    animation: goldShimmer 3s ease-in-out infinite;
+    background: linear-gradient(135deg, #B45309, #F59E0B, #FBBF24, #F59E0B, #92400E);
+    background-size: 250% 250%;
+    animation: goldShimmer 4s ease-in-out infinite;
   }
   .profile-banner.gold::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.2), transparent 60%);
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.25), transparent 60%);
     pointer-events: none;
   }
   @keyframes goldShimmer {
@@ -435,6 +452,41 @@
   @keyframes platinumShimmer {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
+  }
+
+  /* DIAMOND - tier tertinggi, butuh 4 mapel premium (bebas kombinasi) */
+  .profile-banner.diamond {
+    background: linear-gradient(135deg, #0B1120, #1E293B, #0B1120);
+    background-size: 250% 250%;
+    animation: diamondBase 6s ease-in-out infinite;
+    box-shadow: inset 0 0 60px rgba(125,211,252,0.08), inset 0 -20px 40px rgba(0,0,0,0.25);
+  }
+  .profile-banner.diamond::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 25%, rgba(224,242,254,0.55) 42%, rgba(165,243,252,0.35) 48%, rgba(224,242,254,0.55) 54%, transparent 72%);
+    background-size: 250% 250%;
+    animation: diamondSweep 3.2s ease-in-out infinite;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  .profile-banner.diamond::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(165,243,252,0.18), transparent 40%),
+      radial-gradient(circle at 85% 75%, rgba(196,181,253,0.15), transparent 45%);
+    pointer-events: none;
+  }
+  @keyframes diamondBase {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes diamondSweep {
+    0% { background-position: -60% -60%; }
+    100% { background-position: 160% 160%; }
   }
 
   .profile-banner .banner-stars {
@@ -495,6 +547,13 @@
   background: rgba(0,0,0,0.25); 
   color: #FFFFFF; 
   border-color: rgba(255,255,255,0.2);
+}
+
+.banner-level-badge.diamond {
+  background: rgba(0,0,0,0.5);
+  color: #FFFFFF;
+  border-color: rgba(165,243,252,0.5);
+  text-shadow: 0 0 14px rgba(165,243,252,0.5);
 }
 
   .banner-avatar {
@@ -586,6 +645,10 @@
     background: rgba(0,0,0,0.12);
   }
 
+  .profile-banner.diamond + .level-info-card {
+    background: rgba(0,0,0,0.3);
+  }
+
   .level-info-card .left {
     display: flex;
     align-items: center;
@@ -613,10 +676,12 @@
   .level-info-card .left .icon.silver svg { stroke: #94A3B8; }
   .level-info-card .left .icon.gold svg { stroke: #FBBF24; }
   .level-info-card .left .icon.platinum svg { stroke: #60A5FA; }
+  .level-info-card .left .icon.diamond svg { stroke: #A5F3FC; }
 
   .level-info-card .left .icon.silver { background: rgba(148,163,184,0.2); }
   .level-info-card .left .icon.gold { background: rgba(251,191,36,0.2); }
   .level-info-card .left .icon.platinum { background: rgba(59,130,246,0.2); }
+  .level-info-card .left .icon.diamond { background: rgba(165,243,252,0.2); }
 
   .level-info-card .left .info .title {
     font-size: 13px;
@@ -642,6 +707,7 @@
   .level-info-card .right .level-badge.silver { background: #94A3B8; color: #0F172A; }
   .level-info-card .right .level-badge.gold { background: #FBBF24; color: #0F172A; }
   .level-info-card .right .level-badge.platinum { background: #3B82F6; color: #fff; }
+  .level-info-card .right .level-badge.diamond { background: linear-gradient(135deg, #A5F3FC, #67E8F9); color: #0B1120; }
 
   .menu-grid {
     display: grid;
@@ -1219,6 +1285,270 @@
     padding: 4px 0;
     text-align: center;
   }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+  }
+  /* ===== Zoom Foto Profil ===== */
+  .foto-zoom-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    place-items: center;
+    z-index: 400;
+    padding: 20px;
+  }
+
+  .foto-zoom-overlay.active {
+    display: grid;
+  }
+
+  .foto-zoom-overlay img {
+    max-width: 100%;
+    max-height: 85vh;
+    border-radius: 12px;
+    animation: fotoZoomIn 0.2s ease;
+  }
+
+  @keyframes fotoZoomIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .foto-zoom-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .foto-zoom-close svg {
+    width: 20px;
+    height: 20px;
+    stroke: #fff;
+    stroke-width: 2.5;
+  }
+
+  .banner-avatar {
+    cursor: pointer;
+  }
+
+  .banner-edit-btn {
+    position: absolute;
+    top: 50px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .banner-edit-btn:active { transform: scale(0.92); }
+
+  .banner-edit-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #fff;
+    stroke-width: 2.2;
+  }
+  /* ===== Pilih Banner ===== */
+  .bp-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    display: none;
+    place-items: center;
+    z-index: 400;
+    padding: 20px;
+  }
+
+  .bp-overlay.active { display: grid; }
+
+  .bp-content {
+    background: #FFFFFF;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 20px;
+    padding: 20px;
+  }
+
+  body.dark .bp-content {
+    background: #111827;
+  }
+
+  .bp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .bp-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+
+  body.dark .bp-header h3 { color: #F1F5F9; }
+
+  .bp-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #F1F5F9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  body.dark .bp-close { background: #1E293B; }
+
+  .bp-close svg { width: 15px; height: 15px; stroke: #0F172A; }
+  body.dark .bp-close svg { stroke: #F1F5F9; }
+
+  .bp-sub {
+    font-size: 12.5px;
+    color: #64748B;
+    margin-bottom: 16px;
+  }
+
+  body.dark .bp-sub { color: #94A3B8; }
+
+  .bp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .bp-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 14px;
+    border: 2px solid #E2E8F0;
+    cursor: pointer;
+    position: relative;
+  }
+
+  body.dark .bp-option { border-color: #1E293B; }
+
+  .bp-option.selected {
+    border-color: #2563EB;
+    background: #EFF6FF;
+  }
+
+  body.dark .bp-option.selected {
+    background: #1D2B4A;
+  }
+
+  .bp-option.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .bp-swatch {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bp-swatch.standard { background: linear-gradient(135deg, #475569, #64748B); }
+  .bp-swatch.silver { background: linear-gradient(135deg, #94A3B8, #CBD5E1); }
+  .bp-swatch.gold { background: linear-gradient(135deg, #F59E0B, #FBBF24); }
+  .bp-swatch.platinum { background: linear-gradient(135deg, #06B6D4, #3B82F6, #8B5CF6); }
+  .bp-swatch.diamond { background: linear-gradient(135deg, #0B1120, #1E293B, #67E8F9, #1E293B); }
+
+  .bp-info { flex: 1; }
+
+  .bp-info b {
+    display: block;
+    font-size: 13.5px;
+    color: #0F172A;
+  }
+
+  body.dark .bp-info b { color: #F1F5F9; }
+
+  .bp-info span {
+    font-size: 11.5px;
+    color: #64748B;
+  }
+
+  body.dark .bp-info span { color: #94A3B8; }
+
+  .bp-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #2563EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .bp-check svg { width: 12px; height: 12px; stroke: #fff; stroke-width: 3; }
+
+  .bp-lock {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bp-lock svg { width: 16px; height: 16px; stroke: #94A3B8; }
 </style>
 </head>
 <body>
@@ -1275,6 +1605,32 @@
   <!-- TOAST -->
   <div id="toast" class="toast"></div>
 
+  <!-- ZOOM FOTO PROFIL -->
+  <div class="foto-zoom-overlay" id="fotoZoomOverlay" onclick="closeFotoZoom(event)">
+    <div class="foto-zoom-close" onclick="closeFotoZoom(event)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <img id="fotoZoomImg" src="" onclick="event.stopPropagation()">
+  </div>
+
+  <!-- PILIH BANNER -->
+  <div class="bp-overlay" id="bpOverlay" onclick="closeBannerPicker(event)">
+    <div class="bp-content" onclick="event.stopPropagation()">
+      <div class="bp-header">
+        <h3>Pilih Banner</h3>
+        <div class="bp-close" onclick="closeBannerPicker()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </div>
+      </div>
+      <p class="bp-sub">Pilih banner yang mau dipamerin di profil kamu. Banner yang masih terkunci bisa dibuka dengan berlangganan premium mapel lebih banyak.</p>
+      <div class="bp-list" id="bpList"></div>
+    </div>
+  </div>
+
   <!-- MAIN SCREEN -->
   <div class="screen">
 
@@ -1291,12 +1647,19 @@
           <span class="banner-stars s4">✦</span>
           <span class="banner-stars s5">✦</span>
 
+          <div class="banner-edit-btn" onclick="openBannerPicker()" aria-label="Pilih Banner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </div>
+
           <span class="banner-level-badge" id="levelBadgeBanner">
             <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             Standard
           </span>
 
-          <div class="banner-avatar" id="bannerAvatar">U</div>
+          <div class="banner-avatar" id="bannerAvatar" onclick="openFotoZoom()">U</div>
 
           <div class="banner-info">
             <div class="name">
@@ -1374,7 +1737,7 @@
               <div class="title">Pengaturan</div>
               <div class="sub">Notifikasi, reset data, dan preferensi</div>
             </div>
-            <span class="arrow">→</span>
+            <span class="arrow"></span>
           </div>
           <div class="menu-list-item" onclick="showPage('pagePrestasi')">
             <svg viewBox="0 0 24 24" stroke="#FBBF24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1382,7 +1745,7 @@
               <div class="title">Prestasi & Sertifikat</div>
               <div class="sub">Lihat pencapaian yang diperoleh</div>
             </div>
-            <span class="arrow">→</span>
+            <span class="arrow"></span>
           </div>
           <div class="menu-list-item" onclick="showPage('pageKeamanan')">
             <svg viewBox="0 0 24 24" stroke="#34D399"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h8"/><path d="M8 12h8"/><path d="M8 17h4"/></svg>
@@ -1390,15 +1753,15 @@
               <div class="title">Privasi & Keamanan</div>
               <div class="sub">Kelola data pribadi dan keamanan</div>
             </div>
-            <span class="arrow">→</span>
+            <span class="arrow"></span>
           </div>
-          <div class="menu-list-item" onclick="goTo('mailto:starprosperous13@gmail.com')">
+          <div class="menu-list-item" onclick="goTo('mailto:startoolsid@gmail.com')">
             <svg viewBox="0 0 24 24" stroke="#60A5FA"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
             <div class="info">
               <div class="title">Pelayanan Pelanggan</div>
               <div class="sub">Hubungi kami via email</div>
             </div>
-            <span class="arrow">→</span>
+            <span class="arrow"></span>
           </div>
           <div class="menu-list-item" onclick="showLogoutAlert()">
             <svg viewBox="0 0 24 24" stroke="#DC2626"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -1406,7 +1769,7 @@
               <div class="title" style="color:#DC2626;">Keluar</div>
               <div class="sub">Logout dari akun kamu</div>
             </div>
-            <span class="arrow">→</span>
+            <span class="arrow"></span>
           </div>
         </div>
       </div>
@@ -1572,7 +1935,7 @@
         </div>
         <div class="help-item">
           <div class="help-q">Bagaimana cara menghubungi admin?</div>
-          <div class="help-a">Kirim email ke starprosperous13@gmail.com untuk bantuan lebih lanjut.</div>
+          <div class="help-a">Kirim email ke startoolsid@gmail.com untuk bantuan lebih lanjut.</div>
         </div>
       </div>
     </div>
@@ -1703,6 +2066,7 @@
   </div>
 </div>
 
+
 <script>
 var firebaseConfig = {
   apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
@@ -1729,11 +2093,12 @@ var PROFILE_LOADED_KEY = 'profileLoadedOnce';
 // ======================== LEVEL PREMIUM ========================
 function getPremiumLevel(mapelObj) {
   var count = 0;
-  var mapelList = ['ekonomi', 'sains', 'coding', 'matematika', 'bahasa', 'pendukung'];
+  var mapelList = ['ekonomi', 'sains', 'coding', 'matematika', 'bahasa', 'pendukung', 'robotik'];
   mapelList.forEach(function(m) {
     if (mapelObj[m] === true) count++;
   });
 
+  if (count >= 4) return { level: 'diamond', name: 'Diamond', color: 'diamond' };
   if (count >= 3) return { level: 'gold', name: 'Gold', color: 'gold' };
   if (count >= 2) return { level: 'platinum', name: 'Platinum', color: 'platinum' };
   if (count >= 1) return { level: 'silver', name: 'Silver', color: 'silver' };
@@ -1865,6 +2230,81 @@ function goToMainPage() {
   showPage('pageMain');
 }
 
+// ======================== PILIH BANNER ========================
+var BANNER_TIERS = [
+  { color: 'standard', name: 'Standard', desc: 'Banner default, terbuka untuk semua', minCount: 0 },
+  { color: 'silver', name: 'Silver', desc: 'Terbuka mulai 1 mapel premium', minCount: 1 },
+  { color: 'platinum', name: 'Platinum', desc: 'Terbuka mulai 2 mapel premium', minCount: 2 },
+  { color: 'gold', name: 'Gold', desc: 'Terbuka mulai 3 mapel premium', minCount: 3 },
+  { color: 'diamond', name: 'Diamond', desc: 'Terbuka mulai 4 mapel premium', minCount: 4 }
+];
+
+function getPremiumCount() {
+  var count = 0;
+  var mapelList = ['ekonomi', 'sains', 'coding', 'matematika', 'bahasa', 'pendukung', 'robotik'];
+  mapelList.forEach(function(m) {
+    if (premiumMapel[m] === true) count++;
+  });
+  return count;
+}
+
+function openBannerPicker() {
+  var count = getPremiumCount();
+  var current = profileData.bannerPilihan || getPremiumLevel(premiumMapel).color;
+  var list = document.getElementById('bpList');
+  list.innerHTML = '';
+
+  BANNER_TIERS.forEach(function(tier) {
+    var unlocked = count >= tier.minCount;
+    var div = document.createElement('div');
+    div.className = 'bp-option' + (unlocked ? '' : ' locked') + (current === tier.color ? ' selected' : '');
+    div.innerHTML =
+      '<div class="bp-swatch ' + tier.color + '"></div>' +
+      '<div class="bp-info"><b>' + tier.name + '</b><span>' + tier.desc + '</span></div>' +
+      (current === tier.color
+        ? '<div class="bp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>'
+        : (!unlocked ? '<div class="bp-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>' : ''));
+
+    if (unlocked) {
+      div.onclick = function() { pilihBanner(tier.color); };
+    }
+    list.appendChild(div);
+  });
+
+  document.getElementById('bpOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBannerPicker(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('bpOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function pilihBanner(color) {
+  if (!currentUser) return;
+  profileData.bannerPilihan = color;
+  db.ref('users/' + currentUser + '/profile/bannerPilihan').set(color).then(function() {
+    updateUIProfile();
+    closeBannerPicker();
+    showToast('Banner berhasil diganti');
+  });
+}
+
+// ======================== ZOOM FOTO PROFIL ========================
+function openFotoZoom() {
+  if (!profileData.foto) return;
+  document.getElementById('fotoZoomImg').src = profileData.foto;
+  document.getElementById('fotoZoomOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFotoZoom(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('fotoZoomOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
 // ======================== FOTO PROFIL ========================
 document.getElementById('fotoInput').addEventListener('change', function(e) {
   var file = e.target.files[0];
@@ -1962,7 +2402,7 @@ function updateUIProfile() {
 
   // Hitung premium
   var count = 0;
-  var mapelList = ['ekonomi', 'sains', 'coding', 'matematika', 'bahasa', 'pendukung'];
+  var mapelList = ['ekonomi', 'sains', 'coding', 'matematika', 'bahasa', 'pendukung', 'robotik'];
   mapelList.forEach(function(m) {
     if (premiumMapel[m] === true) count++;
   });
@@ -1970,14 +2410,25 @@ function updateUIProfile() {
   var hasPremium = count > 0;
   var level = getPremiumLevel(premiumMapel);
 
+  // Tentukan banner yang ditampilkan: pilihan user (kalau masih terbuka), atau default sesuai level
+  var displayColor = level.color;
+  var displayName = level.name;
+  if (profileData.bannerPilihan) {
+    var chosen = BANNER_TIERS.find(function(t) { return t.color === profileData.bannerPilihan; });
+    if (chosen && count >= chosen.minCount) {
+      displayColor = chosen.color;
+      displayName = chosen.name;
+    }
+  }
+
   // Update BANNER
-  bannerEl.className = 'profile-banner ' + level.color;
+  bannerEl.className = 'profile-banner ' + displayColor;
   
   // Level badge di pojok
-  levelBadge.className = 'banner-level-badge ' + level.color;
+  levelBadge.className = 'banner-level-badge ' + displayColor;
   levelBadge.innerHTML = 
     '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ' +
-    (hasPremium ? level.name : 'Standard');
+    (hasPremium ? displayName : 'Standard');
 
   // Level Info Card - FULL WIDTH
   if (hasPremium) {

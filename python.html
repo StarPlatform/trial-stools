@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Python - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -42,6 +58,37 @@
     color: #E2E8F0;
   }
 
+  body.dark .materi-btn .materi-num {
+    background: #1D2B4A;
+    color: #60A5FA;
+  }
+
+  body.dark .materi-btn .materi-text .materi-sub {
+    color: #94A3B8;
+  }
+
+  body.dark .materi-btn .materi-status {
+    color: #475569;
+  }
+
+  body.dark .materi-btn.opened {
+    background: #111827;
+    border-color: #1D3A6E;
+  }
+
+  body.dark .materi-btn.opened .materi-status {
+    background: #14311F;
+    color: #4ADE80;
+  }
+
+  body.dark .materi-content p {
+    color: #CBD5E1;
+  }
+
+  body.dark .materi-content h4 {
+    color: #60A5FA;
+  }
+
   body.dark .code-block {
     background: #0F172A;
     border-color: #334155;
@@ -51,6 +98,16 @@
   body.dark .premium-indicator {
     background: #1E293B;
     color: #60A5FA;
+  }
+
+  body.dark .premium-indicator.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .premium-indicator.warning {
+    background: #78350F;
+    color: #FBBF24;
   }
 
   body.dark .limit-indicator {
@@ -316,37 +373,101 @@
   }
 
   .grid-bagian {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 10px;
     margin-top: 8px;
   }
 
   .materi-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
     background: #F8FAFE;
-    border: 1px solid #E2E8F0;
-    padding: 12px 6px;
+    border: 1.5px solid #E2E8F0;
+    padding: 14px;
     border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    text-align: center;
     cursor: pointer;
     color: #0F172A;
-    transition: 0.2s;
+    transition: 0.15s;
   }
 
   .materi-btn:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
+  }
+
+  .materi-btn .materi-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: #EFF6FF;
+    color: #2563EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: 0.15s;
+  }
+
+  .materi-btn .materi-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .materi-btn .materi-text .materi-title {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .materi-btn .materi-text .materi-sub {
+    font-size: 12px;
+    color: #64748B;
+    margin-top: 2px;
+  }
+
+  .materi-btn .materi-status {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #CBD5E1;
+  }
+
+  .materi-btn .materi-status svg {
+    width: 16px;
+    height: 16px;
   }
 
   .materi-btn.opened {
+    background: #FFFFFF;
+    border-color: #BFDBFE;
+  }
+
+  .materi-btn.opened .materi-num {
     background: #2563EB;
-    color: white;
-    border-color: #2563EB;
+    color: #fff;
+  }
+
+  .materi-btn.opened .materi-status {
+    background: #DCFCE7;
+    color: #16A34A;
   }
 
   .materi-btn.locked {
-    opacity: 0.5;
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .materi-btn.locked .materi-status {
+    color: #94A3B8;
   }
 
   .btn-full {
@@ -421,6 +542,13 @@
     font-size: 13px;
     color: #4fc3f7;
     margin: 12px 0;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .code-block {
+    background: #0F172A;
+    border-color: #334155;
+    color: #4fc3f7;
   }
 
   .alert-overlay {
@@ -446,6 +574,11 @@
     border: 1px solid #E2E8F0;
   }
 
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
   .footer-app {
     text-align: center;
     padding: 20px;
@@ -454,8 +587,66 @@
     border-top: 1px solid #E2E8F0;
   }
 
+  body.dark .footer-app {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
   .hidden {
     display: none;
+  }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .grid-bagian {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .card-modern {
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .materi-content {
+      font-size: 16px;
+    }
+
+    .materi-content h4 {
+      font-size: 20px;
+    }
   }
 </style>
 </head>
@@ -473,7 +664,7 @@
       </div>
       <span class="app-title">Star Tools • Python</span>
     </div>
-    <button class="close-btn" onclick="gooTo('coding.html')" aria-label="Kembali">
+    <button class="close-btn" onclick="goTo('coding.html')" aria-label="Kembali">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"/>
         <line x1="6" y1="6" x2="18" y2="18"/>
@@ -488,16 +679,16 @@
         <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </div>
-    <a href="#" onclick="goTo('homePage')">
+    <a href="#" onclick="goTo('index.html')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
     </a>
-    <a href="#" onclick="goTo('newsPage')">
+    <a href="#" onclick="goTo('berita.html')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
     </a>
-    <a href="#" onclick="goTo('premiumPage')">
+    <a href="#" onclick="goTo('premium.html')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
     </a>
-    <a href="#" onclick="goTo('accountPage')">
+    <a href="#" onclick="goTo('akun.html')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
     </a>
     <div class="logout-link">
@@ -512,14 +703,13 @@
       <div class="card-modern">
         <div class="section-title">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-            <polyline points="2 17 12 22 22 17"/>
-            <polyline points="2 12 12 17 22 12"/>
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
           </svg>
           Belajar Python
         </div>
         <p style="margin-bottom: 16px;">Python adalah bahasa pemrograman yang mudah dipelajari dan serbaguna. Kuasai dari dasar hingga mahir dengan materi terstruktur.</p>
-        
+
         <div class="status-row">
           <span id="premiumStatusBadge" class="premium-indicator">Akun Standar</span>
           <span id="limitCounter" class="limit-indicator">0/2 Hari Ini</span>
@@ -532,7 +722,7 @@
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
           </svg>
-          Daftar Materi Python
+          Daftar Materi
         </div>
         <div id="listBagianGrid" class="grid-bagian"></div>
       </div>
@@ -586,38 +776,40 @@ let currentMateriIdx = 0;
 
 const todayStr = new Date().toDateString();
 
+// ======================== 100 MATERI PYTHON ========================
 const materiList = [
+  // 1-25: DASAR PYTHON
   {
     judul: "Python 1 - Pengenalan Python",
-    konten: '<h4>Pengertian</h4><p>Python adalah bahasa pemrograman yang mudah dipelajari.</p><h4>Penjelasan</h4><p>Python sering digunakan oleh pemula karena sintaksnya sederhana dan mudah dibaca.</p><h4>Contoh Kode</h4><pre class="code-block">print("Halo Dunia")</pre><h4>Kesimpulan</h4><p>Python cocok untuk belajar coding dari awal.</p>'
+    konten: '<h4>Pengertian</h4><p>Python adalah bahasa pemrograman yang mudah dipelajari dan serbaguna.</p><h4>Penjelasan</h4><p>Python sering digunakan oleh pemula karena sintaksnya sederhana dan mudah dibaca. Bisa digunakan untuk web, data science, AI, dan otomatisasi.</p><h4>Contoh Kode</h4><pre class="code-block">print("Halo Dunia")</pre><h4>Kesimpulan</h4><p>Python cocok untuk belajar coding dari awal.</p>'
   },
   {
     judul: "Python 2 - Variabel Python",
-    konten: '<h4>Pengertian</h4><p>Variabel adalah tempat untuk menyimpan data.</p><h4>Penjelasan</h4><p>Di Python, kamu tidak perlu menentukan tipe data secara manual.</p><h4>Contoh Kode</h4><pre class="code-block">nama = "Natan"</pre><h4>Kesimpulan</h4><p>Variabel digunakan untuk menyimpan nilai dalam program.</p>'
+    konten: '<h4>Pengertian</h4><p>Variabel adalah tempat untuk menyimpan data di Python.</p><h4>Penjelasan</h4><p>Di Python, kamu tidak perlu menentukan tipe data secara manual karena Python bersifat dynamic typing.</p><h4>Contoh Kode</h4><pre class="code-block">nama = "Natan"\numur = 17</pre><h4>Kesimpulan</h4><p>Variabel digunakan untuk menyimpan nilai dalam program.</p>'
   },
   {
     judul: "Python 3 - Tipe Data Python",
-    konten: '<h4>Pengertian</h4><p>Tipe data adalah jenis dari data yang digunakan.</p><h4>Penjelasan</h4><p>Contohnya seperti string, integer, float, dan boolean.</p><h4>Contoh Kode</h4><pre class="code-block">nama = "Bintang"\numur = 15</pre><h4>Kesimpulan</h4><p>Python memiliki berbagai tipe data untuk kebutuhan berbeda.</p>'
+    konten: '<h4>Pengertian</h4><p>Tipe data adalah jenis dari data yang digunakan dalam program.</p><h4>Penjelasan</h4><p>Python memiliki tipe data dasar: string (teks), integer (bilangan bulat), float (bilangan desimal), boolean (True/False).</p><h4>Contoh Kode</h4><pre class="code-block">nama = "Bintang"\numur = 15\nnilai = 85.5\naktif = True</pre><h4>Kesimpulan</h4><p>Python memiliki berbagai tipe data untuk kebutuhan berbeda.</p>'
   },
   {
-    judul: "Python 4 - Input Output",
-    konten: '<h4>Pengertian</h4><p>Input dan output digunakan untuk interaksi dengan user.</p><h4>Penjelasan</h4><p>Input untuk menerima data, output untuk menampilkan data.</p><h4>Contoh Kode</h4><pre class="code-block">nama = input("Nama: Brian")\nprint(nama)</pre><h4>Kesimpulan</h4><p>Program bisa menerima dan menampilkan data menggunakan I/O.</p>'
+    judul: "Python 4 - Input dan Output",
+    konten: '<h4>Pengertian</h4><p>Input dan output digunakan untuk interaksi dengan user.</p><h4>Penjelasan</h4><p>Input untuk menerima data dari user, output untuk menampilkan data ke layar.</p><h4>Contoh Kode</h4><pre class="code-block">nama = input("Masukkan nama: ")\nprint("Halo", nama)</pre><h4>Kesimpulan</h4><p>Program bisa menerima dan menampilkan data menggunakan I/O.</p>'
   },
   {
     judul: "Python 5 - Percabangan If",
-    konten: '<h4>Pengertian</h4><p>If digunakan untuk membuat keputusan.</p><h4>Penjelasan</h4><p>Program akan menjalankan kode jika kondisi terpenuhi.</p><h4>Contoh Kode</h4><pre class="code-block">if umur > 17:\n  print("Dewasa")</pre><h4>Kesimpulan</h4><p>If digunakan untuk logika kondisi dalam program.</p>'
+    konten: '<h4>Pengertian</h4><p>If digunakan untuk membuat keputusan dalam program.</p><h4>Penjelasan</h4><p>Program akan menjalankan kode jika kondisi bernilai True.</p><h4>Contoh Kode</h4><pre class="code-block">umur = 18\nif umur >= 17:\n    print("Dewasa")</pre><h4>Kesimpulan</h4><p>If digunakan untuk logika kondisi dalam program.</p>'
   },
   {
-    judul: "Python 6 - Percabangan Else dan Elif",
-    konten: '<h4>Pengertian</h4><p>Else dan elif digunakan untuk kondisi tambahan dalam percabangan.</p><h4>Penjelasan</h4><p>Elif digunakan untuk menambah kondisi lain, sedangkan else dijalankan jika semua kondisi salah.</p><h4>Contoh Kode</h4><pre class="code-block">umur = 16\n\nif umur > 17:\n  print("Dewasa")\nelif umur == 17:\n  print("Menuju Dewasa")\nelse:\n  print("Anak-anak")</pre><h4>Kesimpulan</h4><p>Else dan elif membantu membuat keputusan lebih kompleks.</p>'
+    judul: "Python 6 - Else dan Elif",
+    konten: '<h4>Pengertian</h4><p>Else dan elif digunakan untuk kondisi tambahan dalam percabangan.</p><h4>Penjelasan</h4><p>Elif untuk menambah kondisi lain, else dijalankan jika semua kondisi salah.</p><h4>Contoh Kode</h4><pre class="code-block">umur = 16\nif umur > 17:\n    print("Dewasa")\nelif umur == 17:\n    print("Menuju Dewasa")\nelse:\n    print("Anak-anak")</pre><h4>Kesimpulan</h4><p>Else dan elif membantu membuat keputusan lebih kompleks.</p>'
   },
   {
     judul: "Python 7 - Perulangan For",
-    konten: '<h4>Pengertian</h4><p>Perulangan for digunakan untuk mengulang kode dengan jumlah tertentu.</p><h4>Penjelasan</h4><p>Biasanya digunakan untuk mengulang data seperti list atau range.</p><h4>Contoh Kode</h4><pre class="code-block">for i in range(5):\n  print("Perulangan ke-", i)</pre><h4>Kesimpulan</h4><p>For digunakan untuk perulangan yang sudah diketahui jumlahnya.</p>'
+    konten: '<h4>Pengertian</h4><p>Perulangan for digunakan untuk mengulang kode dengan jumlah tertentu.</p><h4>Penjelasan</h4><p>Biasanya digunakan untuk mengulang data seperti list atau range.</p><h4>Contoh Kode</h4><pre class="code-block">for i in range(5):\n    print("Perulangan ke-", i)</pre><h4>Kesimpulan</h4><p>For digunakan untuk perulangan yang sudah diketahui jumlahnya.</p>'
   },
   {
     judul: "Python 8 - Perulangan While",
-    konten: '<h4>Pengertian</h4><p>While digunakan untuk perulangan berdasarkan kondisi.</p><h4>Penjelasan</h4><p>Perulangan akan terus berjalan selama kondisi bernilai benar.</p><h4>Contoh Kode</h4><pre class="code-block">i = 0\nwhile i < 5:\n  print(i)\n  i += 1</pre><h4>Kesimpulan</h4><p>While cocok untuk kondisi yang belum pasti jumlah perulangannya.</p>'
+    konten: '<h4>Pengertian</h4><p>While digunakan untuk perulangan berdasarkan kondisi.</p><h4>Penjelasan</h4><p>Perulangan akan terus berjalan selama kondisi bernilai True.</p><h4>Contoh Kode</h4><pre class="code-block">i = 0\nwhile i < 5:\n    print(i)\n    i += 1</pre><h4>Kesimpulan</h4><p>While cocok untuk kondisi yang belum pasti jumlah perulangannya.</p>'
   },
   {
     judul: "Python 9 - List (Array)",
@@ -625,35 +817,35 @@ const materiList = [
   },
   {
     judul: "Python 10 - Function (Fungsi)",
-    konten: '<h4>Pengertian</h4><p>Function adalah blok kode yang bisa digunakan kembali.</p><h4>Penjelasan</h4><p>Function membantu membuat kode lebih rapi dan efisien.</p><h4>Contoh Kode</h4><pre class="code-block">def sapa():\n  print("Halo Rapi")\n\nsapa()</pre><h4>Kesimpulan</h4><p>Function membuat program lebih terstruktur.</p>'
+    konten: '<h4>Pengertian</h4><p>Function adalah blok kode yang bisa digunakan kembali.</p><h4>Penjelasan</h4><p>Function membantu membuat kode lebih rapi dan efisien.</p><h4>Contoh Kode</h4><pre class="code-block">def sapa():\n    print("Halo Rapi")\n\nsapa()</pre><h4>Kesimpulan</h4><p>Function membuat program lebih terstruktur.</p>'
   },
   {
     judul: "Python 11 - Parameter Function",
-    konten: '<h4>Pengertian</h4><p>Parameter adalah input yang diberikan ke dalam function.</p><h4>Penjelasan</h4><p>Dengan parameter, function bisa menerima nilai berbeda.</p><h4>Contoh Kode</h4><pre class="code-block">def sapa(nama):\n  print("Halo", nama)\n\nsapa("Akbar")</pre><h4>Kesimpulan</h4><p>Parameter membuat function lebih fleksibel.</p>'
+    konten: '<h4>Pengertian</h4><p>Parameter adalah input yang diberikan ke dalam function.</p><h4>Penjelasan</h4><p>Dengan parameter, function bisa menerima nilai berbeda-beda.</p><h4>Contoh Kode</h4><pre class="code-block">def sapa(nama):\n    print("Halo", nama)\n\nsapa("Akbar")</pre><h4>Kesimpulan</h4><p>Parameter membuat function lebih fleksibel.</p>'
   },
   {
     judul: "Python 12 - Return Value",
-    konten: '<h4>Pengertian</h4><p>Return digunakan untuk mengembalikan nilai dari function.</p><h4>Penjelasan</h4><p>Nilai yang dikembalikan bisa disimpan ke variabel lain.</p><h4>Contoh Kode</h4><pre class="code-block">def tambah(a, b):\n  return a + b\n\nhasil = tambah(2, 3)\nprint(hasil)</pre><h4>Kesimpulan</h4><p>Return digunakan untuk mengambil hasil dari function.</p>'
+    konten: '<h4>Pengertian</h4><p>Return digunakan untuk mengembalikan nilai dari function.</p><h4>Penjelasan</h4><p>Nilai yang dikembalikan bisa disimpan ke variabel lain.</p><h4>Contoh Kode</h4><pre class="code-block">def tambah(a, b):\n    return a + b\n\nhasil = tambah(2, 3)\nprint(hasil)</pre><h4>Kesimpulan</h4><p>Return digunakan untuk mengambil hasil dari function.</p>'
   },
   {
     judul: "Python 13 - Dictionary",
-    konten: '<h4>Pengertian</h4><p>Dictionary adalah tipe data yang menyimpan data dalam bentuk key dan value.</p><h4>Penjelasan</h4><p>Setiap data memiliki pasangan kunci (key) dan nilai (value).</p><h4>Contoh Kode</h4><pre class="code-block">data = {\n  "nama": "Angga",\n  "umur": 15\n}\n\nprint(data["nama"])</pre><h4>Kesimpulan</h4><p>Dictionary digunakan untuk menyimpan data dengan pasangan key-value.</p>'
+    konten: '<h4>Pengertian</h4><p>Dictionary adalah tipe data yang menyimpan data dalam bentuk key dan value.</p><h4>Penjelasan</h4><p>Setiap data memiliki pasangan kunci (key) dan nilai (value).</p><h4>Contoh Kode</h4><pre class="code-block">data = {\n    "nama": "Angga",\n    "umur": 15\n}\nprint(data["nama"])</pre><h4>Kesimpulan</h4><p>Dictionary digunakan untuk menyimpan data dengan pasangan key-value.</p>'
   },
   {
     judul: "Python 14 - Tuple",
-    konten: '<h4>Pengertian</h4><p>Tuple adalah tipe data seperti list tetapi tidak bisa diubah.</p><h4>Penjelasan</h4><p>Tuple bersifat immutable (tidak dapat diubah setelah dibuat).</p><h4>Contoh Kode</h4><pre class="code-block">data = ("apel", "jeruk", "mangga")\nprint(data[0])</pre><h4>Kesimpulan</h4><p>Tuple digunakan untuk data yang tidak perlu diubah.</p>'
+    konten: '<h4>Pengertian</h4><p>Tuple adalah tipe data seperti list tetapi tidak bisa diubah (immutable).</p><h4>Penjelasan</h4><p>Setelah dibuat, tuple tidak bisa diubah, ditambah, atau dihapus elemennya.</p><h4>Contoh Kode</h4><pre class="code-block">data = ("apel", "jeruk", "mangga")\nprint(data[0])</pre><h4>Kesimpulan</h4><p>Tuple digunakan untuk data yang tidak perlu diubah.</p>'
   },
   {
     judul: "Python 15 - Set",
-    konten: '<h4>Pengertian</h4><p>Set adalah tipe data yang tidak memiliki urutan dan tidak bisa duplikat.</p><h4>Penjelasan</h4><p>Set digunakan untuk menyimpan data unik.</p><h4>Contoh Kode</h4><pre class="code-block">data = {1, 2, 3, 3, 4}\nprint(data)</pre><h4>Kesimpulan</h4><p>Set otomatis menghapus data yang duplikat.</p>'
+    konten: '<h4>Pengertian</h4><p>Set adalah tipe data yang tidak memiliki urutan dan tidak bisa duplikat.</p><h4>Penjelasan</h4><p>Set otomatis menghapus data yang duplikat, cocok untuk menyimpan data unik.</p><h4>Contoh Kode</h4><pre class="code-block">data = {1, 2, 3, 3, 4}\nprint(data)</pre><h4>Kesimpulan</h4><p>Set otomatis menghapus data yang duplikat.</p>'
   },
   {
-    judul: "Python 16 - Operator",
-    konten: '<h4>Pengertian</h4><p>Operator adalah simbol untuk melakukan operasi pada data.</p><h4>Penjelasan</h4><p>Contohnya seperti +, -, *, / untuk matematika.</p><h4>Contoh Kode</h4><pre class="code-block">a = 5\nb = 2\nprint(a + b)\nprint(a * b)</pre><h4>Kesimpulan</h4><p>Operator digunakan untuk melakukan perhitungan dan operasi.</p>'
+    judul: "Python 16 - Operator Matematika",
+    konten: '<h4>Pengertian</h4><p>Operator adalah simbol untuk melakukan operasi pada data.</p><h4>Penjelasan</h4><p>Contohnya seperti +, -, *, / untuk operasi matematika dasar.</p><h4>Contoh Kode</h4><pre class="code-block">a = 5\nb = 2\nprint(a + b)\nprint(a * b)\nprint(a / b)</pre><h4>Kesimpulan</h4><p>Operator digunakan untuk melakukan perhitungan dan operasi.</p>'
   },
   {
     judul: "Python 17 - Operator Perbandingan",
-    konten: '<h4>Pengertian</h4><p>Operator perbandingan digunakan untuk membandingkan nilai.</p><h4>Penjelasan</h4><p>Hasilnya berupa True atau False.</p><h4>Contoh Kode</h4><pre class="code-block">a = 5\nb = 3\nprint(a > b)\nprint(a == b)</pre><h4>Kesimpulan</h4><p>Operator ini digunakan dalam kondisi seperti if.</p>'
+    konten: '<h4>Pengertian</h4><p>Operator perbandingan digunakan untuk membandingkan nilai.</p><h4>Penjelasan</h4><p>Hasilnya berupa True atau False, digunakan dalam kondisi seperti if.</p><h4>Contoh Kode</h4><pre class="code-block">a = 5\nb = 3\nprint(a > b)\nprint(a == b)</pre><h4>Kesimpulan</h4><p>Operator ini digunakan dalam kondisi seperti if.</p>'
   },
   {
     judul: "Python 18 - Operator Logika",
@@ -661,7 +853,7 @@ const materiList = [
   },
   {
     judul: "Python 19 - String",
-    konten: '<h4>Pengertian</h4><p>String adalah tipe data untuk teks.</p><h4>Penjelasan</h4><p>String bisa menggunakan tanda kutip satu atau dua.</p><h4>Contoh Kode</h4><pre class="code-block">teks = "Halo Bintang"\nprint(teks.upper())</pre><h4>Kesimpulan</h4><p>String digunakan untuk menyimpan dan mengolah teks.</p>'
+    konten: '<h4>Pengertian</h4><p>String adalah tipe data untuk teks.</p><h4>Penjelasan</h4><p>String bisa menggunakan tanda kutip satu atau dua.</p><h4>Contoh Kode</h4><pre class="code-block">teks = "Halo Bintang"\nprint(teks)</pre><h4>Kesimpulan</h4><p>String digunakan untuk menyimpan dan mengolah teks.</p>'
   },
   {
     judul: "Python 20 - Method String",
@@ -669,47 +861,48 @@ const materiList = [
   },
   {
     judul: "Python 21 - File Handling",
-    konten: '<h4>Pengertian</h4><p>File handling digunakan untuk membaca dan menulis file.</p><h4>Penjelasan</h4><p>Python bisa membuka file dengan mode read (r) dan write (w).</p><h4>Contoh Kode</h4><pre class="code-block">file = open("data.txt", "w")\nfile.write("Halo Dunia")\nfile.close()</pre><h4>Kesimpulan</h4><p>File handling memungkinkan program menyimpan data.</p>'
+    konten: '<h4>Pengertian</h4><p>File handling digunakan untuk membaca dan menulis file.</p><h4>Penjelasan</h4><p>Python bisa membuka file dengan mode read (r) dan write (w).</p><h4>Contoh Kode</h4><pre class="code-block">file = open("data.txt", "w")\nfile.write("Halo Dunia")\nfile.close()</pre><h4>Kesimpulan</h4><p>File handling memungkinkan program menyimpan data ke file.</p>'
   },
   {
     judul: "Python 22 - Try Except",
-    konten: '<h4>Pengertian</h4><p>Try except digunakan untuk menangani error.</p><h4>Penjelasan</h4><p>Jika terjadi error, program tidak langsung berhenti.</p><h4>Contoh Kode</h4><pre class="code-block">try:\n  print(10 / 0)\nexcept:\n  print("Terjadi error")</pre><h4>Kesimpulan</h4><p>Try except membuat program lebih aman dari error.</p>'
+    konten: '<h4>Pengertian</h4><p>Try except digunakan untuk menangani error (exception handling).</p><h4>Penjelasan</h4><p>Jika terjadi error, program tidak langsung berhenti.</p><h4>Contoh Kode</h4><pre class="code-block">try:\n    print(10 / 0)\nexcept:\n    print("Terjadi error")</pre><h4>Kesimpulan</h4><p>Try except membuat program lebih aman dari error.</p>'
   },
   {
     judul: "Python 23 - Class (OOP Dasar)",
-    konten: '<h4>Pengertian</h4><p>Class adalah blueprint untuk membuat object.</p><h4>Penjelasan</h4><p>Digunakan dalam konsep OOP (Object Oriented Programming).</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n  nama = "Nita"\n\nobj = Orang()\nprint(obj.nama)</pre><h4>Kesimpulan</h4><p>Class digunakan untuk membuat struktur data berbasis objek.</p>'
+    konten: '<h4>Pengertian</h4><p>Class adalah blueprint untuk membuat object dalam OOP.</p><h4>Penjelasan</h4><p>Digunakan dalam konsep Object Oriented Programming.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n    nama = "Nita"\n\nobj = Orang()\nprint(obj.nama)</pre><h4>Kesimpulan</h4><p>Class digunakan untuk membuat struktur data berbasis objek.</p>'
   },
   {
     judul: "Python 24 - Constructor (__init__)",
-    konten: '<h4>Pengertian</h4><p>Constructor adalah method yang dijalankan saat object dibuat.</p><h4>Penjelasan</h4><p>Biasanya digunakan untuk mengisi nilai awal.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n  def __init__(self, nama):\n    self.nama = nama\n\nobj = Orang("Rudi")\nprint(obj.nama)</pre><h4>Kesimpulan</h4><p>Constructor mempermudah inisialisasi object.</p>'
+    konten: '<h4>Pengertian</h4><p>Constructor adalah method yang dijalankan saat object dibuat.</p><h4>Penjelasan</h4><p>Biasanya digunakan untuk mengisi nilai awal object.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n    def __init__(self, nama):\n        self.nama = nama\n\nobj = Orang("Rudi")\nprint(obj.nama)</pre><h4>Kesimpulan</h4><p>Constructor mempermudah inisialisasi object.</p>'
   },
   {
     judul: "Python 25 - Method dalam Class",
-    konten: '<h4>Pengertian</h4><p>Method adalah fungsi yang ada di dalam class.</p><h4>Penjelasan</h4><p>Method digunakan untuk menjalankan aksi pada object.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n  def sapa(self):\n    print("Halo")\n\nobj = Orang()\nobj.sapa()</pre><h4>Kesimpulan</h4><p>Method membuat object bisa melakukan aksi tertentu.</p>'
+    konten: '<h4>Pengertian</h4><p>Method adalah fungsi yang ada di dalam class.</p><h4>Penjelasan</h4><p>Method digunakan untuk menjalankan aksi pada object.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n    def sapa(self):\n        print("Halo")\n\nobj = Orang()\nobj.sapa()</pre><h4>Kesimpulan</h4><p>Method membuat object bisa melakukan aksi tertentu.</p>'
   },
   {
     judul: "Python 26 - Pewarisan (Inheritance)",
-    konten: '<h4>Pengertian</h4><p>Inheritance adalah konsep OOP dimana sebuah class bisa mewarisi sifat dari class lain.</p><h4>Penjelasan</h4><p>Dengan inheritance, kita bisa menggunakan kembali kode dari class induk ke class turunan.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n  def sapa(self):\n    print("Halo")\n\nclass Siswa(Orang):\n  pass\n\nobj = Siswa()\nobj.sapa()</pre><h4>Kesimpulan</h4><p>Inheritance membantu penggunaan ulang kode.</p>'
+    konten: '<h4>Pengertian</h4><p>Inheritance adalah konsep OOP dimana class bisa mewarisi sifat dari class lain.</p><h4>Penjelasan</h4><p>Dengan inheritance, kita bisa menggunakan kembali kode dari class induk.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n    def sapa(self):\n        print("Halo")\n\nclass Siswa(Orang):\n    pass\n\nobj = Siswa()\nobj.sapa()</pre><h4>Kesimpulan</h4><p>Inheritance membantu penggunaan ulang kode.</p>'
   },
+  // 26-50: PYTHON LANJUTAN
   {
     judul: "Python 27 - Overriding Method",
-    konten: '<h4>Pengertian</h4><p>Overriding adalah proses mengganti method dari parent class di child class.</p><h4>Penjelasan</h4><p>Jika child class memiliki method dengan nama yang sama seperti parent class, maka method tersebut akan menimpa method yang ada di parent.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n  def sapa(self):\n    print("Halo Orang")\n\nclass Siswa(Orang):\n  def sapa(self):\n    print("Halo Siswa")\n\nobj = Siswa()\nobj.sapa()</pre><h4>Kesimpulan</h4><p>Overriding memungkinkan kita menyesuaikan perilaku class turunan.</p>'
+    konten: '<h4>Pengertian</h4><p>Overriding adalah proses mengganti method dari parent class di child class.</p><h4>Penjelasan</h4><p>Jika child class memiliki method dengan nama yang sama seperti parent, method tersebut akan menimpa method parent.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang:\n    def sapa(self):\n        print("Halo Orang")\n\nclass Siswa(Orang):\n    def sapa(self):\n        print("Halo Siswa")\n\nobj = Siswa()\nobj.sapa()</pre><h4>Kesimpulan</h4><p>Overriding memungkinkan kita menyesuaikan perilaku class turunan.</p>'
   },
   {
     judul: "Python 28 - Encapsulation",
-    konten: '<h4>Pengertian</h4><p>Encapsulation adalah konsep menyembunyikan data dalam class agar tidak bisa diakses langsung.</p><h4>Penjelasan</h4><p>Biasanya menggunakan tanda underscore (_) atau double underscore (__) untuk menandai bahwa variabel bersifat private.</p><h4>Contoh Kode</h4><pre class="code-block">class Akun:\n  def __init__(self, saldo):\n    self.__saldo = saldo\n\n  def lihat_saldo(self):\n    print(self.__saldo)\n\nobj = Akun(1000)\nobj.lihat_saldo()</pre><h4>Kesimpulan</h4><p>Encapsulation digunakan untuk melindungi data agar tidak sembarangan diakses.</p>'
+    konten: '<h4>Pengertian</h4><p>Encapsulation adalah konsep menyembunyikan data dalam class.</p><h4>Penjelasan</h4><p>Biasanya menggunakan tanda underscore (_) atau double underscore (__) untuk menandai variabel private.</p><h4>Contoh Kode</h4><pre class="code-block">class Akun:\n    def __init__(self, saldo):\n        self.__saldo = saldo\n\n    def lihat_saldo(self):\n        print(self.__saldo)\n\nobj = Akun(1000)\nobj.lihat_saldo()</pre><h4>Kesimpulan</h4><p>Encapsulation digunakan untuk melindungi data agar tidak sembarangan diakses.</p>'
   },
   {
     judul: "Python 29 - Module",
-    konten: '<h4>Pengertian</h4><p>Module adalah file Python yang berisi kode yang bisa digunakan di file lain.</p><h4>Penjelasan</h4><p>Dengan module, kita bisa memecah program besar menjadi beberapa bagian kecil agar lebih terstruktur.</p><h4>Contoh Kode</h4><pre class="code-block"># file: hitung.py\ndef tambah(a, b):\n  return a + b\n\n# file utama\nimport hitung\nprint(hitung.tambah(2,3))</pre><h4>Kesimpulan</h4><p>Module membantu membuat program lebih rapi dan mudah dikelola.</p>'
+    konten: '<h4>Pengertian</h4><p>Module adalah file Python yang berisi kode yang bisa digunakan di file lain.</p><h4>Penjelasan</h4><p>Dengan module, kita bisa memecah program besar menjadi beberapa bagian kecil.</p><h4>Contoh Kode</h4><pre class="code-block"># file: hitung.py\ndef tambah(a, b):\n    return a + b\n\n# file utama\nimport hitung\nprint(hitung.tambah(2,3))</pre><h4>Kesimpulan</h4><p>Module membantu membuat program lebih rapi dan mudah dikelola.</p>'
   },
   {
     judul: "Python 30 - Library",
-    konten: '<h4>Pengertian</h4><p>Library adalah kumpulan module yang sudah jadi dan bisa langsung digunakan.</p><h4>Penjelasan</h4><p>Python memiliki banyak library bawaan seperti math, datetime, dan random.</p><h4>Contoh Kode</h4><pre class="code-block">import math\n\nprint(math.sqrt(16))</pre><h4>Kesimpulan</h4><p>Library mempermudah pengembangan program tanpa harus membuat semuanya dari nol.</p>'
+    konten: '<h4>Pengertian</h4><p>Library adalah kumpulan module yang sudah jadi dan bisa langsung digunakan.</p><h4>Penjelasan</h4><p>Python memiliki banyak library bawaan seperti math, datetime, dan random.</p><h4>Contoh Kode</h4><pre class="code-block">import math\nprint(math.sqrt(16))</pre><h4>Kesimpulan</h4><p>Library mempermudah pengembangan program tanpa harus membuat semuanya dari nol.</p>'
   },
   {
     judul: "Python 31 - JSON",
-    konten: '<h4>Pengertian</h4><p>JSON adalah format data yang sering digunakan untuk pertukaran data antar aplikasi.</p><h4>Penjelasan</h4><p>JSON mirip dictionary di Python, mudah dibaca manusia dan bisa dikirim lewat internet.</p><h4>Contoh Kode</h4><pre class="code-block">import json\n\ndata = \'{"nama": "Nadia", "umur": 16}\'\nobj = json.loads(data)\nprint(obj["nama"])</pre><h4>Kesimpulan</h4><p>JSON memudahkan pertukaran data antar sistem dengan format yang ringan.</p>'
+    konten: '<h4>Pengertian</h4><p>JSON adalah format data yang sering digunakan untuk pertukaran data antar aplikasi.</p><h4>Penjelasan</h4><p>JSON mirip dictionary di Python, mudah dibaca manusia dan bisa dikirim lewat internet.</p><h4>Contoh Kode</h4><pre class="code-block">import json\ndata = \'{"nama": "Nadia", "umur": 16}\'\nobj = json.loads(data)\nprint(obj["nama"])</pre><h4>Kesimpulan</h4><p>JSON memudahkan pertukaran data antar sistem dengan format yang ringan.</p>'
   },
   {
     judul: "Python 32 - Lambda Function",
@@ -717,15 +910,15 @@ const materiList = [
   },
   {
     judul: "Python 33 - List Comprehension",
-    konten: '<h4>Pengertian</h4><p>List comprehension adalah cara cepat membuat list baru dari list lama.</p><h4>Penjelasan</h4><p>Dengan sintaks ringkas, kita bisa melakukan filtering atau manipulasi elemen sekaligus saat membuat list baru.</p><h4>Contoh Kode</h4><pre class="code-block">angka = [1,2,3,4,5]\nkuadrat = [x**2 for x in angka]\nprint(kuadrat)</pre><h4>Kesimpulan</h4><p>List comprehension membuat kode lebih ringkas dan efisien.</p>'
+    konten: '<h4>Pengertian</h4><p>List comprehension adalah cara cepat membuat list baru dari list lama.</p><h4>Penjelasan</h4><p>Dengan sintaks ringkas, kita bisa melakukan filtering atau manipulasi elemen sekaligus.</p><h4>Contoh Kode</h4><pre class="code-block">angka = [1,2,3,4,5]\nkuadrat = [x**2 for x in angka]\nprint(kuadrat)</pre><h4>Kesimpulan</h4><p>List comprehension membuat kode lebih ringkas dan efisien.</p>'
   },
   {
     judul: "Python 34 - Decorator",
-    konten: '<h4>Pengertian</h4><p>Decorator adalah fungsi yang menambahkan fungsionalitas ke fungsi lain tanpa mengubah kode asli.</p><h4>Penjelasan</h4><p>Decorator biasanya dipakai untuk logging, validasi, atau akses kontrol.</p><h4>Contoh Kode</h4><pre class="code-block">def dekor(fungsi):\n  def wrapper():\n    print("Sebelum fungsi")\n    fungsi()\n    print("Sesudah fungsi")\n  return wrapper\n\n@dekor\ndef halo():\n  print("Halo Dunia")\n\nhalo()</pre><h4>Kesimpulan</h4><p>Decorator membuat kode lebih modular dan mudah menambahkan fitur baru.</p>'
+    konten: '<h4>Pengertian</h4><p>Decorator adalah fungsi yang menambahkan fungsionalitas ke fungsi lain tanpa mengubah kode asli.</p><h4>Penjelasan</h4><p>Decorator biasanya dipakai untuk logging, validasi, atau akses kontrol.</p><h4>Contoh Kode</h4><pre class="code-block">def dekor(fungsi):\n    def wrapper():\n        print("Sebelum fungsi")\n        fungsi()\n        print("Sesudah fungsi")\n    return wrapper\n\n@dekor\ndef halo():\n    print("Halo Dunia")\n\nhalo()</pre><h4>Kesimpulan</h4><p>Decorator membuat kode lebih modular dan mudah menambahkan fitur baru.</p>'
   },
   {
     judul: "Python 35 - Generators",
-    konten: '<h4>Pengertian</h4><p>Generator adalah fungsi yang menghasilkan urutan nilai secara satu per satu.</p><h4>Penjelasan</h4><p>Dengan generator, kita bisa menghemat memori karena tidak membuat seluruh list sekaligus.</p><h4>Contoh Kode</h4><pre class="code-block">def hitung():\n  for i in range(5):\n    yield i\n\nfor x in hitung():\n  print(x)</pre><h4>Kesimpulan</h4><p>Generator mempermudah pengelolaan data besar tanpa membebani memori.</p>'
+    konten: '<h4>Pengertian</h4><p>Generator adalah fungsi yang menghasilkan urutan nilai secara satu per satu.</p><h4>Penjelasan</h4><p>Dengan generator, kita bisa menghemat memori karena tidak membuat seluruh list sekaligus.</p><h4>Contoh Kode</h4><pre class="code-block">def hitung():\n    for i in range(5):\n        yield i\n\nfor x in hitung():\n    print(x)</pre><h4>Kesimpulan</h4><p>Generator mempermudah pengelolaan data besar tanpa membebani memori.</p>'
   },
   {
     judul: "Python 36 - Exception Custom",
@@ -733,7 +926,7 @@ const materiList = [
   },
   {
     judul: "Python 37 - Regular Expression (Regex)",
-    konten: '<h4>Pengertian</h4><p>Regex adalah pola untuk mencari atau memanipulasi teks.</p><h4>Penjelasan</h4><p>Regex berguna untuk validasi input, pencarian teks, atau ekstraksi data.</p><h4>Contoh Kode</h4><pre class="code-block">import re\n\ntext = "Email saya: anton@mail.com"\npattern = r\'\\S+@\\S+\'\nhasil = re.findall(pattern, text)\nprint(hasil)</pre><h4>Kesimpulan</h4><p>Regex memudahkan pencarian pola teks kompleks dalam string.</p>'
+    konten: '<h4>Pengertian</h4><p>Regex adalah pola untuk mencari atau memanipulasi teks.</p><h4>Penjelasan</h4><p>Regex berguna untuk validasi input, pencarian teks, atau ekstraksi data.</p><h4>Contoh Kode</h4><pre class="code-block">import re\ntext = "Email saya: anton@mail.com"\npattern = r\'\\S+@\\S+\'\nhasil = re.findall(pattern, text)\nprint(hasil)</pre><h4>Kesimpulan</h4><p>Regex memudahkan pencarian pola teks kompleks dalam string.</p>'
   },
   {
     judul: "Python 38 - Map, Filter, Reduce",
@@ -753,7 +946,7 @@ const materiList = [
   },
   {
     judul: "Python 42 - OS Module",
-    konten: '<h4>Pengertian</h4><p>OS module adalah modul bawaan Python untuk berinteraksi dengan sistem operasi.</p><h4>Penjelasan</h4><p>Dengan OS module kita bisa membaca file, folder, path, dan informasi sistem.</p><h4>Contoh Kode</h4><pre class="code-block">import os\n\nprint(os.getcwd())  # Cek folder kerja sekarang\nprint(os.listdir())  # List file di folder</pre><h4>Kesimpulan</h4><p>OS module memudahkan manipulasi sistem file dan direktori.</p>'
+    konten: '<h4>Pengertian</h4><p>OS module adalah modul bawaan Python untuk berinteraksi dengan sistem operasi.</p><h4>Penjelasan</h4><p>Dengan OS module kita bisa membaca file, folder, path, dan informasi sistem.</p><h4>Contoh Kode</h4><pre class="code-block">import os\n\nprint(os.getcwd())\nprint(os.listdir())</pre><h4>Kesimpulan</h4><p>OS module memudahkan manipulasi sistem file dan direktori.</p>'
   },
   {
     judul: "Python 43 - Sys Module",
@@ -761,11 +954,11 @@ const materiList = [
   },
   {
     judul: "Python 44 - Time Module",
-    konten: '<h4>Pengertian</h4><p>Time module digunakan untuk mengatur waktu, delay, dan timestamp.</p><h4>Penjelasan</h4><p>Time module sering dipakai untuk menghentikan program sementara atau mengukur lama eksekusi.</p><h4>Contoh Kode</h4><pre class="code-block">import time\n\nprint("Mulai")\ntime.sleep(2)  # Delay 2 detik\nprint("Selesai")</pre><h4>Kesimpulan</h4><p>Time module memudahkan manipulasi waktu dan delay program.</p>'
+    konten: '<h4>Pengertian</h4><p>Time module digunakan untuk mengatur waktu, delay, dan timestamp.</p><h4>Penjelasan</h4><p>Time module sering dipakai untuk menghentikan program sementara atau mengukur lama eksekusi.</p><h4>Contoh Kode</h4><pre class="code-block">import time\n\nprint("Mulai")\ntime.sleep(2)\nprint("Selesai")</pre><h4>Kesimpulan</h4><p>Time module memudahkan manipulasi waktu dan delay program.</p>'
   },
   {
     judul: "Python 45 - Random Module",
-    konten: '<h4>Pengertian</h4><p>Random module digunakan untuk menghasilkan nilai acak.</p><h4>Penjelasan</h4><p>Biasanya dipakai untuk simulasi, game, atau pengambilan sampel data acak.</p><h4>Contoh Kode</h4><pre class="code-block">import random\n\nprint(random.randint(1, 10))  # Angka acak 1-10\nprint(random.choice(["Rudi","Lina","Anton"]))</pre><h4>Kesimpulan</h4><p>Random module membantu membuat program lebih dinamis dan tidak deterministik.</p>'
+    konten: '<h4>Pengertian</h4><p>Random module digunakan untuk menghasilkan nilai acak.</p><h4>Penjelasan</h4><p>Biasanya dipakai untuk simulasi, game, atau pengambilan sampel data acak.</p><h4>Contoh Kode</h4><pre class="code-block">import random\n\nprint(random.randint(1, 10))\nprint(random.choice(["Rudi","Lina","Anton"]))</pre><h4>Kesimpulan</h4><p>Random module membantu membuat program lebih dinamis dan tidak deterministik.</p>'
   },
   {
     judul: "Python 46 - JSON Module",
@@ -786,6 +979,208 @@ const materiList = [
   {
     judul: "Python 50 - Logging Module",
     konten: '<h4>Pengertian</h4><p>Logging module digunakan untuk mencatat jalannya program.</p><h4>Penjelasan</h4><p>Dengan logging, kita bisa mencatat informasi, warning, atau error tanpa menghentikan program.</p><h4>Contoh Kode</h4><pre class="code-block">import logging\n\nlogging.basicConfig(level=logging.INFO)\nlogging.info("Program dimulai")\nlogging.warning("Ini peringatan")</pre><h4>Kesimpulan</h4><p>Logging module membantu memantau jalannya program dan mendiagnosa masalah.</p>'
+  },
+  // 51-75: PYTHON WEB & FRAMEWORK
+  {
+    judul: "Python 51 - Pengenalan Flask",
+    konten: '<h4>Pengertian</h4><p>Flask adalah framework web Python yang ringan.</p><h4>Penjelasan</h4><p>Flask cocok untuk membuat web aplikasi sederhana hingga menengah.</p><h4>Contoh Kode</h4><pre class="code-block">from flask import Flask\napp = Flask(__name__)\n\n@app.route("/")\ndef home():\n    return "Halo Flask!"</pre><h4>Kesimpulan</h4><p>Flask memudahkan pembuatan web app dengan Python.</p>'
+  },
+  {
+    judul: "Python 52 - Pengenalan Django",
+    konten: '<h4>Pengertian</h4><p>Django adalah framework web Python yang lengkap dan powerful.</p><h4>Penjelasan</h4><p>Django memiliki fitur bawaan seperti ORM, admin panel, dan autentikasi.</p><h4>Contoh Kode</h4><pre class="code-block"># models.py\nfrom django.db import models\n\nclass User(models.Model):\n    name = models.CharField(max_length=100)</pre><h4>Kesimpulan</h4><p>Django cocok untuk aplikasi web skala besar.</p>'
+  },
+  {
+    judul: "Python 53 - Pengenalan Pandas",
+    konten: '<h4>Pengertian</h4><p>Pandas adalah library Python untuk data analysis.</p><h4>Penjelasan</h4><p>Pandas memudahkan manipulasi data dalam format tabel (DataFrame).</p><h4>Contoh Kode</h4><pre class="code-block">import pandas as pd\n\ndata = {"nama": ["Rudi", "Lina"], "umur": [20, 22]}\ndf = pd.DataFrame(data)\nprint(df)</pre><h4>Kesimpulan</h4><p>Pandas wajib untuk data science dan analisis data.</p>'
+  },
+  {
+    judul: "Python 54 - Pengenalan NumPy",
+    konten: '<h4>Pengertian</h4><p>NumPy adalah library untuk komputasi numerik di Python.</p><h4>Penjelasan</h4><p>NumPy menyediakan array multidimensi dan operasi matematika cepat.</p><h4>Contoh Kode</h4><pre class="code-block">import numpy as np\n\narr = np.array([1, 2, 3, 4])\nprint(arr * 2)</pre><h4>Kesimpulan</h4><p>NumPy digunakan dalam data science dan machine learning.</p>'
+  },
+  {
+    judul: "Python 55 - Pengenalan Matplotlib",
+    konten: '<h4>Pengertian</h4><p>Matplotlib adalah library untuk visualisasi data di Python.</p><h4>Penjelasan</h4><p>Matplotlib bisa membuat grafik, chart, dan plot yang interaktif.</p><h4>Contoh Kode</h4><pre class="code-block">import matplotlib.pyplot as plt\n\nx = [1,2,3,4]\ny = [2,4,6,8]\nplt.plot(x, y)\nplt.show()</pre><h4>Kesimpulan</h4><p>Matplotlib digunakan untuk visualisasi data.</p>'
+  },
+  {
+    judul: "Python 56 - Pengenalan Scikit-learn",
+    konten: '<h4>Pengertian</h4><p>Scikit-learn adalah library untuk machine learning di Python.</p><h4>Penjelasan</h4><p>Scikit-learn menyediakan berbagai algoritma ML siap pakai.</p><h4>Contoh Kode</h4><pre class="code-block">from sklearn.tree import DecisionTreeClassifier\n\nmodel = DecisionTreeClassifier()\nmodel.fit(X_train, y_train)</pre><h4>Kesimpulan</h4><p>Scikit-learn memudahkan implementasi machine learning.</p>'
+  },
+  {
+    judul: "Python 57 - Pengenalan TensorFlow",
+    konten: '<h4>Pengertian</h4><p>TensorFlow adalah library untuk deep learning dari Google.</p><h4>Penjelasan</h4><p>TensorFlow mendukung neural networks dan AI.</p><h4>Contoh Kode</h4><pre class="code-block">import tensorflow as tf\n\nmodel = tf.keras.Sequential([\n    tf.keras.layers.Dense(10, activation="relu")\n])</pre><h4>Kesimpulan</h4><p>TensorFlow digunakan untuk AI dan deep learning.</p>'
+  },
+  {
+    judul: "Python 58 - Pengenalan PyTorch",
+    konten: '<h4>Pengertian</h4><p>PyTorch adalah library deep learning yang populer.</p><h4>Penjelasan</h4><p>PyTorch lebih fleksibel dan mudah digunakan dibanding TensorFlow.</p><h4>Contoh Kode</h4><pre class="code-block">import torch\n\nx = torch.tensor([1.0, 2.0, 3.0])\nprint(x)</pre><h4>Kesimpulan</h4><p>PyTorch digunakan dalam penelitian AI dan deep learning.</p>'
+  },
+  {
+    judul: "Python 59 - Web Scraping dengan BeautifulSoup",
+    konten: '<h4>Pengertian</h4><p>BeautifulSoup adalah library untuk web scraping.</p><h4>Penjelasan</h4><p>BeautifulSoup memudahkan parsing HTML dan ekstraksi data dari website.</p><h4>Contoh Kode</h4><pre class="code-block">from bs4 import BeautifulSoup\nimport requests\n\nres = requests.get("https://example.com")\nsoup = BeautifulSoup(res.text, "html.parser")\nprint(soup.title.text)</pre><h4>Kesimpulan</h4><p>BeautifulSoup digunakan untuk mengambil data dari website.</p>'
+  },
+  {
+    judul: "Python 60 - Pengenalan Selenium",
+    konten: '<h4>Pengertian</h4><p>Selenium adalah tool untuk otomatisasi browser.</p><h4>Penjelasan</h4><p>Selenium bisa mengontrol browser seperti Chrome atau Firefox secara otomatis.</p><h4>Contoh Kode</h4><pre class="code-block">from selenium import webdriver\n\ndriver = webdriver.Chrome()\ndriver.get("https://google.com")</pre><h4>Kesimpulan</h4><p>Selenium digunakan untuk testing dan otomatisasi web.</p>'
+  },
+  {
+    judul: "Python 61 - Pengenalan SQLAlchemy",
+    konten: '<h4>Pengertian</h4><p>SQLAlchemy adalah ORM (Object Relational Mapper) untuk Python.</p><h4>Penjelasan</h4><p>SQLAlchemy memudahkan interaksi dengan database menggunakan Python.</p><h4>Contoh Kode</h4><pre class="code-block">from sqlalchemy import create_engine\n\nengine = create_engine("sqlite:///data.db")</pre><h4>Kesimpulan</h4><p>SQLAlchemy mempermudah akses database.</p>'
+  },
+  {
+    judul: "Python 62 - Pengenalan FastAPI",
+    konten: '<h4>Pengertian</h4><p>FastAPI adalah framework web Python yang cepat dan modern.</p><h4>Penjelasan</h4><p>FastAPI mendukung async dan otomatis menghasilkan dokumentasi API.</p><h4>Contoh Kode</h4><pre class="code-block">from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get("/")\ndef home():\n    return {"message": "Hello FastAPI"}</pre><h4>Kesimpulan</h4><p>FastAPI cocok untuk membuat API dengan performa tinggi.</p>'
+  },
+  {
+    judul: "Python 63 - Pengenalan Celery",
+    konten: '<h4>Pengertian</h4><p>Celery adalah library untuk task queue di Python.</p><h4>Penjelasan</h4><p>Celery digunakan untuk menjalankan tugas secara asynchronous.</p><h4>Contoh Kode</h4><pre class="code-block">from celery import Celery\n\napp = Celery("tasks", broker="redis://localhost")</pre><h4>Kesimpulan</h4><p>Celery digunakan untuk background tasks.</p>'
+  },
+  {
+    judul: "Python 64 - Pengenalan Requests",
+    konten: '<h4>Pengertian</h4><p>Requests adalah library untuk HTTP requests di Python.</p><h4>Penjelasan</h4><p>Requests memudahkan mengirim GET, POST, dan request lainnya.</p><h4>Contoh Kode</h4><pre class="code-block">import requests\n\nres = requests.get("https://api.example.com")\nprint(res.json())</pre><h4>Kesimpulan</h4><p>Requests digunakan untuk komunikasi dengan API.</p>'
+  },
+  {
+    judul: "Python 65 - Pengenalan Pydantic",
+    konten: '<h4>Pengertian</h4><p>Pydantic adalah library untuk validasi data di Python.</p><h4>Penjelasan</h4><p>Pydantic memastikan data sesuai dengan tipe yang diharapkan.</p><h4>Contoh Kode</h4><pre class="code-block">from pydantic import BaseModel\n\nclass User(BaseModel):\n    name: str\n    age: int</pre><h4>Kesimpulan</h4><p>Pydantic digunakan untuk validasi data dan serialisasi.</p>'
+  },
+  {
+    judul: "Python 66 - Pengenalan Poetry",
+    konten: '<h4>Pengertian</h4><p>Poetry adalah tool untuk manajemen dependensi Python.</p><h4>Penjelasan</h4><p>Poetry memudahkan pengelolaan library dan virtual environment.</p><h4>Contoh Kode</h4><pre class="code-block"># install library\npoetry add requests</pre><h4>Kesimpulan</h4><p>Poetry modern dan lebih baik daripada pip + venv.</p>'
+  },
+  {
+    judul: "Python 67 - Pengenalan Black",
+    konten: '<h4>Pengertian</h4><p>Black adalah code formatter untuk Python.</p><h4>Penjelasan</h4><p>Black memformat kode secara otomatis agar konsisten.</p><h4>Contoh Kode</h4><pre class="code-block"># sebelum\nx= 1\ny=2\n\n# setelah di Black\nx = 1\ny = 2</pre><h4>Kesimpulan</h4><p>Black membuat kode lebih rapi dan terstandarisasi.</p>'
+  },
+  {
+    judul: "Python 68 - Pengenalan Pytest",
+    konten: '<h4>Pengertian</h4><p>Pytest adalah framework untuk testing di Python.</p><h4>Penjelasan</h4><p>Pytest mudah digunakan dan mendukung berbagai jenis testing.</p><h4>Contoh Kode</h4><pre class="code-block">def test_tambah():\n    assert 1 + 1 == 2</pre><h4>Kesimpulan</h4><p>Pytest digunakan untuk menulis dan menjalankan test.</p>'
+  },
+  {
+    judul: "Python 69 - Pengenalan Mypy",
+    konten: '<h4>Pengertian</h4><p>Mypy adalah static type checker untuk Python.</p><h4>Penjelasan</h4><p>Mypy memeriksa tipe data di kode Python secara statis.</p><h4>Contoh Kode</h4><pre class="code-block">def sapa(nama: str) -> str:\n    return "Halo " + nama</pre><h4>Kesimpulan</h4><p>Mypy membantu menghindari error tipe data.</p>'
+  },
+  {
+    judul: "Python 70 - Pengenalan Pre-commit",
+    konten: '<h4>Pengertian</h4><p>Pre-commit adalah tool untuk menjalankan hook sebelum commit.</p><h4>Penjelasan</h4><p>Pre-commit memastikan kode sudah memenuhi standar sebelum di-commit.</p><h4>Contoh Kode</h4><pre class="code-block"># .pre-commit-config.yaml\n- repo: https://github.com/psf/black\n  rev: 22.3.0\n  hooks:\n    - id: black</pre><h4>Kesimpulan</h4><p>Pre-commit menjaga kualitas kode di repository.</p>'
+  },
+  {
+    judul: "Python 71 - Pengenalan Docker dan Python",
+    konten: '<h4>Pengertian</h4><p>Docker digunakan untuk containerisasi aplikasi Python.</p><h4>Penjelasan</h4><p>Docker memudahkan deployment dan konsistensi lingkungan.</p><h4>Contoh Kode</h4><pre class="code-block">FROM python:3.10\nWORKDIR /app\nCOPY requirements.txt ./\nRUN pip install -r requirements.txt</pre><h4>Kesimpulan</h4><p>Docker penting untuk deployment aplikasi Python.</p>'
+  },
+  {
+    judul: "Python 72 - Pengenalan GitHub Actions",
+    konten: '<h4>Pengertian</h4><p>GitHub Actions adalah CI/CD untuk proyek Python.</p><h4>Penjelasan</h4><p>GitHub Actions otomatis menjalankan test dan build saat push.</p><h4>Contoh Kode</h4><pre class="code-block">name: CI\non: push\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - name: Install dependencies\n        run: pip install -r requirements.txt</pre><h4>Kesimpulan</h4><p>GitHub Actions mengotomatiskan pipeline CI/CD.</p>'
+  },
+  {
+    judul: "Python 73 - Pengenalan Streamlit",
+    konten: '<h4>Pengertian</h4><p>Streamlit adalah library untuk membuat web app data science dengan cepat.</p><h4>Penjelasan</h4><p>Streamlit tidak memerlukan HTML atau CSS, cukup Python saja.</p><h4>Contoh Kode</h4><pre class="code-block">import streamlit as st\n\nst.title("Aplikasi Data")\nst.write("Halo Streamlit!")</pre><h4>Kesimpulan</h4><p>Streamlit cocok untuk prototype data science.</p>'
+  },
+  {
+    judul: "Python 74 - Pengenalan Django REST Framework",
+    konten: '<h4>Pengertian</h4><p>DRF adalah library untuk membuat API dengan Django.</p><h4>Penjelasan</h4><p>DRF memudahkan pembuatan REST API dengan Django.</p><h4>Contoh Kode</h4><pre class="code-block">from rest_framework import serializers\n\nclass UserSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = User\n        fields = ["id", "name", "email"]</pre><h4>Kesimpulan</h4><p>DRF digunakan untuk membuat API dengan Django.</p>'
+  },
+  {
+    judul: "Python 75 - Pengenalan Async Python",
+    konten: '<h4>Pengertian</h4><p>Async Python digunakan untuk pemrograman asynchronous.</p><h4>Penjelasan</h4><p>Dengan async/await, program bisa menjalankan banyak tugas secara bersamaan.</p><h4>Contoh Kode</h4><pre class="code-block">import asyncio\n\nasync def tugas():\n    await asyncio.sleep(2)\n    print("Selesai")\n\nasyncio.run(tugas())</pre><h4>Kesimpulan</h4><p>Async Python meningkatkan performa aplikasi I/O-bound.</p>'
+  },
+  // 76-100: PYTHON LANJUTAN & APLIKASI
+  {
+    judul: "Python 76 - Pengenalan Asyncio",
+    konten: '<h4>Pengertian</h4><p>Asyncio adalah library untuk pemrograman async di Python.</p><h4>Penjelasan</h4><p>Asyncio memungkinkan menjalankan banyak tugas secara konkuren.</p><h4>Contoh Kode</h4><pre class="code-block">import asyncio\n\nasync def main():\n    await asyncio.sleep(1)\n    print("Async selesai")\n\nasyncio.run(main())</pre><h4>Kesimpulan</h4><p>Asyncio digunakan untuk aplikasi yang membutuhkan konkurensi tinggi.</p>'
+  },
+  {
+    judul: "Python 77 - Pengenalan Aiohttp",
+    konten: '<h4>Pengertian</h4><p>Aiohttp adalah library HTTP async untuk Python.</p><h4>Penjelasan</h4><p>Aiohttp mendukung client dan server HTTP secara async.</p><h4>Contoh Kode</h4><pre class="code-block">import aiohttp\nimport asyncio\n\nasync def main():\n    async with aiohttp.ClientSession() as session:\n        async with session.get("https://api.com") as res:\n            print(await res.text())</pre><h4>Kesimpulan</h4><p>Aiohttp digunakan untuk request HTTP async.</p>'
+  },
+  {
+    judul: "Python 78 - Pengenalan WebSockets",
+    konten: '<h4>Pengertian</h4><p>WebSockets adalah protokol komunikasi real-time.</p><h4>Penjelasan</h4><p>WebSockets memungkinkan komunikasi dua arah antara client dan server.</p><h4>Contoh Kode</h4><pre class="code-block">import websockets\nimport asyncio\n\nasync def handler(websocket):\n    async for msg in websocket:\n        print(msg)\n\nstart_server = websockets.serve(handler, "localhost", 8765)</pre><h4>Kesimpulan</h4><p>WebSockets digunakan untuk aplikasi real-time seperti chat.</p>'
+  },
+  {
+    judul: "Python 79 - Pengenalan Redis",
+    konten: '<h4>Pengertian</h4><p>Redis adalah in-memory database yang cepat.</p><h4>Penjelasan</h4><p>Redis sering digunakan untuk caching, session, dan message queue.</p><h4>Contoh Kode</h4><pre class="code-block">import redis\n\nr = redis.Redis(host="localhost", port=6379)\nr.set("key", "value")\nprint(r.get("key"))</pre><h4>Kesimpulan</h4><p>Redis digunakan untuk caching dan penyimpanan cepat.</p>'
+  },
+  {
+    judul: "Python 80 - Pengenalan MongoDB dengan PyMongo",
+    konten: '<h4>Pengertian</h4><p>PyMongo adalah driver untuk MongoDB di Python.</p><h4>Penjelasan</h4><p>PyMongo memungkinkan Python berinteraksi dengan MongoDB.</p><h4>Contoh Kode</h4><pre class="code-block">from pymongo import MongoClient\n\nclient = MongoClient("mongodb://localhost")\ndb = client["mydb"]\ncollection = db["users"]\n\ncollection.insert_one({"name": "Rudi"})</pre><h4>Kesimpulan</h4><p>PyMongo digunakan untuk aplikasi dengan MongoDB.</p>'
+  },
+  {
+    judul: "Python 81 - Pengenalan PostgreSQL dengan Psycopg2",
+    konten: '<h4>Pengertian</h4><p>Psycopg2 adalah driver PostgreSQL untuk Python.</p><h4>Penjelasan</h4><p>Psycopg2 memungkinkan Python terhubung ke PostgreSQL.</p><h4>Contoh Kode</h4><pre class="code-block">import psycopg2\n\nconn = psycopg2.connect(database="mydb", user="user")\ncur = conn.cursor()\ncur.execute("SELECT * FROM users")</pre><h4>Kesimpulan</h4><p>Psycopg2 digunakan untuk aplikasi dengan PostgreSQL.</p>'
+  },
+  {
+    judul: "Python 82 - Pengenalan SQLite",
+    konten: '<h4>Pengertian</h4><p>SQLite adalah database ringan yang terintegrasi dengan Python.</p><h4>Penjelasan</h4><p>SQLite cocok untuk aplikasi kecil dan prototyping.</p><h4>Contoh Kode</h4><pre class="code-block">import sqlite3\n\nconn = sqlite3.connect("data.db")\ncur = conn.cursor()\ncur.execute("CREATE TABLE users (id INTEGER, name TEXT)")</pre><h4>Kesimpulan</h4><p>SQLite digunakan untuk database sederhana.</p>'
+  },
+  {
+    judul: "Python 83 - Pengenalan GraphQL dengan Graphene",
+    konten: '<h4>Pengertian</h4><p>Graphene adalah library GraphQL untuk Python.</p><h4>Penjelasan</h4><p>Graphene memudahkan pembuatan API GraphQL.</p><h4>Contoh Kode</h4><pre class="code-block">import graphene\n\nclass Query(graphene.ObjectType):\n    hello = graphene.String()\n\n    def resolve_hello(self, info):\n        return "Hello GraphQL"</pre><h4>Kesimpulan</h4><p>Graphene digunakan untuk API GraphQL di Python.</p>'
+  },
+  {
+    judul: "Python 84 - Pengenalan gRPC",
+    konten: '<h4>Pengertian</h4><p>gRPC adalah framework RPC yang cepat dan efisien.</p><h4>Penjelasan</h4><p>gRPC menggunakan Protobuf dan mendukung berbagai bahasa.</p><h4>Contoh Kode</h4><pre class="code-block"># service.proto\nservice Greeter {\n    rpc SayHello (HelloRequest) returns (HelloReply) {}\n}</pre><h4>Kesimpulan</h4><p>gRPC digunakan untuk komunikasi antar layanan.</p>'
+  },
+  {
+    judul: "Python 85 - Pengenalan RabbitMQ dengan Pika",
+    konten: '<h4>Pengertian</h4><p>Pika adalah library untuk RabbitMQ di Python.</p><h4>Penjelasan</h4><p>Pika memungkinkan Python berinteraksi dengan message queue RabbitMQ.</p><h4>Contoh Kode</h4><pre class="code-block">import pika\n\nconnection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))\nchannel = connection.channel()\nchannel.queue_declare(queue="hello")</pre><h4>Kesimpulan</h4><p>Pika digunakan untuk message queue dengan RabbitMQ.</p>'
+  },
+  {
+    judul: "Python 86 - Pengenalan Apache Kafka",
+    konten: '<h4>Pengertian</h4><p>Apache Kafka adalah platform streaming data.</p><h4>Penjelasan</h4><p>Kafka digunakan untuk real-time data streaming dan event processing.</p><h4>Contoh Kode</h4><pre class="code-block">from kafka import KafkaProducer\n\nproducer = KafkaProducer(bootstrap_servers="localhost:9092")\nproducer.send("topic", b"Message")</pre><h4>Kesimpulan</h4><p>Kafka digunakan untuk streaming data real-time.</p>'
+  },
+  {
+    judul: "Python 87 - Pengenalan Elasticsearch",
+    konten: '<h4>Pengertian</h4><p>Elasticsearch adalah search engine dan database NoSQL.</p><h4>Penjelasan</h4><p>Elasticsearch digunakan untuk pencarian dan analisis data.</p><h4>Contoh Kode</h4><pre class="code-block">from elasticsearch import Elasticsearch\n\nes = Elasticsearch("http://localhost:9200")\nes.index(index="users", document={"name": "Rudi"})</pre><h4>Kesimpulan</h4><p>Elasticsearch digunakan untuk pencarian dan analisis.</p>'
+  },
+  {
+    judul: "Python 88 - Pengenalan Scrapy",
+    konten: '<h4>Pengertian</h4><p>Scrapy adalah framework untuk web scraping.</p><h4>Penjelasan</h4><p>Scrapy lebih powerful dan cepat dibanding BeautifulSoup.</p><h4>Contoh Kode</h4><pre class="code-block">import scrapy\n\nclass QuotesSpider(scrapy.Spider):\n    name = "quotes"\n    start_urls = ["https://quotes.toscrape.com"]\n\n    def parse(self, response):\n        for quote in response.css("div.quote"):\n            yield {"text": quote.css("span.text::text").get()}</pre><h4>Kesimpulan</h4><p>Scrapy digunakan untuk scraping skala besar.</p>'
+  },
+  {
+    judul: "Python 89 - Pengenalan NLTK",
+    konten: '<h4>Pengertian</h4><p>NLTK adalah library untuk Natural Language Processing.</p><h4>Penjelasan</h4><p>NLTK digunakan untuk analisis teks, tokenisasi, dan sentiment analysis.</p><h4>Contoh Kode</h4><pre class="code-block">import nltk\n\nnltk.download("punkt")\nteks = "Saya suka belajar Python"\ntokens = nltk.word_tokenize(teks)\nprint(tokens)</pre><h4>Kesimpulan</h4><p>NLTK digunakan untuk NLP dan analisis teks.</p>'
+  },
+  {
+    judul: "Python 90 - Pengenalan spaCy",
+    konten: '<h4>Pengertian</h4><p>spaCy adalah library NLP yang cepat dan modern.</p><h4>Penjelasan</h4><p>spaCy lebih cepat dari NLTK dan memiliki model pre-trained.</p><h4>Contoh Kode</h4><pre class="code-block">import spacy\n\nnlp = spacy.load("en_core_web_sm")\ndoc = nlp("I love Python")\nfor token in doc:\n    print(token.text, token.pos_)</pre><h4>Kesimpulan</h4><p>spaCy digunakan untuk NLP dan entity recognition.</p>'
+  },
+  {
+    judul: "Python 91 - Pengenalan OpenCV",
+    konten: '<h4>Pengertian</h4><p>OpenCV adalah library untuk computer vision.</p><h4>Penjelasan</h4><p>OpenCV digunakan untuk image processing dan object detection.</p><h4>Contoh Kode</h4><pre class="code-block">import cv2\n\nimg = cv2.imread("foto.jpg")\ncv2.imshow("Gambar", img)\ncv2.waitKey(0)</pre><h4>Kesimpulan</h4><p>OpenCV digunakan untuk pengolahan gambar dan video.</p>'
+  },
+  {
+    judul: "Python 92 - Pengenalan Pillow",
+    konten: '<h4>Pengertian</h4><p>Pillow adalah library untuk manipulasi gambar.</p><h4>Penjelasan</h4><p>Pillow digunakan untuk resize, crop, dan filter gambar.</p><h4>Contoh Kode</h4><pre class="code-block">from PIL import Image\n\nimg = Image.open("foto.jpg")\nimg = img.resize((200, 200))\nimg.save("foto_resized.jpg")</pre><h4>Kesimpulan</h4><p>Pillow digunakan untuk manipulasi gambar sederhana.</p>'
+  },
+  {
+    judul: "Python 93 - Pengenalan Tkinter",
+    konten: '<h4>Pengertian</h4><p>Tkinter adalah library untuk membuat GUI di Python.</p><h4>Penjelasan</h4><p>Tkinter adalah library GUI standar Python.</p><h4>Contoh Kode</h4><pre class="code-block">import tkinter as tk\n\nroot = tk.Tk()\nlabel = tk.Label(root, text="Halo Tkinter")\nlabel.pack()\nroot.mainloop()</pre><h4>Kesimpulan</h4><p>Tkinter digunakan untuk aplikasi desktop sederhana.</p>'
+  },
+  {
+    judul: "Python 94 - Pengenalan PyQt",
+    konten: '<h4>Pengertian</h4><p>PyQt adalah library untuk GUI yang powerful.</p><h4>Penjelasan</h4><p>PyQt lebih modern dan memiliki lebih banyak fitur.</p><h4>Contoh Kode</h4><pre class="code-block">from PyQt5 import QtWidgets\n\napp = QtWidgets.QApplication([])\nwindow = QtWidgets.QMainWindow()\nwindow.show()\napp.exec()</pre><h4>Kesimpulan</h4><p>PyQt digunakan untuk aplikasi desktop profesional.</p>'
+  },
+  {
+    judul: "Python 95 - Pengenalan Kivy",
+    konten: '<h4>Pengertian</h4><p>Kivy adalah library untuk aplikasi mobile di Python.</p><h4>Penjelasan</h4><p>Kivy mendukung Android dan iOS.</p><h4>Contoh Kode</h4><pre class="code-block">from kivy.app import App\nfrom kivy.uix.label import Label\n\nclass MyApp(App):\n    def build(self):\n        return Label(text="Halo Kivy")\n\nMyApp().run()</pre><h4>Kesimpulan</h4><p>Kivy digunakan untuk aplikasi mobile.</p>'
+  },
+  {
+    judul: "Python 96 - Pengenalan BeeWare",
+    konten: '<h4>Pengertian</h4><p>BeeWare adalah library untuk aplikasi native di Python.</p><h4>Penjelasan</h4><p>BeeWare mendukung iOS, Android, Windows, dan Mac.</p><h4>Contoh Kode</h4><pre class="code-block">import toga\n\nclass MyApp(toga.App):\n    def startup(self):\n        self.main_window = toga.MainWindow(title="Halo")</pre><h4>Kesimpulan</h4><p>BeeWare digunakan untuk aplikasi native multiplatform.</p>'
+  },
+  {
+    judul: "Python 97 - Pengenalan PyInstaller",
+    konten: '<h4>Pengertian</h4><p>PyInstaller adalah tool untuk membuat executable dari Python.</p><h4>Penjelasan</h4><p>PyInstaller mengubah script Python menjadi .exe atau aplikasi standalone.</p><h4>Contoh Kode</h4><pre class="code-block">pyinstaller --onefile app.py</pre><h4>Kesimpulan</h4><p>PyInstaller digunakan untuk distribusi aplikasi Python.</p>'
+  },
+  {
+    judul: "Python 98 - Pengenalan Cython",
+    konten: '<h4>Pengertian</h4><p>Cython adalah tool untuk mengoptimalkan Python dengan C.</p><h4>Penjelasan</h4><p>Cython mengubah Python ke C untuk performa lebih cepat.</p><h4>Contoh Kode</h4><pre class="code-block"># file.pyx\ndef tambah(int a, int b):\n    return a + b</pre><h4>Kesimpulan</h4><p>Cython digunakan untuk optimasi performa.</p>'
+  },
+  {
+    judul: "Python 99 - Pengenalan Numba",
+    konten: '<h4>Pengertian</h4><p>Numba adalah JIT compiler untuk Python.</p><h4>Penjelasan</h4><p>Numba mempercepat kode Python secara signifikan.</p><h4>Contoh Kode</h4><pre class="code-block">from numba import jit\n\n@jit\ndef hitung():\n    total = 0\n    for i in range(1000000):\n        total += i\n    return total</pre><h4>Kesimpulan</h4><p>Numba digunakan untuk komputasi numerik cepat.</p>'
+  },
+  {
+    judul: "Python 100 - Masa Depan Python",
+    konten: '<h4>Pengertian</h4><p>Python terus berkembang dengan versi baru setiap tahun.</p><h4>Penjelasan</h4><p>Fitur baru seperti pattern matching, type hints, dan performance improvements.</p><h4>Contoh Kode</h4><pre class="code-block"># Pattern matching Python 3.10+\nvalue = 5\nmatch value:\n    case 1:\n        print("Satu")\n    case 5:\n        print("Lima")</pre><h4>Kesimpulan</h4><p>Python adalah bahasa yang terus berevolusi dan tetap populer.</p>'
   }
 ];
 
@@ -812,7 +1207,7 @@ function saveLocalProgress() {
 function updateUI() {
   var badge = document.getElementById('premiumStatusBadge');
   var limitSpan = document.getElementById('limitCounter');
-  
+
   if (isPremium && premiumExpiry) {
     var now = Date.now();
     if (now > premiumExpiry) {
@@ -821,9 +1216,13 @@ function updateUI() {
       badge.innerText = 'Premium Habis';
       badge.className = 'premium-indicator warning';
       limitSpan.innerText = '0/2 Hari Ini';
+      if (currentUser) {
+        db.ref('users/' + currentUser.uid + '/premium/coding').set(false);
+        db.ref('users/' + currentUser.uid + '/premium/coding_expiry').remove();
+      }
       return;
     }
-    
+
     var sisaHari = Math.ceil((premiumExpiry - now) / (1000 * 60 * 60 * 24));
     badge.innerText = 'Premium (' + sisaHari + ' hari)';
     badge.className = 'premium-indicator active';
@@ -843,19 +1242,40 @@ function renderBagian() {
   var container = document.getElementById('listBagianGrid');
   if (!container) return;
   container.innerHTML = '';
-  
+
+  var iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  var iconLock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+  var iconChevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
   for (var i = 0; i < materiList.length; i++) {
+    var isOpened = openedIndexes.includes(i);
+    var isLocked = !isOpened && !isPremium && todayLimit >= 2;
+
+    var rawTitle = materiList[i].judul;
+    var dashIdx = rawTitle.indexOf(' - ');
+    var shortTitle = dashIdx !== -1 ? rawTitle.substring(dashIdx + 3) : rawTitle;
+
     var btn = document.createElement('div');
     btn.className = 'materi-btn';
-    btn.innerText = 'Bagian ' + (i + 1);
-    
-    if (openedIndexes.includes(i)) btn.classList.add('opened');
-    if (!openedIndexes.includes(i) && !isPremium && todayLimit >= 2) btn.classList.add('locked');
-    
+    if (isOpened) btn.classList.add('opened');
+    if (isLocked) btn.classList.add('locked');
+
+    var statusIcon = iconChevron;
+    if (isOpened) statusIcon = iconCheck;
+    else if (isLocked) statusIcon = iconLock;
+
+    btn.innerHTML =
+      '<div class="materi-num">' + (i + 1) + '</div>' +
+      '<div class="materi-text">' +
+        '<div class="materi-title">' + shortTitle + '</div>' +
+        '<div class="materi-sub">Materi ' + (i + 1) + ' dari ' + materiList.length + '</div>' +
+      '</div>' +
+      '<div class="materi-status">' + statusIcon + '</div>';
+
     btn.onclick = (function(idx) {
       return function() { openMateri(idx); };
     })(i);
-    
+
     container.appendChild(btn);
   }
 }
@@ -865,13 +1285,13 @@ function openMateri(index) {
     showAlert('Silakan masuk ke akun Anda terlebih dahulu.', false);
     return;
   }
-  
-  // Refresh cek premium expiry
+
   db.ref('users/' + currentUser.uid + '/premium/coding').once('value').then(function(snap) {
     isPremium = snap.val() === true;
     return db.ref('users/' + currentUser.uid + '/premium/coding_expiry').once('value');
   }).then(function(expirySnap) {
     premiumExpiry = expirySnap.val() || null;
+
     if (isPremium && premiumExpiry && Date.now() > premiumExpiry) {
       isPremium = false;
       premiumExpiry = null;
@@ -882,22 +1302,22 @@ function openMateri(index) {
       showAlert('Masa premium Anda telah berakhir. Silakan perpanjang untuk mengakses materi.', true);
       return;
     }
-    
+
     var isOpened = openedIndexes.includes(index);
     var isLocked = !isOpened && !isPremium && todayLimit >= 2;
-    
+
     if (isLocked) {
       showAlert('Batas harian untuk akun standar telah tercapai (2 materi). Dapatkan akses premium untuk membuka seluruh materi tanpa batas.', true);
       return;
     }
-    
+
     if (!isOpened) {
       todayLimit++;
       openedIndexes.push(index);
       saveLocalProgress();
       updateUI();
       renderBagian();
-      
+
       if (currentUser) {
         var openedObj = {};
         openedIndexes.forEach(function(i) { openedObj[i] = true; });
@@ -905,12 +1325,12 @@ function openMateri(index) {
         db.ref('users/' + currentUser.uid + '/limit/python').set({ count: todayLimit, date: todayStr });
       }
     }
-    
+
     currentMateriIdx = index;
-    
+
     document.getElementById('halamanUtama').classList.add('hidden');
     document.getElementById('materiView').classList.remove('hidden');
-    
+
     document.getElementById('judulMateriView').innerHTML = materiList[index].judul;
     document.getElementById('isiMateriDetail').innerHTML = materiList[index].konten;
   });
@@ -938,10 +1358,6 @@ function backToList() {
   renderBagian();
 }
 
-function balikKeCoding() {
-  window.location.href = 'coding.html';
-}
-
 function showAlert(message, showUpgrade) {
   var overlay = document.getElementById('globalAlert');
   document.getElementById('alertMessage').innerText = message;
@@ -952,7 +1368,7 @@ function showAlert(message, showUpgrade) {
     btn.className = 'btn-full';
     btn.innerText = 'Tingkatkan ke Premium';
     btn.style.marginTop = '12px';
-    btn.onclick = function() { closeAlertGlobal(); goTo('premiumPage'); };
+    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
     extraDiv.appendChild(btn);
   }
   overlay.style.display = 'flex';
@@ -976,33 +1392,25 @@ function goTo(page) {
   window.location.href = page;
 }
 
-function gooTo(page) {
-  localStorage.setItem('targetPage', page);
-  window.location.href = 'coding.html';
-}
-
 function logoutAction() {
-  firebase.auth().signOut().then(function() {
-    window.location.href = 'coding.html';
-  });
+  if (confirm('Yakin ingin keluar?')) {
+    firebase.auth().signOut().then(function() {
+      window.location.href = 'login.html';
+    });
+  }
 }
 
 document.getElementById('prevBtn').onclick = prevMateri;
 document.getElementById('nextBtn').onclick = nextMateri;
 document.getElementById('backToListBtn').onclick = backToList;
 
-if (localStorage.getItem('isGuest') === 'true') {
-  showAlert('Silakan login terlebih dahulu untuk mengakses materi pembelajaran.', false);
-  setTimeout(function() { window.location.href = 'coding.html'; }, 2000);
-}
-
-if (localStorage.getItem('themeEkonomi') === 'dark') {
+if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
 
 window.addEventListener('DOMContentLoaded', function() {
   loadLocalProgress();
-  
+
   firebase.auth().onAuthStateChanged(function(user) {
     if (!user) {
       currentUser = null;
@@ -1012,15 +1420,15 @@ window.addEventListener('DOMContentLoaded', function() {
       renderBagian();
       return;
     }
-    
+
     currentUser = user;
-    
+
     db.ref('users/' + user.uid + '/premium/coding').once('value').then(function(snap) {
       isPremium = snap.val() === true;
       return db.ref('users/' + user.uid + '/premium/coding_expiry').once('value');
     }).then(function(expirySnap) {
       premiumExpiry = expirySnap.val() || null;
-      
+
       if (isPremium && premiumExpiry) {
         var now = Date.now();
         if (now > premiumExpiry) {
@@ -1030,12 +1438,12 @@ window.addEventListener('DOMContentLoaded', function() {
           db.ref('users/' + user.uid + '/premium/coding_expiry').remove();
         }
       }
-      
+
       return db.ref('users/' + user.uid + '/progress/python').once('value');
     }).then(function(snap) {
       if (snap.val()) {
         var data = snap.val();
-        var newOpened = Object.keys(data).map(Number);
+        var newOpened = Array.isArray(data) ? data : Object.keys(data).map(Number);
         if (JSON.stringify(newOpened) !== JSON.stringify(openedIndexes)) {
           openedIndexes = newOpened;
           saveLocalProgress();

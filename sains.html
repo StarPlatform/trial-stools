@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Sains - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -50,6 +66,31 @@
 
   body.dark .app-container {
     background: #0B1120;
+  }
+
+  body.dark .premium-indicator {
+    background: #1E293B;
+    color: #60A5FA;
+  }
+
+  body.dark .premium-indicator.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .premium-indicator.warning {
+    background: #7F1D1D;
+    color: #F87171;
+  }
+
+  body.dark .limit-indicator {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  body.dark .btn-outline {
+    border-color: #60A5FA;
+    color: #60A5FA;
   }
 
   .app-container {
@@ -294,24 +335,14 @@
     color: #2563EB;
   }
 
-  body.dark .premium-indicator {
-    background: #1E293B;
-    color: #60A5FA;
-  }
-
   .premium-indicator.active {
     background: #2563EB;
     color: white;
   }
 
   .premium-indicator.warning {
-    background: #FEF3C7;
-    color: #D97706;
-  }
-
-  body.dark .premium-indicator.warning {
-    background: #78350F;
-    color: #FBBF24;
+    background: #FEE2E2;
+    color: #DC2626;
   }
 
   .limit-indicator {
@@ -321,11 +352,6 @@
     font-size: 13px;
     font-weight: 600;
     color: #475569;
-  }
-
-  body.dark .limit-indicator {
-    background: #1E293B;
-    color: #94A3B8;
   }
 
   .grid-materi {
@@ -367,6 +393,15 @@
     background: #334155;
   }
 
+  .btn-materi.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-materi.disabled:active {
+    transform: none;
+  }
+
   .btn-full {
     background: #2563EB;
     border: none;
@@ -383,6 +418,23 @@
   .btn-full:active {
     transform: scale(0.97);
     background: #1D4ED8;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 2px solid #2563EB;
+    color: #2563EB;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.2s;
+  }
+
+  .btn-outline:active {
+    transform: scale(0.97);
   }
 
   .input-modern {
@@ -426,6 +478,11 @@
     border: 1px solid #E2E8F0;
   }
 
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
   @keyframes scaleIn {
     from { transform: scale(0.94); opacity: 0;}
     to { transform: scale(1); opacity: 1;}
@@ -461,6 +518,94 @@
   li {
     margin-bottom: 6px;
   }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      min-height: auto;
+    }
+
+    body.dark .app-container {
+      background: #111827;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+      position: relative;
+    }
+
+    .screen {
+      padding: 24px 24px 30px;
+    }
+
+    .card-modern {
+      padding: 24px;
+      margin-bottom: 24px;
+      border-radius: 24px;
+    }
+
+    .grid-materi {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .btn-materi {
+      padding: 18px 20px;
+      font-size: 15px;
+      border-radius: 20px;
+    }
+
+    .alert-card {
+      width: 340px;
+      padding: 28px 26px;
+      border-radius: 28px;
+    }
+
+    .sidebar-nav {
+      border-radius: 0 20px 20px 0;
+    }
+
+    .status-row {
+      flex-wrap: nowrap;
+    }
+
+    .premium-indicator,
+    .limit-indicator {
+      font-size: 14px;
+      padding: 8px 20px;
+    }
+
+    .input-modern {
+      padding: 16px 20px;
+      font-size: 16px;
+      border-radius: 60px;
+    }
+
+    .btn-full {
+      padding: 16px;
+      font-size: 16px;
+      border-radius: 44px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -485,6 +630,7 @@
     </button>
   </div>
 
+  <!-- Sidebar -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
   <div class="sidebar-nav" id="sidebarNav">
     <div class="close-sidebar-icon" onclick="closeSidebar()">
@@ -511,7 +657,9 @@
     </div>
   </div>
 
-  <div class="screen">
+  <!-- Main Screen -->
+  <div class="screen" id="mainScreen">
+    <!-- Welcome Section -->
     <div id="welcomeSection">
       <div class="card-modern">
         <div class="section-title">
@@ -524,6 +672,7 @@
         </div>
         <p style="margin-bottom: 16px;">Pelajari ilmu pengetahuan alam tentang bumi dan luar angkasa. Materi Geologi dan Astronomi tersedia lengkap.</p>
         
+        <!-- Status Premium dan Limit dalam satu baris -->
         <div class="status-row">
           <span id="premiumStatusBadge" class="premium-indicator">Akun Standar</span>
           <span id="limitCounter" class="limit-indicator">0/2 Hari Ini</span>
@@ -531,6 +680,7 @@
       </div>
     </div>
 
+    <!-- Panduan Aplikasi -->
     <div class="card-modern" id="caraPakaiCard">
       <div class="section-title">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
@@ -548,6 +698,7 @@
       </ul>
     </div>
 
+    <!-- Aktivasi Premium -->
     <div class="card-modern">
       <div class="section-title">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
@@ -559,29 +710,21 @@
       <button class="btn-full" onclick="activatePremium()">Aktifkan Akses Premium</button>
     </div>
 
+    <!-- Pilih Topik Sains -->
     <div class="card-modern" id="pilihMateriCard">
       <div class="section-title">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
         </svg>
         Pilih Topik Sains
       </div>
       <div class="grid-materi">
         <button class="btn-materi" onclick="selectMateri('geologi')">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-            <polyline points="2 17 12 22 22 17"/>
-            <polyline points="2 12 12 17 22 12"/>
-          </svg>
           Geologi
         </button>
         <button class="btn-materi" onclick="selectMateri('astronomi')">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="3"/>
-            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(45 12 12)"/>
-            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-45 12 12)"/>
-          </svg>
           Astronomi
         </button>
       </div>
@@ -593,6 +736,7 @@
   </div>
 </div>
 
+<!-- Alert Modal -->
 <div id="globalAlert" class="alert-overlay">
   <div class="alert-card">
     <p id="alertMessage" style="margin-bottom: 20px; font-weight: 500;">Pemberitahuan</p>
@@ -607,9 +751,6 @@ const firebaseConfig = {
   authDomain: "laporanstartools-c18b2.firebaseapp.com",
   databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "laporanstartools-c18b2",
-  storageBucket: "laporanstartools-c18b2.firebasestorage.app",
-  messagingSenderId: "596585220522",
-  appId: "1:596585220522:web:d61e13c60daff6daca43d3"
 };
 
 if (!firebase.apps.length) {
@@ -617,13 +758,17 @@ if (!firebase.apps.length) {
 }
 const db = firebase.database();
 
+// Global Variables
 let currentUser = null;
 let isPremium = false;
 let premiumExpiry = null;
 
-// =======================
-// SIDEBAR FUNCTIONS
-// =======================
+// ==================== THEME ====================
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+// ==================== SIDEBAR ====================
 function openSidebar() {
   document.getElementById('sidebarOverlay').classList.add('active');
   document.getElementById('sidebarNav').classList.add('active');
@@ -635,22 +780,16 @@ function closeSidebar() {
 }
 
 function goTo(page) {
-  localStorage.setItem('targetPage', page);
-  localStorage.setItem('activePage', page);
   window.location.href = page;
 }
 
 function logoutAction() {
-  if (confirm('Yakin ingin keluar?')) {
-    firebase.auth().signOut().then(() => {
-      window.location.reload();
-    });
-  }
+  firebase.auth().signOut().then(() => {
+    window.location.reload();
+  });
 }
 
-// =======================
-// ALERT FUNCTIONS
-// =======================
+// ==================== ALERT ====================
 function showAlert(message, showUpgrade) {
   if (showUpgrade === undefined) showUpgrade = false;
   const overlay = document.getElementById('globalAlert');
@@ -677,9 +816,7 @@ function closeAlertGlobal() {
   document.getElementById('globalAlert').style.display = 'none';
 }
 
-// =======================
-// UPDATE UI
-// =======================
+// ==================== UPDATE UI ====================
 function updateUI() {
   const badge = document.getElementById('premiumStatusBadge');
   const limitCounter = document.getElementById('limitCounter');
@@ -693,8 +830,8 @@ function updateUI() {
       badge.className = 'premium-indicator warning';
       limitCounter.innerText = '0/2 Hari Ini';
       if (currentUser) {
-        db.ref('users/' + currentUser.uid + '/premium/sains').set(false);
-        db.ref('users/' + currentUser.uid + '/premium/sains_expiry').remove();
+        db.ref(`users/${currentUser.uid}/premium/sains`).set(false);
+        db.ref(`users/${currentUser.uid}/premium/sains_expiry`).remove();
       }
       return;
     }
@@ -704,7 +841,7 @@ function updateUI() {
     badge.className = 'premium-indicator active';
     limitCounter.innerText = 'Tak Terbatas';
   } else if (isPremium) {
-    badge.innerText = 'Premium Aktif';
+    badge.innerText = 'Premium Sains';
     badge.className = 'premium-indicator active';
     limitCounter.innerText = 'Tak Terbatas';
   } else {
@@ -714,21 +851,25 @@ function updateUI() {
   }
 }
 
-// =======================
-// SELECT MATERI
-// =======================
-async function selectMateri(topic) {
+// ==================== SELECT MATERI ====================
+function selectMateri(topic) {
   if (!currentUser) {
     showAlert('Silakan masuk ke akun Anda terlebih dahulu untuk mengakses materi.', false);
     return;
   }
   
-  // Refresh cek premium
-  try {
-    const premSnap = await db.ref('users/' + currentUser.uid + '/premium/sains').once('value');
-    const expirySnap = await db.ref('users/' + currentUser.uid + '/premium/sains_expiry').once('value');
-    
-    isPremium = premSnap.val() === true;
+  const isGuest = localStorage.getItem('isGuest');
+  if (isGuest === 'true') {
+    localStorage.setItem('redirectAfterLogin', topic + '.html');
+    showAlert('Silakan login terlebih dahulu untuk mengakses materi pembelajaran.', true);
+    return;
+  }
+  
+  // Refresh cek premium dulu
+  db.ref('users/' + currentUser.uid + '/premium/sains').once('value').then(function(snap) {
+    isPremium = snap.val() === true;
+    return db.ref('users/' + currentUser.uid + '/premium/sains_expiry').once('value');
+  }).then(function(expirySnap) {
     premiumExpiry = expirySnap.val() || null;
     
     if (isPremium && premiumExpiry) {
@@ -736,18 +877,18 @@ async function selectMateri(topic) {
       if (now > premiumExpiry) {
         isPremium = false;
         premiumExpiry = null;
-        await db.ref('users/' + currentUser.uid + '/premium/sains').set(false);
-        await db.ref('users/' + currentUser.uid + '/premium/sains_expiry').remove();
+        db.ref('users/' + currentUser.uid + '/premium/sains').set(false);
+        db.ref('users/' + currentUser.uid + '/premium/sains_expiry').remove();
         updateUI();
         showAlert('Masa premium Anda telah berakhir. Silakan perpanjang untuk mengakses materi.', true);
         return;
       }
     }
     
-    localStorage.setItem('premiumSains', isPremium ? 'true' : 'false');
+    localStorage.setItem('premiumSains', isPremium);
     localStorage.setItem('allowSainsAccess', 'true');
     
-    let targetPage = '';
+    var targetPage = '';
     switch(topic) {
       case 'geologi':
         targetPage = 'geologi.html';
@@ -761,34 +902,30 @@ async function selectMateri(topic) {
     
     window.location.href = targetPage;
     
-  } catch (error) {
+  }).catch(function(error) {
     console.error('Error checking premium:', error);
     showAlert('Terjadi kesalahan. Silakan coba lagi.', false);
-  }
+  });
 }
 
-// =======================
-// ACTIVATE PREMIUM - SAINS
-// =======================
-async function activatePremium() {
+// ==================== ACTIVATE PREMIUM ====================
+function activatePremium() {
   if (!currentUser) {
     showAlert('Silakan login terlebih dahulu untuk mengaktifkan premium.', false);
     return;
   }
   
-  const kodeInput = document.getElementById('premiumCodeInput');
-  const kode = kodeInput.value.trim().toUpperCase();
+  var kodeInput = document.getElementById('premiumCodeInput');
+  var kode = kodeInput.value.trim().toUpperCase();
   if (!kode) {
     showAlert('Masukkan kode premium terlebih dahulu.', false);
     return;
   }
   
-  try {
-    // Cari kode di premiumCodes
-    const snap = await db.ref('premiumCodes').once('value');
-    let found = false;
-    let mapel = '';
-    let data = {};
+  db.ref('premiumCodes').once('value').then(function(snap) {
+    var found = false;
+    var mapel = '';
+    var data = {};
     
     snap.forEach(function(mapelSnap) {
       mapelSnap.forEach(function(codeSnap) {
@@ -811,28 +948,23 @@ async function activatePremium() {
       return;
     }
     
-    // Cek apakah kode masih aktif
     if (data.aktif === false) {
       showAlert('Kode sudah pernah digunakan.', false);
       return;
     }
     
-    // Cek apakah kode kadaluarsa
-    const expired = data.dibuat_pada + (data.masa_aktif_hari * 24 * 60 * 60 * 1000);
+    var expired = data.dibuat_pada + (data.masa_aktif_hari * 24 * 60 * 60 * 1000);
     if (Date.now() > expired) {
       showAlert('Kode sudah kadaluarsa.', false);
       return;
     }
     
-    // Hitung tanggal aktif sampai
-    const aktifSampai = Date.now() + (data.masa_aktif_hari * 24 * 60 * 60 * 1000);
+    var aktifSampai = Date.now() + (data.masa_aktif_hari * 24 * 60 * 60 * 1000);
     
-    // Update data user - SAINS
-    const updates = {};
+    var updates = {};
     updates['users/' + currentUser.uid + '/premium/sains'] = true;
     updates['users/' + currentUser.uid + '/premium/sains_expiry'] = aktifSampai;
     
-    // Tandai kode sudah dipakai
     updates['premiumCodes/' + mapel + '/' + kode] = {
       aktif: false,
       dibuat_pada: data.dibuat_pada,
@@ -841,17 +973,14 @@ async function activatePremium() {
       digunakan_pada: Date.now()
     };
     
-    await db.ref().update(updates);
+    return db.ref().update(updates);
     
-    // Update variable lokal
+  }).then(function() {
     isPremium = true;
     premiumExpiry = aktifSampai;
-    
-    // Update UI
     updateUI();
     
-    // Tampilkan pesan sukses
-    const hari = data.masa_aktif_hari;
+    var hari = data.masa_aktif_hari;
     showAlert(
       'Premium Sains berhasil diaktifkan!\n\n' +
       'Durasi: ' + hari + ' hari\n' +
@@ -860,18 +989,16 @@ async function activatePremium() {
       false
     );
     
-    kodeInput.value = '';
+    document.getElementById('premiumCodeInput').value = '';
     
-  } catch (error) {
+  }).catch(function(error) {
     console.error('Error activating premium:', error);
     showAlert('Terjadi kesalahan. Silakan coba lagi.', false);
-  }
+  });
 }
 
-// =======================
-// FIREBASE AUTH
-// =======================
-firebase.auth().onAuthStateChanged(async (user) => {
+// ==================== AUTH ====================
+firebase.auth().onAuthStateChanged(function(user) {
   if (!user) {
     currentUser = null;
     isPremium = false;
@@ -882,43 +1009,36 @@ firebase.auth().onAuthStateChanged(async (user) => {
   
   currentUser = user;
   
-  try {
-    // Cek premium sains
-    const premSnap = await db.ref('users/' + user.uid + '/premium/sains').once('value');
-    const expirySnap = await db.ref('users/' + user.uid + '/premium/sains_expiry').once('value');
-    
-    isPremium = premSnap.val() === true;
+  db.ref('users/' + user.uid + '/premium/sains').once('value').then(function(snap) {
+    isPremium = snap.val() === true;
+    return db.ref('users/' + user.uid + '/premium/sains_expiry').once('value');
+  }).then(function(expirySnap) {
     premiumExpiry = expirySnap.val() || null;
     
-    // Cek expiry
     if (isPremium && premiumExpiry) {
-      const now = Date.now();
+      var now = Date.now();
       if (now > premiumExpiry) {
         isPremium = false;
         premiumExpiry = null;
-        await db.ref('users/' + user.uid + '/premium/sains').set(false);
-        await db.ref('users/' + user.uid + '/premium/sains_expiry').remove();
+        db.ref('users/' + user.uid + '/premium/sains').set(false);
+        db.ref('users/' + user.uid + '/premium/sains_expiry').remove();
       }
     }
     
     updateUI();
     
-  } catch (error) {
+  }).catch(function(error) {
     console.error('Error loading user data:', error);
     updateUI();
-  }
+  });
 });
 
-// =======================
-// THEME
-// =======================
-if (localStorage.getItem('themeEkonomi') === 'dark') {
-  document.body.classList.add('dark');
-}
+// ==================== KEYBOARD ====================
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSidebar();
+});
 
-// =======================
-// EXPOSE GLOBAL FUNCTIONS
-// =======================
+// ==================== EXPOSE GLOBAL ====================
 window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
 window.goTo = goTo;

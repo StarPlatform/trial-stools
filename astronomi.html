@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Astronomi - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -326,37 +342,124 @@
   }
 
   .grid-bagian {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 10px;
     margin-top: 8px;
   }
 
   .materi-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
     background: #F8FAFE;
-    border: 1px solid #E2E8F0;
-    padding: 12px 6px;
+    border: 1.5px solid #E2E8F0;
+    padding: 14px;
     border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    text-align: center;
     cursor: pointer;
     color: #0F172A;
-    transition: 0.2s;
+    transition: 0.15s;
   }
 
   .materi-btn:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
+  }
+
+  .materi-btn .materi-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: #EFF6FF;
+    color: #2563EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: 0.15s;
+  }
+
+  body.dark .materi-btn .materi-num {
+    background: #1D2B4A;
+    color: #60A5FA;
+  }
+
+  .materi-btn .materi-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .materi-btn .materi-text .materi-title {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .materi-btn .materi-text .materi-sub {
+    font-size: 12px;
+    color: #64748B;
+    margin-top: 2px;
+  }
+
+  body.dark .materi-btn .materi-text .materi-sub {
+    color: #94A3B8;
+  }
+
+  .materi-btn .materi-status {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #CBD5E1;
+  }
+
+  body.dark .materi-btn .materi-status {
+    color: #475569;
+  }
+
+  .materi-btn .materi-status svg {
+    width: 16px;
+    height: 16px;
   }
 
   .materi-btn.opened {
+    background: #FFFFFF;
+    border-color: #BFDBFE;
+  }
+
+  body.dark .materi-btn.opened {
+    background: #111827;
+    border-color: #1D3A6E;
+  }
+
+  .materi-btn.opened .materi-num {
     background: #2563EB;
-    color: white;
-    border-color: #2563EB;
+    color: #fff;
+  }
+
+  .materi-btn.opened .materi-status {
+    background: #DCFCE7;
+    color: #16A34A;
+  }
+
+  body.dark .materi-btn.opened .materi-status {
+    background: #14311F;
+    color: #4ADE80;
   }
 
   .materi-btn.locked {
-    opacity: 0.5;
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .materi-btn.locked .materi-status {
+    color: #94A3B8;
   }
 
   .btn-full {
@@ -456,6 +559,46 @@
   .hidden {
     display: none;
   }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .grid-bagian {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -531,7 +674,7 @@
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
           </svg>
-          Daftar Materi Astronomi (1-50)
+          Daftar Materi
         </div>
         <div id="listBagianGrid" class="grid-bagian"></div>
       </div>
@@ -786,6 +929,206 @@ const materiList = [
   {
     judul: "Astronomi 50 - Observasi Spektroskopi",
     konten: '<h4>Pengertian</h4><p>Observasi spektroskopi adalah teknik untuk mempelajari cahaya benda langit dan menganalisis komposisi, suhu, dan gerakannya.</p><h4>Penjelasan</h4><p>Dengan spektroskopi, astronom dapat mengetahui unsur yang membentuk bintang, planet, atau nebula.</p><h4>Contoh</h4><p>Contohnya, mempelajari garis spektrum Matahari untuk menentukan unsur kimia dan temperatur permukaannya.</p><h4>Kesimpulan</h4><p>Mempelajari observasi spektroskopi membantu memahami komposisi benda langit dan interaksi cahaya-materi di alam semesta.</p>'
+  },
+  {
+    judul: "Astronomi 51 - Merkurius",
+    konten: "<h4>Pengertian</h4><p>Merkurius adalah planet terdekat dengan Matahari dan planet terkecil di Tata Surya.</p><h4>Penjelasan</h4><p>Permukaannya dipenuhi kawah seperti Bulan, hampir tidak memiliki atmosfer, dan mengalami perbedaan suhu ekstrem antara siang dan malam.</p><h4>Contoh</h4><p>Contohnya, misi MESSENGER milik NASA memetakan permukaan Merkurius secara detail pada tahun 2011-2015.</p><h4>Kesimpulan</h4><p>Mempelajari Merkurius membantu memahami planet berbatu tanpa atmosfer tebal dan proses pembentukannya di dekat Matahari.</p>"
+  },
+  {
+    judul: "Astronomi 52 - Venus",
+    konten: "<h4>Pengertian</h4><p>Venus adalah planet kedua dari Matahari yang dikenal sebagai kembaran Bumi karena ukurannya yang mirip.</p><h4>Penjelasan</h4><p>Atmosfer Venus sangat tebal berisi karbon dioksida yang menyebabkan efek rumah kaca ekstrem, membuatnya menjadi planet terpanas di Tata Surya.</p><h4>Contoh</h4><p>Contohnya, wahana Venera milik Uni Soviet berhasil mendarat dan mengirim foto permukaan Venus pada tahun 1970-an.</p><h4>Kesimpulan</h4><p>Mempelajari Venus membantu memahami efek rumah kaca dan bagaimana atmosfer memengaruhi iklim planet.</p>"
+  },
+  {
+    judul: "Astronomi 53 - Mars",
+    konten: "<h4>Pengertian</h4><p>Mars adalah planet keempat dari Matahari yang dikenal sebagai Planet Merah karena warna permukaannya.</p><h4>Penjelasan</h4><p>Permukaan Mars memiliki gunung berapi raksasa, lembah besar, dan bukti aliran air purba yang menjadikannya target utama pencarian kehidupan.</p><h4>Contoh</h4><p>Contohnya, wahana Perseverance milik NASA menjelajahi Kawah Jezero untuk mencari jejak kehidupan mikroba purba.</p><h4>Kesimpulan</h4><p>Mempelajari Mars membantu memahami sejarah air di planet lain dan potensi kehidupan di luar Bumi.</p>"
+  },
+  {
+    judul: "Astronomi 54 - Jupiter",
+    konten: "<h4>Pengertian</h4><p>Jupiter adalah planet terbesar di Tata Surya, tergolong planet gas raksasa.</p><h4>Penjelasan</h4><p>Jupiter memiliki Bintik Merah Besar, badai raksasa yang telah berlangsung ratusan tahun, serta puluhan satelit alami yang mengelilinginya.</p><h4>Contoh</h4><p>Contohnya, wahana Juno mempelajari medan magnet dan struktur dalam Jupiter sejak tahun 2016.</p><h4>Kesimpulan</h4><p>Mempelajari Jupiter membantu memahami pembentukan planet gas raksasa dan pengaruh gravitasinya terhadap Tata Surya.</p>"
+  },
+  {
+    judul: "Astronomi 55 - Saturnus",
+    konten: "<h4>Pengertian</h4><p>Saturnus adalah planet gas raksasa yang terkenal dengan sistem cincinnya yang megah.</p><h4>Penjelasan</h4><p>Cincin Saturnus tersusun dari jutaan partikel es dan batuan yang mengorbit planet, sementara satelitnya seperti Titan memiliki atmosfer tebal.</p><h4>Contoh</h4><p>Contohnya, wahana Cassini-Huygens mempelajari Saturnus dan satelitnya selama 13 tahun sebelum misinya berakhir pada 2017.</p><h4>Kesimpulan</h4><p>Mempelajari Saturnus membantu memahami dinamika cincin planet dan potensi satelit sebagai objek penelitian astrobiologi.</p>"
+  },
+  {
+    judul: "Astronomi 56 - Uranus",
+    konten: "<h4>Pengertian</h4><p>Uranus adalah planet ketujuh dari Matahari yang unik karena berotasi hampir menyamping.</p><h4>Penjelasan</h4><p>Kemiringan sumbu rotasi Uranus mencapai sekitar 98 derajat, menyebabkan musim yang sangat ekstrem dan berlangsung puluhan tahun.</p><h4>Contoh</h4><p>Contohnya, wahana Voyager 2 adalah satu-satunya wahana yang pernah terbang dekat Uranus pada tahun 1986.</p><h4>Kesimpulan</h4><p>Mempelajari Uranus membantu memahami keunikan rotasi planet dan komposisi planet es raksasa.</p>"
+  },
+  {
+    judul: "Astronomi 57 - Neptunus",
+    konten: "<h4>Pengertian</h4><p>Neptunus adalah planet terjauh dari Matahari dan tergolong planet es raksasa.</p><h4>Penjelasan</h4><p>Neptunus memiliki angin tercepat di Tata Surya dan warna biru cerah akibat kandungan gas metana di atmosfernya.</p><h4>Contoh</h4><p>Contohnya, Voyager 2 menemukan Great Dark Spot, badai raksasa di atmosfer Neptunus, saat melintas pada tahun 1989.</p><h4>Kesimpulan</h4><p>Mempelajari Neptunus membantu memahami dinamika atmosfer ekstrem pada planet yang jauh dari Matahari.</p>"
+  },
+  {
+    judul: "Astronomi 58 - Bulan Bumi",
+    konten: "<h4>Pengertian</h4><p>Bulan adalah satu-satunya satelit alami Bumi dan benda langit terdekat yang bisa diamati dengan jelas.</p><h4>Penjelasan</h4><p>Bulan memengaruhi pasang surut air laut, mengalami fase yang berulang setiap sekitar 29,5 hari, dan permukaannya dipenuhi kawah akibat tumbukan meteor.</p><h4>Contoh</h4><p>Contohnya, misi Apollo 11 pada tahun 1969 menjadi pendaratan berawak pertama manusia di permukaan Bulan.</p><h4>Kesimpulan</h4><p>Mempelajari Bulan membantu memahami sejarah tumbukan di Tata Surya dan pengaruh gravitasi satelit terhadap planet induknya.</p>"
+  },
+  {
+    judul: "Astronomi 59 - Matahari",
+    konten: "<h4>Pengertian</h4><p>Matahari adalah bintang pusat Tata Surya yang menjadi sumber utama cahaya dan energi bagi Bumi.</p><h4>Penjelasan</h4><p>Matahari tergolong bintang deret utama yang menghasilkan energi melalui reaksi fusi nuklir hidrogen menjadi helium di intinya.</p><h4>Contoh</h4><p>Contohnya, wahana Parker Solar Probe terbang mendekati Matahari untuk mempelajari korona dan angin matahari secara langsung.</p><h4>Kesimpulan</h4><p>Mempelajari Matahari membantu memahami sumber energi kehidupan di Bumi dan perilaku bintang secara umum.</p>"
+  },
+  {
+    judul: "Astronomi 60 - Fusi Nuklir Bintang",
+    konten: "<h4>Pengertian</h4><p>Fusi nuklir adalah proses penggabungan inti atom ringan menjadi inti yang lebih berat, disertai pelepasan energi besar.</p><h4>Penjelasan</h4><p>Di dalam inti bintang, fusi hidrogen menjadi helium menghasilkan energi yang membuat bintang bersinar selama miliaran tahun.</p><h4>Contoh</h4><p>Contohnya, di inti Matahari, empat inti hidrogen bergabung membentuk satu inti helium melalui rantai reaksi proton-proton.</p><h4>Kesimpulan</h4><p>Mempelajari fusi nuklir bintang membantu memahami sumber energi bintang dan potensi pemanfaatannya sebagai energi masa depan.</p>"
+  },
+  {
+    judul: "Astronomi 61 - Siklus Hidup Bintang",
+    konten: "<h4>Pengertian</h4><p>Siklus hidup bintang adalah tahapan yang dilalui bintang mulai dari pembentukan hingga akhir hayatnya.</p><h4>Penjelasan</h4><p>Bintang terbentuk dari awan gas dan debu, berkembang menjadi bintang deret utama, lalu berakhir sebagai katai putih, bintang neutron, atau lubang hitam tergantung massanya.</p><h4>Contoh</h4><p>Contohnya, Matahari diperkirakan akan berubah menjadi raksasa merah sebelum akhirnya menjadi katai putih dalam miliaran tahun mendatang.</p><h4>Kesimpulan</h4><p>Mempelajari siklus hidup bintang membantu memahami asal-usul unsur kimia di alam semesta dan masa depan Matahari.</p>"
+  },
+  {
+    judul: "Astronomi 62 - Katai Putih",
+    konten: "<h4>Pengertian</h4><p>Katai putih adalah sisa inti bintang bermassa kecil hingga sedang setelah kehabisan bahan bakar nuklirnya.</p><h4>Penjelasan</h4><p>Katai putih sangat padat dan panas namun perlahan mendingin selama miliaran tahun tanpa lagi melakukan fusi nuklir.</p><h4>Contoh</h4><p>Contohnya, Sirius B adalah katai putih yang mengorbit bersama bintang terang Sirius A di rasi Canis Major.</p><h4>Kesimpulan</h4><p>Mempelajari katai putih membantu memahami akhir hidup bintang bermassa sedang seperti Matahari.</p>"
+  },
+  {
+    judul: "Astronomi 63 - Bintang Neutron",
+    konten: "<h4>Pengertian</h4><p>Bintang neutron adalah sisa inti bintang masif yang runtuh setelah ledakan supernova.</p><h4>Penjelasan</h4><p>Bintang neutron memiliki kepadatan sangat tinggi sehingga satu sendok materinya bisa bermassa jutaan ton, dan sebagian berputar sangat cepat sebagai pulsar.</p><h4>Contoh</h4><p>Contohnya, Pulsar Crab adalah bintang neutron berputar cepat yang terbentuk dari supernova yang tercatat pada tahun 1054.</p><h4>Kesimpulan</h4><p>Mempelajari bintang neutron membantu memahami materi dalam kondisi ekstrem yang tidak bisa ditiru di laboratorium Bumi.</p>"
+  },
+  {
+    judul: "Astronomi 64 - Gugus Bintang Terbuka",
+    konten: "<h4>Pengertian</h4><p>Gugus bintang terbuka adalah kumpulan ratusan hingga ribuan bintang muda yang terbentuk dari awan gas yang sama.</p><h4>Penjelasan</h4><p>Bintang-bintang dalam gugus terbuka terikat secara longgar oleh gravitasi dan biasanya tersebar di piringan galaksi.</p><h4>Contoh</h4><p>Contohnya, gugus Pleiades atau Bintang Tujuh adalah gugus terbuka terkenal yang bisa dilihat dengan mata telanjang.</p><h4>Kesimpulan</h4><p>Mempelajari gugus bintang terbuka membantu memahami pembentukan bintang secara berkelompok dalam waktu yang hampir bersamaan.</p>"
+  },
+  {
+    judul: "Astronomi 65 - Gugus Bintang Bola",
+    konten: "<h4>Pengertian</h4><p>Gugus bintang bola adalah kumpulan padat berisi ratusan ribu hingga jutaan bintang tua yang terikat kuat oleh gravitasi.</p><h4>Penjelasan</h4><p>Gugus ini berbentuk bola dan umumnya ditemukan mengelilingi inti galaksi, berisi bintang-bintang yang jauh lebih tua dibanding gugus terbuka.</p><h4>Contoh</h4><p>Contohnya, Omega Centauri adalah gugus bola terbesar yang mengelilingi galaksi Bima Sakti.</p><h4>Kesimpulan</h4><p>Mempelajari gugus bola membantu memahami sejarah awal pembentukan galaksi dan populasi bintang tertua di alam semesta.</p>"
+  },
+  {
+    judul: "Astronomi 66 - Galaksi Bima Sakti",
+    konten: "<h4>Pengertian</h4><p>Bima Sakti adalah galaksi tempat Tata Surya berada, berbentuk spiral berpalang dengan miliaran bintang.</p><h4>Penjelasan</h4><p>Bima Sakti memiliki lubang hitam supermasif di pusatnya dan Tata Surya terletak di salah satu lengan spiralnya.</p><h4>Contoh</h4><p>Contohnya, teleskop inframerah digunakan untuk menembus debu kosmik dan memetakan struktur pusat Bima Sakti.</p><h4>Kesimpulan</h4><p>Mempelajari Bima Sakti membantu memahami posisi dan pergerakan Tata Surya dalam skala galaksi.</p>"
+  },
+  {
+    judul: "Astronomi 67 - Galaksi Spiral",
+    konten: "<h4>Pengertian</h4><p>Galaksi spiral adalah galaksi berbentuk cakram dengan lengan-lengan spiral yang berisi bintang, gas, dan debu.</p><h4>Penjelasan</h4><p>Lengan spiral terbentuk akibat gelombang kerapatan yang memicu pembentukan bintang baru di sepanjang lengannya.</p><h4>Contoh</h4><p>Contohnya, Galaksi Andromeda adalah galaksi spiral tetangga terdekat Bima Sakti.</p><h4>Kesimpulan</h4><p>Mempelajari galaksi spiral membantu memahami struktur dan proses pembentukan bintang dalam skala galaksi.</p>"
+  },
+  {
+    judul: "Astronomi 68 - Galaksi Elips",
+    konten: "<h4>Pengertian</h4><p>Galaksi elips adalah galaksi berbentuk bulat atau lonjong tanpa struktur lengan spiral yang jelas.</p><h4>Penjelasan</h4><p>Galaksi elips umumnya berisi bintang-bintang tua dan memiliki sedikit gas serta debu untuk membentuk bintang baru.</p><h4>Contoh</h4><p>Contohnya, Galaksi M87 adalah galaksi elips raksasa yang memiliki lubang hitam supermasif yang pernah difoto langsung.</p><h4>Kesimpulan</h4><p>Mempelajari galaksi elips membantu memahami hasil akhir evolusi galaksi setelah proses penggabungan.</p>"
+  },
+  {
+    judul: "Astronomi 69 - Galaksi Tak Beraturan",
+    konten: "<h4>Pengertian</h4><p>Galaksi tak beraturan adalah galaksi yang tidak memiliki bentuk simetris seperti spiral maupun elips.</p><h4>Penjelasan</h4><p>Bentuk tak beraturan ini sering disebabkan oleh interaksi gravitasi atau tabrakan dengan galaksi lain.</p><h4>Contoh</h4><p>Contohnya, Awan Magellan Besar dan Kecil adalah galaksi tak beraturan yang menjadi satelit Bima Sakti.</p><h4>Kesimpulan</h4><p>Mempelajari galaksi tak beraturan membantu memahami dampak interaksi gravitasi antar galaksi.</p>"
+  },
+  {
+    judul: "Astronomi 70 - Tabrakan Galaksi",
+    konten: "<h4>Pengertian</h4><p>Tabrakan galaksi adalah peristiwa ketika dua galaksi saling mendekat dan berinteraksi akibat gaya gravitasi.</p><h4>Penjelasan</h4><p>Proses ini dapat mengubah bentuk galaksi, memicu pembentukan bintang baru secara besar-besaran, dan akhirnya menggabungkan kedua galaksi.</p><h4>Contoh</h4><p>Contohnya, Galaksi Andromeda diperkirakan akan bertabrakan dengan Bima Sakti dalam sekitar 4 miliar tahun mendatang.</p><h4>Kesimpulan</h4><p>Mempelajari tabrakan galaksi membantu memahami evolusi struktur besar alam semesta dari waktu ke waktu.</p>"
+  },
+  {
+    judul: "Astronomi 71 - Grup Lokal Galaksi",
+    konten: "<h4>Pengertian</h4><p>Grup Lokal adalah kumpulan galaksi yang terikat gravitasi, termasuk Bima Sakti, Andromeda, dan puluhan galaksi kecil lainnya.</p><h4>Penjelasan</h4><p>Galaksi-galaksi dalam Grup Lokal saling memengaruhi melalui gravitasi dan menjadi bagian dari struktur skala besar alam semesta.</p><h4>Contoh</h4><p>Contohnya, Galaksi Triangulum adalah anggota ketiga terbesar dalam Grup Lokal setelah Bima Sakti dan Andromeda.</p><h4>Kesimpulan</h4><p>Mempelajari Grup Lokal membantu memahami bagaimana galaksi-galaksi terorganisir dalam skala yang lebih besar.</p>"
+  },
+  {
+    judul: "Astronomi 72 - Struktur Skala Besar Alam Semesta",
+    konten: "<h4>Pengertian</h4><p>Struktur skala besar adalah pola persebaran galaksi di alam semesta yang membentuk jaring kosmik raksasa.</p><h4>Penjelasan</h4><p>Galaksi-galaksi tersusun dalam filamen dan gugus yang mengelilingi rongga kosong besar yang disebut void.</p><h4>Contoh</h4><p>Contohnya, survei galaksi Sloan Digital Sky Survey memetakan jutaan galaksi untuk mengungkap struktur jaring kosmik ini.</p><h4>Kesimpulan</h4><p>Mempelajari struktur skala besar membantu memahami bagaimana gravitasi membentuk pola alam semesta secara keseluruhan.</p>"
+  },
+  {
+    judul: "Astronomi 73 - Radiasi Latar Kosmik",
+    konten: "<h4>Pengertian</h4><p>Radiasi latar kosmik atau CMB adalah radiasi sisa dari peristiwa Big Bang yang memenuhi seluruh alam semesta.</p><h4>Penjelasan</h4><p>Radiasi ini ditemukan hampir seragam ke segala arah dan menjadi bukti kuat teori Big Bang.</p><h4>Contoh</h4><p>Contohnya, satelit Planck milik ESA memetakan CMB secara sangat detail untuk mempelajari kondisi awal alam semesta.</p><h4>Kesimpulan</h4><p>Mempelajari radiasi latar kosmik membantu memahami kondisi alam semesta saat masih sangat muda.</p>"
+  },
+  {
+    judul: "Astronomi 74 - Hukum Hubble",
+    konten: "<h4>Pengertian</h4><p>Hukum Hubble menyatakan bahwa galaksi-galaksi bergerak menjauhi kita dengan kecepatan yang sebanding dengan jaraknya.</p><h4>Penjelasan</h4><p>Penemuan ini menjadi bukti utama bahwa alam semesta terus mengembang sejak peristiwa Big Bang.</p><h4>Contoh</h4><p>Contohnya, Edwin Hubble mengamati pergeseran merah pada galaksi-galaksi jauh untuk merumuskan hukum ini pada tahun 1929.</p><h4>Kesimpulan</h4><p>Mempelajari Hukum Hubble membantu memahami laju pengembangan alam semesta dan usia alam semesta.</p>"
+  },
+  {
+    judul: "Astronomi 75 - Pergeseran Merah",
+    konten: "<h4>Pengertian</h4><p>Pergeseran merah atau redshift adalah pergeseran panjang gelombang cahaya menuju warna merah akibat objek yang menjauh dari pengamat.</p><h4>Penjelasan</h4><p>Semakin jauh sebuah galaksi, semakin besar pergeseran merah yang teramati, menunjukkan alam semesta yang terus mengembang.</p><h4>Contoh</h4><p>Contohnya, cahaya dari galaksi yang sangat jauh menunjukkan pergeseran merah signifikan dibanding cahaya dari galaksi terdekat.</p><h4>Kesimpulan</h4><p>Mempelajari pergeseran merah membantu menentukan jarak dan kecepatan galaksi di alam semesta.</p>"
+  },
+  {
+    judul: "Astronomi 76 - Paralaks Bintang",
+    konten: "<h4>Pengertian</h4><p>Paralaks bintang adalah pergeseran posisi bintang yang tampak akibat perubahan posisi pengamatan Bumi mengelilingi Matahari.</p><h4>Penjelasan</h4><p>Metode ini digunakan untuk mengukur jarak bintang-bintang terdekat dengan cara mengukur sudut pergeserannya.</p><h4>Contoh</h4><p>Contohnya, satelit Gaia mengukur paralaks jutaan bintang untuk memetakan jarak mereka secara presisi.</p><h4>Kesimpulan</h4><p>Mempelajari paralaks bintang membantu menentukan jarak bintang secara akurat sebagai dasar pengukuran astronomi.</p>"
+  },
+  {
+    judul: "Astronomi 77 - Magnitudo Bintang",
+    konten: "<h4>Pengertian</h4><p>Magnitudo adalah skala yang digunakan untuk mengukur tingkat kecerlangan sebuah bintang.</p><h4>Penjelasan</h4><p>Semakin kecil nilai magnitudo, semakin terang bintang tersebut terlihat, dan skala ini terbagi menjadi magnitudo semu dan magnitudo mutlak.</p><h4>Contoh</h4><p>Contohnya, Sirius memiliki magnitudo semu paling terang di langit malam dibanding bintang lainnya.</p><h4>Kesimpulan</h4><p>Mempelajari magnitudo bintang membantu membandingkan kecerlangan berbagai bintang secara objektif.</p>"
+  },
+  {
+    judul: "Astronomi 78 - Diagram Hertzsprung-Russell",
+    konten: "<h4>Pengertian</h4><p>Diagram Hertzsprung-Russell adalah grafik yang menghubungkan suhu dan kecerlangan bintang untuk mengklasifikasikan jenisnya.</p><h4>Penjelasan</h4><p>Diagram ini menunjukkan pola tertentu seperti deret utama, raksasa, dan katai putih berdasarkan posisi bintang pada grafik.</p><h4>Contoh</h4><p>Contohnya, Matahari berada pada posisi deret utama dalam diagram Hertzsprung-Russell.</p><h4>Kesimpulan</h4><p>Mempelajari diagram ini membantu memahami klasifikasi dan tahap evolusi berbagai jenis bintang.</p>"
+  },
+  {
+    judul: "Astronomi 79 - Zona Layak Huni",
+    konten: "<h4>Pengertian</h4><p>Zona layak huni adalah wilayah di sekitar bintang yang memungkinkan air berbentuk cair di permukaan planet.</p><h4>Penjelasan</h4><p>Jarak zona ini bergantung pada suhu dan kecerlangan bintang, sehingga berbeda-beda untuk setiap sistem bintang.</p><h4>Contoh</h4><p>Contohnya, Bumi berada dalam zona layak huni Matahari sehingga air dapat tetap berbentuk cair.</p><h4>Kesimpulan</h4><p>Mempelajari zona layak huni membantu pencarian planet yang berpotensi mendukung kehidupan.</p>"
+  },
+  {
+    judul: "Astronomi 80 - Pencarian Kehidupan Ekstraterestrial",
+    konten: "<h4>Pengertian</h4><p>SETI adalah upaya ilmiah untuk mencari tanda-tanda kehidupan cerdas di luar Bumi melalui sinyal radio atau cahaya.</p><h4>Penjelasan</h4><p>Program ini menggunakan teleskop radio untuk memindai sinyal yang berpotensi berasal dari peradaban di luar Tata Surya.</p><h4>Contoh</h4><p>Contohnya, proyek SETI Institute memindai ribuan bintang untuk mencari sinyal radio yang tidak alami.</p><h4>Kesimpulan</h4><p>Mempelajari SETI membantu memahami upaya ilmiah dalam menjawab pertanyaan tentang keberadaan kehidupan lain di alam semesta.</p>"
+  },
+  {
+    judul: "Astronomi 81 - Astrobiologi",
+    konten: "<h4>Pengertian</h4><p>Astrobiologi adalah ilmu yang mempelajari kemungkinan kehidupan di luar Bumi dan asal-usul kehidupan di alam semesta.</p><h4>Penjelasan</h4><p>Bidang ini menggabungkan biologi, kimia, dan astronomi untuk memahami kondisi yang mendukung kehidupan pada benda langit lain.</p><h4>Contoh</h4><p>Contohnya, penelitian astrobiologi mempelajari kemungkinan kehidupan mikroba di bawah permukaan es Europa, satelit Jupiter.</p><h4>Kesimpulan</h4><p>Mempelajari astrobiologi membantu memperluas pemahaman tentang definisi dan syarat kehidupan di alam semesta.</p>"
+  },
+  {
+    judul: "Astronomi 82 - Misi Voyager",
+    konten: "<h4>Pengertian</h4><p>Misi Voyager adalah program eksplorasi luar angkasa NASA yang mengirim dua wahana untuk mempelajari planet luar Tata Surya.</p><h4>Penjelasan</h4><p>Voyager 1 dan Voyager 2 berhasil melintasi Jupiter, Saturnus, Uranus, dan Neptunus, serta kini telah memasuki ruang antarbintang.</p><h4>Contoh</h4><p>Contohnya, Voyager 1 menjadi objek buatan manusia pertama yang meninggalkan Tata Surya pada tahun 2012.</p><h4>Kesimpulan</h4><p>Mempelajari misi Voyager membantu memahami eksplorasi jarak jauh dan batas terluar pengaruh Matahari.</p>"
+  },
+  {
+    judul: "Astronomi 83 - Misi Apollo",
+    konten: "<h4>Pengertian</h4><p>Misi Apollo adalah program luar angkasa Amerika Serikat yang berhasil mendaratkan manusia di Bulan.</p><h4>Penjelasan</h4><p>Program ini terdiri dari beberapa misi berawak dengan puncaknya pada Apollo 11 yang membawa astronot pertama menginjakkan kaki di Bulan.</p><h4>Contoh</h4><p>Contohnya, Neil Armstrong dan Buzz Aldrin menjadi manusia pertama yang mendarat di Bulan pada tahun 1969.</p><h4>Kesimpulan</h4><p>Mempelajari misi Apollo membantu memahami sejarah eksplorasi manusia ke benda langit lain.</p>"
+  },
+  {
+    judul: "Astronomi 84 - Stasiun Luar Angkasa Internasional",
+    konten: "<h4>Pengertian</h4><p>ISS adalah stasiun luar angkasa yang mengorbit Bumi dan menjadi laboratorium penelitian internasional.</p><h4>Penjelasan</h4><p>Stasiun ini dihuni secara bergantian oleh astronot dari berbagai negara untuk melakukan penelitian dalam kondisi gravitasi mikro.</p><h4>Contoh</h4><p>Contohnya, ISS digunakan untuk meneliti efek gravitasi mikro terhadap tubuh manusia dan pertumbuhan tanaman.</p><h4>Kesimpulan</h4><p>Mempelajari ISS membantu memahami kerja sama internasional dalam eksplorasi dan penelitian luar angkasa.</p>"
+  },
+  {
+    judul: "Astronomi 85 - Roket dan Peluncuran Luar Angkasa",
+    konten: "<h4>Pengertian</h4><p>Roket adalah kendaraan yang digunakan untuk membawa wahana atau manusia keluar dari atmosfer Bumi menuju luar angkasa.</p><h4>Penjelasan</h4><p>Roket bekerja berdasarkan prinsip aksi-reaksi dengan mendorong gas hasil pembakaran ke satu arah untuk menghasilkan daya dorong ke arah berlawanan.</p><h4>Contoh</h4><p>Contohnya, roket Falcon 9 milik SpaceX dikenal karena kemampuannya mendarat kembali dan digunakan ulang.</p><h4>Kesimpulan</h4><p>Mempelajari roket membantu memahami teknologi dasar yang memungkinkan eksplorasi luar angkasa.</p>"
+  },
+  {
+    judul: "Astronomi 86 - Satelit Cuaca",
+    konten: "<h4>Pengertian</h4><p>Satelit cuaca adalah satelit yang mengorbit Bumi untuk memantau kondisi atmosfer dan cuaca secara global.</p><h4>Penjelasan</h4><p>Satelit ini mengirimkan data awan, suhu, dan pola angin yang digunakan untuk memprediksi cuaca dan bencana alam.</p><h4>Contoh</h4><p>Contohnya, satelit Himawari digunakan untuk memantau cuaca di kawasan Asia Pasifik termasuk Indonesia.</p><h4>Kesimpulan</h4><p>Mempelajari satelit cuaca membantu memahami penerapan teknologi luar angkasa dalam kehidupan sehari-hari.</p>"
+  },
+  {
+    judul: "Astronomi 87 - Satelit Navigasi",
+    konten: "<h4>Pengertian</h4><p>Satelit navigasi adalah jaringan satelit yang digunakan untuk menentukan posisi suatu objek di permukaan Bumi.</p><h4>Penjelasan</h4><p>Sistem seperti GPS menggunakan sinyal dari beberapa satelit untuk menghitung lokasi secara presisi melalui triangulasi.</p><h4>Contoh</h4><p>Contohnya, sistem GPS digunakan secara luas pada smartphone untuk penunjuk arah dan pelacakan lokasi.</p><h4>Kesimpulan</h4><p>Mempelajari satelit navigasi membantu memahami penerapan astronomi dan fisika dalam teknologi modern.</p>"
+  },
+  {
+    judul: "Astronomi 88 - Kalender Astronomi",
+    konten: "<h4>Pengertian</h4><p>Kalender astronomi adalah sistem penanggalan yang didasarkan pada pergerakan benda langit seperti Matahari dan Bulan.</p><h4>Penjelasan</h4><p>Kalender Masehi didasarkan pada revolusi Bumi mengelilingi Matahari, sementara kalender Hijriah didasarkan pada fase Bulan.</p><h4>Contoh</h4><p>Contohnya, penentuan tahun kabisat pada kalender Masehi disesuaikan dengan waktu revolusi Bumi yang sebenarnya.</p><h4>Kesimpulan</h4><p>Mempelajari kalender astronomi membantu memahami hubungan antara pergerakan benda langit dan sistem penanggalan manusia.</p>"
+  },
+  {
+    judul: "Astronomi 89 - Zodiak dan Astronomi",
+    konten: "<h4>Pengertian</h4><p>Zodiak adalah sabuk rasi bintang yang dilalui oleh lintasan semu Matahari sepanjang tahun.</p><h4>Penjelasan</h4><p>Dalam astronomi, zodiak digunakan untuk menandai posisi Matahari, Bulan, dan planet di antara rasi-rasi bintang tersebut.</p><h4>Contoh</h4><p>Contohnya, rasi Leo dan Scorpius merupakan bagian dari dua belas rasi zodiak yang dikenal secara umum.</p><h4>Kesimpulan</h4><p>Mempelajari zodiak dalam konteks astronomi membantu memahami pergerakan semu benda langit sepanjang tahun.</p>"
+  },
+  {
+    judul: "Astronomi 90 - Equinox dan Solstis",
+    konten: "<h4>Pengertian</h4><p>Equinox dan solstis adalah peristiwa astronomi yang menandai perubahan musim akibat kemiringan sumbu Bumi.</p><h4>Penjelasan</h4><p>Equinox terjadi ketika siang dan malam berdurasi hampir sama, sedangkan solstis menandai siang terpanjang atau terpendek dalam setahun.</p><h4>Contoh</h4><p>Contohnya, solstis musim panas terjadi sekitar bulan Juni di belahan Bumi utara.</p><h4>Kesimpulan</h4><p>Mempelajari equinox dan solstis membantu memahami penyebab pergantian musim di Bumi.</p>"
+  },
+  {
+    judul: "Astronomi 91 - Presesi Bumi",
+    konten: "<h4>Pengertian</h4><p>Presesi Bumi adalah gerakan melingkar perlahan pada sumbu rotasi Bumi akibat pengaruh gravitasi Matahari dan Bulan.</p><h4>Penjelasan</h4><p>Presesi menyebabkan arah sumbu Bumi berubah secara bertahap dalam siklus sekitar 26.000 tahun.</p><h4>Contoh</h4><p>Contohnya, akibat presesi, bintang penunjuk arah utara akan berganti dari Polaris ke bintang lain dalam ribuan tahun mendatang.</p><h4>Kesimpulan</h4><p>Mempelajari presesi Bumi membantu memahami perubahan jangka panjang pada orientasi dan iklim Bumi.</p>"
+  },
+  {
+    judul: "Astronomi 92 - Pasang Surut Air Laut",
+    konten: "<h4>Pengertian</h4><p>Pasang surut adalah naik turunnya permukaan air laut akibat gaya gravitasi Bulan dan Matahari terhadap Bumi.</p><h4>Penjelasan</h4><p>Gravitasi Bulan memiliki pengaruh lebih besar dibanding Matahari karena jaraknya yang jauh lebih dekat dengan Bumi.</p><h4>Contoh</h4><p>Contohnya, pasang purnama yang lebih tinggi terjadi saat Matahari, Bumi, dan Bulan berada dalam satu garis lurus.</p><h4>Kesimpulan</h4><p>Mempelajari pasang surut membantu memahami pengaruh gravitasi benda langit terhadap fenomena di Bumi.</p>"
+  },
+  {
+    judul: "Astronomi 93 - Fase Bulan",
+    konten: "<h4>Pengertian</h4><p>Fase Bulan adalah perubahan tampilan bagian Bulan yang terlihat bercahaya akibat posisinya terhadap Matahari dan Bumi.</p><h4>Penjelasan</h4><p>Fase Bulan berulang dalam siklus sekitar 29,5 hari, mulai dari bulan baru, sabit, purnama, hingga kembali ke bulan baru.</p><h4>Contoh</h4><p>Contohnya, saat bulan purnama, seluruh permukaan Bulan yang menghadap Bumi tampak bercahaya penuh.</p><h4>Kesimpulan</h4><p>Mempelajari fase Bulan membantu memahami posisi relatif Bumi, Bulan, dan Matahari dalam sistem tiga benda.</p>"
+  },
+  {
+    judul: "Astronomi 94 - Gerhana Matahari Cincin",
+    konten: "<h4>Pengertian</h4><p>Gerhana Matahari cincin terjadi ketika Bulan berada pada titik terjauh dari Bumi sehingga tidak menutupi Matahari sepenuhnya.</p><h4>Penjelasan</h4><p>Peristiwa ini menghasilkan cincin cahaya Matahari yang mengelilingi bayangan Bulan saat puncak gerhana.</p><h4>Contoh</h4><p>Contohnya, gerhana Matahari cincin dapat teramati dari jalur sempit tertentu di permukaan Bumi pada waktu yang telah diprediksi.</p><h4>Kesimpulan</h4><p>Mempelajari gerhana Matahari cincin membantu memahami variasi jarak orbit Bulan terhadap Bumi.</p>"
+  },
+  {
+    judul: "Astronomi 95 - Aurora",
+    konten: "<h4>Pengertian</h4><p>Aurora adalah fenomena cahaya berwarna-warni di langit malam yang terjadi di wilayah dekat kutub Bumi.</p><h4>Penjelasan</h4><p>Aurora terbentuk akibat partikel bermuatan dari angin matahari berinteraksi dengan medan magnet dan atmosfer Bumi.</p><h4>Contoh</h4><p>Contohnya, Aurora Borealis dapat diamati di wilayah utara seperti Norwegia, Islandia, dan Kanada.</p><h4>Kesimpulan</h4><p>Mempelajari aurora membantu memahami interaksi antara angin matahari dan medan magnet Bumi.</p>"
+  },
+  {
+    judul: "Astronomi 96 - Cincin Planet",
+    konten: "<h4>Pengertian</h4><p>Cincin planet adalah kumpulan partikel es, debu, dan batuan kecil yang mengelilingi sebuah planet dalam bentuk piringan tipis.</p><h4>Penjelasan</h4><p>Keempat planet gas raksasa di Tata Surya memiliki sistem cincin, meskipun cincin Saturnus adalah yang paling jelas terlihat.</p><h4>Contoh</h4><p>Contohnya, cincin Saturnus dapat diamati langsung menggunakan teleskop sederhana dari Bumi.</p><h4>Kesimpulan</h4><p>Mempelajari cincin planet membantu memahami sisa material pembentukan satelit di sekitar planet raksasa.</p>"
+  },
+  {
+    judul: "Astronomi 97 - Titan Satelit Saturnus",
+    konten: "<h4>Pengertian</h4><p>Titan adalah satelit terbesar Saturnus dan satu-satunya satelit di Tata Surya yang memiliki atmosfer tebal.</p><h4>Penjelasan</h4><p>Permukaan Titan memiliki danau dan sungai yang terbentuk dari metana cair, menjadikannya objek menarik untuk studi astrobiologi.</p><h4>Contoh</h4><p>Contohnya, wahana Huygens berhasil mendarat di permukaan Titan pada tahun 2005 dan mengirimkan data langsung.</p><h4>Kesimpulan</h4><p>Mempelajari Titan membantu memahami kemungkinan siklus cairan di luar air pada benda langit lain.</p>"
+  },
+  {
+    judul: "Astronomi 98 - Europa Satelit Jupiter",
+    konten: "<h4>Pengertian</h4><p>Europa adalah satelit Jupiter yang permukaannya tertutup lapisan es dan diduga menyimpan lautan cair di bawahnya.</p><h4>Penjelasan</h4><p>Keberadaan lautan bawah permukaan membuat Europa menjadi salah satu kandidat utama pencarian kehidupan di luar Bumi.</p><h4>Contoh</h4><p>Contohnya, misi Europa Clipper dirancang untuk mempelajari lapisan es dan lautan di bawah permukaan Europa.</p><h4>Kesimpulan</h4><p>Mempelajari Europa membantu memahami potensi kehidupan pada satelit es di luar Tata Surya bagian dalam.</p>"
+  },
+  {
+    judul: "Astronomi 99 - Penjelajah Mars",
+    konten: "<h4>Pengertian</h4><p>Wahana penjelajah Mars adalah robot yang dikirim untuk menjelajahi dan meneliti permukaan planet Mars secara langsung.</p><h4>Penjelasan</h4><p>Penjelajah ini dilengkapi berbagai instrumen untuk menganalisis tanah, batuan, dan atmosfer guna mencari jejak kehidupan purba.</p><h4>Contoh</h4><p>Contohnya, wahana Curiosity dan Perseverance telah beroperasi bertahun-tahun untuk meneliti permukaan Mars.</p><h4>Kesimpulan</h4><p>Mempelajari penjelajah Mars membantu memahami teknologi robotik dalam eksplorasi planet lain.</p>"
+  },
+  {
+    judul: "Astronomi 100 - Masa Depan Eksplorasi Luar Angkasa",
+    konten: "<h4>Pengertian</h4><p>Masa depan eksplorasi luar angkasa mencakup rencana misi berawak ke Mars, pembangunan pangkalan Bulan, dan pengembangan teknologi roket baru.</p><h4>Penjelasan</h4><p>Berbagai lembaga antariksa dan perusahaan swasta kini berlomba mengembangkan teknologi untuk menjadikan manusia sebagai spesies antarplanet.</p><h4>Contoh</h4><p>Contohnya, program Artemis milik NASA bertujuan mengembalikan manusia ke Bulan sebagai langkah awal menuju misi ke Mars.</p><h4>Kesimpulan</h4><p>Mempelajari masa depan eksplorasi luar angkasa membantu memahami arah perkembangan teknologi antariksa di masa mendatang.</p>"
   }
 ];
 
@@ -848,13 +1191,34 @@ function renderBagian() {
   if (!container) return;
   container.innerHTML = '';
 
+  const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const iconLock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+  const iconChevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
   for (let i = 0; i < materiList.length; i++) {
+    const isOpened = openedIndexes.includes(i);
+    const isLocked = !isOpened && !isPremium && todayLimit >= 2;
+
+    const rawTitle = materiList[i].judul;
+    const dashIdx = rawTitle.indexOf(' - ');
+    const shortTitle = dashIdx !== -1 ? rawTitle.substring(dashIdx + 3) : rawTitle;
+
     const btn = document.createElement('div');
     btn.className = 'materi-btn';
-    btn.innerText = 'Bagian ' + (i + 1);
+    if (isOpened) btn.classList.add('opened');
+    if (isLocked) btn.classList.add('locked');
 
-    if (openedIndexes.includes(i)) btn.classList.add('opened');
-    if (!openedIndexes.includes(i) && !isPremium && todayLimit >= 2) btn.classList.add('locked');
+    let statusIcon = iconChevron;
+    if (isOpened) statusIcon = iconCheck;
+    else if (isLocked) statusIcon = iconLock;
+
+    btn.innerHTML =
+      '<div class="materi-num">' + (i + 1) + '</div>' +
+      '<div class="materi-text">' +
+        '<div class="materi-title">' + shortTitle + '</div>' +
+        '<div class="materi-sub">Materi ' + (i + 1) + ' dari ' + materiList.length + '</div>' +
+      '</div>' +
+      '<div class="materi-status">' + statusIcon + '</div>';
 
     btn.onclick = (function(idx) {
       return function() { openMateri(idx); };
@@ -998,7 +1362,7 @@ if (localStorage.getItem('isGuest') === 'true') {
   setTimeout(function() { window.location.href = 'sains.html'; }, 2000);
 }
 
-if (localStorage.getItem('themeEkonomi') === 'dark') {
+if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
 

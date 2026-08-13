@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Absensi Digital - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -2322,7 +2338,7 @@
       <input id="loginIdSekolah" class="input" placeholder="ID Sekolah (opsional, contoh: SKL-ABC123)">
       </div>
     <div class="input-group">
-      <p style="font-size:11.5px; color:#94A3B8; margin-top:4px; text-align:center;">Kosongkan jika kelas ini tidak terdaftar di sekolah manapun. Isi jika kamu ingin masuk sebagai kelas yang terdaftar di sekolah tersebut.</p>
+      <p style="font-size:11.5px; color:#94A3B8; margin-top:4px; text-align:center;">Kosongkan jika kelas ini tidak terdaftar di sekolah manapun. Kalau kelas ini memang terdaftar di sekolah, ID Sekolah wajib diisi.</p>
     </div>
     <button class="btn btn-primary" onclick="loginKelas()">Login</button>
     
@@ -2386,6 +2402,7 @@
               Star Tools
             </div>
             <button class="btn btn-outline btn-sm" onclick="downloadQR()" style="margin-top:12px;">Download QR</button>
+            <button class="btn btn-primary btn-sm" onclick="downloadKartuID()" style="margin-top:8px;">Download Kartu ID</button>
           </div>
         </div>
 
@@ -2529,8 +2546,9 @@
       <div id="tabelAbsen" style="overflow-x:auto;"></div>
       <div class="export-btn-group">
         <button class="btn btn-export-excel btn-sm" onclick="confirmExportExcel()">Export Excel</button>
-        <button class="btn btn-outline btn-sm" onclick="exportRekapCSV()">Export Rekap</button>
+        <button class="btn btn-export-excel btn-sm" onclick="exportRekapCSV()">Export Rekap</button>
       </div>
+      <button class="btn btn-primary btn-sm" style="width:100%; margin-top:8px;" onclick="bagikanAbsensiKelas()">Bagikan Absensi Kelas ke Orang Tua</button>
     </div>
 
     <div class="container">
@@ -3168,9 +3186,15 @@ function loginKelas() {
       return;
     }
 
-    if (idSekolah && data.sekolahId !== idSekolah) {
-      showModal("error", "Tidak Terdaftar di Sekolah Ini", "Kelas ini tidak terdaftar di sekolah dengan ID tersebut. Kosongkan kolom ID Sekolah kalau ingin login biasa.");
-      return;
+    if (data.sekolahId) {
+      if (!idSekolah) {
+        showModal("warning", "ID Sekolah Diperlukan", "Kelas ini terdaftar di salah satu sekolah. Masukkan ID Sekolah untuk melanjutkan login.");
+        return;
+      }
+      if (data.sekolahId !== idSekolah) {
+        showModal("error", "Tidak Terdaftar di Sekolah Ini", "Kelas ini tidak terdaftar di sekolah dengan ID tersebut. Periksa lagi ID Sekolah yang dimasukkan.");
+        return;
+      }
     }
 
     kelasAktif = data.nama;
@@ -3216,12 +3240,17 @@ function tambahMurid() {
 
 var linkAbsenAktif = "";
 
-function bagikanAbsensi(nama) {
+function bagikanAbsensiKelas() {
+  if (!kelasIdAktif) {
+    showModal("warning", "Belum Login", "Login kelas terlebih dahulu.");
+    return;
+  }
+
   const baseUrl = window.location.href.replace(/absensi\.html.*$/, "lihat-absensi.html");
-  const link = baseUrl + "?kelas=" + encodeURIComponent(kelasIdAktif) + "&nama=" + encodeURIComponent(nama);
+  const link = baseUrl + "?kelas=" + encodeURIComponent(kelasIdAktif);
   linkAbsenAktif = link;
 
-  document.getElementById("shareAbsenNama").innerText = "Link absensi untuk " + nama;
+  document.getElementById("shareAbsenNama").innerText = "Link absensi untuk seluruh murid kelas " + (kelasAktif || "");
   document.getElementById("shareAbsenLink").innerText = link;
   document.getElementById("shareAbsenModal").style.display = "flex";
 }
@@ -3273,7 +3302,6 @@ function loadMurid() {
         const n = c.key;
         daftarMuridGlobal.push(n);
         html += '<div onclick="pilihMurid(\'' + n + '\')">' + n +
-          ' <span class="delete-btn" style="color:#2563EB;" onclick="event.stopPropagation();bagikanAbsensi(\'' + n + '\')">Bagikan</span>' +
           ' <span class="delete-btn" onclick="event.stopPropagation();hapusMurid(\'' + n + '\')">Hapus</span></div>';
       });
     }
@@ -3573,6 +3601,156 @@ function downloadQR() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+function downloadKartuID() {
+  const qrContainer = document.getElementById("qrcode");
+  const qrCanvas = qrContainer.querySelector("canvas");
+
+  if (!qrCanvas) {
+    showModal("warning", "Tidak Ada QR", "Generate QR Code terlebih dahulu.");
+    return;
+  }
+
+  const nama = muridDipilih || "Murid";
+  const kelas = kelasAktif || "Kelas";
+
+  const W = 500, H = 800;
+  const card = document.createElement("canvas");
+  card.width = W;
+  card.height = H;
+  const ctx = card.getContext("2d");
+
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  // Background card with rounded corners
+  ctx.fillStyle = "#FFFFFF";
+  roundRect(0, 0, W, H, 28);
+  ctx.fill();
+  ctx.save();
+  roundRect(0, 0, W, H, 28);
+  ctx.clip();
+
+  // Header gradient
+  const grad = ctx.createLinearGradient(0, 0, W, 200);
+  grad.addColorStop(0, "#2563EB");
+  grad.addColorStop(1, "#3B82F6");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, 190);
+
+  // Wordmark
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = "bold 22px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("STAR TOOLS", W / 2, 63);
+
+  ctx.font = "600 15px Arial";
+  ctx.fillStyle = "rgba(255,255,255,0.9)";
+  ctx.fillText("KARTU ABSENSI SISWA", W / 2, 100);
+
+  // Avatar circle with initial
+  const avatarY = 190;
+  ctx.fillStyle = "#EFF6FF";
+  ctx.beginPath();
+  ctx.arc(W / 2, avatarY, 62, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "#2563EB";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.fillStyle = "#2563EB";
+  ctx.font = "bold 52px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(nama.trim().charAt(0).toUpperCase(), W / 2, avatarY + 4);
+  ctx.textBaseline = "alphabetic";
+
+  // Name
+  ctx.fillStyle = "#0F172A";
+  ctx.font = "bold 30px Arial";
+  ctx.textAlign = "center";
+  wrapCenteredText(ctx, nama, W / 2, 300, 440, 34);
+
+  // Class
+  ctx.fillStyle = "#64748B";
+  ctx.font = "600 18px Arial";
+  ctx.fillText("Kelas " + kelas, W / 2, 340);
+
+  // QR box with white padding + border
+  const qrBoxSize = 260;
+  const qrBoxX = (W - qrBoxSize) / 2;
+  const qrBoxY = 375;
+  ctx.fillStyle = "#F8FAFE";
+  roundRect(qrBoxX, qrBoxY, qrBoxSize, qrBoxSize, 18);
+  ctx.fill();
+  ctx.strokeStyle = "#E2E8F0";
+  ctx.lineWidth = 1.5;
+  roundRect(qrBoxX, qrBoxY, qrBoxSize, qrBoxSize, 18);
+  ctx.stroke();
+
+  const qrPad = 20;
+  ctx.drawImage(qrCanvas, qrBoxX + qrPad, qrBoxY + qrPad, qrBoxSize - qrPad * 2, qrBoxSize - qrPad * 2);
+
+  ctx.fillStyle = "#94A3B8";
+  ctx.font = "600 14px Arial";
+  ctx.fillText("Scan untuk Presensi", W / 2, qrBoxY + qrBoxSize + 34);
+
+  // Footer divider + ID
+  ctx.strokeStyle = "#E2E8F0";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(40, H - 70);
+  ctx.lineTo(W - 40, H - 70);
+  ctx.stroke();
+
+  ctx.fillStyle = "#94A3B8";
+  ctx.font = "500 13px Arial";
+  ctx.fillText("ID Kelas: " + kelasIdAktif, W / 2, H - 40);
+  ctx.fillText("Star Platform | Star Tools 2026", W / 2, H - 20);
+
+  ctx.restore();
+
+  // Outer border of the whole card
+  ctx.strokeStyle = "#E2E8F0";
+  ctx.lineWidth = 2;
+  roundRect(1, 1, W - 2, H - 2, 28);
+  ctx.stroke();
+
+  const link = document.createElement("a");
+  link.download = "KartuID_" + nama.replace(/\s+/g, "_") + "_" + kelas.replace(/\s+/g, "_") + ".png";
+  link.href = card.toDataURL("image/png");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function wrapCenteredText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(" ");
+  let line = "";
+  const lines = [];
+  words.forEach(function(word) {
+    const testLine = line + word + " ";
+    if (ctx.measureText(testLine).width > maxWidth && line !== "") {
+      lines.push(line.trim());
+      line = word + " ";
+    } else {
+      line = testLine;
+    }
+  });
+  lines.push(line.trim());
+
+  const startY = y - ((lines.length - 1) * lineHeight) / 2;
+  lines.forEach(function(l, i) {
+    ctx.fillText(l, x, startY + i * lineHeight);
+  });
 }
 
 function startScanner() {

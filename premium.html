@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Star Tools - Premium</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -32,8 +48,7 @@
   body.dark .app-header,
   body.dark .sidebar-nav,
   body.dark .alert-card,
-  body.dark .payment-container,
-  body.dark .qris-container {
+  body.dark .payment-container {
     background: #111827;
     border-color: #1E293B;
   }
@@ -64,17 +79,20 @@
     color: #94A3B8;
   }
 
+  body.dark .info-box strong {
+    color: #F1F5F9;
+  }
+
   body.dark .mapel-option {
     border-color: #334155;
   }
 
-  body.dark .mapel-option.selected {
-    border-color: #60A5FA;
-    background: #1E3A5F;
-  }
-
   body.dark .mapel-option .mapel-name {
     color: #F1F5F9;
+  }
+
+  body.dark .mapel-option .mapel-desc {
+    color: #94A3B8;
   }
 
   body.dark .status-premium {
@@ -90,10 +108,88 @@
     color: #94A3B8;
   }
 
-  body.dark .mapel-summary {
+  body.dark .code-box {
+    background: #1E293B;
+    border-color: #3B82F6;
+    color: #60A5FA;
+  }
+
+  body.dark .payment-container .total-box {
     background: #1E3A5F;
-    color: #93C5FD;
-    border-left-color: #60A5FA;
+    border-color: #1E3A5F;
+  }
+
+  body.dark .payment-container .total-box .amount {
+    color: #60A5FA;
+  }
+
+  body.dark .step-indicator .step {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  body.dark .step-indicator .step.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .step-indicator .step.done {
+    background: #059669;
+    color: white;
+  }
+
+  body.dark .step-indicator .line {
+    background: #1E293B;
+  }
+
+  body.dark .step-indicator .line.done {
+    background: #059669;
+  }
+
+  body.dark .paket-card.populer {
+    border-color: #3B82F6;
+    background: #1E293B;
+  }
+
+  body.dark .paket-card .left .info .nama {
+    color: #F1F5F9;
+  }
+
+  body.dark .paket-card .left .info .durasi {
+    color: #94A3B8;
+  }
+
+  body.dark .paket-card .right .harga {
+    color: #34D399;
+  }
+
+  body.dark .paket-card .right .per-bulan {
+    color: #64748B;
+  }
+
+  body.dark .mapel-option.coming-soon {
+    opacity: 0.5;
+  }
+
+  body.dark .mapel-option.coming-soon .mapel-name {
+    color: #64748B;
+  }
+
+  body.dark .qris-frame {
+    background: #0B1120;
+    border-color: #334155;
+  }
+
+  body.dark .aktivasi-section {
+    border-color: #334155;
+  }
+
+  body.dark .aktivasi-section .aktivasi-title {
+    color: #F1F5F9;
+  }
+
+  body.dark .aktivasi-section .aktivasi-sub {
+    color: #94A3B8;
   }
 
   .app-container {
@@ -306,21 +402,135 @@
     color: #94A3B8;
   }
 
+  /* ===== STEP INDICATOR ===== */
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+
+  .step-indicator .step {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #F1F5F9;
+    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    transition: 0.3s;
+    flex-shrink: 0;
+    border: 2px solid #E2E8F0;
+  }
+
+  body.dark .step-indicator .step {
+    background: #1E293B;
+    color: #94A3B8;
+    border-color: #334155;
+  }
+
+  .step-indicator .step.active {
+    background: #2563EB;
+    color: white;
+    border-color: #2563EB;
+  }
+
+  .step-indicator .step.done {
+    background: #059669;
+    color: white;
+    border-color: #059669;
+  }
+
+  .step-indicator .step-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .step-indicator .line {
+    flex: 1;
+    height: 2px;
+    background: #E2E8F0;
+    margin: 0 4px;
+    margin-bottom: 18px;
+    transition: 0.3s;
+    min-width: 30px;
+  }
+
+  body.dark .step-indicator .line {
+    background: #1E293B;
+  }
+
+  .step-indicator .line.done {
+    background: #059669;
+  }
+
+  .step-indicator .step-text {
+    font-size: 9px;
+    color: #94A3B8;
+    margin-top: 2px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  /* ===== BENEFIT ===== */
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #64748B;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .benefit-item:last-child {
+    border-bottom: none;
+  }
+
+  body.dark .benefit-item {
+    color: #94A3B8;
+    border-bottom-color: #1E293B;
+  }
+
+  .benefit-item .check-svg {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    stroke: #059669;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  body.dark .benefit-item .check-svg {
+    stroke: #34D399;
+  }
+
+  /* ===== MAPEL GRID ===== */
   .mapel-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 12px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
   }
 
   .mapel-option {
-    padding: 12px 6px;
+    padding: 16px 10px;
     border: 2px solid #E2E8F0;
-    border-radius: 12px;
+    border-radius: 16px;
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
     background: #FFFFFF;
+    position: relative;
   }
 
   body.dark .mapel-option {
@@ -341,32 +551,42 @@
     background: #1E3A5F;
   }
 
+  .mapel-option.coming-soon {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .mapel-option.coming-soon .coming-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #F59E0B;
+    color: white;
+    font-size: 7px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 40px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  body.dark .mapel-option.coming-soon .coming-badge {
+    background: #D97706;
+  }
+
   .mapel-option svg {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: block;
-    margin: 0 auto 4px;
-    stroke: #64748B;
+    margin: 0 auto 6px;
     fill: none;
     stroke-width: 1.8;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
-  body.dark .mapel-option svg {
-    stroke: #94A3B8;
-  }
-
-  .mapel-option.selected svg {
-    stroke: #2563EB;
-  }
-
-  body.dark .mapel-option.selected svg {
-    stroke: #60A5FA;
-  }
-
   .mapel-option .mapel-name {
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 600;
     color: #0F172A;
   }
@@ -375,37 +595,46 @@
     color: #F1F5F9;
   }
 
-  .mapel-summary {
-    background: #EFF6FF;
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 13px;
-    color: #1E3A5F;
-    margin-bottom: 12px;
-    border-left: 3px solid #2563EB;
+  .mapel-option .mapel-desc {
+    font-size: 10px;
+    color: #94A3B8;
+    margin-top: 2px;
   }
 
-  body.dark .mapel-summary {
-    background: #1E3A5F;
-    color: #93C5FD;
-    border-left-color: #60A5FA;
-  }
+  /* Warna Mapel */
+  .mapel-option[data-mapel="ekonomi"] svg { stroke: #34D399; }
+  .mapel-option[data-mapel="ekonomi"].selected { border-color: #34D399; background: #ECFDF5; }
+  body.dark .mapel-option[data-mapel="ekonomi"].selected { border-color: #34D399; background: #064E3B; }
 
-  .mapel-summary strong {
-    font-weight: 700;
-  }
+  .mapel-option[data-mapel="sains"] svg { stroke: #60A5FA; }
+  .mapel-option[data-mapel="sains"].selected { border-color: #60A5FA; background: #EFF6FF; }
+  body.dark .mapel-option[data-mapel="sains"].selected { border-color: #60A5FA; background: #1E3A5F; }
 
+  .mapel-option[data-mapel="coding"] svg { stroke: #A78BFA; }
+  .mapel-option[data-mapel="coding"].selected { border-color: #A78BFA; background: #F5F3FF; }
+  body.dark .mapel-option[data-mapel="coding"].selected { border-color: #A78BFA; background: #2E1A47; }
+
+  .mapel-option[data-mapel="all"] svg { stroke: #FBBF24; }
+  .mapel-option[data-mapel="all"].selected { border-color: #FBBF24; background: #FFFBEB; }
+  body.dark .mapel-option[data-mapel="all"].selected { border-color: #FBBF24; background: #78350F; }
+
+  .mapel-option[data-mapel="robotik"] svg { stroke: #22D3EE; }
+  .mapel-option[data-mapel="robotik"].selected { border-color: #22D3EE; background: #ECFEFF; }
+  body.dark .mapel-option[data-mapel="robotik"].selected { border-color: #22D3EE; background: #0A4A5A; }
+
+  /* ===== PAKET DURASI ===== */
   .paket-grid {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    margin-bottom: 16px;
   }
 
   .paket-card {
     background: #F8FAFE;
     border: 2px solid #E2E8F0;
     border-radius: 16px;
-    padding: 14px 16px;
+    padding: 16px 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -450,8 +679,27 @@
   .paket-card .left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex: 1;
+  }
+
+  .paket-card .left .icon-durasi {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #EFF6FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #2563EB;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  body.dark .paket-card .left .icon-durasi {
+    background: #1E3A5F;
+    color: #60A5FA;
   }
 
   .paket-card .left .info .nama {
@@ -519,16 +767,6 @@
     color: #FBBF24;
   }
 
-  .paket-card .left .info .label-badge.all {
-    background: #E0E7FF;
-    color: #4F46E5;
-  }
-
-  body.dark .paket-card .left .info .label-badge.all {
-    background: #312E81;
-    color: #818CF8;
-  }
-
   .paket-card .right {
     text-align: right;
     flex-shrink: 0;
@@ -576,30 +814,7 @@
     cursor: not-allowed;
   }
 
-  .benefit-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 0;
-    font-size: 13px;
-    color: #64748B;
-    border-bottom: 1px solid #F1F5F9;
-  }
-
-  .benefit-item:last-child {
-    border-bottom: none;
-  }
-
-  body.dark .benefit-item {
-    color: #94A3B8;
-    border-bottom-color: #1E293B;
-  }
-
-  .benefit-item svg {
-    stroke: #2563EB;
-    flex-shrink: 0;
-  }
-
+  /* ===== STATUS PREMIUM ===== */
   .status-premium {
     background: #F8FAFE;
     border-radius: 16px;
@@ -673,6 +888,321 @@
   }
 
   body.dark .status-premium .right .label {
+    color: #64748B;
+  }
+
+  /* ===== PAYMENT ===== */
+  .payment-container {
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 24px 20px;
+    margin-bottom: 16px;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .payment-container {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .payment-container .code-box {
+    background: #F1F5F9;
+    padding: 14px;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    font-family: monospace;
+    color: #2563EB;
+    border: 2px dashed #2563EB;
+    margin-bottom: 16px;
+  }
+
+  body.dark .payment-container .code-box {
+    background: #1E293B;
+    border-color: #3B82F6;
+    color: #60A5FA;
+  }
+
+  .payment-container .total-box {
+    background: #EFF6FF;
+    padding: 12px 16px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 16px;
+    border: 1px solid #DBEAFE;
+  }
+
+  body.dark .payment-container .total-box {
+    background: #1E3A5F;
+    border-color: #1E3A5F;
+  }
+
+  .payment-container .total-box .label {
+    font-size: 12px;
+    color: #64748B;
+  }
+
+  body.dark .payment-container .total-box .label {
+    color: #94A3B8;
+  }
+
+  .payment-container .total-box .amount {
+    font-size: 24px;
+    font-weight: 800;
+    color: #2563EB;
+  }
+
+  body.dark .payment-container .total-box .amount {
+    color: #60A5FA;
+  }
+
+  .info-box {
+    background: #F8FAFE;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid #E2E8F0;
+    margin-bottom: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #475569;
+  }
+
+  body.dark .info-box {
+    background: #1E293B;
+    border-color: #334155;
+    color: #94A3B8;
+  }
+
+  .info-box strong {
+    color: #0F172A;
+  }
+
+  body.dark .info-box strong {
+    color: #F1F5F9;
+  }
+
+  .info-box ul,
+  .info-box ol {
+    padding-left: 20px;
+    margin-top: 6px;
+  }
+
+  .info-box ul li,
+  .info-box ol li {
+    margin-bottom: 4px;
+  }
+
+  /* ===== QRIS FRAME ===== */
+  .qris-frame {
+    background: #FFFFFF;
+    padding: 24px;
+    border-radius: 20px;
+    border: 3px solid #E2E8F0;
+    margin: 14px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 240px;
+    position: relative;
+  }
+
+  body.dark .qris-frame {
+    background: #0B1120;
+    border-color: #334155;
+  }
+
+  .qris-frame img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+  }
+
+  .qris-btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  .qris-btn-group .btn-qris-download {
+    flex: 1;
+    background: #FFFFFF;
+    border: 2px solid #2563EB;
+    color: #2563EB;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .qris-btn-group .btn-qris-download:active {
+    transform: scale(0.97);
+    background: #EFF6FF;
+  }
+
+  body.dark .qris-btn-group .btn-qris-download {
+    background: #1E293B;
+    border-color: #60A5FA;
+    color: #60A5FA;
+  }
+
+  body.dark .qris-btn-group .btn-qris-download:active {
+    background: #1E3A5F;
+  }
+
+  .qris-btn-group .btn-qris-download svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* ===== AKTIVASI SECTION ===== */
+  .aktivasi-section {
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 24px 20px;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .aktivasi-section {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .aktivasi-section .aktivasi-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 4px;
+  }
+
+  body.dark .aktivasi-section .aktivasi-title {
+    color: #F1F5F9;
+  }
+
+  .aktivasi-section .aktivasi-sub {
+    font-size: 14px;
+    color: #64748B;
+    margin-bottom: 16px;
+  }
+
+  body.dark .aktivasi-section .aktivasi-sub {
+    color: #94A3B8;
+  }
+
+  .btn-full {
+    background: #2563EB;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-full:active {
+    transform: scale(0.97);
+  }
+
+  .btn-full-secondary {
+    background: #E2E8F0;
+    border: none;
+    color: #0F172A;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  body.dark .btn-full-secondary {
+    background: #1E293B;
+    color: #F1F5F9;
+  }
+
+  .btn-full-secondary:active {
+    transform: scale(0.97);
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .btn-group .btn-full,
+  .btn-group .btn-full-secondary {
+    flex: 1;
+  }
+
+  .btn-aktivasi {
+    background: #059669;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .btn-aktivasi:active {
+    transform: scale(0.97);
+  }
+
+  body.dark .btn-aktivasi {
+    background: #34D399;
+    color: #0B1120;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 12px;
+  }
+
+  body.dark .input-field {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: #2563EB;
+  }
+
+  .input-field::placeholder {
+    color: #94A3B8;
+  }
+
+  body.dark .input-field::placeholder {
     color: #64748B;
   }
 
@@ -777,290 +1307,169 @@
     border-color: #1E293B;
   }
 
-  .btn-full {
-    background: #2563EB;
-    border: none;
-    color: white;
-    font-weight: 600;
-    padding: 14px;
-    border-radius: 14px;
-    font-size: 14px;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
 
-  .btn-full:active {
-    transform: scale(0.97);
-  }
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
 
-  .btn-full-secondary {
-    background: #E2E8F0;
-    border: none;
-    color: #0F172A;
-    font-weight: 600;
-    padding: 14px;
-    border-radius: 14px;
-    font-size: 14px;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.2s;
-  }
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      min-height: auto;
+    }
 
-  body.dark .btn-full-secondary {
-    background: #1E293B;
-    color: #F1F5F9;
-  }
+    body.dark .app-container {
+      background: #111827;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
 
-  .btn-full-secondary:active {
-    transform: scale(0.97);
-  }
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
 
-  .payment-container,
-  .qris-container {
-    background: #FFFFFF;
-    border-radius: 24px;
-    padding: 24px 20px;
-    margin-bottom: 16px;
-    border: 1px solid #E2E8F0;
-  }
+    .sidebar-nav {
+      border-radius: 0 20px 20px 0;
+    }
 
-  body.dark .payment-container,
-  body.dark .qris-container {
-    background: #111827;
-    border-color: #1E293B;
-  }
+    .screen {
+      padding: 24px 24px 30px;
+    }
 
-  .payment-container .code-box {
-    background: #F1F5F9;
-    padding: 16px;
-    border-radius: 16px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: 4px;
-    font-family: monospace;
-    color: #2563EB;
-    border: 2px dashed #2563EB;
-    margin-bottom: 20px;
-  }
+    .card-modern {
+      padding: 24px;
+      border-radius: 20px;
+    }
 
-  body.dark .payment-container .code-box {
-    background: #1E293B;
-    border-color: #3B82F6;
-    color: #60A5FA;
-  }
+    .bottom-nav {
+      max-width: 720px;
+      border-radius: 0 0 20px 20px;
+    }
 
-  .payment-container .info-box {
-    background: #F8FAFE;
-    padding: 16px;
-    border-radius: 16px;
-    border: 1px solid #E2E8F0;
-    margin-bottom: 16px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #475569;
-  }
+    .mapel-grid {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      gap: 12px;
+    }
 
-  body.dark .payment-container .info-box {
-    background: #1E293B;
-    border-color: #334155;
-    color: #94A3B8;
-  }
+    .mapel-option {
+      padding: 20px 12px;
+      border-radius: 20px;
+    }
 
-  .payment-container .info-box strong {
-    color: #0F172A;
-  }
+    .mapel-option svg {
+      width: 36px;
+      height: 36px;
+    }
 
-  body.dark .payment-container .info-box strong {
-    color: #F1F5F9;
-  }
+    .mapel-option .mapel-name {
+      font-size: 14px;
+    }
 
-  .payment-container .info-box ul,
-  .payment-container .info-box ol {
-    padding-left: 20px;
-    margin-top: 6px;
-  }
+    .paket-card {
+      padding: 18px 20px;
+      border-radius: 20px;
+    }
 
-  .payment-container .info-box ul li,
-  .payment-container .info-box ol li {
-    margin-bottom: 4px;
-  }
+    .paket-card .left .icon-durasi {
+      width: 44px;
+      height: 44px;
+      font-size: 16px;
+    }
 
-  .payment-container .total-box {
-    background: #EFF6FF;
-    padding: 14px 18px;
-    border-radius: 12px;
-    text-align: center;
-    margin-bottom: 16px;
-    border: 1px solid #DBEAFE;
-  }
+    .paket-card .left .info .nama {
+      font-size: 16px;
+    }
 
-  body.dark .payment-container .total-box {
-    background: #1E3A5F;
-    border-color: #1E3A5F;
-  }
+    .paket-card .right .harga {
+      font-size: 18px;
+    }
 
-  .payment-container .total-box .label {
-    font-size: 12px;
-    color: #64748B;
-  }
+    .payment-container {
+      padding: 28px 24px;
+      border-radius: 20px;
+    }
 
-  body.dark .payment-container .total-box .label {
-    color: #94A3B8;
-  }
+    .payment-container .code-box {
+      font-size: 28px;
+      padding: 18px;
+    }
 
-  .payment-container .total-box .amount {
-    font-size: 24px;
-    font-weight: 800;
-    color: #2563EB;
-  }
+    .payment-container .total-box .amount {
+      font-size: 28px;
+    }
 
-  body.dark .payment-container .total-box .amount {
-    color: #60A5FA;
-  }
+    .info-box {
+      padding: 16px 18px;
+      border-radius: 16px;
+      font-size: 14px;
+    }
 
-  .qris-container .total-box {
-    background: #EFF6FF;
-    padding: 14px 18px;
-    border-radius: 12px;
-    text-align: center;
-    margin-bottom: 16px;
-    border: 1px solid #DBEAFE;
-  }
+    .step-indicator .step {
+      width: 40px;
+      height: 40px;
+      font-size: 15px;
+    }
 
-  body.dark .qris-container .total-box {
-    background: #1E3A5F;
-    border-color: #1E3A5F;
-  }
+    .step-indicator .step-text {
+      font-size: 10px;
+    }
 
-  .qris-container .total-box .label {
-    font-size: 12px;
-    color: #64748B;
-  }
+    .step-indicator .line {
+      min-width: 50px;
+    }
 
-  body.dark .qris-container .total-box .label {
-    color: #94A3B8;
-  }
+    .btn-full {
+      padding: 16px;
+      font-size: 15px;
+      border-radius: 16px;
+    }
 
-  .qris-container .total-box .amount {
-    font-size: 24px;
-    font-weight: 800;
-    color: #2563EB;
-  }
+    .alert-card {
+      max-width: 360px;
+      padding: 28px 26px;
+      border-radius: 28px;
+    }
 
-  body.dark .qris-container .total-box .amount {
-    color: #60A5FA;
-  }
+    .footer-app {
+      margin-bottom: 0;
+    }
 
-  .qris-container .qris-frame {
-    background: #FFFFFF;
-    padding: 16px;
-    border-radius: 16px;
-    border: 2px solid #E2E8F0;
-    margin: 16px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-  }
+    .qris-frame {
+      min-height: 280px;
+      padding: 28px;
+      border-radius: 24px;
+      border-width: 3px;
+    }
 
-  body.dark .qris-container .qris-frame {
-    background: #0B1120;
-    border-color: #334155;
-  }
+    .qris-frame img {
+      max-height: 340px;
+    }
 
-  .qris-container .qris-frame img {
-    max-width: 100%;
-    max-height: 280px;
-    object-fit: contain;
-  }
+    .qris-btn-group .btn-qris-download {
+      padding: 12px 20px;
+      font-size: 14px;
+    }
 
-  .btn-group {
-    display: flex;
-    gap: 12px;
-    margin-top: 16px;
-  }
+    .qris-btn-group .btn-qris-download svg {
+      width: 20px;
+      height: 20px;
+    }
 
-  .btn-group .btn-full,
-  .btn-group .btn-full-secondary {
-    flex: 1;
-  }
-
-  .btn-qris {
-    background: #2563EB;
-    border: none;
-    color: white;
-    font-weight: 600;
-    padding: 14px 20px;
-    border-radius: 14px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    margin-top: 12px;
-  }
-
-  .btn-qris:active {
-    transform: scale(0.97);
-    background: #1D4ED8;
-  }
-
-  .btn-qris svg {
-    width: 22px;
-    height: 22px;
-    stroke: white;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    flex-shrink: 0;
-  }
-
-  .btn-qris-secondary {
-    background: #E2E8F0;
-    border: none;
-    color: #0F172A;
-    font-weight: 600;
-    padding: 14px 20px;
-    border-radius: 14px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  body.dark .btn-qris-secondary {
-    background: #1E293B;
-    color: #F1F5F9;
-  }
-
-  .btn-qris-secondary:active {
-    transform: scale(0.97);
-  }
-
-  .btn-qris-secondary svg {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    flex-shrink: 0;
+    .aktivasi-section {
+      padding: 28px 24px;
+      border-radius: 20px;
+    }
   }
 </style>
 </head>
@@ -1108,130 +1517,91 @@
     </div>
   </div>
 
-  <!-- HALAMAN UTAMA PREMIUM -->
-  <div class="screen" id="mainScreen">
+  <!-- ==================== STEP 1: PILIH MAPEL ==================== -->
+  <div class="screen" id="stepMapel">
     <div class="card-modern">
-      <div class="section-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Keuntungan Premium
-      </div>
+      <div class="section-title">Keunggulan Premium</div>
       <div class="benefit-item">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg class="check-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
         Akses semua materi tanpa batas
       </div>
       <div class="benefit-item">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg class="check-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
         Buka semua bagian tanpa limit harian
       </div>
       <div class="benefit-item">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg class="check-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
         Badge Premium di profil
       </div>
       <div class="benefit-item">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg class="check-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
         Dukungan prioritas dari tim
       </div>
     </div>
 
     <div class="card-modern">
-      <div class="section-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Pilih Mapel
-      </div>
+      <div class="section-title">Pilih Mapel Premium</div>
       <p class="section-sub">Pilih mata pelajaran yang ingin diakses premium</p>
 
       <div class="mapel-grid">
-        <!-- Ekonomi -->
+        <!-- Ekonomi - Hijau -->
         <div class="mapel-option" data-mapel="ekonomi" onclick="pilihMapel('ekonomi')">
           <svg viewBox="0 0 24 24">
             <line x1="12" y1="20" x2="12" y2="10"/>
             <line x1="18" y1="20" x2="18" y2="4"/>
             <line x1="6" y1="20" x2="6" y2="16"/>
           </svg>
-          <span class="mapel-name">Ekonomi</span>
+          <div class="mapel-name">Ekonomi</div>
+          <div class="mapel-desc">Materi lengkap</div>
         </div>
 
-        <!-- Sains -->
+        <!-- Sains - Biru -->
         <div class="mapel-option" data-mapel="sains" onclick="pilihMapel('sains')">
           <svg viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="3"/>
             <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(45 12 12)"/>
             <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-45 12 12)"/>
           </svg>
-          <span class="mapel-name">Sains</span>
+          <div class="mapel-name">Sains</div>
+          <div class="mapel-desc">Fisika, Kimia, Biologi</div>
         </div>
 
-        <!-- Coding -->
+        <!-- Coding - Ungu -->
         <div class="mapel-option" data-mapel="coding" onclick="pilihMapel('coding')">
           <svg viewBox="0 0 24 24">
             <polyline points="16 18 22 12 16 6"/>
             <polyline points="8 6 2 12 8 18"/>
           </svg>
-          <span class="mapel-name">Coding</span>
+          <div class="mapel-name">Coding</div>
+          <div class="mapel-desc">JS, Python, dll</div>
         </div>
 
-        <!-- All Premium -->
+        <!-- All Premium - Kuning -->
         <div class="mapel-option" data-mapel="all" onclick="pilihMapel('all')">
           <svg viewBox="0 0 24 24">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
           </svg>
-          <span class="mapel-name">All Premium</span>
+          <div class="mapel-name">All Premium</div>
+          <div class="mapel-desc">3 Mapel + Hemat</div>
+        </div>
+
+        <!-- Robotik - Cyan (Coming Soon) -->
+        <div class="mapel-option coming-soon" data-mapel="robotik">
+          <span class="coming-badge">Coming Soon</span>
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="6" width="20" height="12" rx="3"/>
+            <circle cx="8" cy="12" r="2" fill="currentColor" stroke="none"/>
+            <circle cx="16" cy="12" r="2" fill="currentColor" stroke="none"/>
+            <line x1="8" y1="18" x2="16" y2="18"/>
+          </svg>
+          <div class="mapel-name">Robotik</div>
+          <div class="mapel-desc">Segera hadir</div>
         </div>
       </div>
 
-      <div id="mapelSummary" class="mapel-summary" style="display:none;">
-        Mapel dipilih: <strong id="selectedMapelText">-</strong>
-      </div>
-
-      <div class="section-title" style="font-size:16px; margin-top:12px;">
-        Pilih Durasi
-      </div>
-      <p class="section-sub">Pilih durasi premium sesuai kebutuhan</p>
-
-      <div class="paket-grid" id="paketContainer">
-        <div class="paket-card" id="paketMingguan">
-          <div class="left">
-            <div class="info">
-              <div class="nama">Mingguan <span class="label-badge trial" id="labelMingguan">Coba Dulu</span></div>
-              <div class="durasi" id="durasiMingguan">Akses 7 hari</div>
-            </div>
-          </div>
-          <div class="right">
-            <div class="harga" id="hargaMingguan">Rp 3.000</div>
-            <div class="per-bulan" id="perBulanMingguan">~Rp 12.000/bulan</div>
-            <button class="btn-pilih" id="btnMingguan" onclick="goPayment('mingguan')">Pilih</button>
-          </div>
-        </div>
-
-        <div class="paket-card populer" id="paketBulanan">
-          <span class="badge-populer">Populer</span>
-          <div class="left">
-            <div class="info">
-              <div class="nama">Bulanan <span class="label-badge best" id="labelBulanan">Best Value</span></div>
-              <div class="durasi" id="durasiBulanan">Akses 30 hari</div>
-            </div>
-          </div>
-          <div class="right">
-            <div class="harga" id="hargaBulanan">Rp 12.000</div>
-            <div class="per-bulan" id="perBulanBulanan">Hemat 80%</div>
-            <button class="btn-pilih" id="btnBulanan" onclick="goPayment('bulanan')">Pilih</button>
-          </div>
-        </div>
-
-        <div class="paket-card" id="paketTahunan">
-          <div class="left">
-            <div class="info">
-              <div class="nama">Tahunan <span class="label-badge super" id="labelTahunan">Super Hemat</span></div>
-              <div class="durasi" id="durasiTahunan">Akses 365 hari + Bonus 7 hari</div>
-            </div>
-          </div>
-          <div class="right">
-            <div class="harga" id="hargaTahunan">Rp 100.000</div>
-            <div class="per-bulan" id="perBulanTahunan">~Rp 8.300/bulan</div>
-            <button class="btn-pilih" id="btnTahunan" onclick="goPayment('tahunan')">Pilih</button>
-          </div>
-        </div>
-      </div>
+      <button class="btn-full" id="btnLanjutDurasi" onclick="lanjutKeDurasi()" disabled>
+        Lanjutkan Pilih Durasi
+      </button>
     </div>
 
     <!-- STATUS PREMIUM -->
@@ -1252,9 +1622,105 @@
     </div>
   </div>
 
-  <!-- HALAMAN PEMBAYARAN -->
-  <div class="screen hidden" id="paymentScreen">
+  <!-- ==================== STEP 2: PILIH DURASI ==================== -->
+  <div class="screen hidden" id="stepDurasi">
+    <div class="card-modern">
+      <!-- Step Indicator -->
+      <div class="step-indicator">
+        <div class="step-wrapper">
+          <div class="step done">1</div>
+          <div class="step-text">Pilih Mapel</div>
+        </div>
+        <div class="line done" id="line1"></div>
+        <div class="step-wrapper">
+          <div class="step active">2</div>
+          <div class="step-text">Pilih Durasi</div>
+        </div>
+        <div class="line" id="line2"></div>
+        <div class="step-wrapper">
+          <div class="step">3</div>
+          <div class="step-text">Bayar</div>
+        </div>
+      </div>
+
+      <div class="section-title" style="font-size:16px;">Pilih Durasi Premium</div>
+      <p class="section-sub" id="durasiSub">Untuk mapel: <strong id="durasiMapelLabel">-</strong></p>
+
+      <div class="paket-grid" id="paketContainer">
+        <div class="paket-card" id="paketMingguan">
+          <div class="left">
+            <div class="icon-durasi">7</div>
+            <div class="info">
+              <div class="nama">Mingguan <span class="label-badge trial" id="labelMingguan">Coba Dulu</span></div>
+              <div class="durasi" id="durasiMingguan">Akses 7 hari</div>
+            </div>
+          </div>
+          <div class="right">
+            <div class="harga" id="hargaMingguan">Rp 3.000</div>
+            <div class="per-bulan" id="perBulanMingguan">~Rp 12.000/bulan</div>
+            <button class="btn-pilih" id="btnMingguan" onclick="pilihDurasi('mingguan')">Pilih</button>
+          </div>
+        </div>
+
+        <div class="paket-card populer" id="paketBulanan">
+          <span class="badge-populer">Populer</span>
+          <div class="left">
+            <div class="icon-durasi">30</div>
+            <div class="info">
+              <div class="nama">Bulanan <span class="label-badge best" id="labelBulanan">Best Value</span></div>
+              <div class="durasi" id="durasiBulanan">Akses 30 hari</div>
+            </div>
+          </div>
+          <div class="right">
+            <div class="harga" id="hargaBulanan">Rp 12.000</div>
+            <div class="per-bulan" id="perBulanBulanan">Hemat 80%</div>
+            <button class="btn-pilih" id="btnBulanan" onclick="pilihDurasi('bulanan')">Pilih</button>
+          </div>
+        </div>
+
+        <div class="paket-card" id="paketTahunan">
+          <div class="left">
+            <div class="icon-durasi">365</div>
+            <div class="info">
+              <div class="nama">Tahunan <span class="label-badge super" id="labelTahunan">Super Hemat</span></div>
+              <div class="durasi" id="durasiTahunan">Akses 365 hari + Bonus 7 hari</div>
+            </div>
+          </div>
+          <div class="right">
+            <div class="harga" id="hargaTahunan">Rp 100.000</div>
+            <div class="per-bulan" id="perBulanTahunan">~Rp 8.300/bulan</div>
+            <button class="btn-pilih" id="btnTahunan" onclick="pilihDurasi('tahunan')">Pilih</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-full-secondary" onclick="kembaliKeMapel()" style="margin-top:4px;">
+        Kembali Pilih Mapel
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== STEP 3: PEMBAYARAN ==================== -->
+  <div class="screen hidden" id="stepPayment">
     <div class="payment-container">
+      <!-- Step Indicator -->
+      <div class="step-indicator">
+        <div class="step-wrapper">
+          <div class="step done">1</div>
+          <div class="step-text">Pilih Mapel</div>
+        </div>
+        <div class="line done" id="line3"></div>
+        <div class="step-wrapper">
+          <div class="step done">2</div>
+          <div class="step-text">Pilih Durasi</div>
+        </div>
+        <div class="line done" id="line4"></div>
+        <div class="step-wrapper">
+          <div class="step active">3</div>
+          <div class="step-text">Bayar</div>
+        </div>
+      </div>
+
       <h3 style="font-size:18px; font-weight:700; margin-bottom:4px; color:#0F172A;">Kode Pembayaran</h3>
       <p class="section-sub">Gunakan kode ini untuk verifikasi pembayaran Anda</p>
 
@@ -1273,90 +1739,43 @@
         </ul>
       </div>
 
-      <div class="info-box">
-        <strong>Panduan Pembayaran:</strong>
-        <ol>
-          <li>Klik tombol "Lihat QRIS" di bawah</li>
-          <li>Scan QR Code yang ditampilkan</li>
-          <li>Bayar sesuai nominal yang tertera</li>
-          <li>Kirim bukti pembayaran ke startoolsid@gmail.com</li>
-          <li>Setelah dikonfirmasi, premium akan aktif</li>
-        </ol>
-      </div>
-
-      <div class="info-box" style="border-color:#FBBF24; background:rgba(251,191,36,0.08);">
-        <strong>Pemberitahuan Penting:</strong><br>
-        Premium akan aktif setelah pembayaran dikonfirmasi. Kode aktivasi hanya berlaku untuk satu akun.
-      </div>
-
-      <button class="btn-qris" onclick="goToQRIS()">
-        <svg viewBox="0 0 24 24">
-          <rect x="2" y="2" width="7" height="7" rx="1"/>
-          <rect x="15" y="2" width="7" height="7" rx="1"/>
-          <rect x="2" y="15" width="7" height="7" rx="1"/>
-          <rect x="15" y="15" width="7" height="7" rx="1"/>
-          <line x1="9" y1="9" x2="15" y2="15"/>
-          <line x1="15" y1="9" x2="9" y2="15"/>
-        </svg>
-        Lihat QRIS
-      </button>
-
-      <button class="btn-qris-secondary" onclick="goToMain()">
-        Kembali ke Paket
-      </button>
-    </div>
-  </div>
-
-  <!-- HALAMAN QRIS -->
-  <div class="screen hidden" id="qrisScreen">
-    <div class="qris-container">
-      <h3 style="font-size:18px; font-weight:700; margin-bottom:4px; color:#0F172A;">QRIS Pembayaran</h3>
-      <p class="section-sub">Scan QR Code di bawah ini untuk melakukan pembayaran</p>
-
-      <div class="code-box" id="qrisCode" style="font-size:20px;">Kode: STR-000</div>
-
-      <div class="total-box">
-        <div class="label">Total yang harus dibayar</div>
-        <div class="amount" id="qrisTotal">Rp 0</div>
-      </div>
-
+      <!-- QRIS -->
       <div class="qris-frame">
-        <img id="qrImage" src="QR.jpg" alt="QR Code" style="max-width:100%; max-height:280px; object-fit:contain;">
+        <img id="qrImage" src="QR.jpg" alt="QRIS Barcode">
       </div>
 
-      <div class="info-box" style="margin-top:12px;">
-        <strong>Cara Kirim Bukti Pembayaran:</strong>
-        <ol style="margin-top:8px; padding-left:20px;">
-          <li>Setelah melakukan pembayaran via QRIS</li>
-          <li>Klik tombol "Kirim Bukti Pembayaran" di bawah</li>
-          <li>Lampirkan bukti transfer dan kirim</li>
-          <li>Atau kirim manual ke startoolsid@gmail.com</li>
-        </ol>
-      </div>
-
-      <div class="btn-group">
-        <button class="btn-full" onclick="downloadQR()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline; vertical-align:middle; margin-right:6px;">
+      <div class="qris-btn-group">
+        <button class="btn-qris-download" onclick="downloadQR()">
+          <svg viewBox="0 0 24 24">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/>
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
-          Unduh QR
-        </button>
-        <button class="btn-full" onclick="kirimBukti()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline; vertical-align:middle; margin-right:6px;">
-            <path d="M22 2L11 13"/>
-            <path d="M22 2L15 22l-4-9-9-4z"/>
-          </svg>
-          Kirim Bukti
+          Download QRIS
         </button>
       </div>
 
-      <button class="btn-qris-secondary" onclick="goToPayment()" style="margin-top:12px; width:100%;">
-        Kembali ke Kode Pembayaran
+      <div class="info-box" style="margin-top:12px;">
+        <strong>Panduan Pembayaran:</strong>
+        <ol>
+          <li>Scan QR Code di atas menggunakan aplikasi pembayaran (QRIS)</li>
+          <li>Bayar sesuai nominal yang tertera</li>
+          <li>Klik tombol "Kirim Bukti" di bawah</li>
+          <li>Lampirkan bukti transfer dan kirim</li>
+          <li>Atau kirim manual ke startoolsid@gmail.com</li>
+          <li>Premium akan aktif setelah dikonfirmasi (max 1x24 jam)</li>
+        </ol>
+      </div>
+
+      <button class="btn-full" onclick="kirimBukti()">
+        Kirim Bukti Pembayaran
+      </button>
+
+      <button class="btn-full-secondary" onclick="kembaliKeDurasi()" style="margin-top:8px;">
+        Kembali Pilih Durasi
       </button>
     </div>
-  </div>
+   </div>
 
   <!-- FOOTER -->
   <div class="footer-app">
@@ -1406,9 +1825,10 @@ if (!firebase.apps.length) {
 }
 var db = firebase.database();
 
-var currentProduct = '';
 var currentMapel = '';
+var currentDurasi = '';
 var currentCode = '';
+var currentUser = null;
 
 var prices = {
   ekonomi: { mingguan: 3000, bulanan: 12000, tahunan: 100000 },
@@ -1421,7 +1841,8 @@ var mapelNama = {
   ekonomi: 'Ekonomi',
   sains: 'Sains',
   coding: 'Coding',
-  all: 'All Premium (3 Mapel)'
+  all: 'All Premium (3 Mapel)',
+  robotik: 'Robotik'
 };
 
 var paketNama = {
@@ -1430,6 +1851,16 @@ var paketNama = {
   tahunan: 'Tahunan'
 };
 
+var durasiHari = {
+  mingguan: 7,
+  bulanan: 30,
+  tahunan: 365
+};
+
+var selectedMapel = null;
+var selectedDurasi = null;
+
+// ===== NAVIGASI =====
 function goToPage(page) {
   window.location.href = page;
 }
@@ -1470,71 +1901,188 @@ function logoutAction() {
   });
 }
 
-var selectedMapel = null;
-
+// ===== STEP 1: PILIH MAPEL =====
 function pilihMapel(mapel) {
+  if (mapel === 'robotik') {
+    showAlert('Fitur Robotik sedang dalam pengembangan dan akan segera hadir! 🚀');
+    return;
+  }
+
   selectedMapel = mapel;
-  
+
   document.querySelectorAll('.mapel-option').forEach(function(el) {
     el.classList.remove('selected');
   });
-  
+
   document.querySelector('.mapel-option[data-mapel="' + mapel + '"]').classList.add('selected');
-  
-  var summary = document.getElementById('mapelSummary');
-  summary.style.display = 'block';
-  document.getElementById('selectedMapelText').innerText = mapelNama[mapel];
-  
-  var labelMingguan = document.getElementById('labelMingguan');
-  var labelBulanan = document.getElementById('labelBulanan');
-  var labelTahunan = document.getElementById('labelTahunan');
-  var durasiMingguan = document.getElementById('durasiMingguan');
-  var durasiBulanan = document.getElementById('durasiBulanan');
-  var durasiTahunan = document.getElementById('durasiTahunan');
-  var hargaMingguan = document.getElementById('hargaMingguan');
-  var hargaBulanan = document.getElementById('hargaBulanan');
-  var hargaTahunan = document.getElementById('hargaTahunan');
-  var perBulanMingguan = document.getElementById('perBulanMingguan');
-  var perBulanBulanan = document.getElementById('perBulanBulanan');
-  var perBulanTahunan = document.getElementById('perBulanTahunan');
-  var btnMingguan = document.getElementById('btnMingguan');
-  var btnBulanan = document.getElementById('btnBulanan');
-  var btnTahunan = document.getElementById('btnTahunan');
-  
-  if (mapel === 'all') {
-    labelMingguan.innerText = '3 Mapel';
-    labelBulanan.innerText = '3 Mapel';
-    labelTahunan.innerText = '3 Mapel';
-    durasiMingguan.innerText = 'Akses 7 hari • 3 mapel';
-    durasiBulanan.innerText = 'Akses 30 hari • 3 mapel';
-    durasiTahunan.innerText = 'Akses 365 hari • 3 mapel';
-    hargaMingguan.innerText = 'Rp 6.000';
-    hargaBulanan.innerText = 'Rp 26.000';
-    hargaTahunan.innerText = 'Rp 150.000';
-    perBulanMingguan.innerText = '~Rp 24.000/bulan';
-    perBulanBulanan.innerText = 'Hemat 77%';
-    perBulanTahunan.innerText = '~Rp 12.500/bulan';
-  } else {
-    labelMingguan.innerText = 'Coba Dulu';
-    labelBulanan.innerText = 'Best Value';
-    labelTahunan.innerText = 'Super Hemat';
-    durasiMingguan.innerText = 'Akses 7 hari';
-    durasiBulanan.innerText = 'Akses 30 hari';
-    durasiTahunan.innerText = 'Akses 365 hari + Bonus 7 hari';
-    hargaMingguan.innerText = 'Rp 3.000';
-    hargaBulanan.innerText = 'Rp 12.000';
-    hargaTahunan.innerText = 'Rp 100.000';
-    perBulanMingguan.innerText = '~Rp 12.000/bulan';
-    perBulanBulanan.innerText = 'Hemat 80%';
-    perBulanTahunan.innerText = '~Rp 8.300/bulan';
-  }
-  
-  btnMingguan.disabled = false;
-  btnBulanan.disabled = false;
-  btnTahunan.disabled = false;
+
+  document.getElementById('btnLanjutDurasi').disabled = false;
 }
 
-// NAVIGASI HALAMAN
+function lanjutKeDurasi() {
+  if (!selectedMapel) return;
+
+  document.getElementById('durasiMapelLabel').innerText = mapelNama[selectedMapel];
+  updateHargaPaket();
+
+  showScreen('stepDurasi');
+}
+
+// ===== UPDATE HARGA PAKET =====
+function updateHargaPaket() {
+  var p = prices[selectedMapel];
+  if (!p) return;
+
+  document.getElementById('hargaMingguan').innerText = 'Rp ' + p.mingguan.toLocaleString('id-ID');
+  document.getElementById('hargaBulanan').innerText = 'Rp ' + p.bulanan.toLocaleString('id-ID');
+  document.getElementById('hargaTahunan').innerText = 'Rp ' + p.tahunan.toLocaleString('id-ID');
+
+  if (selectedMapel === 'all') {
+    document.getElementById('perBulanMingguan').innerText = '~Rp 24.000/bulan';
+    document.getElementById('perBulanBulanan').innerText = 'Hemat 77%';
+    document.getElementById('perBulanTahunan').innerText = '~Rp 12.500/bulan';
+    document.getElementById('durasiMingguan').innerText = 'Akses 7 hari • 3 mapel';
+    document.getElementById('durasiBulanan').innerText = 'Akses 30 hari • 3 mapel';
+    document.getElementById('durasiTahunan').innerText = 'Akses 365 hari • 3 mapel';
+  } else {
+    document.getElementById('perBulanMingguan').innerText = '~Rp 12.000/bulan';
+    document.getElementById('perBulanBulanan').innerText = 'Hemat 80%';
+    document.getElementById('perBulanTahunan').innerText = '~Rp 8.300/bulan';
+    document.getElementById('durasiMingguan').innerText = 'Akses 7 hari';
+    document.getElementById('durasiBulanan').innerText = 'Akses 30 hari';
+    document.getElementById('durasiTahunan').innerText = 'Akses 365 hari + Bonus 7 hari';
+  }
+}
+
+// ===== STEP 2: PILIH DURASI =====
+function pilihDurasi(durasi) {
+  selectedDurasi = durasi;
+
+  document.querySelectorAll('.paket-card').forEach(function(el) {
+    el.style.borderColor = '';
+  });
+  var paketMap = {
+    mingguan: 'paketMingguan',
+    bulanan: 'paketBulanan',
+    tahunan: 'paketTahunan'
+  };
+  document.getElementById(paketMap[durasi]).style.borderColor = '#2563EB';
+
+  currentCode = 'STR-' + String(Math.floor(100 + Math.random() * 900));
+
+  var price = prices[selectedMapel][durasi];
+  document.getElementById('paymentCode').innerText = currentCode;
+  document.getElementById('paymentTotal').innerText = 'Rp ' + price.toLocaleString('id-ID');
+  document.getElementById('detailMapel').innerText = mapelNama[selectedMapel];
+  document.getElementById('detailPaket').innerText = paketNama[durasi];
+
+  showScreen('stepPayment');
+}
+
+// ===== STEP 3: PEMBAYARAN =====
+function kirimBukti() {
+  var price = prices[selectedMapel][selectedDurasi];
+
+  var emailBody =
+    'Kode Pembayaran: ' + currentCode + '\n' +
+    'Mapel: ' + mapelNama[selectedMapel] + '\n' +
+    'Paket: ' + paketNama[selectedDurasi] + '\n' +
+    'Durasi: ' + durasiHari[selectedDurasi] + ' hari\n' +
+    'Nominal: Rp ' + price.toLocaleString('id-ID') + '\n\n' +
+    'Saya telah melakukan pembayaran via QRIS.\n' +
+    'Mohon kirimkan kode aktivasi premium untuk mapel ' + mapelNama[selectedMapel] + '.\n\n' +
+    '(Lampirkan foto bukti pembayaran di bawah ini).\n\n' +
+    'Terima kasih.';
+
+  var mailtoLink = 'mailto:startoolsid@gmail.com?subject=Bukti Pembayaran Premium - ' + currentCode + '&body=' + encodeURIComponent(emailBody);
+  window.location.href = mailtoLink;
+
+  showAlert('Formulir email telah dibuka. Silakan lampirkan bukti pembayaran dan kirim.');
+}
+
+// ===== DOWNLOAD QR =====
+function downloadQR() {
+  var img = document.getElementById('qrImage');
+  if (img && img.src) {
+    var link = document.createElement('a');
+    link.download = 'QRIS_StarTools_' + currentCode + '.png';
+    link.href = img.src;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    showAlert('QR Code tidak tersedia.');
+  }
+}
+
+// ===== AKTIVASI PREMIUM =====
+function aktivasiPremium() {
+  var code = document.getElementById('aktivasiCode').value.trim().toUpperCase();
+  if (!code) {
+    showAlert('Silakan masukkan kode aktivasi yang Anda terima dari email.');
+    return;
+  }
+
+  if (!currentUser) {
+    showAlert('Silakan login terlebih dahulu!');
+    return;
+  }
+
+  if (!selectedMapel) {
+    showAlert('Silakan pilih mapel terlebih dahulu!');
+    return;
+  }
+
+  db.ref('aktivasiCodes').child(code).once('value').then(function(snap) {
+    var data = snap.val();
+    if (!data) {
+      showAlert('Kode aktivasi tidak valid!');
+      return;
+    }
+
+    if (data.used === true) {
+      showAlert('Kode aktivasi sudah digunakan!');
+      return;
+    }
+
+    if (data.mapel !== selectedMapel && data.mapel !== 'all') {
+      showAlert('Kode ini untuk mapel ' + mapelNama[data.mapel] + ', bukan untuk ' + mapelNama[selectedMapel] + '!');
+      return;
+    }
+
+    var now = Date.now();
+    var aktifSampai = now + (data.durasi_hari * 24 * 60 * 60 * 1000);
+
+    var updates = {};
+    updates['users/' + currentUser.uid + '/premium/' + selectedMapel] = true;
+    updates['users/' + currentUser.uid + '/premium/' + selectedMapel + '_expiry'] = aktifSampai;
+    updates['users/' + currentUser.uid + '/premium/_paket'] = mapelNama[selectedMapel] + ' - ' + paketNama[data.durasi];
+    updates['aktivasiCodes/' + code + '/used'] = true;
+    updates['aktivasiCodes/' + code + '/used_by'] = currentUser.uid;
+    updates['aktivasiCodes/' + code + '/used_at'] = now;
+
+    db.ref().update(updates).then(function() {
+      showAlert('Premium berhasil diaktifkan!\n\nMapel: ' + mapelNama[selectedMapel] + '\nDurasi: ' + data.durasi_hari + ' hari\n\nSelamat belajar! 🎉');
+      document.getElementById('aktivasiCode').value = '';
+      cekStatusPremium(currentUser.uid);
+    }).catch(function(err) {
+      showAlert('Gagal mengaktifkan premium: ' + err.message);
+    });
+  }).catch(function(err) {
+    showAlert('Terjadi kesalahan: ' + err.message);
+  });
+}
+
+// ===== KEMBALI =====
+function kembaliKeMapel() {
+  showScreen('stepMapel');
+}
+
+function kembaliKeDurasi() {
+  showScreen('stepDurasi');
+}
+
+// ===== SHOW SCREEN =====
 function showScreen(screenId) {
   var screens = document.querySelectorAll('.screen');
   for (var i = 0; i < screens.length; i++) {
@@ -1546,84 +2094,14 @@ function showScreen(screenId) {
   }
 }
 
-function goToMain() {
-  showScreen('mainScreen');
-}
-
-function goPayment(product) {
-  if (!selectedMapel) {
-    showAlert('Silakan pilih mapel terlebih dahulu!');
-    return;
-  }
-  
-  currentProduct = product;
-  var code = 'STR-' + String(Math.floor(100 + Math.random() * 900));
-  currentCode = code;
-  
-  var price = prices[selectedMapel][product];
-  
-  document.getElementById('paymentCode').innerText = code;
-  document.getElementById('paymentTotal').innerText = 'Rp ' + price.toLocaleString('id-ID');
-  document.getElementById('detailMapel').innerText = mapelNama[selectedMapel];
-  document.getElementById('detailPaket').innerText = paketNama[product];
-  
-  showScreen('paymentScreen');
-}
-
-function goToQRIS() {
-  var price = prices[selectedMapel][currentProduct];
-  
-  document.getElementById('qrisCode').innerText = 'Kode: ' + currentCode;
-  document.getElementById('qrisTotal').innerText = 'Rp ' + price.toLocaleString('id-ID');
-  
-  showScreen('qrisScreen');
-}
-
-function goToPayment() {
-  showScreen('paymentScreen');
-}
-
-// DOWNLOAD QR
-function downloadQR() {
-  var img = document.getElementById('qrImage');
-  if (img && img.src) {
-    var link = document.createElement('a');
-    link.download = 'QR_Code_' + currentCode + '.png';
-    link.href = img.src;
-    link.click();
-  } else {
-    showAlert('QR Code tidak tersedia.');
-  }
-}
-
-// KIRIM BUKTI
-function kirimBukti() {
-  var price = prices[selectedMapel][currentProduct];
-  
-  var emailBody = 
-    'Kode Pembayaran: ' + currentCode + '\n' +
-    'Mapel: ' + mapelNama[selectedMapel] + '\n' +
-    'Paket: ' + paketNama[currentProduct] + '\n' +
-    'Nominal: Rp ' + price.toLocaleString('id-ID') + '\n\n' +
-    'Saya telah melakukan pembayaran dan melampirkan bukti transfer.\n' +
-    'Mohon aktifkan premium untuk akun saya.\n\n' +
-    '(Lampirkan foto bukti pembayaran di bawah ini).\n\n'+
-    'Terima kasih.';
-
-  var mailtoLink = 'mailto:startoolsid@gmail.com?subject=Bukti Pembayaran Premium - ' + currentCode + '&body=' + encodeURIComponent(emailBody);
-  window.location.href = mailtoLink;
-
-  showAlert('Formulir email telah dibuka. Silakan lampirkan bukti pembayaran dan kirim.');
-}
-
-// CEK STATUS PREMIUM USER
+// ===== CEK STATUS PREMIUM =====
 function cekStatusPremium(userId) {
   db.ref('users/' + userId + '/premium').on('value', function(snap) {
     var data = snap.val();
     if (data && data._aktif_sampai) {
       var sekarang = Date.now();
       var sisa = data._aktif_sampai - sekarang;
-      
+
       if (sisa > 0) {
         var hari = Math.ceil(sisa / (1000 * 60 * 60 * 24));
         document.getElementById('statusPremiumContainer').style.display = 'block';
@@ -1639,12 +2117,12 @@ function cekStatusPremium(userId) {
   });
 }
 
-// THEME
+// ===== THEME =====
 if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
 
-// ACTIVE NAV
+// ===== ACTIVE NAV =====
 var currentPage = window.location.pathname.split('/').pop() || 'premium.html';
 var navItems = document.querySelectorAll('.nav-item');
 for (var i = 0; i < navItems.length; i++) {
@@ -1655,12 +2133,12 @@ for (var i = 0; i < navItems.length; i++) {
   }
 }
 
-// KEYBOARD
+// ===== KEYBOARD =====
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeSidebar();
 });
 
-// AUTH
+// ===== AUTH =====
 firebase.auth().onAuthStateChanged(function(user) {
   if (!user) {
     var isGuest = localStorage.getItem('isGuest') === 'true';
@@ -1668,17 +2146,13 @@ firebase.auth().onAuthStateChanged(function(user) {
       window.location.href = 'login.html';
     }
   } else {
+    currentUser = user;
     cekStatusPremium(user.uid);
   }
 });
 
-// Pastikan mainScreen tampil pertama kali
-showScreen('mainScreen');
-
-// Disable tombol pilih sebelum mapel dipilih
-document.getElementById('btnMingguan').disabled = true;
-document.getElementById('btnBulanan').disabled = true;
-document.getElementById('btnTahunan').disabled = true;
+// ===== INIT =====
+showScreen('stepMapel');
 </script>
 
 </body>

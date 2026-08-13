@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Catatan Nilai - Star Tools</title>
+
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+
+  body.dark {
+    background: #0B1120;
+    color: #F1F5F9;
+  }
+
+  .app-container {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #F1F5F9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.dark .app-container {
+    background: #0B1120;
+  }
+
+  .app-header {
+    background: #FFFFFF;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  body.dark .app-header {
+    background: #111827;
+    border-bottom-color: #1E293B;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
+  }
+
+  .app-title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-icon {
+    width: 40px;
+    height: 40px;
+    background: #F8FAFE;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .menu-icon {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .menu-icon svg { stroke: #0F172A; }
+  body.dark .menu-icon svg { stroke: #F1F5F9; }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+  }
+
+  .sidebar-overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sidebar-nav {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 101;
+    transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    padding: 70px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  body.dark .sidebar-nav {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .sidebar-nav.active { left: 0; }
+
+  .sidebar-nav a {
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #0F172A;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  body.dark .sidebar-nav a { color: #F1F5F9; }
+
+  .sidebar-nav a:active { background: #DBEAFE; }
+
+  .sidebar-nav a .icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .logout-link {
+    margin-top: 20px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 16px;
+  }
+
+  body.dark .logout-link { border-top-color: #1E293B; }
+
+  .logout-link a { color: #DC2626 !important; }
+  .logout-link a svg { stroke: #DC2626; }
+
+  .close-sidebar-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+  }
+
+  .close-sidebar-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: #0F172A;
+    stroke-width: 2;
+  }
+
+  body.dark .close-sidebar-icon svg { stroke: #F1F5F9; }
+
+  .akun-status {
+    background: #EFF6FF;
+    color: #2563EB;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 8px 20px;
+    text-align: center;
+  }
+
+  body.dark .akun-status {
+    background: #1D2B4A;
+    color: #60A5FA;
+  }
+
+  .container {
+    background: #FFFFFF;
+    margin: 14px 16px;
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .container {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  .input-group { margin-bottom: 12px; }
+  .input-group:last-child { margin-bottom: 0; }
+
+  .input-group label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #64748B;
+    margin-bottom: 6px;
+  }
+
+  body.dark .input-group label { color: #94A3B8; }
+
+  .input, .select-box {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    background: #F8FAFE;
+    font-size: 14px;
+    color: #0F172A;
+    font-family: inherit;
+  }
+
+  body.dark .input, body.dark .select-box {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .input-row .input-group { flex: 1; margin-bottom: 0; }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .btn-primary {
+    background: #2563EB;
+    color: #fff;
+  }
+
+  .btn-primary:active { transform: scale(0.98); }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid #E2E8F0;
+    color: #0F172A;
+  }
+
+  body.dark .btn-outline {
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .btn-sm { padding: 9px; font-size: 12.5px; }
+
+  .standar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .standar-toggle span { font-size: 13px; font-weight: 700; color: #2563EB; }
+
+  .standar-box {
+    margin-top: 12px;
+    display: none;
+  }
+
+  .standar-box.active { display: block; }
+
+  .standar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: #F8FAFE;
+    margin-bottom: 6px;
+    font-size: 12.5px;
+  }
+
+  body.dark .standar-row { background: #1E293B; }
+
+  .standar-huruf {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: #2563EB18;
+    color: #2563EB;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  body.dark .standar-huruf { background: #2563EB2E; color: #60A5FA; }
+
+  .standar-range { color: #64748B; font-weight: 600; }
+
+  body.dark .standar-range { color: #94A3B8; }
+
+  /* ===== Excel-like table ===== */
+  .table-wrap {
+    margin: 0 16px 14px;
+    border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    overflow: auto;
+    background: #FFFFFF;
+    max-height: 65vh;
+  }
+
+  body.dark .table-wrap {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  table.excel-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12.5px;
+    min-width: 100%;
+  }
+
+  .excel-table th, .excel-table td {
+    border-right: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 0;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  body.dark .excel-table th, body.dark .excel-table td {
+    border-color: #1E293B;
+  }
+
+  .excel-table thead th {
+    background: #F1F5F9;
+    color: #334155;
+    font-weight: 700;
+    padding: 10px 6px;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+
+  body.dark .excel-table thead th {
+    background: #1E293B;
+    color: #E2E8F0;
+  }
+
+  .col-no { width: 40px; min-width: 40px; }
+  .col-nama { width: 140px; min-width: 140px; text-align: left !important; }
+  .col-day { width: 56px; min-width: 56px; }
+
+  .sticky-col {
+    position: sticky;
+    background: #FFFFFF;
+    z-index: 2;
+  }
+
+  body.dark .sticky-col { background: #111827; }
+
+  thead .sticky-col { z-index: 4; }
+
+  .sticky-no { left: 0; }
+  .sticky-nama { left: 40px; }
+
+  .cell-no {
+    padding: 10px 4px;
+    color: #64748B;
+    font-weight: 600;
+  }
+
+  body.dark .cell-no { color: #94A3B8; }
+
+  .cell-nama-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 10px 8px;
+    font-size: 12.5px;
+    font-family: inherit;
+    color: #0F172A;
+    text-align: left;
+  }
+
+  body.dark .cell-nama-input { color: #F1F5F9; }
+
+  .cell-nama-input:focus { outline: 2px solid #2563EB40; background: #F8FAFE; }
+
+  body.dark .cell-nama-input:focus { background: #1E293B; }
+
+  .cell-day {
+    padding: 10px 4px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #CBD5E1;
+  }
+
+  body.dark .cell-day { color: #334155; }
+
+  .cell-day.filled-angka {
+    background: #EFF6FF;
+    color: #2563EB;
+  }
+
+  body.dark .cell-day.filled-angka { background: #1D2B4A; color: #60A5FA; }
+
+  .cell-day.filled-text {
+    background: #FDF4FF;
+    color: #A21CAF;
+  }
+
+  body.dark .cell-day.filled-text { background: #2E1A38; color: #E879F9; }
+
+  .cell-day:active { transform: scale(0.95); }
+
+  .row-actions {
+    padding: 10px 4px;
+  }
+
+  .btn-del-row {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: #FEF2F2;
+    border: none;
+    color: #DC2626;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  body.dark .btn-del-row { background: #3B1717; }
+
+  .btn-del-row svg { width: 12px; height: 12px; }
+
+  .empty-state {
+    text-align: center;
+    padding: 30px 16px;
+    color: #94A3B8;
+    font-size: 13px;
+  }
+
+  .btn-danger {
+    background: #DC2626;
+    color: white;
+  }
+
+  .btn-danger:active { transform: scale(0.98); }
+
+  #modalOverlay .modal-icon {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+  }
+
+  #modalOverlay .modal-icon svg {
+    width: 48px;
+    height: 48px;
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  body.dark #modalOverlay .modal-icon svg { stroke: #F1F5F9; }
+
+  #modalOverlay .modal-content h3 {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  #modalOverlay .modal-content p {
+    text-align: center;
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+
+  body.dark #modalOverlay .modal-content p { color: #94A3B8; }
+
+  #modalOverlay .modal-actions { margin-top: 18px; }
+
+  #modalOverlay {
+    z-index: 500;
+  }
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+    display: none;
+    place-items: center;
+    z-index: 300;
+    padding: 20px;
+  }
+
+  .modal-overlay.active { display: grid; }
+
+  .modal-content {
+    background: #FFFFFF;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 20px;
+    padding: 22px;
+  }
+
+  body.dark .modal-content {
+    background: #111827;
+  }
+
+  .modal-content h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .modal-sub {
+    font-size: 12.5px;
+    color: #64748B;
+    margin-bottom: 16px;
+  }
+
+  body.dark .modal-sub { color: #94A3B8; }
+
+  .type-choice-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .type-choice-btn {
+    flex: 1;
+    padding: 16px 8px;
+    border-radius: 14px;
+    border: 1.5px solid #E2E8F0;
+    background: #F8FAFE;
+    text-align: center;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  body.dark .type-choice-btn {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .type-choice-btn b { display: block; font-size: 13.5px; margin-bottom: 2px; }
+  .type-choice-btn span { font-size: 11px; color: #64748B; }
+
+  body.dark .type-choice-btn span { color: #94A3B8; }
+
+  .value-type-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .value-type-tab {
+    flex: 1;
+    padding: 9px;
+    border-radius: 10px;
+    border: 1.5px solid #E2E8F0;
+    background: #F8FAFE;
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #64748B;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  body.dark .value-type-tab {
+    background: #1E293B;
+    border-color: #334155;
+    color: #94A3B8;
+  }
+
+  .value-type-tab.active {
+    background: #2563EB;
+    border-color: #2563EB;
+    color: #fff;
+  }
+
+  .huruf-picker {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .huruf-opt {
+    padding: 12px 0;
+    border-radius: 10px;
+    border: 1.5px solid #E2E8F0;
+    background: #F8FAFE;
+    text-align: center;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  body.dark .huruf-opt {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .huruf-opt.selected {
+    background: #2563EB;
+    border-color: #2563EB;
+    color: #fff;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .modal-actions .btn { flex: 1; min-width: 0; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #0F172A;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 12.5px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 400;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 20px;
+    color: #94A3B8;
+    font-size: 11.5px;
+  }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 900px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .table-wrap {
+      max-height: 50vh;
+    }
+
+    .guide-overlay {
+      align-items: center;
+    }
+
+    .guide-content {
+      max-width: 480px;
+      height: auto;
+      max-height: 85vh;
+      border-radius: 20px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    body.dark .guide-content {
+      border-bottom-color: #1E293B;
+    }
+
+    .guide-content.expanded {
+      height: auto;
+      max-height: 90vh;
+      border-radius: 20px;
+    }
+
+    .guide-drag-zone {
+      cursor: default;
+    }
+
+    .guide-handle {
+      opacity: 0.4;
+    }
+  }
+  .guide-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 250;
+  }
+
+  .guide-overlay.active {
+    display: flex;
+  }
+
+  .guide-content {
+    background: #FFFFFF;
+    width: 100%;
+    max-width: 440px;
+    height: 82vh;
+    max-height: 82vh;
+    border-radius: 24px 24px 0 0;
+    padding: 20px 20px 24px;
+    border: 1px solid #E2E8F0;
+    border-bottom: none;
+    animation: guideSlideUp 0.28s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: height 0.28s ease, max-height 0.28s ease, border-radius 0.28s ease, transform 0.2s ease;
+  }
+
+  .guide-content.expanded {
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    padding-top: max(20px, env(safe-area-inset-top));
+  }
+
+  .guide-content.dragging {
+    transition: none;
+  }
+
+  body.dark .guide-content {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  @keyframes guideSlideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .guide-drag-zone {
+    flex-shrink: 0;
+    padding: 6px 0 14px;
+    margin: -6px 0 0;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .guide-handle {
+    width: 40px;
+    height: 4px;
+    background: #E2E8F0;
+    border-radius: 4px;
+    margin: 0 auto;
+  }
+
+  body.dark .guide-handle {
+    background: #334155;
+  }
+
+  .guide-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .guide-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+
+  body.dark .guide-header h3 {
+    color: #F1F5F9;
+  }
+
+  .guide-header .guide-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  body.dark .guide-header .guide-close {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .guide-header .guide-close svg {
+    width: 16px;
+    height: 16px;
+    stroke: #0F172A;
+  }
+
+  body.dark .guide-header .guide-close svg {
+    stroke: #F1F5F9;
+  }
+
+  .guide-subtitle {
+    flex-shrink: 0;
+    font-size: 13px;
+    color: #64748B;
+    margin-bottom: 14px;
+  }
+
+  body.dark .guide-subtitle {
+    color: #94A3B8;
+  }
+
+  .guide-sim {
+    flex-shrink: 0;
+    position: relative;
+    height: 148px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #EFF6FF, #F8FAFE);
+    border: 1px solid #DBEAFE;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  body.dark .guide-sim {
+    background: linear-gradient(135deg, #0F1E3A, #111827);
+    border-color: #1E293B;
+  }
+
+  .sim-scene {
+    position: absolute;
+    top: 0; left: 8px; right: 8px; bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+  }
+
+  .sim-scene-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sim-scene-icon {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #0F172A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  body.dark .sim-scene-icon {
+    background: #1E293B;
+    border: 1px solid #334155;
+  }
+
+  .sim-scene-icon.outline {
+    background: #FFFFFF;
+    border: 2px solid #2563EB;
+  }
+
+  body.dark .sim-scene-icon.outline {
+    background: #111827;
+  }
+
+  .sim-scene-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: #fff;
+  }
+
+  .sim-scene-icon.outline svg {
+    stroke: #2563EB;
+  }
+
+  .sim-scene-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #2563EB;
+    line-height: 1.3;
+    text-align: center;
+    max-width: 200px;
+  }
+
+  body.dark .sim-scene-label {
+    color: #60A5FA;
+  }
+
+  .sim-check-badge {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #22C55E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: checkPopSync 10s ease-in-out infinite;
+  }
+
+  .sim-check-badge svg {
+    width: 9px;
+    height: 9px;
+    stroke: #fff;
+    stroke-width: 3;
+  }
+
+  @keyframes checkPopSync {
+    0%, 68% { opacity: 0; transform: scale(0.5); }
+    72% { opacity: 1; transform: scale(1); }
+    77% { opacity: 1; transform: scale(1); }
+    80% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  .sim-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .sim-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #CBD5E1;
+  }
+
+  body.dark .sim-dot {
+    background: #334155;
+  }
+
+  .sim-dot-1 { animation: dotActive1 10s ease-in-out infinite; }
+  .sim-dot-2 { animation: dotActive2 10s ease-in-out infinite; }
+  .sim-dot-3 { animation: dotActive3 10s ease-in-out infinite; }
+  .sim-dot-4 { animation: dotActive4 10s ease-in-out infinite; }
+  .sim-dot-5 { animation: dotActive5 10s ease-in-out infinite; }
+
+  @keyframes dotActive1 {
+    0%, 14% { background: #2563EB; transform: scale(1.3); }
+    17%, 100% { background: #CBD5E1; transform: scale(1); }
+  }
+  @keyframes dotActive2 {
+    0%, 20%, 37%, 100% { background: #CBD5E1; transform: scale(1); }
+    23%, 34% { background: #2563EB; transform: scale(1.3); }
+  }
+  @keyframes dotActive3 {
+    0%, 40%, 57%, 100% { background: #CBD5E1; transform: scale(1); }
+    43%, 54% { background: #2563EB; transform: scale(1.3); }
+  }
+  @keyframes dotActive4 {
+    0%, 60%, 77%, 100% { background: #CBD5E1; transform: scale(1); }
+    63%, 74% { background: #2563EB; transform: scale(1.3); }
+  }
+  @keyframes dotActive5 {
+    0%, 80%, 97% { background: #CBD5E1; transform: scale(1); }
+    83%, 94% { background: #2563EB; transform: scale(1.3); }
+    100% { background: #CBD5E1; transform: scale(1); }
+  }
+
+  .sim-scene-1 { animation: sceneFade1 10s ease-in-out infinite; }
+  .sim-scene-2 { animation: sceneFade2 10s ease-in-out infinite; }
+  .sim-scene-3 { animation: sceneFade3 10s ease-in-out infinite; }
+  .sim-scene-4 { animation: sceneFade4 10s ease-in-out infinite; }
+  .sim-scene-5 { animation: sceneFade5 10s ease-in-out infinite; }
+
+  @keyframes sceneFade1 {
+    0% { opacity: 1; transform: translateY(0); }
+    14% { opacity: 1; transform: translateY(0); }
+    17% { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0; }
+  }
+  @keyframes sceneFade2 {
+    0%, 20% { opacity: 0; transform: translateY(6px); }
+    23% { opacity: 1; transform: translateY(0); }
+    34% { opacity: 1; transform: translateY(0); }
+    37% { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0; }
+  }
+  @keyframes sceneFade3 {
+    0%, 40% { opacity: 0; transform: translateY(6px); }
+    43% { opacity: 1; transform: translateY(0); }
+    54% { opacity: 1; transform: translateY(0); }
+    57% { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0; }
+  }
+  @keyframes sceneFade4 {
+    0%, 60% { opacity: 0; transform: translateY(6px); }
+    63% { opacity: 1; transform: translateY(0); }
+    74% { opacity: 1; transform: translateY(0); }
+    77% { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0; }
+  }
+  @keyframes sceneFade5 {
+    0%, 80% { opacity: 0; transform: translateY(6px); }
+    83% { opacity: 1; transform: translateY(0); }
+    97% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; }
+  }
+
+  .guide-steps {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-right: 2px;
+    margin-bottom: 16px;
+  }
+
+  .guide-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .guide-step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #2563EB18;
+    color: #2563EB;
+    font-size: 12.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  body.dark .guide-step-num {
+    background: #2563EB2E;
+    color: #60A5FA;
+  }
+
+  .guide-step-text b {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 2px;
+  }
+
+  body.dark .guide-step-text b {
+    color: #F1F5F9;
+  }
+
+  .guide-step-text span {
+    font-size: 12.5px;
+    color: #64748B;
+    line-height: 1.5;
+  }
+
+  body.dark .guide-step-text span {
+    color: #94A3B8;
+  }
+
+  .guide-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  body.dark .guide-footer {
+    border-top-color: #1E293B;
+  }
+
+  .guide-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #64748B;
+  }
+
+  body.dark .guide-checkbox {
+    color: #94A3B8;
+  }
+
+  .guide-btn-ok {
+    background: #2563EB;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 10px 20px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .guide-btn-ok:active {
+    transform: scale(0.96);
+  }
+
+
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="menu-icon" onclick="openSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <span class="app-title">Catatan Nilai</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button class="close-btn" onclick="openGuideModal()" aria-label="Panduan Penggunaan" style="font-weight:800; font-size:16px;">
+        <span style="color:#2563EB;">?</span>
+      </button>
+      <button class="close-btn" onclick="goTo('index.html')" aria-label="Kembali">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="close-sidebar-icon" onclick="closeSidebar()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <a href="#" onclick="goTo('index.html')">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Utama
+    </a>
+    <a href="#" onclick="goTo('berita.html')">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
+      Berita
+    </a>
+    <a href="#" onclick="goTo('premium.html')">
+      <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <a href="#" onclick="goTo('akun.html')">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Akun
+    </a>
+    <div class="logout-link">
+      <a href="#" onclick="logoutAction()">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Keluar
+      </a>
+    </div>
+  </div>
+
+  <div class="akun-status" id="akunStatus">Memeriksa akun...</div>
+
+  <div class="container">
+    <div class="input-group">
+      <label>Nama Mata Pelajaran</label>
+      <input id="namaMapel" class="input" placeholder="Contoh: Matematika" oninput="scheduleSaveMeta()">
+    </div>
+    <div class="input-group">
+      <label>Nama Guru (opsional)</label>
+      <input id="namaGuru" class="input" placeholder="Contoh: Budi Santoso" oninput="scheduleSaveMeta()">
+    </div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>Bulan</label>
+        <select id="pilihBulan" class="select-box" onchange="onPeriodeChange()">
+          <option value="1">Januari</option>
+          <option value="2">Februari</option>
+          <option value="3">Maret</option>
+          <option value="4">April</option>
+          <option value="5">Mei</option>
+          <option value="6">Juni</option>
+          <option value="7">Juli</option>
+          <option value="8">Agustus</option>
+          <option value="9">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Tahun</label>
+        <input id="pilihTahun" type="number" class="input" onchange="onPeriodeChange()">
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="standar-toggle" onclick="toggleStandar()">
+      <span>Lihat Standar Konversi Nilai</span>
+      <svg id="standarChevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div id="standarBox" class="standar-box">
+      <div class="standar-row"><div style="display:flex; align-items:center; gap:10px;"><div class="standar-huruf">A</div><span>Sangat Baik</span></div><span class="standar-range">90 - 100</span></div>
+      <div class="standar-row"><div style="display:flex; align-items:center; gap:10px;"><div class="standar-huruf">B</div><span>Baik</span></div><span class="standar-range">75 - 89</span></div>
+      <div class="standar-row"><div style="display:flex; align-items:center; gap:10px;"><div class="standar-huruf">C</div><span>Cukup</span></div><span class="standar-range">60 - 74</span></div>
+      <div class="standar-row"><div style="display:flex; align-items:center; gap:10px;"><div class="standar-huruf">D</div><span>Kurang</span></div><span class="standar-range">40 - 59</span></div>
+      <div class="standar-row" style="margin-bottom:0;"><div style="display:flex; align-items:center; gap:10px;"><div class="standar-huruf">E</div><span>Sangat Kurang</span></div><span class="standar-range">0 - 39</span></div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="excel-table" id="tabelNilai">
+      <thead>
+        <tr id="headerRow">
+          <th class="sticky-col sticky-no col-no">No</th>
+          <th class="sticky-col sticky-nama col-nama">Nama</th>
+        </tr>
+      </thead>
+      <tbody id="tabelBody">
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin: 14px 16px;">
+    <button class="btn btn-primary" onclick="tambahMurid()">+ Tambah Murid</button>
+  </div>
+
+  <div class="footer">Star Platform | Star Tools 2026</div>
+</div>
+
+<!-- Modal: alert / confirm custom Star Tools -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-icon" id="modalIcon"></div>
+    <h3 id="modalTitle">Sukses!</h3>
+    <p id="modalMessage">Pesan berhasil</p>
+    <div id="modalActions" class="modal-actions"></div>
+  </div>
+</div>
+
+<div id="guideOverlay" class="guide-overlay">
+  <div class="guide-content" id="guideContent">
+    <div class="guide-drag-zone" id="guideDragZone">
+      <div class="guide-handle"></div>
+    </div>
+    <div class="guide-header">
+      <h3>Panduan Penggunaan Catatan Nilai</h3>
+      <div class="guide-close" onclick="closeGuideModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </div>
+    </div>
+    <p class="guide-subtitle">Ikuti langkah-langkah berikut agar pencatatan nilai berjalan dengan lancar.</p>
+
+    <div class="guide-sim">
+      <div class="sim-scene sim-scene-1">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+        </div>
+        <div class="sim-scene-label">Login dengan Akun Star Tools</div>
+      </div>
+
+      <div class="sim-scene sim-scene-2">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+        </div>
+        <div class="sim-scene-label">Isi Nama Mapel &amp; Guru</div>
+      </div>
+
+      <div class="sim-scene sim-scene-3">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="17" y1="11" x2="23" y2="11"/></svg>
+          </div>
+        </div>
+        <div class="sim-scene-label">Pilih Bulan &amp; Tambah Murid</div>
+      </div>
+
+      <div class="sim-scene sim-scene-4">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </div>
+          <div class="sim-scene-icon outline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+            <div class="sim-check-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="sim-scene-label">Klik Sel, Isi Nilai</div>
+      </div>
+
+      <div class="sim-scene sim-scene-5">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          </div>
+        </div>
+        <div class="sim-scene-label">Ganti Tipe, Otomatis Dikonversi</div>
+      </div>
+
+      <div class="sim-dots">
+        <div class="sim-dot sim-dot-1"></div>
+        <div class="sim-dot sim-dot-2"></div>
+        <div class="sim-dot sim-dot-3"></div>
+        <div class="sim-dot sim-dot-4"></div>
+        <div class="sim-dot sim-dot-5"></div>
+      </div>
+    </div>
+
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="guide-step-num">1</div>
+        <div class="guide-step-text">
+          <b>Login dengan Akun Star Tools</b>
+          <span>Gunakan akun yang sama dengan aplikasi Star Tools lainnya (email atau Google). Semua catatan nilai otomatis tersimpan dan nyambung ke akun ini, bisa diakses dari perangkat mana saja selama login dengan akun yang sama.</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">2</div>
+        <div class="guide-step-text">
+          <b>Mengisi Nama Mapel &amp; Guru</b>
+          <span>Isi nama mata pelajaran, dan nama guru apabila diperlukan (opsional).</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">3</div>
+        <div class="guide-step-text">
+          <b>Memilih Bulan &amp; Tahun</b>
+          <span>Pilih bulan dan tahun yang akan dicatat. Kolom tanggal pada tabel otomatis menyesuaikan jumlah hari di bulan tersebut (28-31 kolom).</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">4</div>
+        <div class="guide-step-text">
+          <b>Menambahkan Murid</b>
+          <span>Tekan "Tambah Murid", lalu ketik nama langsung di kolom Nama. Nomor urut pada kolom No terisi otomatis.</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">5</div>
+        <div class="guide-step-text">
+          <b>Mengisi Nilai</b>
+          <span>Klik sel kosong pada kolom tanggal, lalu pilih jenis nilai: Angka (0-100) atau Huruf (A-E), kemudian masukkan nilainya.</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">6</div>
+        <div class="guide-step-text">
+          <b>Mengganti Tipe Nilai Kapan Saja</b>
+          <span>Klik sel yang sudah terisi untuk mengedit, termasuk mengganti tipe dari Angka ke Huruf atau sebaliknya. Nilai otomatis dikonversi mengikuti standar Star Tools (bisa dilihat di kotak "Lihat Standar Konversi Nilai").</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-footer">
+      <label class="guide-checkbox">
+        <input type="checkbox" id="guideDontShow" style="accent-color:#2563EB;">
+        Jangan tampilkan kembali
+      </label>
+      <button class="guide-btn-ok" onclick="closeGuideModal()">Saya Mengerti</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: pilih tipe nilai (sel kosong) -->
+<div id="typeModalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Pilih Jenis Nilai</h3>
+    <p class="modal-sub" id="typeModalSub">Tanggal —</p>
+    <div class="type-choice-group">
+      <div class="type-choice-btn" onclick="chooseType('angka')">
+        <b>123</b>
+        <span>Angka (0-100)</span>
+      </div>
+      <div class="type-choice-btn" onclick="chooseType('text')">
+        <b>ABC</b>
+        <span>Huruf (A-E)</span>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeTypeModal()">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: isi / edit nilai -->
+<div id="valueModalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <h3 id="valueModalTitle">Isi Nilai</h3>
+    <p class="modal-sub" id="valueModalSub">Tanggal —</p>
+
+    <div class="value-type-tabs">
+      <div class="value-type-tab" id="tabAngka" onclick="switchValueType('angka')">Angka</div>
+      <div class="value-type-tab" id="tabText" onclick="switchValueType('text')">Huruf</div>
+    </div>
+
+    <div id="angkaInputWrap">
+      <input id="inputAngka" type="number" min="0" max="100" class="input" placeholder="Masukkan nilai 0-100" oninput="clampAngkaInput()">
+    </div>
+
+    <div id="textInputWrap" style="display:none;">
+      <div class="huruf-picker" id="hurufPicker">
+        <div class="huruf-opt" data-huruf="A" onclick="pilihHuruf('A')">A</div>
+        <div class="huruf-opt" data-huruf="B" onclick="pilihHuruf('B')">B</div>
+        <div class="huruf-opt" data-huruf="C" onclick="pilihHuruf('C')">C</div>
+        <div class="huruf-opt" data-huruf="D" onclick="pilihHuruf('D')">D</div>
+        <div class="huruf-opt" data-huruf="E" onclick="pilihHuruf('E')">E</div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="btnHapusNilai" onclick="hapusNilai()">Hapus</button>
+      <button class="btn btn-primary" onclick="simpanNilai()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast">Tersimpan</div>
+
+<script>
+var firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+var db = firebase.database();
+
+var auth = firebase.auth();
+
+function goTo(page) {
+  window.location.href = page;
+}
+
+function openSidebar() {
+  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('sidebarNav').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('sidebarNav').classList.remove('active');
+}
+
+function logoutAction() {
+  showConfirmModal('Keluar Aplikasi', 'Yakin ingin keluar dari aplikasi?', function() {
+    firebase.auth().signOut().then(function() {
+      window.location.href = 'login.html';
+    });
+  });
+}
+
+function openGuideModal() {
+  document.getElementById('guideOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGuideModal() {
+  var content = document.getElementById('guideContent');
+  content.classList.remove('expanded');
+  document.getElementById('guideOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  var dontShow = document.getElementById('guideDontShow');
+  if (dontShow && dontShow.checked) {
+    localStorage.setItem('nilaiGuideSeen', '1');
+  }
+}
+
+(function setupGuideDrag() {
+  var startY = 0;
+  var dragging = false;
+
+  function init() {
+    var zone = document.getElementById('guideDragZone');
+    var content = document.getElementById('guideContent');
+    if (!zone || !content) return;
+
+    zone.addEventListener('touchstart', function(e) {
+      startY = e.touches[0].clientY;
+      dragging = true;
+      content.classList.add('dragging');
+    }, { passive: true });
+
+    zone.addEventListener('touchmove', function(e) {
+      if (!dragging) return;
+      var deltaY = e.touches[0].clientY - startY;
+      var clamped = Math.max(-40, Math.min(deltaY, 300));
+      content.style.transform = 'translateY(' + clamped + 'px)';
+    }, { passive: true });
+
+    zone.addEventListener('touchend', function(e) {
+      if (!dragging) return;
+      dragging = false;
+      content.classList.remove('dragging');
+      content.style.transform = '';
+
+      var deltaY = e.changedTouches[0].clientY - startY;
+
+      if (deltaY > 60) {
+        closeGuideModal();
+      } else if (deltaY < -50) {
+        content.classList.add('expanded');
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+(function autoShowGuide() {
+  if (!localStorage.getItem('nilaiGuideSeen')) {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(openGuideModal, 500);
+    });
+  }
+})();
+
+
+
+/* ===== Alert & Confirm custom Star Tools ===== */
+function getIcon(type) {
+  if (type === 'success') {
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>';
+  } else if (type === 'error') {
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+  } else if (type === 'warning') {
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  }
+  return '';
+}
+
+function showModal(iconType, title, message, actions) {
+  document.getElementById('modalIcon').innerHTML = getIcon(iconType);
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalMessage').innerText = message;
+  document.getElementById('modalActions').innerHTML = actions || '<button class="btn btn-primary" onclick="closeModal()">Mengerti</button>';
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+var pendingConfirmAction = null;
+
+function showConfirmModal(title, message, onConfirm) {
+  pendingConfirmAction = onConfirm;
+  document.getElementById('modalIcon').innerHTML = getIcon('warning');
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalMessage').innerText = message;
+  document.getElementById('modalActions').innerHTML =
+    '<div style="display:flex; gap:8px;">' +
+    '<button class="btn btn-outline" onclick="closeModal()" style="flex:1;">Batal</button>' +
+    '<button class="btn btn-danger" onclick="runPendingConfirm()" style="flex:1;">Ya</button>' +
+    '</div>';
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function runPendingConfirm() {
+  var action = pendingConfirmAction;
+  pendingConfirmAction = null;
+  closeModal();
+  if (action) action();
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+/* ===== Akun (nyambung ke sistem login Star Tools) ===== */
+var akunId = null;
+var akunSiap = false;
+
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    akunId = user.uid;
+    akunSiap = true;
+    document.getElementById('akunStatus').textContent = 'Tersimpan di akun: ' + (user.email || 'Akun kamu');
+    var now = new Date();
+    document.getElementById('pilihBulan').value = now.getMonth() + 1;
+    document.getElementById('pilihTahun').value = now.getFullYear();
+    loadPeriode();
+  } else {
+    localStorage.setItem('redirectAfterLogin', 'nilai.html');
+    window.location.href = 'login.html';
+  }
+});
+
+/* ===== Standar konversi nilai Star Tools ===== */
+var STANDAR = [
+  { huruf: 'A', min: 90, max: 100 },
+  { huruf: 'B', min: 75, max: 89 },
+  { huruf: 'C', min: 60, max: 74 },
+  { huruf: 'D', min: 40, max: 59 },
+  { huruf: 'E', min: 0, max: 39 }
+];
+
+function textToAngka(huruf) {
+  var s = STANDAR.find(function(x) { return x.huruf === huruf; });
+  return s ? s.max : 0;
+}
+
+function angkaToText(angka) {
+  var n = Number(angka);
+  for (var i = 0; i < STANDAR.length; i++) {
+    if (n >= STANDAR[i].min && n <= STANDAR[i].max) return STANDAR[i].huruf;
+  }
+  return n > 100 ? 'A' : 'E';
+}
+
+/* ===== State ===== */
+var siswaList = [];
+var currentCell = null;
+var pendingType = null;
+var currentValueType = 'angka';
+var currentHurufSelected = null;
+var saveMetaTimer = null;
+var saveDataTimer = null;
+
+function daysInMonth(bulan, tahun) {
+  return new Date(tahun, bulan, 0).getDate();
+}
+
+function periodeKey() {
+  var bulan = document.getElementById('pilihBulan').value;
+  var tahun = document.getElementById('pilihTahun').value;
+  return tahun + '-' + bulan;
+}
+
+function toggleStandar() {
+  var box = document.getElementById('standarBox');
+  var chev = document.getElementById('standarChevron');
+  box.classList.toggle('active');
+  chev.style.transform = box.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 1400);
+}
+
+/* ===== Render tabel ===== */
+function renderTable() {
+  var bulan = parseInt(document.getElementById('pilihBulan').value);
+  var tahun = parseInt(document.getElementById('pilihTahun').value);
+  var totalHari = daysInMonth(bulan, tahun);
+
+  var headerRow = document.getElementById('headerRow');
+  headerRow.innerHTML = '<th class="sticky-col sticky-no col-no">No</th><th class="sticky-col sticky-nama col-nama">Nama</th>';
+  for (var d = 1; d <= totalHari; d++) {
+    headerRow.innerHTML += '<th class="col-day">' + d + '</th>';
+  }
+  headerRow.innerHTML += '<th style="width:40px;"></th>';
+
+  var body = document.getElementById('tabelBody');
+  body.innerHTML = '';
+
+  if (siswaList.length === 0) {
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');
+    td.colSpan = totalHari + 3;
+    td.className = 'empty-state';
+    td.textContent = 'Belum ada murid. Tekan "Tambah Murid" untuk mulai mengisi nilai.';
+    tr.appendChild(td);
+    body.appendChild(tr);
+    return;
+  }
+
+  siswaList.forEach(function(siswa, idx) {
+    var tr = document.createElement('tr');
+
+    var tdNo = document.createElement('td');
+    tdNo.className = 'sticky-col sticky-no cell-no';
+    tdNo.textContent = idx + 1;
+    tr.appendChild(tdNo);
+
+    var tdNama = document.createElement('td');
+    tdNama.className = 'sticky-col sticky-nama';
+    var inputNama = document.createElement('input');
+    inputNama.className = 'cell-nama-input';
+    inputNama.type = 'text';
+    inputNama.placeholder = 'Nama murid';
+    inputNama.value = siswa.nama || '';
+    inputNama.oninput = function() {
+      siswa.nama = this.value;
+      scheduleSaveData();
+    };
+    tdNama.appendChild(inputNama);
+    tr.appendChild(tdNama);
+
+    for (var d = 1; d <= totalHari; d++) {
+      var td = document.createElement('td');
+      var entry = siswa.nilai && siswa.nilai[d];
+      td.className = 'cell-day';
+      if (entry) {
+        td.classList.add(entry.tipe === 'angka' ? 'filled-angka' : 'filled-text');
+        td.textContent = entry.nilai;
+      } else {
+        td.textContent = '+';
+      }
+      (function(siswaRef, hari, cellEl) {
+        cellEl.onclick = function() { openCell(siswaRef, hari, cellEl); };
+      })(siswa, d, td);
+      tr.appendChild(td);
+    }
+
+    var tdAksi = document.createElement('td');
+    tdAksi.className = 'row-actions';
+    var btnDel = document.createElement('button');
+    btnDel.className = 'btn-del-row';
+    btnDel.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    btnDel.onclick = function() { hapusMurid(idx); };
+    tdAksi.appendChild(btnDel);
+    tr.appendChild(tdAksi);
+
+    body.appendChild(tr);
+  });
+}
+
+function tambahMurid() {
+  siswaList.push({ nama: '', nilai: {} });
+  renderTable();
+  scheduleSaveData();
+}
+
+function hapusMurid(idx) {
+  showConfirmModal('Hapus Murid?', 'Data nilai murid ini akan dihapus dari catatan dan tidak bisa dikembalikan.', function() {
+    siswaList.splice(idx, 1);
+    renderTable();
+    scheduleSaveData();
+  });
+}
+
+/* ===== Isi nilai (klik sel) ===== */
+function openCell(siswaRef, hari, cellEl) {
+  currentCell = { siswa: siswaRef, hari: hari };
+  var existing = siswaRef.nilai && siswaRef.nilai[hari];
+
+  if (!existing) {
+    document.getElementById('typeModalSub').textContent = 'Tanggal ' + hari + ' — ' + (siswaRef.nama || 'Murid');
+    document.getElementById('typeModalOverlay').classList.add('active');
+  } else {
+    openValueModal(existing.tipe, existing.nilai);
+  }
+}
+
+function closeTypeModal() {
+  document.getElementById('typeModalOverlay').classList.remove('active');
+  currentCell = null;
+}
+
+function chooseType(tipe) {
+  document.getElementById('typeModalOverlay').classList.remove('active');
+  openValueModal(tipe, tipe === 'angka' ? '' : null);
+}
+
+function openValueModal(tipe, nilaiAwal) {
+  var siswaRef = currentCell.siswa;
+  document.getElementById('valueModalSub').textContent = 'Tanggal ' + currentCell.hari + ' — ' + (siswaRef.nama || 'Murid');
+  document.getElementById('valueModalTitle').textContent = 'Isi Nilai';
+  document.getElementById('btnHapusNilai').style.display = (siswaRef.nilai && siswaRef.nilai[currentCell.hari]) ? 'block' : 'none';
+
+  currentValueType = tipe;
+  currentHurufSelected = tipe === 'text' ? nilaiAwal : null;
+
+  document.getElementById('inputAngka').value = tipe === 'angka' ? (nilaiAwal || '') : '';
+
+  updateValueTabsUI();
+  document.getElementById('valueModalOverlay').classList.add('active');
+
+  if (tipe === 'text' && nilaiAwal) {
+    pilihHuruf(nilaiAwal, true);
+  }
+}
+
+function updateValueTabsUI() {
+  var tabAngka = document.getElementById('tabAngka');
+  var tabText = document.getElementById('tabText');
+  var wrapAngka = document.getElementById('angkaInputWrap');
+  var wrapText = document.getElementById('textInputWrap');
+
+  if (currentValueType === 'angka') {
+    tabAngka.classList.add('active');
+    tabText.classList.remove('active');
+    wrapAngka.style.display = 'block';
+    wrapText.style.display = 'none';
+  } else {
+    tabText.classList.add('active');
+    tabAngka.classList.remove('active');
+    wrapText.style.display = 'block';
+    wrapAngka.style.display = 'none';
+  }
+}
+
+function switchValueType(tipeBaru) {
+  if (tipeBaru === currentValueType) return;
+
+  if (tipeBaru === 'text') {
+    var angkaSekarang = document.getElementById('inputAngka').value;
+    if (angkaSekarang !== '') {
+      currentHurufSelected = angkaToText(angkaSekarang);
+    }
+  } else {
+    if (currentHurufSelected) {
+      document.getElementById('inputAngka').value = textToAngka(currentHurufSelected);
+    }
+  }
+
+  currentValueType = tipeBaru;
+  updateValueTabsUI();
+  if (tipeBaru === 'text' && currentHurufSelected) {
+    pilihHuruf(currentHurufSelected, true);
+  }
+}
+
+function pilihHuruf(huruf, silent) {
+  currentHurufSelected = huruf;
+  var opts = document.querySelectorAll('.huruf-opt');
+  opts.forEach(function(o) {
+    o.classList.toggle('selected', o.getAttribute('data-huruf') === huruf);
+  });
+}
+
+function clampAngkaInput() {
+  var el = document.getElementById('inputAngka');
+  var v = parseInt(el.value);
+  if (v > 100) el.value = 100;
+  if (v < 0) el.value = 0;
+}
+
+function closeValueModal() {
+  document.getElementById('valueModalOverlay').classList.remove('active');
+  currentCell = null;
+}
+
+function simpanNilai() {
+  if (!currentCell) return;
+  var siswaRef = currentCell.siswa;
+  var hari = currentCell.hari;
+
+  if (currentValueType === 'angka') {
+    var v = document.getElementById('inputAngka').value;
+    if (v === '' || v === null) {
+      showModal('warning', 'Belum Lengkap', 'Isi nilai angka terlebih dahulu.');
+      return;
+    }
+    if (!siswaRef.nilai) siswaRef.nilai = {};
+    siswaRef.nilai[hari] = { tipe: 'angka', nilai: parseInt(v) };
+  } else {
+    if (!currentHurufSelected) {
+      showModal('warning', 'Belum Lengkap', 'Pilih huruf terlebih dahulu.');
+      return;
+    }
+    if (!siswaRef.nilai) siswaRef.nilai = {};
+    siswaRef.nilai[hari] = { tipe: 'text', nilai: currentHurufSelected };
+  }
+
+  closeValueModal();
+  renderTable();
+  scheduleSaveData();
+  showToast('Nilai tersimpan');
+}
+
+function hapusNilai() {
+  if (!currentCell) return;
+  var siswaRef = currentCell.siswa;
+  var hari = currentCell.hari;
+  if (siswaRef.nilai) delete siswaRef.nilai[hari];
+  closeValueModal();
+  renderTable();
+  scheduleSaveData();
+}
+
+/* ===== Simpan & muat data Firebase ===== */
+function scheduleSaveMeta() {
+  clearTimeout(saveMetaTimer);
+  saveMetaTimer = setTimeout(saveData, 600);
+}
+
+function scheduleSaveData() {
+  clearTimeout(saveDataTimer);
+  saveDataTimer = setTimeout(saveData, 500);
+}
+
+function siswaListToObject() {
+  var obj = {};
+  siswaList.forEach(function(s, i) {
+    obj['s' + i] = { nama: s.nama || '', nilai: s.nilai || {} };
+  });
+  return obj;
+}
+
+function saveData() {
+  if (!akunSiap || !akunId) return;
+  var payload = {
+    namaMapel: document.getElementById('namaMapel').value || '',
+    namaGuru: document.getElementById('namaGuru').value || '',
+    siswa: siswaListToObject()
+  };
+  db.ref('nilai/' + akunId + '/' + periodeKey()).set(payload);
+}
+
+function onPeriodeChange() {
+  if (!akunSiap || !akunId) return;
+  loadPeriode();
+}
+
+function loadPeriode() {
+  if (!akunId) return;
+  var ref = db.ref('nilai/' + akunId + '/' + periodeKey());
+  ref.once('value').then(function(snap) {
+    var data = snap.val();
+    if (data) {
+      document.getElementById('namaMapel').value = data.namaMapel || '';
+      document.getElementById('namaGuru').value = data.namaGuru || '';
+      siswaList = [];
+      if (data.siswa) {
+        Object.keys(data.siswa).sort().forEach(function(key) {
+          var s = data.siswa[key];
+          siswaList.push({ nama: s.nama || '', nilai: s.nilai || {} });
+        });
+      }
+    } else {
+      siswaList = [];
+    }
+    renderTable();
+  });
+}
+
+/* ===== Init ===== */
+window.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+  }
+});
+</script>
+</body>
+</html>

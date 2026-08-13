@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Buat Tugas - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -76,6 +92,11 @@
   body.dark .btn-save:disabled {
     background: #334155;
     color: #94A3B8;
+  }
+
+  body.dark .footer-app {
+    color: #94A3B8;
+    border-top-color: #1E293B;
   }
 
   .app-container {
@@ -161,7 +182,7 @@
     flex-shrink: 0;
   }
 
-  .close-btn {
+  .header-btn {
     width: 40px;
     height: 40px;
     background: rgba(0, 0, 0, 0.05);
@@ -175,21 +196,21 @@
     flex-shrink: 0;
   }
 
-  body.dark .close-btn {
+  body.dark .header-btn {
     background: rgba(255, 255, 255, 0.05);
   }
 
-  .close-btn:active {
+  .header-btn:active {
     transform: scale(0.92);
   }
 
-  .close-btn svg {
+  .header-btn svg {
     stroke: #0F172A;
     width: 22px;
     height: 22px;
   }
 
-  body.dark .close-btn svg {
+  body.dark .header-btn svg {
     stroke: #F1F5F9;
   }
 
@@ -317,10 +338,11 @@
 
   .card {
     background: #FFFFFF;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 16px;
     border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
   body.dark .card {
@@ -329,7 +351,7 @@
   }
 
   .card-title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     margin-bottom: 4px;
     display: flex;
@@ -551,7 +573,7 @@
     width: 100%;
     padding: 14px;
     border: none;
-    border-radius: 10px;
+    border-radius: 40px;
     background: #2563EB;
     color: white;
     font-weight: 600;
@@ -622,7 +644,7 @@
   .footer-app {
     text-align: center;
     padding: 16px;
-    font-size: 12px;
+    font-size: 11px;
     color: #64748B;
     border-top: 1px solid #E2E8F0;
     flex-shrink: 0;
@@ -714,6 +736,119 @@
   .hidden {
     display: none !important;
   }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      min-height: auto;
+    }
+
+    body.dark .app-container {
+      background: #111827;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+      position: relative;
+    }
+
+    .page-container {
+      padding: 24px 24px 30px;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: 20px;
+    }
+
+    .sidebar-nav {
+      border-radius: 0 20px 20px 0;
+    }
+
+    .input-field {
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 15px;
+    }
+
+    textarea.input-field {
+      min-height: 100px;
+    }
+
+    .btn-save {
+      padding: 16px;
+      font-size: 16px;
+      border-radius: 40px;
+    }
+
+    .card-title {
+      font-size: 20px;
+    }
+
+    .limit-info {
+      padding: 12px 16px;
+      border-radius: 12px;
+    }
+
+    .limit-info .label {
+      font-size: 14px;
+    }
+
+    .limit-info .count {
+      font-size: 15px;
+    }
+
+    .link-box {
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+
+    .link-box .link-text {
+      font-size: 14px;
+    }
+
+    .file-upload {
+      padding: 18px;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .file-upload svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .alert-box {
+      max-width: 360px;
+      padding: 28px 26px;
+      border-radius: 28px;
+    }
+
+    .toast {
+      max-width: 400px;
+      padding: 14px 28px;
+      font-size: 15px;
+      border-radius: 14px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -733,7 +868,15 @@
       <span class="app-title">Star Tools</span>
     </div>
     <div class="header-action">
-      <button class="close-btn" onclick="goTo('kelas.html')" aria-label="Kembali ke Beranda">
+      <!-- Tombol Pensil ke daftar-tugas.html -->
+      <button class="header-btn" onclick="goTo('daftar-tugas.html')" aria-label="Daftar Tugas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+      </button>
+      <!-- Tombol X ke index.html -->
+      <button class="header-btn" onclick="goTo('kelas.html')" aria-label="Kembali ke Beranda">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
@@ -983,7 +1126,6 @@ function hapusFile() {
 function buatTugas() {
   var btn = document.getElementById('btnBuatTugas');
   
-  // Cegah double click
   if (btn.disabled) return;
 
   if (!currentUser) {
@@ -1010,7 +1152,6 @@ function buatTugas() {
     return;
   }
 
-  // ===== LOADING STATE =====
   btn.disabled = true;
   btn.classList.add('loading');
 
@@ -1058,7 +1199,6 @@ function buatTugas() {
   }).catch(function(err) {
     showAlert('Gagal membuat tugas: ' + err.message);
   }).finally(function() {
-    // ===== MATIKAN LOADING =====
     btn.disabled = false;
     btn.classList.remove('loading');
   });

@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Dasar Robotik - Star Tools</title>
+
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+
+  body.dark {
+    background: #0B1120;
+    color: #F1F5F9;
+  }
+
+  body.dark .card-modern,
+  body.dark .app-header,
+  body.dark .sidebar-nav,
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  body.dark .materi-btn {
+    background: #1E293B;
+    border-color: #334155;
+    color: #E2E8F0;
+  }
+
+  body.dark .code-block {
+    background: #0F172A;
+    border-color: #334155;
+    color: #4fc3f7;
+  }
+
+  body.dark .premium-indicator {
+    background: #1E293B;
+    color: #60A5FA;
+  }
+
+  body.dark .premium-indicator.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  body.dark .premium-indicator.warning {
+    background: #78350F;
+    color: #FBBF24;
+  }
+
+  body.dark .limit-indicator {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  .app-container {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #F1F5F9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  body.dark .app-container {
+    background: #0B1120;
+  }
+
+  .app-header {
+    background: #FFFFFF;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  body.dark .app-header {
+    background: #111827;
+    border-bottom-color: #1E293B;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-icon {
+    width: 40px;
+    height: 40px;
+    background: #F8FAFE;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .menu-icon {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .menu-icon svg {
+    stroke: #0F172A;
+  }
+
+  body.dark .menu-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .app-title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #2563EB, #60A5FA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+  }
+
+  .sidebar-overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sidebar-nav {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 101;
+    transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    padding: 70px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-nav.active {
+    left: 0;
+  }
+
+  .sidebar-nav a {
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #0F172A;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  body.dark .sidebar-nav a {
+    color: #F1F5F9;
+  }
+
+  .sidebar-nav a:active {
+    background: #DBEAFE;
+  }
+
+  body.dark .sidebar-nav a:active {
+    background: #1E293B;
+  }
+
+  .logout-link {
+    margin-top: 20px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 16px;
+  }
+
+  body.dark .logout-link {
+    border-top-color: #334155;
+  }
+
+  .logout-link a {
+    color: #DC2626 !important;
+  }
+
+  .logout-link a svg {
+    stroke: #DC2626;
+  }
+
+  .close-sidebar-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
+  }
+
+  .screen {
+    padding: 20px 18px 30px;
+    flex: 1;
+  }
+
+  .card-modern {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #E2E8F0;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .premium-indicator {
+    background: #DBEAFE;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563EB;
+  }
+
+  .premium-indicator.active {
+    background: #2563EB;
+    color: white;
+  }
+
+  .premium-indicator.warning {
+    background: #FEF3C7;
+    color: #D97706;
+  }
+
+  .limit-indicator {
+    background: #F1F5F9;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  .grid-bagian {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .materi-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #F8FAFE;
+    border: 1.5px solid #E2E8F0;
+    padding: 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: #0F172A;
+    transition: 0.15s;
+  }
+
+  .materi-btn:active {
+    transform: scale(0.98);
+  }
+
+  .materi-btn .materi-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: #EFF6FF;
+    color: #2563EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: 0.15s;
+  }
+
+  body.dark .materi-btn .materi-num {
+    background: #1D2B4A;
+    color: #60A5FA;
+  }
+
+  .materi-btn .materi-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .materi-btn .materi-text .materi-title {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .materi-btn .materi-text .materi-sub {
+    font-size: 12px;
+    color: #64748B;
+    margin-top: 2px;
+  }
+
+  body.dark .materi-btn .materi-text .materi-sub {
+    color: #94A3B8;
+  }
+
+  .materi-btn .materi-status {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #CBD5E1;
+  }
+
+  body.dark .materi-btn .materi-status {
+    color: #475569;
+  }
+
+  .materi-btn .materi-status svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .materi-btn.opened {
+    background: #FFFFFF;
+    border-color: #BFDBFE;
+  }
+
+  body.dark .materi-btn.opened {
+    background: #111827;
+    border-color: #1D3A6E;
+  }
+
+  .materi-btn.opened .materi-num {
+    background: #2563EB;
+    color: #fff;
+  }
+
+  .materi-btn.opened .materi-status {
+    background: #DCFCE7;
+    color: #16A34A;
+  }
+
+  body.dark .materi-btn.opened .materi-status {
+    background: #14311F;
+    color: #4ADE80;
+  }
+
+  .materi-btn.locked {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .materi-btn.locked .materi-status {
+    color: #94A3B8;
+  }
+
+  .btn-full {
+    background: #2563EB;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 44px;
+    font-size: 15px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .btn-full:active {
+    transform: scale(0.97);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid #2563EB;
+    color: #2563EB;
+    padding: 12px;
+    border-radius: 44px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .nav-buttons button {
+    flex: 1;
+  }
+
+  .materi-content {
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  .materi-content h4 {
+    font-size: 18px;
+    margin: 20px 0 10px 0;
+    color: #2563EB;
+    font-weight: 700;
+  }
+
+  body.dark .materi-content h4 {
+    color: #60A5FA;
+  }
+
+  .materi-content p {
+    margin-bottom: 12px;
+    color: #334155;
+  }
+
+  body.dark .materi-content p {
+    color: #CBD5E1;
+  }
+
+  .alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+  }
+
+  .alert-card {
+    background: #FFFFFF;
+    width: 300px;
+    border-radius: 32px;
+    padding: 24px 22px;
+    text-align: center;
+    border: 1px solid #E2E8F0;
+  }
+
+  .footer-app {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .grid-bagian {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="menu-icon" onclick="openSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <span class="app-title">Star Tools • Dasar Robotik</span>
+    </div>
+    <button class="close-btn" onclick="goTo('index.html')" aria-label="Kembali">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="close-sidebar-icon" onclick="closeSidebar()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <a href="#" onclick="goTo('index.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
+    </a>
+    <a href="#" onclick="goTo('berita.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
+    </a>
+    <a href="#" onclick="goTo('premium.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
+    </a>
+    <a href="#" onclick="goTo('akun.html')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
+    </a>
+    <div class="logout-link">
+      <a href="#" onclick="logoutAction()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.7"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Keluar
+      </a>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div id="halamanUtama">
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+            <rect x="4" y="8" width="16" height="12" rx="2"/>
+            <circle cx="9" cy="14" r="1.4" fill="#2563EB" stroke="none"/>
+            <circle cx="15" cy="14" r="1.4" fill="#2563EB" stroke="none"/>
+            <path d="M9 18h6"/>
+            <path d="M12 8V4"/>
+            <circle cx="12" cy="3" r="1"/>
+            <path d="M4 12H2"/>
+            <path d="M22 12h-2"/>
+          </svg>
+          Belajar Dasar Robotik
+        </div>
+        <p style="margin-bottom: 16px;">Pelajari dasar-dasar dunia robotik mulai dari komponen, sensor, pemrograman, hingga penerapan robot di berbagai bidang.</p>
+        
+        <div class="status-row">
+          <span id="premiumStatusBadge" class="premium-indicator">Akun Standar</span>
+          <span id="limitCounter" class="limit-indicator">0/2 Hari Ini</span>
+        </div>
+      </div>
+
+      <div class="card-modern">
+        <div class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+          Daftar Materi
+        </div>
+        <div id="listBagianGrid" class="grid-bagian"></div>
+      </div>
+    </div>
+
+    <div id="materiView" class="hidden">
+      <div class="card-modern">
+        <div class="section-title" id="judulMateriView">Materi Dasar Robotik</div>
+        <div id="isiMateriDetail" class="materi-content"></div>
+        <div class="nav-buttons">
+          <button class="btn-outline" id="prevBtn">Sebelumnya</button>
+          <button class="btn-full" id="nextBtn">Selanjutnya</button>
+        </div>
+        <button class="btn-outline" id="backToListBtn" style="margin-top: 12px;">Kembali ke Daftar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-app">
+    <p>Star Platform | Star Tools 2026</p>
+  </div>
+</div>
+
+<div id="globalAlert" class="alert-overlay">
+  <div class="alert-card">
+    <p id="alertMessage" style="margin-bottom: 20px;">Pemberitahuan</p>
+    <button class="btn-full" onclick="closeAlertGlobal()">Mengerti</button>
+    <div id="alertExtraBtn"></div>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDgr_nHqvpMsiG4lBkYckzxRErkskXj_6E",
+  authDomain: "laporanstartools-c18b2.firebaseapp.com",
+  databaseURL: "https://laporanstartools-c18b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laporanstartools-c18b2",
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.database();
+
+let currentUser = null;
+let isPremium = false;
+let premiumExpiry = null;
+let openedIndexes = [];
+let todayLimit = 0;
+let currentMateriIdx = 0;
+
+const todayStr = new Date().toDateString();
+
+// ======================== 50 MATERI DASAR ROBOTIK ========================
+const materiList = [
+  {
+    judul: "Dasar Robotik 1 - Pengertian Robotik",
+    konten: "<h4>Pengertian</h4><p>Robotik adalah cabang ilmu teknik yang mempelajari perancangan, pembuatan, dan pengoperasian robot untuk membantu pekerjaan manusia.</p><h4>Penjelasan</h4><p>Robotik menggabungkan berbagai bidang ilmu seperti elektronika, mekanika, dan pemrograman komputer agar robot dapat bergerak dan berpikir secara otomatis.</p><h4>Contoh</h4><p>Contohnya, robot penyapu lantai otomatis di rumah menggunakan sensor untuk menghindari halangan sambil membersihkan ruangan.</p><h4>Kesimpulan</h4><p>Memahami pengertian robotik membantu kita mengenal dasar dari teknologi yang semakin banyak digunakan di kehidupan sehari-hari.</p>"
+  },
+  {
+    judul: "Dasar Robotik 2 - Sejarah Perkembangan Robot",
+    konten: "<h4>Pengertian</h4><p>Sejarah robot dimulai dari mesin otomatis sederhana pada zaman kuno hingga robot cerdas berbasis kecerdasan buatan saat ini.</p><h4>Penjelasan</h4><p>Perkembangan robotik dipercepat dengan hadirnya komputer, sensor canggih, dan motor yang semakin kecil serta efisien.</p><h4>Contoh</h4><p>Contohnya, robot industri pertama bernama Unimate mulai digunakan di pabrik mobil pada tahun 1961.</p><h4>Kesimpulan</h4><p>Mempelajari sejarah robot membantu memahami bagaimana teknologi ini berkembang dari waktu ke waktu.</p>"
+  },
+  {
+    judul: "Dasar Robotik 3 - Jenis-Jenis Robot",
+    konten: "<h4>Pengertian</h4><p>Robot dapat dikelompokkan berdasarkan fungsinya, seperti robot industri, robot layanan, dan robot edukasi.</p><h4>Penjelasan</h4><p>Setiap jenis robot dirancang khusus sesuai kebutuhan, mulai dari merakit barang di pabrik hingga membantu pekerjaan rumah tangga.</p><h4>Contoh</h4><p>Contohnya, robot lengan industri digunakan untuk mengelas dan merakit komponen kendaraan secara otomatis.</p><h4>Kesimpulan</h4><p>Mengenal jenis-jenis robot membantu memahami penerapan robotik di berbagai bidang kehidupan.</p>"
+  },
+  {
+    judul: "Dasar Robotik 4 - Komponen Dasar Robot",
+    konten: "<h4>Pengertian</h4><p>Robot pada umumnya tersusun dari empat komponen utama yaitu sensor, aktuator, pengendali, dan catu daya.</p><h4>Penjelasan</h4><p>Sensor berfungsi mendeteksi lingkungan, aktuator menggerakkan robot, pengendali memproses perintah, dan catu daya menyediakan energi.</p><h4>Contoh</h4><p>Contohnya, robot line follower menggunakan sensor cahaya untuk mendeteksi garis dan motor untuk bergerak mengikuti jalur.</p><h4>Kesimpulan</h4><p>Memahami komponen dasar robot membantu merancang robot sederhana dengan lebih terstruktur.</p>"
+  },
+  {
+    judul: "Dasar Robotik 5 - Sensor pada Robot",
+    konten: "<h4>Pengertian</h4><p>Sensor adalah komponen robot yang berfungsi mendeteksi kondisi lingkungan sekitar seperti jarak, cahaya, atau suhu.</p><h4>Penjelasan</h4><p>Data dari sensor diproses oleh pengendali robot untuk menentukan tindakan yang harus dilakukan selanjutnya.</p><h4>Contoh</h4><p>Contohnya, sensor ultrasonik digunakan robot untuk mengukur jarak agar tidak menabrak dinding.</p><h4>Kesimpulan</h4><p>Mempelajari sensor membantu memahami bagaimana robot dapat merasakan dan merespons lingkungannya.</p>"
+  },
+  {
+    judul: "Dasar Robotik 6 - Sensor Ultrasonik",
+    konten: "<h4>Pengertian</h4><p>Sensor ultrasonik adalah sensor yang mengukur jarak menggunakan gelombang suara berfrekuensi tinggi.</p><h4>Penjelasan</h4><p>Sensor ini memancarkan gelombang suara lalu menghitung waktu pantulan yang diterima untuk menentukan jarak suatu benda.</p><h4>Contoh</h4><p>Contohnya, sensor HC-SR04 sering digunakan pada robot penghindar halangan sederhana.</p><h4>Kesimpulan</h4><p>Mempelajari sensor ultrasonik membantu memahami cara kerja robot dalam mendeteksi jarak benda di sekitarnya.</p>"
+  },
+  {
+    judul: "Dasar Robotik 7 - Sensor Inframerah",
+    konten: "<h4>Pengertian</h4><p>Sensor inframerah adalah sensor yang mendeteksi objek menggunakan cahaya inframerah yang tidak terlihat mata manusia.</p><h4>Penjelasan</h4><p>Sensor ini banyak digunakan untuk mendeteksi garis, halangan, atau jarak dekat pada robot sederhana.</p><h4>Contoh</h4><p>Contohnya, robot line follower memakai sensor inframerah untuk membedakan warna hitam dan putih pada lintasan.</p><h4>Kesimpulan</h4><p>Mempelajari sensor inframerah membantu memahami metode deteksi objek dengan biaya yang terjangkau.</p>"
+  },
+  {
+    judul: "Dasar Robotik 8 - Sensor Cahaya (LDR)",
+    konten: "<h4>Pengertian</h4><p>Sensor cahaya atau LDR adalah komponen yang mengubah resistansinya sesuai intensitas cahaya yang diterima.</p><h4>Penjelasan</h4><p>Semakin terang cahaya yang mengenai LDR, semakin kecil nilai resistansinya, sehingga dapat digunakan untuk mendeteksi kondisi terang atau gelap.</p><h4>Contoh</h4><p>Contohnya, robot pengikut cahaya menggunakan LDR untuk bergerak menuju sumber cahaya terdekat.</p><h4>Kesimpulan</h4><p>Mempelajari sensor cahaya membantu memahami bagaimana robot dapat merespons perubahan intensitas cahaya.</p>"
+  },
+  {
+    judul: "Dasar Robotik 9 - Sensor Suhu",
+    konten: "<h4>Pengertian</h4><p>Sensor suhu adalah komponen yang digunakan robot untuk mengukur perubahan panas di lingkungan sekitar.</p><h4>Penjelasan</h4><p>Data suhu yang terbaca dapat digunakan robot untuk mengambil keputusan, misalnya menghindari area yang terlalu panas.</p><h4>Contoh</h4><p>Contohnya, sensor DHT11 sering digunakan pada proyek robotik sederhana untuk membaca suhu dan kelembapan udara.</p><h4>Kesimpulan</h4><p>Mempelajari sensor suhu membantu memahami penerapan robotik pada sistem pemantauan lingkungan.</p>"
+  },
+  {
+    judul: "Dasar Robotik 10 - Aktuator pada Robot",
+    konten: "<h4>Pengertian</h4><p>Aktuator adalah komponen yang mengubah sinyal listrik menjadi gerakan fisik pada robot.</p><h4>Penjelasan</h4><p>Aktuator dapat berupa motor, silinder pneumatik, atau solenoid tergantung jenis gerakan yang dibutuhkan robot.</p><h4>Contoh</h4><p>Contohnya, motor DC digunakan sebagai aktuator untuk menggerakkan roda pada robot beroda.</p><h4>Kesimpulan</h4><p>Mempelajari aktuator membantu memahami bagaimana robot dapat bergerak dan melakukan aksi fisik.</p>"
+  },
+  {
+    judul: "Dasar Robotik 11 - Motor DC",
+    konten: "<h4>Pengertian</h4><p>Motor DC adalah motor listrik yang bekerja menggunakan arus searah untuk menghasilkan gerakan putar.</p><h4>Penjelasan</h4><p>Motor ini banyak digunakan pada robot beroda karena harganya terjangkau dan mudah dikendalikan kecepatannya.</p><h4>Contoh</h4><p>Contohnya, motor DC digunakan untuk menggerakkan roda pada robot line follower sederhana.</p><h4>Kesimpulan</h4><p>Mempelajari motor DC membantu memahami dasar penggerak robot yang paling umum digunakan.</p>"
+  },
+  {
+    judul: "Dasar Robotik 12 - Motor Servo",
+    konten: "<h4>Pengertian</h4><p>Motor servo adalah jenis motor yang dapat diatur posisi sudutnya secara presisi.</p><h4>Penjelasan</h4><p>Motor ini banyak digunakan pada bagian robot yang membutuhkan gerakan terkontrol, seperti lengan atau kepala robot.</p><h4>Contoh</h4><p>Contohnya, motor servo digunakan untuk menggerakkan jari-jari pada robot lengan sederhana.</p><h4>Kesimpulan</h4><p>Mempelajari motor servo membantu memahami cara mengontrol gerakan robot secara lebih akurat.</p>"
+  },
+  {
+    judul: "Dasar Robotik 13 - Motor Stepper",
+    konten: "<h4>Pengertian</h4><p>Motor stepper adalah motor yang bergerak dalam langkah-langkah kecil dan presisi sesuai sinyal yang diberikan.</p><h4>Penjelasan</h4><p>Motor ini cocok digunakan pada aplikasi yang membutuhkan posisi sangat akurat seperti printer 3D atau mesin CNC.</p><h4>Contoh</h4><p>Contohnya, motor stepper digunakan untuk menggerakkan sumbu pada printer 3D secara presisi.</p><h4>Kesimpulan</h4><p>Mempelajari motor stepper membantu memahami penggerak robot dengan tingkat presisi tinggi.</p>"
+  },
+  {
+    judul: "Dasar Robotik 14 - Mikrokontroler",
+    konten: "<h4>Pengertian</h4><p>Mikrokontroler adalah chip kecil yang berfungsi sebagai otak pengendali pada robot sederhana.</p><h4>Penjelasan</h4><p>Mikrokontroler menjalankan program yang telah ditulis untuk membaca sensor dan mengendalikan aktuator secara otomatis.</p><h4>Contoh</h4><p>Contohnya, mikrokontroler ATmega328 digunakan sebagai komponen utama pada board Arduino Uno.</p><h4>Kesimpulan</h4><p>Mempelajari mikrokontroler membantu memahami cara robot memproses data dan mengambil keputusan.</p>"
+  },
+  {
+    judul: "Dasar Robotik 15 - Mengenal Arduino",
+    konten: "<h4>Pengertian</h4><p>Arduino adalah platform elektronik open-source yang sering digunakan sebagai pengendali utama dalam proyek robotik pemula.</p><h4>Penjelasan</h4><p>Arduino memudahkan pemrograman mikrokontroler karena dilengkapi bahasa pemrograman sederhana dan komunitas yang besar.</p><h4>Contoh</h4><p>Contohnya, Arduino Uno banyak digunakan untuk membuat robot line follower dan robot penghindar halangan.</p><h4>Kesimpulan</h4><p>Mempelajari Arduino membantu pemula memulai proyek robotik dengan lebih mudah.</p>"
+  },
+  {
+    judul: "Dasar Robotik 16 - Mengenal Raspberry Pi",
+    konten: "<h4>Pengertian</h4><p>Raspberry Pi adalah komputer mini yang dapat digunakan sebagai pengendali robot dengan kemampuan lebih tinggi dibanding mikrokontroler biasa.</p><h4>Penjelasan</h4><p>Raspberry Pi mampu menjalankan sistem operasi penuh sehingga cocok untuk robot yang membutuhkan pemrosesan gambar atau kecerdasan buatan.</p><h4>Contoh</h4><p>Contohnya, Raspberry Pi digunakan pada robot yang dilengkapi kamera untuk mengenali objek secara real-time.</p><h4>Kesimpulan</h4><p>Mempelajari Raspberry Pi membantu memahami pengendali robot dengan kemampuan komputasi lebih kompleks.</p>"
+  },
+  {
+    judul: "Dasar Robotik 17 - Breadboard dan Rangkaian",
+    konten: "<h4>Pengertian</h4><p>Breadboard adalah papan yang digunakan untuk merangkai komponen elektronik tanpa perlu menyolder.</p><h4>Penjelasan</h4><p>Breadboard memudahkan proses uji coba rangkaian robot sebelum dipasang secara permanen pada papan sirkuit.</p><h4>Contoh</h4><p>Contohnya, breadboard digunakan untuk menguji rangkaian sensor sebelum dihubungkan ke mikrokontroler.</p><h4>Kesimpulan</h4><p>Mempelajari breadboard membantu memahami cara merangkai komponen elektronik dengan aman dan praktis.</p>"
+  },
+  {
+    judul: "Dasar Robotik 18 - Catu Daya Robot",
+    konten: "<h4>Pengertian</h4><p>Catu daya adalah sumber energi listrik yang dibutuhkan robot agar seluruh komponennya dapat berfungsi.</p><h4>Penjelasan</h4><p>Catu daya dapat berupa baterai, aki, atau adaptor tergantung kebutuhan daya dan mobilitas robot.</p><h4>Contoh</h4><p>Contohnya, baterai lithium sering digunakan pada robot kecil karena ringan dan mampu menyimpan daya cukup besar.</p><h4>Kesimpulan</h4><p>Mempelajari catu daya membantu memahami pentingnya sumber energi yang stabil bagi kinerja robot.</p>"
+  },
+  {
+    judul: "Dasar Robotik 19 - Baterai Lithium untuk Robot",
+    konten: "<h4>Pengertian</h4><p>Baterai lithium adalah jenis baterai isi ulang yang populer digunakan pada robot karena ringan dan tahan lama.</p><h4>Penjelasan</h4><p>Baterai ini memiliki kepadatan energi tinggi sehingga mampu memberikan daya besar dalam ukuran yang kompak.</p><h4>Contoh</h4><p>Contohnya, baterai lithium polymer sering digunakan pada drone dan robot kecil bertenaga tinggi.</p><h4>Kesimpulan</h4><p>Mempelajari baterai lithium membantu memahami pemilihan sumber daya yang tepat untuk proyek robotik.</p>"
+  },
+  {
+    judul: "Dasar Robotik 20 - Roda dan Sistem Penggerak",
+    konten: "<h4>Pengertian</h4><p>Sistem penggerak adalah bagian robot yang menentukan bagaimana robot dapat berpindah tempat.</p><h4>Penjelasan</h4><p>Sistem penggerak dapat berupa roda, kaki, atau ulat (track) tergantung medan dan kebutuhan robot.</p><h4>Contoh</h4><p>Contohnya, robot beroda dua digunakan untuk bergerak cepat di permukaan rata seperti lantai.</p><h4>Kesimpulan</h4><p>Mempelajari sistem penggerak membantu memahami cara robot dirancang agar dapat bergerak sesuai lingkungannya.</p>"
+  },
+  {
+    judul: "Dasar Robotik 21 - Robot Beroda",
+    konten: "<h4>Pengertian</h4><p>Robot beroda adalah jenis robot yang menggunakan roda sebagai alat geraknya di permukaan datar.</p><h4>Penjelasan</h4><p>Robot jenis ini mudah dikendalikan dan menjadi pilihan populer untuk proyek robotik pemula karena konstruksinya sederhana.</p><h4>Contoh</h4><p>Contohnya, robot line follower umumnya menggunakan dua roda yang digerakkan oleh motor DC.</p><h4>Kesimpulan</h4><p>Mempelajari robot beroda membantu memahami dasar pergerakan robot yang paling sering dipelajari pemula.</p>"
+  },
+  {
+    judul: "Dasar Robotik 22 - Robot Berkaki",
+    konten: "<h4>Pengertian</h4><p>Robot berkaki adalah robot yang bergerak menggunakan kaki mekanis, mirip cara berjalan makhluk hidup.</p><h4>Penjelasan</h4><p>Robot jenis ini lebih kompleks karena membutuhkan pengaturan keseimbangan dan koordinasi banyak motor servo.</p><h4>Contoh</h4><p>Contohnya, robot laba-laba menggunakan enam kaki untuk berjalan di medan yang tidak rata.</p><h4>Kesimpulan</h4><p>Mempelajari robot berkaki membantu memahami tantangan dalam merancang gerakan robot yang menyerupai makhluk hidup.</p>"
+  },
+  {
+    judul: "Dasar Robotik 23 - Robot Line Follower",
+    konten: "<h4>Pengertian</h4><p>Robot line follower adalah robot yang dirancang untuk bergerak mengikuti garis pada lintasan tertentu.</p><h4>Penjelasan</h4><p>Robot ini menggunakan sensor cahaya atau inframerah untuk mendeteksi garis dan mengatur arah pergerakan motor.</p><h4>Contoh</h4><p>Contohnya, robot line follower sering digunakan sebagai proyek pertama dalam pembelajaran robotik dasar.</p><h4>Kesimpulan</h4><p>Mempelajari robot line follower membantu memahami penerapan sensor dan logika kendali sederhana pada robot.</p>"
+  },
+  {
+    judul: "Dasar Robotik 24 - Robot Penghindar Halangan",
+    konten: "<h4>Pengertian</h4><p>Robot penghindar halangan adalah robot yang dapat mendeteksi rintangan dan mengubah arah geraknya secara otomatis.</p><h4>Penjelasan</h4><p>Robot ini biasanya menggunakan sensor ultrasonik atau inframerah untuk mendeteksi jarak benda di depannya.</p><h4>Contoh</h4><p>Contohnya, robot penghindar halangan akan berbelok arah saat sensor mendeteksi dinding di depannya.</p><h4>Kesimpulan</h4><p>Mempelajari robot penghindar halangan membantu memahami logika pengambilan keputusan sederhana pada robot.</p>"
+  },
+  {
+    judul: "Dasar Robotik 25 - Robot Lengan (Robotic Arm)",
+    konten: "<h4>Pengertian</h4><p>Robot lengan adalah robot yang menyerupai lengan manusia dan digunakan untuk mengambil, memindahkan, atau merakit benda.</p><h4>Penjelasan</h4><p>Robot lengan terdiri dari beberapa sendi yang digerakkan motor servo untuk menghasilkan gerakan menyerupai lengan manusia.</p><h4>Contoh</h4><p>Contohnya, robot lengan digunakan di pabrik untuk merakit komponen elektronik secara presisi.</p><h4>Kesimpulan</h4><p>Mempelajari robot lengan membantu memahami penerapan robotik dalam industri manufaktur.</p>"
+  },
+  {
+    judul: "Dasar Robotik 26 - Robot Humanoid",
+    konten: "<h4>Pengertian</h4><p>Robot humanoid adalah robot yang dirancang menyerupai bentuk dan gerakan tubuh manusia.</p><h4>Penjelasan</h4><p>Robot jenis ini membutuhkan banyak sensor dan aktuator agar dapat berjalan, berbicara, dan berinteraksi seperti manusia.</p><h4>Contoh</h4><p>Contohnya, robot Sophia dikenal luas sebagai robot humanoid yang mampu berinteraksi menggunakan kecerdasan buatan.</p><h4>Kesimpulan</h4><p>Mempelajari robot humanoid membantu memahami tantangan dalam meniru gerakan dan interaksi manusia pada mesin.</p>"
+  },
+  {
+    judul: "Dasar Robotik 27 - Robot Bawah Air",
+    konten: "<h4>Pengertian</h4><p>Robot bawah air adalah robot yang dirancang khusus untuk beroperasi di dalam air, baik dikendalikan langsung maupun otonom.</p><h4>Penjelasan</h4><p>Robot ini dilengkapi baling-baling dan sensor tahan air untuk menjelajahi kedalaman laut atau memeriksa struktur bawah air.</p><h4>Contoh</h4><p>Contohnya, robot ROV digunakan untuk memeriksa kondisi pipa bawah laut tanpa perlu penyelam manusia.</p><h4>Kesimpulan</h4><p>Mempelajari robot bawah air membantu memahami penerapan robotik pada lingkungan yang sulit dijangkau manusia.</p>"
+  },
+  {
+    judul: "Dasar Robotik 28 - Robot Terbang (Drone)",
+    konten: "<h4>Pengertian</h4><p>Drone adalah robot terbang tanpa awak yang dikendalikan dari jarak jauh atau secara otomatis.</p><h4>Penjelasan</h4><p>Drone menggunakan beberapa motor baling-baling yang diatur kecepatannya agar dapat terbang stabil dan bermanuver.</p><h4>Contoh</h4><p>Contohnya, drone digunakan untuk memotret area luas dari udara dalam kegiatan pemetaan lahan.</p><h4>Kesimpulan</h4><p>Mempelajari drone membantu memahami penerapan robotik pada kendaraan udara tanpa awak.</p>"
+  },
+  {
+    judul: "Dasar Robotik 29 - Pemrograman Dasar Robot",
+    konten: "<h4>Pengertian</h4><p>Pemrograman robot adalah proses menulis instruksi yang menentukan bagaimana robot harus bertindak.</p><h4>Penjelasan</h4><p>Program robot umumnya berisi logika membaca sensor, mengambil keputusan, lalu menggerakkan aktuator sesuai kondisi yang terdeteksi.</p><h4>Contoh</h4><p>Contohnya, program sederhana pada robot line follower berisi perintah untuk bergerak lurus, belok kiri, atau belok kanan.</p><h4>Kesimpulan</h4><p>Mempelajari pemrograman dasar robot membantu memahami logika yang mengontrol perilaku robot.</p>"
+  },
+  {
+    judul: "Dasar Robotik 30 - Bahasa Pemrograman untuk Robotik",
+    konten: "<h4>Pengertian</h4><p>Beberapa bahasa pemrograman seperti C, C++, dan Python umum digunakan dalam dunia robotik.</p><h4>Penjelasan</h4><p>Setiap bahasa memiliki kelebihan masing-masing, misalnya C++ cocok untuk kecepatan proses, sementara Python lebih mudah dipelajari pemula.</p><h4>Contoh</h4><p>Contohnya, Arduino menggunakan bahasa mirip C++ untuk memprogram mikrokontrolernya.</p><h4>Kesimpulan</h4><p>Mempelajari bahasa pemrograman robotik membantu memilih bahasa yang tepat sesuai kebutuhan proyek.</p>"
+  },
+  {
+    judul: "Dasar Robotik 31 - Logika If-Else pada Robot",
+    konten: "<h4>Pengertian</h4><p>Logika if-else adalah struktur pemrograman yang digunakan robot untuk mengambil keputusan berdasarkan kondisi tertentu.</p><h4>Penjelasan</h4><p>Dengan logika ini, robot dapat menentukan tindakan berbeda tergantung data yang diterima dari sensor.</p><h4>Contoh</h4><p>Contohnya, jika sensor mendeteksi halangan maka robot berbelok, jika tidak maka robot tetap bergerak lurus.</p><h4>Kesimpulan</h4><p>Mempelajari logika if-else membantu memahami dasar pengambilan keputusan otomatis pada robot.</p>"
+  },
+  {
+    judul: "Dasar Robotik 32 - Perulangan (Loop) pada Robot",
+    konten: "<h4>Pengertian</h4><p>Perulangan atau loop adalah instruksi yang membuat robot mengulang suatu tindakan secara terus-menerus.</p><h4>Penjelasan</h4><p>Loop digunakan agar robot dapat terus membaca sensor dan merespons lingkungan tanpa henti selama beroperasi.</p><h4>Contoh</h4><p>Contohnya, program robot line follower menggunakan loop agar terus membaca sensor garis setiap saat.</p><h4>Kesimpulan</h4><p>Mempelajari perulangan membantu memahami bagaimana robot dapat bekerja secara berkelanjutan.</p>"
+  },
+  {
+    judul: "Dasar Robotik 33 - Sistem Kendali Robot",
+    konten: "<h4>Pengertian</h4><p>Sistem kendali adalah metode yang digunakan untuk mengatur perilaku robot agar sesuai dengan tujuan yang diinginkan.</p><h4>Penjelasan</h4><p>Sistem kendali dapat berupa kendali manual menggunakan remote, atau kendali otomatis menggunakan program dan sensor.</p><h4>Contoh</h4><p>Contohnya, robot mainan RC dikendalikan secara manual melalui remote control oleh penggunanya.</p><h4>Kesimpulan</h4><p>Mempelajari sistem kendali membantu memahami cara robot diarahkan untuk mencapai tujuannya.</p>"
+  },
+  {
+    judul: "Dasar Robotik 34 - Kendali Loop Tertutup",
+    konten: "<h4>Pengertian</h4><p>Kendali loop tertutup adalah sistem kendali yang menggunakan umpan balik dari sensor untuk menyesuaikan tindakan robot secara terus-menerus.</p><h4>Penjelasan</h4><p>Sistem ini memungkinkan robot mengoreksi kesalahan gerakan secara otomatis berdasarkan data yang diterima.</p><h4>Contoh</h4><p>Contohnya, robot penyeimbang menggunakan sensor kemiringan untuk terus menjaga posisinya tetap tegak.</p><h4>Kesimpulan</h4><p>Mempelajari kendali loop tertutup membantu memahami bagaimana robot dapat menyesuaikan diri secara otomatis.</p>"
+  },
+  {
+    judul: "Dasar Robotik 35 - Kendali PID",
+    konten: "<h4>Pengertian</h4><p>Kendali PID adalah metode pengendalian yang menggabungkan tiga komponen yaitu Proportional, Integral, dan Derivative untuk menghasilkan gerakan robot yang halus.</p><h4>Penjelasan</h4><p>Metode ini banyak digunakan untuk menjaga kestabilan robot, seperti pada robot penyeimbang dua roda.</p><h4>Contoh</h4><p>Contohnya, kendali PID digunakan pada robot self-balancing agar tetap seimbang tanpa jatuh.</p><h4>Kesimpulan</h4><p>Mempelajari kendali PID membantu memahami teknik lanjutan dalam menghasilkan gerakan robot yang stabil.</p>"
+  },
+  {
+    judul: "Dasar Robotik 36 - Robot Otonom",
+    konten: "<h4>Pengertian</h4><p>Robot otonom adalah robot yang dapat beroperasi dan mengambil keputusan sendiri tanpa dikendalikan langsung oleh manusia.</p><h4>Penjelasan</h4><p>Robot ini menggunakan kombinasi sensor, program, dan algoritma untuk memahami lingkungan dan bertindak secara mandiri.</p><h4>Contoh</h4><p>Contohnya, robot pembersih lantai otomatis dapat memetakan ruangan dan membersihkannya tanpa arahan manusia.</p><h4>Kesimpulan</h4><p>Mempelajari robot otonom membantu memahami tingkat kecerdasan robot dalam beroperasi secara mandiri.</p>"
+  },
+  {
+    judul: "Dasar Robotik 37 - Robot Kolaboratif (Cobot)",
+    konten: "<h4>Pengertian</h4><p>Robot kolaboratif atau cobot adalah robot yang dirancang untuk bekerja berdampingan dengan manusia secara aman.</p><h4>Penjelasan</h4><p>Cobot dilengkapi sensor keselamatan yang membuatnya berhenti otomatis saat mendeteksi manusia di dekatnya.</p><h4>Contoh</h4><p>Contohnya, cobot digunakan di pabrik untuk membantu pekerja mengangkat barang berat tanpa risiko kecelakaan.</p><h4>Kesimpulan</h4><p>Mempelajari cobot membantu memahami tren robotik modern yang mengutamakan kerja sama dengan manusia.</p>"
+  },
+  {
+    judul: "Dasar Robotik 38 - Kecerdasan Buatan dalam Robotik",
+    konten: "<h4>Pengertian</h4><p>Kecerdasan buatan atau AI memungkinkan robot belajar dan mengambil keputusan yang lebih kompleks dari data yang diterimanya.</p><h4>Penjelasan</h4><p>Dengan AI, robot dapat mengenali pola, gambar, atau suara untuk merespons lingkungan dengan lebih cerdas.</p><h4>Contoh</h4><p>Contohnya, robot dengan kamera dan AI dapat mengenali wajah manusia untuk keperluan keamanan.</p><h4>Kesimpulan</h4><p>Mempelajari kecerdasan buatan dalam robotik membantu memahami arah perkembangan robot di masa depan.</p>"
+  },
+  {
+    judul: "Dasar Robotik 39 - Komputer Vision pada Robot",
+    konten: "<h4>Pengertian</h4><p>Komputer vision adalah teknologi yang memungkinkan robot melihat dan memahami gambar melalui kamera.</p><h4>Penjelasan</h4><p>Dengan komputer vision, robot dapat mengenali objek, warna, atau bentuk tertentu untuk melakukan tindakan yang sesuai.</p><h4>Contoh</h4><p>Contohnya, robot penyortir buah menggunakan kamera untuk membedakan buah matang dan belum matang.</p><h4>Kesimpulan</h4><p>Mempelajari komputer vision membantu memahami cara robot memproses informasi visual dari lingkungannya.</p>"
+  },
+  {
+    judul: "Dasar Robotik 40 - Internet of Things dan Robotik",
+    konten: "<h4>Pengertian</h4><p>Internet of Things atau IoT memungkinkan robot terhubung ke internet untuk dikendalikan atau dipantau dari jarak jauh.</p><h4>Penjelasan</h4><p>Robot berbasis IoT dapat mengirim data sensor secara real-time dan menerima perintah melalui aplikasi smartphone.</p><h4>Contoh</h4><p>Contohnya, robot penyiram tanaman otomatis dapat dikendalikan melalui aplikasi meskipun penggunanya sedang tidak di rumah.</p><h4>Kesimpulan</h4><p>Mempelajari IoT dalam robotik membantu memahami integrasi robot dengan teknologi jaringan modern.</p>"
+  },
+  {
+    judul: "Dasar Robotik 41 - Keamanan dalam Robotik",
+    konten: "<h4>Pengertian</h4><p>Keamanan robotik mencakup perancangan robot agar aman digunakan tanpa membahayakan manusia maupun lingkungan sekitarnya.</p><h4>Penjelasan</h4><p>Aspek keamanan meliputi sensor darurat berhenti, batas kecepatan gerak, serta perlindungan terhadap kegagalan sistem.</p><h4>Contoh</h4><p>Contohnya, robot industri dilengkapi tombol darurat yang dapat menghentikan seluruh sistem secara instan.</p><h4>Kesimpulan</h4><p>Mempelajari keamanan robotik membantu memahami pentingnya faktor keselamatan dalam perancangan robot.</p>"
+  },
+  {
+    judul: "Dasar Robotik 42 - Etika dalam Pengembangan Robot",
+    konten: "<h4>Pengertian</h4><p>Etika robotik adalah pertimbangan moral dalam merancang dan menggunakan robot agar tidak merugikan manusia.</p><h4>Penjelasan</h4><p>Etika ini mencakup privasi data, dampak terhadap lapangan kerja, dan tanggung jawab atas tindakan robot otonom.</p><h4>Contoh</h4><p>Contohnya, pengembang robot perlu mempertimbangkan dampak otomatisasi terhadap pekerjaan manusia di suatu industri.</p><h4>Kesimpulan</h4><p>Mempelajari etika robotik membantu memahami tanggung jawab sosial dalam pengembangan teknologi robot.</p>"
+  },
+  {
+    judul: "Dasar Robotik 43 - Robot di Bidang Kesehatan",
+    konten: "<h4>Pengertian</h4><p>Robot medis digunakan untuk membantu tenaga medis dalam melakukan diagnosis, operasi, maupun rehabilitasi pasien.</p><h4>Penjelasan</h4><p>Robot ini dirancang dengan presisi tinggi untuk mengurangi risiko kesalahan pada tindakan medis yang rumit.</p><h4>Contoh</h4><p>Contohnya, robot bedah da Vinci digunakan dokter untuk melakukan operasi dengan sayatan yang lebih kecil dan presisi.</p><h4>Kesimpulan</h4><p>Mempelajari robot di bidang kesehatan membantu memahami manfaat robotik dalam dunia medis.</p>"
+  },
+  {
+    judul: "Dasar Robotik 44 - Robot di Bidang Pertanian",
+    konten: "<h4>Pengertian</h4><p>Robot pertanian digunakan untuk membantu petani dalam menanam, merawat, hingga memanen hasil pertanian secara efisien.</p><h4>Penjelasan</h4><p>Robot ini dapat dilengkapi sensor untuk memantau kelembapan tanah dan kondisi tanaman secara otomatis.</p><h4>Contoh</h4><p>Contohnya, robot penyiang gulma menggunakan kamera untuk membedakan tanaman utama dan gulma di ladang.</p><h4>Kesimpulan</h4><p>Mempelajari robot pertanian membantu memahami penerapan robotik dalam meningkatkan hasil pertanian.</p>"
+  },
+  {
+    judul: "Dasar Robotik 45 - Robot di Bidang Pendidikan",
+    konten: "<h4>Pengertian</h4><p>Robot edukasi dirancang untuk membantu proses belajar mengajar, terutama dalam memperkenalkan dasar-dasar robotik dan pemrograman.</p><h4>Penjelasan</h4><p>Robot jenis ini biasanya mudah dirakit dan diprogram sehingga cocok digunakan oleh pelajar sebagai media pembelajaran.</p><h4>Contoh</h4><p>Contohnya, kit robot edukasi digunakan siswa untuk belajar merakit dan memprogram robot line follower sederhana.</p><h4>Kesimpulan</h4><p>Mempelajari robot pendidikan membantu memahami cara robotik diperkenalkan sejak usia sekolah.</p>"
+  },
+  {
+    judul: "Dasar Robotik 46 - Kompetisi Robotik",
+    konten: "<h4>Pengertian</h4><p>Kompetisi robotik adalah ajang perlombaan yang menguji kemampuan peserta dalam merancang dan memprogram robot.</p><h4>Penjelasan</h4><p>Kompetisi ini biasanya memiliki tantangan tertentu seperti balapan, mengangkat beban, atau menyelesaikan labirin.</p><h4>Contoh</h4><p>Contohnya, kompetisi Kontes Robot Indonesia (KRI) menjadi ajang tahunan bagi mahasiswa untuk menguji karya robotik mereka.</p><h4>Kesimpulan</h4><p>Mempelajari kompetisi robotik membantu memahami cara mengasah kemampuan robotik melalui tantangan nyata.</p>"
+  },
+  {
+    judul: "Dasar Robotik 47 - Simulasi Robot",
+    konten: "<h4>Pengertian</h4><p>Simulasi robot adalah proses menguji desain dan program robot secara virtual sebelum dibuat secara fisik.</p><h4>Penjelasan</h4><p>Dengan simulasi, kesalahan desain dapat ditemukan dan diperbaiki lebih awal sehingga menghemat waktu dan biaya.</p><h4>Contoh</h4><p>Contohnya, software simulasi digunakan untuk menguji gerakan robot lengan sebelum dirakit secara nyata.</p><h4>Kesimpulan</h4><p>Mempelajari simulasi robot membantu memahami proses perancangan robot yang lebih efisien.</p>"
+  },
+  {
+    judul: "Dasar Robotik 48 - Perawatan dan Pemeliharaan Robot",
+    konten: "<h4>Pengertian</h4><p>Perawatan robot adalah kegiatan menjaga kondisi robot agar tetap berfungsi optimal dalam jangka panjang.</p><h4>Penjelasan</h4><p>Perawatan meliputi pengecekan komponen mekanik, pembersihan sensor, serta pembaruan program secara berkala.</p><h4>Contoh</h4><p>Contohnya, motor pada robot industri perlu diperiksa dan dilumasi secara rutin agar tidak cepat aus.</p><h4>Kesimpulan</h4><p>Mempelajari perawatan robot membantu memahami pentingnya menjaga performa robot tetap maksimal.</p>"
+  },
+  {
+    judul: "Dasar Robotik 49 - Troubleshooting Robot Sederhana",
+    konten: "<h4>Pengertian</h4><p>Troubleshooting adalah proses menemukan dan memperbaiki masalah yang terjadi pada sistem robot.</p><h4>Penjelasan</h4><p>Proses ini biasanya dimulai dengan memeriksa sambungan kabel, sumber daya, hingga program yang dijalankan robot.</p><h4>Contoh</h4><p>Contohnya, jika robot tidak bergerak, langkah awal troubleshooting adalah memeriksa apakah baterai masih terisi daya.</p><h4>Kesimpulan</h4><p>Mempelajari troubleshooting membantu memahami cara mengatasi masalah umum pada proyek robotik pemula.</p>"
+  },
+  {
+    judul: "Dasar Robotik 50 - Merancang Proyek Robot Sederhana",
+    konten: "<h4>Pengertian</h4><p>Merancang proyek robot dimulai dari menentukan tujuan, memilih komponen, hingga menyusun program yang sesuai kebutuhan.</p><h4>Penjelasan</h4><p>Perencanaan yang baik membantu proyek robotik berjalan lebih terarah dan mengurangi kesalahan saat perakitan.</p><h4>Contoh</h4><p>Contohnya, sebelum membuat robot line follower, perlu ditentukan jenis sensor, motor, dan mikrokontroler yang akan digunakan.</p><h4>Kesimpulan</h4><p>Mempelajari cara merancang proyek robot membantu pemula memulai proyek robotik pertamanya dengan lebih percaya diri.</p>"
+  }
+];
+
+// ======================== LOAD / SAVE PROGRESS ========================
+function loadLocalProgress() {
+  const storedDate = localStorage.getItem('dasarroboticDate');
+  if (storedDate === todayStr) {
+    todayLimit = parseInt(localStorage.getItem('dasarroboticLimit') || '0');
+    const stored = localStorage.getItem('dasarroboticOpened');
+    if (stored) openedIndexes = JSON.parse(stored);
+  } else {
+    todayLimit = 0;
+    openedIndexes = [];
+    localStorage.setItem('dasarroboticDate', todayStr);
+    localStorage.setItem('dasarroboticLimit', '0');
+    localStorage.setItem('dasarroboticOpened', '[]');
+  }
+}
+
+function saveLocalProgress() {
+  localStorage.setItem('dasarroboticLimit', todayLimit);
+  localStorage.setItem('dasarroboticOpened', JSON.stringify(openedIndexes));
+}
+
+// ======================== FORCE LOAD DARI FIREBASE ========================
+function forceLoadFromFirebase() {
+  if (!currentUser) return;
+  
+  console.log('Force load progress dari Firebase...');
+  
+  db.ref('users/' + currentUser.uid + '/progress/dasarrobotic').once('value')
+  .then(function(snap) {
+    var data = snap.val();
+    if (data) {
+      var newOpened = Array.isArray(data) ? data : Object.keys(data).map(Number);
+      if (newOpened.length > 0) {
+        openedIndexes = newOpened;
+        saveLocalProgress();
+        console.log('Progress loaded dari Firebase:', openedIndexes);
+      }
+    }
+    return db.ref('users/' + currentUser.uid + '/limit/dasarrobotic').once('value');
+  })
+  .then(function(snap) {
+    var limitData = snap.val();
+    if (limitData && limitData.date === todayStr) {
+      todayLimit = limitData.count;
+      saveLocalProgress();
+      updateUI();
+      renderBagian();
+      console.log('Limit loaded dari Firebase:', todayLimit);
+    } else {
+      // Reset limit kalo beda hari
+      todayLimit = 0;
+      saveLocalProgress();
+      updateUI();
+      renderBagian();
+    }
+  })
+  .catch(function(err) {
+    console.log('Gagal load dari Firebase:', err);
+  });
+}
+
+function updateUI() {
+  const badge = document.getElementById('premiumStatusBadge');
+  const limitSpan = document.getElementById('limitCounter');
+
+  if (isPremium && premiumExpiry) {
+    const now = Date.now();
+    if (now > premiumExpiry) {
+      isPremium = false;
+      premiumExpiry = null;
+      badge.innerText = 'Premium Habis';
+      badge.className = 'premium-indicator warning';
+      limitSpan.innerText = '0/2 Hari Ini';
+      if (currentUser) {
+        db.ref('users/' + currentUser.uid + '/premium/robotik').set(false);
+        db.ref('users/' + currentUser.uid + '/premium/robotik_expiry').remove();
+      }
+      return;
+    }
+
+    const sisaHari = Math.ceil((premiumExpiry - now) / (1000 * 60 * 60 * 24));
+    badge.innerText = 'Premium (' + sisaHari + ' hari)';
+    badge.className = 'premium-indicator active';
+    limitSpan.innerText = 'Tak Terbatas';
+  } else if (isPremium) {
+    badge.innerText = 'Premium Aktif';
+    badge.className = 'premium-indicator active';
+    limitSpan.innerText = 'Tak Terbatas';
+  } else {
+    badge.innerText = 'Akun Standar';
+    badge.className = 'premium-indicator';
+    limitSpan.innerText = todayLimit + '/2 Hari Ini';
+  }
+}
+
+function renderBagian() {
+  const container = document.getElementById('listBagianGrid');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const iconLock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+  const iconChevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
+  for (let i = 0; i < materiList.length; i++) {
+    const isOpened = openedIndexes.includes(i);
+    const isLocked = !isOpened && !isPremium && todayLimit >= 2;
+
+    const rawTitle = materiList[i].judul;
+    const dashIdx = rawTitle.indexOf(' - ');
+    const shortTitle = dashIdx !== -1 ? rawTitle.substring(dashIdx + 3) : rawTitle;
+
+    const btn = document.createElement('div');
+    btn.className = 'materi-btn';
+    if (isOpened) btn.classList.add('opened');
+    if (isLocked) btn.classList.add('locked');
+
+    let statusIcon = iconChevron;
+    if (isOpened) statusIcon = iconCheck;
+    else if (isLocked) statusIcon = iconLock;
+
+    btn.innerHTML =
+      '<div class="materi-num">' + (i + 1) + '</div>' +
+      '<div class="materi-text">' +
+        '<div class="materi-title">' + shortTitle + '</div>' +
+        '<div class="materi-sub">Materi ' + (i + 1) + ' dari ' + materiList.length + '</div>' +
+      '</div>' +
+      '<div class="materi-status">' + statusIcon + '</div>';
+
+    btn.onclick = (function(idx) {
+      return function() { openMateri(idx); };
+    })(i);
+
+    container.appendChild(btn);
+  }
+}
+
+function openMateri(index) {
+  if (!currentUser) {
+    showAlert('Silakan masuk ke akun Anda terlebih dahulu.', false);
+    return;
+  }
+
+  db.ref('users/' + currentUser.uid + '/premium/robotik').once('value').then(function(snap) {
+    isPremium = snap.val() === true;
+    return db.ref('users/' + currentUser.uid + '/premium/robotik_expiry').once('value');
+  }).then(function(expirySnap) {
+    premiumExpiry = expirySnap.val() || null;
+
+    if (isPremium && premiumExpiry && Date.now() > premiumExpiry) {
+      isPremium = false;
+      premiumExpiry = null;
+      db.ref('users/' + currentUser.uid + '/premium/robotik').set(false);
+      db.ref('users/' + currentUser.uid + '/premium/robotik_expiry').remove();
+      updateUI();
+      renderBagian();
+      showAlert('Masa premium Anda telah berakhir. Silakan perpanjang untuk mengakses materi.', true);
+      return;
+    }
+
+    const isOpened = openedIndexes.includes(index);
+    const isLocked = !isOpened && !isPremium && todayLimit >= 2;
+
+    if (isLocked) {
+      showAlert('Batas harian untuk akun standar telah tercapai (2 materi). Dapatkan akses premium untuk membuka seluruh materi tanpa batas.', true);
+      return;
+    }
+
+    if (!isOpened) {
+      todayLimit++;
+      openedIndexes.push(index);
+      saveLocalProgress();
+      updateUI();
+      renderBagian();
+
+      if (currentUser) {
+        const openedObj = {};
+        openedIndexes.forEach(function(i) { openedObj[i] = true; });
+        db.ref('users/' + currentUser.uid + '/progress/dasarrobotic').set(openedObj)
+        .then(function() {
+          console.log('Progress berhasil disimpan ke Firebase');
+        })
+        .catch(function(err) {
+          console.log('Gagal simpan progress:', err);
+        });
+        
+        db.ref('users/' + currentUser.uid + '/limit/dasarrobotic').set({ count: todayLimit, date: todayStr })
+        .catch(function(err) {
+          console.log('Gagal simpan limit:', err);
+        });
+      }
+    }
+
+    currentMateriIdx = index;
+
+    document.getElementById('halamanUtama').classList.add('hidden');
+    document.getElementById('materiView').classList.remove('hidden');
+
+    document.getElementById('judulMateriView').innerHTML = materiList[index].judul;
+    document.getElementById('isiMateriDetail').innerHTML = materiList[index].konten;
+  });
+}
+
+function nextMateri() {
+  if (currentMateriIdx + 1 < materiList.length) {
+    openMateri(currentMateriIdx + 1);
+  } else {
+    showAlert('Anda telah mencapai materi terakhir dalam daftar.', false);
+  }
+}
+
+function prevMateri() {
+  if (currentMateriIdx - 1 >= 0) {
+    openMateri(currentMateriIdx - 1);
+  } else {
+    showAlert('Ini adalah materi pertama.', false);
+  }
+}
+
+function backToList() {
+  document.getElementById('materiView').classList.add('hidden');
+  document.getElementById('halamanUtama').classList.remove('hidden');
+  renderBagian();
+}
+
+function balikKeRobotik() {
+  window.location.href = 'robotik.html';
+}
+
+function showAlert(message, showUpgrade) {
+  const overlay = document.getElementById('globalAlert');
+  document.getElementById('alertMessage').innerText = message;
+  const extraDiv = document.getElementById('alertExtraBtn');
+  extraDiv.innerHTML = '';
+  if (showUpgrade) {
+    const btn = document.createElement('button');
+    btn.className = 'btn-full';
+    btn.innerText = 'Tingkatkan ke Premium';
+    btn.style.marginTop = '12px';
+    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
+    extraDiv.appendChild(btn);
+  }
+  overlay.style.display = 'flex';
+}
+
+function closeAlertGlobal() {
+  document.getElementById('globalAlert').style.display = 'none';
+}
+
+function openSidebar() {
+  document.getElementById('sidebarOverlay').classList.add('active');
+  document.getElementById('sidebarNav').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('sidebarNav').classList.remove('active');
+}
+
+function goTo(page) {
+  window.location.href = page;
+}
+
+function logoutAction() {
+  if (confirm('Yakin ingin keluar?')) {
+    firebase.auth().signOut().then(function() {
+      window.location.href = 'login.html';
+    });
+  }
+}
+
+document.getElementById('prevBtn').onclick = prevMateri;
+document.getElementById('nextBtn').onclick = nextMateri;
+document.getElementById('backToListBtn').onclick = backToList;
+
+// ======================== CEK TEMA ========================
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+// ======================== AUTH ========================
+window.addEventListener('DOMContentLoaded', function() {
+  loadLocalProgress();
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (!user) {
+      currentUser = null;
+      isPremium = false;
+      premiumExpiry = null;
+      updateUI();
+      renderBagian();
+      return;
+    }
+
+    currentUser = user;
+
+    db.ref('users/' + user.uid + '/premium/robotik').once('value').then(function(snap) {
+      isPremium = snap.val() === true;
+      return db.ref('users/' + user.uid + '/premium/robotik_expiry').once('value');
+    }).then(function(expirySnap) {
+      premiumExpiry = expirySnap.val() || null;
+
+      if (isPremium && premiumExpiry) {
+        const now = Date.now();
+        if (now > premiumExpiry) {
+          isPremium = false;
+          premiumExpiry = null;
+          db.ref('users/' + user.uid + '/premium/robotik').set(false);
+          db.ref('users/' + user.uid + '/premium/robotik_expiry').remove();
+        }
+      }
+
+      return db.ref('users/' + user.uid + '/progress/dasarrobotic').once('value');
+    }).then(function(snap) {
+      if (snap.val()) {
+        const data = snap.val();
+        const newOpened = Array.isArray(data) ? data : Object.keys(data).map(Number);
+        if (JSON.stringify(newOpened) !== JSON.stringify(openedIndexes)) {
+          openedIndexes = newOpened;
+          saveLocalProgress();
+        }
+      }
+      return db.ref('users/' + user.uid + '/limit/dasarrobotic').once('value');
+    }).then(function(snap) {
+      const limitData = snap.val();
+      if (limitData && limitData.date === todayStr) {
+        if (todayLimit !== limitData.count) todayLimit = limitData.count;
+      } else {
+        todayLimit = 0;
+      }
+      saveLocalProgress();
+      updateUI();
+      renderBagian();
+    }).catch(function(e) {
+      console.error(e);
+      renderBagian();
+    });
+  });
+});
+</script>
+
+</body>
+</html>

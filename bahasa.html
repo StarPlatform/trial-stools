@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Bahasa - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -50,6 +66,11 @@
 
   body.dark .app-container {
     background: #0B1120;
+  }
+
+  body.dark .btn-outline {
+    border-color: #60A5FA;
+    color: #60A5FA;
   }
 
   .app-container {
@@ -345,6 +366,23 @@
     margin-bottom: 6px;
   }
 
+  .btn-outline {
+    background: transparent;
+    border: 2px solid #2563EB;
+    color: #2563EB;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.2s;
+  }
+
+  .btn-outline:active {
+    transform: scale(0.97);
+  }
+
   .alert-overlay {
     position: fixed;
     top: 0;
@@ -366,11 +404,17 @@
     padding: 24px 22px;
     text-align: center;
     border: 1px solid #E2E8F0;
+    animation: modalPop 0.25s ease;
   }
 
   body.dark .alert-card {
     background: #111827;
     border-color: #1E293B;
+  }
+
+  @keyframes modalPop {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
   }
 
   .btn-full {
@@ -387,6 +431,72 @@
 
   .btn-full:active {
     transform: scale(0.97);
+  }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      min-height: auto;
+    }
+
+    body.dark .app-container {
+      background: #111827;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+      position: relative;
+    }
+
+    .screen {
+      padding: 24px 24px 30px;
+    }
+
+    .card-modern {
+      padding: 24px;
+      margin-bottom: 24px;
+      border-radius: 24px;
+    }
+
+    .grid-materi {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .btn-materi {
+      padding: 18px 20px;
+      font-size: 15px;
+      border-radius: 20px;
+    }
+
+    .alert-card {
+      width: 340px;
+      padding: 28px 26px;
+      border-radius: 28px;
+    }
+
+    .sidebar-nav {
+      border-radius: 0 20px 20px 0;
+    }
   }
 </style>
 </head>
@@ -480,11 +590,6 @@
       </div>
       <div class="grid-materi">
         <button class="btn-materi" onclick="goTo('inggris.html')">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14z"/>
-            <path d="M9 7h6"/>
-            <path d="M9 11h6"/>
-          </svg>
           Bahasa Inggris
         </button>
       </div>
@@ -500,7 +605,6 @@
   <div class="alert-card">
     <p id="alertMessage" style="margin-bottom: 20px; font-weight: 500;">Pemberitahuan</p>
     <button class="btn-full" onclick="closeAlertGlobal()">Mengerti</button>
-    <div id="alertExtraBtn"></div>
   </div>
 </div>
 
@@ -558,7 +662,7 @@ firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 
-if (localStorage.getItem('themeEkonomi') === 'dark') {
+if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
 
@@ -567,6 +671,7 @@ window.closeSidebar = closeSidebar;
 window.goTo = goTo;
 window.logoutAction = logoutAction;
 window.closeAlertGlobal = closeAlertGlobal;
+window.showAlert = showAlert;
 </script>
 
 </body>

@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Hitung Nilai Rata - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -31,7 +47,8 @@
   body.dark .card-modern,
   body.dark .app-header,
   body.dark .sidebar-nav,
-  body.dark .alert-card {
+  body.dark .alert-card,
+  body.dark .custom-alert-box {
     background: #111827;
     border-color: #1E293B;
   }
@@ -78,6 +95,36 @@
   body.dark .footer-app {
     color: #94A3B8;
     border-top-color: #1E293B;
+  }
+
+  body.dark .step-item {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  body.dark .step-item .text {
+    color: #F1F5F9;
+  }
+
+  body.dark .custom-alert-box .alert-title {
+    color: #F1F5F9;
+  }
+
+  body.dark .custom-alert-box .alert-message {
+    color: #94A3B8;
+  }
+
+  body.dark .custom-alert-box .alert-btn-secondary {
+    background: #334155;
+    color: #F1F5F9;
+  }
+
+  body.dark .hasil-box {
+    background: #0F172A;
+  }
+
+  body.dark .hasil-box hr {
+    border-color: #334155;
   }
 
   .app-container {
@@ -305,13 +352,84 @@
     gap: 8px;
   }
 
+  /* ===== STEP ITEM ===== */
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    background: #F1F5F9;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
+    margin-bottom: 6px;
+    animation: fadeStep 0.4s ease;
+  }
+
+  body.dark .step-item {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .step-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .step-item .number {
+    width: 26px;
+    height: 26px;
+    background: #2563EB;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .step-item .text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #0F172A;
+    padding-top: 2px;
+  }
+
+  body.dark .step-item .text {
+    color: #F1F5F9;
+  }
+
+  .step-item .text strong {
+    color: #2563EB;
+  }
+
+  body.dark .step-item .text strong {
+    color: #60A5FA;
+  }
+
+  @keyframes fadeStep {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .step-item:nth-child(1) { animation-delay: 0.1s; }
+  .step-item:nth-child(2) { animation-delay: 0.2s; }
+  .step-item:nth-child(3) { animation-delay: 0.3s; }
+  .step-item:nth-child(4) { animation-delay: 0.4s; }
+
+  /* ===== BUTTON ===== */
   .btn-modern {
     background: #F8FAFE;
     border: 1px solid #E2E8F0;
     color: #0F172A;
-    padding: 12px;
-    margin: 0px 0;
-    width: 100%;
+    padding: 12px 16px;
+    margin: 2px 0;
     border-radius: 12px;
     cursor: pointer;
     transition: 0.2s;
@@ -438,6 +556,7 @@
   .text-muted {
     color: #64748B;
     font-size: 13px;
+    line-height: 1.5;
     margin-bottom: 8px;
   }
 
@@ -532,55 +651,6 @@
     flex: 0.7;
   }
 
-  .alert-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(6px);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 200;
-  }
-
-  .alert-card {
-    background: #FFFFFF;
-    width: 300px;
-    border-radius: 24px;
-    padding: 24px;
-    text-align: center;
-    border: 1px solid #E2E8F0;
-  }
-
-  body.dark .alert-card {
-    background: #111827;
-    border-color: #1E293B;
-  }
-
-  .alert-card h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
-    color: #0F172A;
-  }
-
-  body.dark .alert-card h3 {
-    color: #F1F5F9;
-  }
-
-  .alert-card p {
-    font-size: 14px;
-    color: #64748B;
-    margin-bottom: 16px;
-    line-height: 1.5;
-  }
-
-  body.dark .alert-card p {
-    color: #94A3B8;
-  }
-
   .hasil-box {
     background: #F8FAFE;
     border-radius: 12px;
@@ -625,6 +695,235 @@
 
   body.dark .hasil-box hr {
     border-color: #334155;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .btn-group .btn-modern {
+    flex: 1;
+    min-width: calc(50% - 8px);
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  /* ===== CUSTOM ALERT ===== */
+  .custom-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: customAlertFadeIn 0.3s ease;
+  }
+
+  .custom-alert-overlay.active {
+    display: flex;
+  }
+
+  @keyframes customAlertFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .custom-alert-box {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 28px 24px 24px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid #E2E8F0;
+    position: relative;
+  }
+
+  .custom-alert-box .alert-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+  }
+
+  .custom-alert-box .alert-icon svg {
+    width: 28px;
+    height: 28px;
+    stroke: white;
+  }
+
+  .custom-alert-box .alert-icon.success {
+    background: #059669;
+  }
+
+  .custom-alert-box .alert-icon.error {
+    background: #DC2626;
+  }
+
+  .custom-alert-box .alert-icon.warning {
+    background: #D97706;
+  }
+
+  .custom-alert-box .alert-icon.info {
+    background: #2563EB;
+  }
+
+  .custom-alert-box .alert-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 4px;
+  }
+
+  .custom-alert-box .alert-message {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .custom-alert-box .alert-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    color: white;
+  }
+
+  .custom-alert-box .alert-btn:active {
+    transform: scale(0.97);
+  }
+
+  .custom-alert-box .alert-btn.success {
+    background: #059669;
+  }
+
+  .custom-alert-box .alert-btn.error {
+    background: #DC2626;
+  }
+
+  .custom-alert-box .alert-btn.warning {
+    background: #D97706;
+  }
+
+  .custom-alert-box .alert-btn.info {
+    background: #2563EB;
+  }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      min-height: auto;
+    }
+
+    body.dark .app-container {
+      background: #111827;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .sidebar-nav {
+      border-radius: 0 20px 20px 0;
+    }
+
+    .screen {
+      padding: 24px 24px 30px;
+    }
+
+    .card-modern {
+      padding: 24px;
+      border-radius: 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+    }
+
+    .input-modern {
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 15px;
+    }
+
+    .btn-modern {
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 15px;
+    }
+
+    .btn-sm {
+      padding: 10px 20px;
+      font-size: 13px;
+    }
+
+    .footer-app {
+      margin-bottom: 0;
+    }
+
+    .custom-alert-box {
+      max-width: 400px;
+      padding: 32px 28px 28px;
+      border-radius: 24px;
+    }
+
+    .step-item {
+      padding: 12px 16px;
+      border-radius: 12px;
+    }
+
+    .step-item .text {
+      font-size: 14px;
+    }
+
+    .hasil-box .hasil-rata {
+      font-size: 32px;
+    }
+
+    .btn-group .btn-modern {
+      min-width: calc(33.33% - 8px);
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+
+    .mapel-row .input-modern:first-child {
+      flex: 0.6;
+    }
   }
 </style>
 </head>
@@ -690,6 +989,37 @@
       <p class="text-muted">Hitung nilai rata-rata siswa dengan mudah. Masukkan jumlah mapel, isi nama dan nilai, lalu lihat hasilnya.</p>
     </div>
 
+    <!-- Tata Cara -->
+    <div class="card-modern">
+      <div class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 16v-4M12 8h.01"/>
+        </svg>
+        Panduan Penggunaan
+      </div>
+
+      <div class="step-item">
+        <div class="number">1</div>
+        <div class="text"><strong>Masukkan Jumlah Mapel</strong><br>Isi jumlah mata pelajaran (minimal 3, maksimal 15), lalu klik "Lanjut".</div>
+      </div>
+
+      <div class="step-item">
+        <div class="number">2</div>
+        <div class="text"><strong>Isi Data Nilai</strong><br>Masukkan nama siswa, nama mapel, dan nilai (0-100) pada setiap kolom.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="number">3</div>
+        <div class="text"><strong>Hitung Rata-rata</strong><br>Klik "Hitung Nilai" untuk melihat rata-rata dan status kelulusan.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="number">4</div>
+        <div class="text"><strong>Kelola Hasil</strong><br>Salin hasil, kirim ke ranking, atau reset untuk menghitung ulang.</div>
+      </div>
+    </div>
+
     <!-- STEP 1: Jumlah Mapel -->
     <div id="step1">
       <div class="card-modern">
@@ -700,9 +1030,11 @@
           </svg>
           Jumlah Mata Pelajaran
         </div>
-        <p class="text-muted">Masukkan jumlah mata pelajaran</p>
+        <p class="text-muted">Masukkan jumlah mata pelajaran (3 - 15)</p>
         <input id="jumlahInput" class="input-modern" type="number" placeholder="Contoh: 5" min="3" max="15">
+        <div style="display: flex; justify-content: center; margin-top: 10px;">
         <button class="btn-modern primary" onclick="lanjutInput()">Lanjut</button>
+        </div>
       </div>
     </div>
 
@@ -720,14 +1052,14 @@
         <input id="namaSiswa" class="input-modern" placeholder="Nama Siswa">
         <div id="inputMapel"></div>
         <div id="hasilRapot"></div>
-        
-        <div class="flex gap-8 flex-wrap">
+
+        <div class="btn-group">
           <button class="btn-modern primary" onclick="hitungRapot()">Hitung Nilai</button>
           <button class="btn-modern primary" onclick="copyHasil()">Salin Hasil</button>
           <button class="btn-modern primary" onclick="kirimKeRanking()">Kirim ke Ranking</button>
           <button class="btn-modern primary" onclick="goRanking()">Lihat Ranking</button>
-          <button class="btn-modern primary" onclick="resetGuru()">Reset Nilai</button>
-          <button class="btn-modern success" onclick="kembaliJumlah()">Kembali</button>
+          <button class="btn-modern danger" onclick="resetGuru()">Reset</button>
+          <button class="btn-modern danger" onclick="kembaliJumlah()">Kembali</button>
         </div>
       </div>
     </div>
@@ -738,13 +1070,13 @@
   </div>
 </div>
 
-<!-- GLOBAL ALERT -->
-<div id="globalAlert" class="alert-overlay">
-  <div class="alert-card">
-    <h3 id="alertTitle">Pemberitahuan</h3>
-    <p id="alertMessage">Pesan</p>
-    <button class="btn-modern primary" onclick="closeAlertGlobal()">Mengerti</button>
-    <div id="alertExtraBtn"></div>
+<!-- CUSTOM ALERT -->
+<div id="customAlert" class="custom-alert-overlay">
+  <div class="custom-alert-box">
+    <div class="alert-icon" id="customAlertIcon"></div>
+    <div class="alert-title" id="customAlertTitle">Pemberitahuan</div>
+    <div class="alert-message" id="customAlertMessage">Pesan</div>
+    <button class="alert-btn" id="customAlertBtn">Mengerti</button>
   </div>
 </div>
 
@@ -764,13 +1096,21 @@ const db = firebase.database();
 let currentUser = null;
 let lastRapot = null;
 
+// ==================== THEME ====================
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
+
 // ==================== AUTH ====================
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    currentUser = user.uid;
+    currentUser = user;
   } else {
-    showAlert('Harap Login', 'Silakan login terlebih dahulu.');
-    setTimeout(() => window.location.href = 'login.html', 2000);
+    const isGuest = localStorage.getItem('isGuest') === 'true';
+    if (!isGuest) {
+      showCustomAlert('Harap Login', 'Silakan login terlebih dahulu.', 'info');
+      setTimeout(function() { window.location.href = 'login.html'; }, 2000);
+    }
   }
 });
 
@@ -786,14 +1126,12 @@ function closeSidebar() {
 }
 
 function goTo(page) {
-  localStorage.setItem('targetPage', page);
-  localStorage.setItem('activePage', page);
   window.location.href = page;
 }
 
 function logoutAction() {
   if (confirm('Yakin ingin keluar?')) {
-    firebase.auth().signOut().then(() => {
+    firebase.auth().signOut().then(function() {
       window.location.href = 'login.html';
     });
   }
@@ -803,46 +1141,67 @@ function goBack() {
   window.location.href = 'index.html';
 }
 
-// ==================== ALERT ====================
-function showAlert(title, message, showUpgrade) {
-  if (showUpgrade === undefined) showUpgrade = false;
-  const overlay = document.getElementById('globalAlert');
-  document.getElementById('alertTitle').innerText = title;
-  document.getElementById('alertMessage').innerText = message;
-  const extraDiv = document.getElementById('alertExtraBtn');
-  extraDiv.innerHTML = '';
-  if (showUpgrade) {
-    const btn = document.createElement('button');
-    btn.className = 'btn-modern primary';
-    btn.innerText = 'Tingkatkan ke Premium';
-    btn.style.marginTop = '12px';
-    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
-    extraDiv.appendChild(btn);
-  }
-  overlay.style.display = 'flex';
-}
+// ==================== CUSTOM ALERT ====================
+function showCustomAlert(title, message, type) {
+  var overlay = document.getElementById('customAlert');
+  var icon = document.getElementById('customAlertIcon');
+  var titleEl = document.getElementById('customAlertTitle');
+  var msgEl = document.getElementById('customAlertMessage');
+  var btn = document.getElementById('customAlertBtn');
 
-function closeAlertGlobal() {
-  document.getElementById('globalAlert').style.display = 'none';
+  var iconMap = {
+    success: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    error: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+    warning: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+    info: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+  };
+
+  var btnClassMap = {
+    success: 'success',
+    error: 'error',
+    warning: 'warning',
+    info: 'info'
+  };
+
+  icon.className = 'alert-icon ' + (type || 'info');
+  icon.innerHTML = iconMap[type] || iconMap.info;
+
+  titleEl.innerText = title || 'Pemberitahuan';
+  msgEl.innerText = message || '';
+
+  btn.className = 'alert-btn ' + (btnClassMap[type] || 'info');
+  btn.innerText = 'Mengerti';
+
+  overlay.style.display = 'flex';
+
+  btn.onclick = function() {
+    overlay.style.display = 'none';
+  };
+
+  overlay.onclick = function(e) {
+    if (e.target === overlay) {
+      overlay.style.display = 'none';
+    }
+  };
 }
 
 // ==================== RAPOT FUNCTIONS ====================
 
 // LANJUT KE STEP 2
 function lanjutInput() {
-  const jumlah = parseInt(document.getElementById('jumlahInput').value);
+  var jumlah = parseInt(document.getElementById('jumlahInput').value);
   if (!jumlah || jumlah < 3 || jumlah > 15) {
-    showAlert('Error', 'Minimal 3 dan maksimal 15 mapel!');
+    showCustomAlert('Error', 'Minimal 3 dan maksimal 15 mapel!', 'warning');
     return;
   }
 
   document.getElementById('step1').classList.add('hidden');
   document.getElementById('step2').classList.remove('hidden');
 
-  const container = document.getElementById('inputMapel');
+  var container = document.getElementById('inputMapel');
   container.innerHTML = '';
 
-  for (let i = 1; i <= jumlah; i++) {
+  for (var i = 1; i <= jumlah; i++) {
     container.innerHTML += `
       <div class="mapel-row">
         <input type="text" class="input-modern namaMapel" placeholder="Mapel ${i}">
@@ -864,30 +1223,30 @@ function kembaliJumlah() {
 
 // HITUNG RAPOT
 function hitungRapot() {
-  const nama = document.getElementById('namaSiswa').value.trim();
-  const nilaiInputs = document.querySelectorAll('.nilaiMapel');
-  const mapelInputs = document.querySelectorAll('.namaMapel');
+  var nama = document.getElementById('namaSiswa').value.trim();
+  var nilaiInputs = document.querySelectorAll('.nilaiMapel');
+  var mapelInputs = document.querySelectorAll('.namaMapel');
 
   if (!nama) {
-    showAlert('Data Kurang', 'Harap isi nama siswa terlebih dahulu!');
+    showCustomAlert('Data Kurang', 'Harap isi nama siswa terlebih dahulu!', 'warning');
     return;
   }
 
   if (nilaiInputs.length === 0) {
-    showAlert('Error', 'Belum ada mapel!');
+    showCustomAlert('Error', 'Belum ada mapel!', 'error');
     return;
   }
 
-  let total = 0;
-  let detailHTML = '';
-  let detailText = '';
+  var total = 0;
+  var detailHTML = '';
+  var detailText = '';
 
-  for (let i = 0; i < nilaiInputs.length; i++) {
-    const nilai = parseFloat(nilaiInputs[i].value);
-    const mapel = mapelInputs[i].value.trim() || `Mapel ${i + 1}`;
+  for (var i = 0; i < nilaiInputs.length; i++) {
+    var nilai = parseFloat(nilaiInputs[i].value);
+    var mapel = mapelInputs[i].value.trim() || ('Mapel ' + (i + 1));
 
     if (isNaN(nilai) || nilai < 0 || nilai > 100) {
-      showAlert('Error', `${mapel} harus 0 - 100`);
+      showCustomAlert('Error', mapel + ' harus 0 - 100', 'error');
       return;
     }
 
@@ -898,12 +1257,12 @@ function hitungRapot() {
         <span>${nilai}</span>
       </div>
     `;
-    detailText += `${mapel}: ${nilai}\n`;
+    detailText += mapel + ': ' + nilai + '\n';
   }
 
-  const rata = total / nilaiInputs.length;
-  const status = rata >= 75 ? 'LULUS' : 'TIDAK LULUS';
-  const statusClass = rata >= 75 ? 'lulus' : 'tidak';
+  var rata = total / nilaiInputs.length;
+  var status = rata >= 75 ? 'LULUS' : 'TIDAK LULUS';
+  var statusClass = rata >= 75 ? 'lulus' : 'tidak';
 
   document.getElementById('hasilRapot').innerHTML = `
     <div class="hasil-box">
@@ -920,62 +1279,63 @@ function hitungRapot() {
     </div>
   `;
 
-  lastRapot = { nama, rata };
+  lastRapot = { nama: nama, rata: rata };
   localStorage.setItem('lastRapot', JSON.stringify(lastRapot));
 }
 
 // RESET
 function resetGuru() {
   document.getElementById('namaSiswa').value = '';
-  document.querySelectorAll('.nilaiMapel').forEach(i => i.value = '');
-  document.querySelectorAll('.namaMapel').forEach(i => i.value = '');
+  document.querySelectorAll('.nilaiMapel').forEach(function(i) { i.value = ''; });
+  document.querySelectorAll('.namaMapel').forEach(function(i) { i.value = ''; });
   document.getElementById('hasilRapot').innerHTML = '';
   lastRapot = null;
+  showCustomAlert('Berhasil', 'Semua data nilai berhasil direset!', 'success');
 }
 
 // COPY
 function copyHasil() {
-  const data = lastRapot || JSON.parse(localStorage.getItem('lastRapot'));
+  var data = lastRapot || JSON.parse(localStorage.getItem('lastRapot'));
   if (!data) {
-    showAlert('Belum Ada Hasil', 'Tidak ada hasil untuk disalin.');
+    showCustomAlert('Belum Ada Hasil', 'Tidak ada hasil untuk disalin.', 'warning');
     return;
   }
 
-  const text = `Nama: ${data.nama}\nRata-rata: ${data.rata.toFixed(2)}`;
+  var text = 'Nama: ' + data.nama + '\nRata-rata: ' + data.rata.toFixed(2);
 
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(text)
-      .then(() => showAlert('Berhasil', 'Hasil berhasil disalin ke clipboard!'))
-      .catch(() => fallbackCopy(text));
+      .then(function() { showCustomAlert('Berhasil', 'Hasil berhasil disalin ke clipboard!', 'success'); })
+      .catch(function() { fallbackCopy(text); });
   } else {
     fallbackCopy(text);
   }
 }
 
 function fallbackCopy(text) {
-  const textarea = document.createElement('textarea');
+  var textarea = document.createElement('textarea');
   textarea.value = text;
   document.body.appendChild(textarea);
   textarea.select();
   document.execCommand('copy');
   document.body.removeChild(textarea);
-  showAlert('Berhasil', 'Hasil berhasil disalin!');
+  showCustomAlert('Berhasil', 'Hasil berhasil disalin!', 'success');
 }
 
 // KIRIM KE RANKING
 function kirimKeRanking() {
-  let data = lastRapot || JSON.parse(localStorage.getItem('lastRapot'));
+  var data = lastRapot || JSON.parse(localStorage.getItem('lastRapot'));
   if (!data) {
-    showAlert('Belum Ada Hasil', 'Tidak ada hasil rapot untuk dikirim!');
+    showCustomAlert('Belum Ada Hasil', 'Tidak ada hasil rapot untuk dikirim!', 'warning');
     return;
   }
 
-  let ranking = JSON.parse(localStorage.getItem('rankingData') || '[]');
+  var ranking = JSON.parse(localStorage.getItem('rankingData') || '[]');
   ranking.push({ nama: data.nama, nilai: data.rata });
-  ranking.sort((a, b) => b.nilai - a.nilai);
+  ranking.sort(function(a, b) { return b.nilai - a.nilai; });
   localStorage.setItem('rankingData', JSON.stringify(ranking));
 
-  showAlert('Berhasil', 'Data berhasil masuk ke tabel ranking!');
+  showCustomAlert('Berhasil', 'Data berhasil masuk ke tabel ranking!', 'success');
 }
 
 // PERGI KE RANKING
@@ -983,10 +1343,16 @@ function goRanking() {
   window.location.href = 'ranking.html';
 }
 
-// ==================== THEME ====================
-if (localStorage.getItem('themeEkonomi') === 'dark') {
-  document.body.classList.add('dark');
-}
+// ==================== KEYBOARD ====================
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeSidebar();
+    var alert = document.getElementById('customAlert');
+    if (alert.style.display === 'flex') {
+      alert.style.display = 'none';
+    }
+  }
+});
 
 // ==================== EXPOSE GLOBAL ====================
 window.openSidebar = openSidebar;
@@ -1001,8 +1367,7 @@ window.resetGuru = resetGuru;
 window.copyHasil = copyHasil;
 window.kirimKeRanking = kirimKeRanking;
 window.goRanking = goRanking;
-window.showAlert = showAlert;
-window.closeAlertGlobal = closeAlertGlobal;
+window.showCustomAlert = showCustomAlert;
 </script>
 
 </body>

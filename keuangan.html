@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Keuangan Digital - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -928,6 +944,445 @@
     z-index: 200;
   }
 
+  .guide-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 250;
+  }
+
+  .guide-overlay.active {
+    display: flex;
+  }
+
+  .guide-content {
+    background: #FFFFFF;
+    width: 100%;
+    max-width: 440px;
+    height: 82vh;
+    max-height: 82vh;
+    border-radius: 24px 24px 0 0;
+    padding: 20px 20px 24px;
+    border: 1px solid #E2E8F0;
+    border-bottom: none;
+    animation: guideSlideUp 0.28s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: height 0.28s ease, max-height 0.28s ease, border-radius 0.28s ease, transform 0.2s ease;
+  }
+
+  .guide-content.expanded {
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    padding-top: max(20px, env(safe-area-inset-top));
+  }
+
+  .guide-content.dragging {
+    transition: none;
+  }
+
+  body.dark .guide-content {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
+  @keyframes guideSlideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .guide-drag-zone {
+    flex-shrink: 0;
+    padding: 6px 0 14px;
+    margin: -6px 0 0;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .guide-handle {
+    width: 40px;
+    height: 4px;
+    background: #E2E8F0;
+    border-radius: 4px;
+    margin: 0 auto;
+  }
+
+  body.dark .guide-handle {
+    background: #334155;
+  }
+
+  .guide-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .guide-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+
+  body.dark .guide-header h3 {
+    color: #F1F5F9;
+  }
+
+  .guide-header .guide-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #F8FAFE;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  body.dark .guide-header .guide-close {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .guide-header .guide-close svg {
+    width: 16px;
+    height: 16px;
+    stroke: #0F172A;
+  }
+
+  body.dark .guide-header .guide-close svg {
+    stroke: #F1F5F9;
+  }
+
+  .guide-subtitle {
+    flex-shrink: 0;
+    font-size: 13px;
+    color: #64748B;
+    margin-bottom: 14px;
+  }
+
+  body.dark .guide-subtitle {
+    color: #94A3B8;
+  }
+
+  .guide-sim {
+    flex-shrink: 0;
+    position: relative;
+    height: 148px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #EFF6FF, #F8FAFE);
+    border: 1px solid #DBEAFE;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  body.dark .guide-sim {
+    background: linear-gradient(135deg, #0F1E3A, #111827);
+    border-color: #1E293B;
+  }
+
+  .sim-scene {
+    position: absolute;
+    top: 0; left: 8px; right: 8px; bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+  }
+
+  .sim-scene-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sim-scene-icon {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #0F172A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  body.dark .sim-scene-icon {
+    background: #1E293B;
+    border: 1px solid #334155;
+  }
+
+  .sim-scene-icon.outline {
+    background: #FFFFFF;
+    border: 2px solid #2563EB;
+  }
+
+  body.dark .sim-scene-icon.outline {
+    background: #111827;
+  }
+
+  .sim-scene-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: #fff;
+  }
+
+  .sim-scene-icon.outline svg {
+    stroke: #2563EB;
+  }
+
+  .sim-scene-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #2563EB;
+    line-height: 1.3;
+    text-align: center;
+    max-width: 200px;
+  }
+
+  body.dark .sim-scene-label {
+    color: #60A5FA;
+  }
+
+  .sim-check-badge {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #22C55E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: checkPopSync 10s ease-in-out infinite;
+  }
+
+  .sim-check-badge svg {
+    width: 9px;
+    height: 9px;
+    stroke: #fff;
+    stroke-width: 3;
+  }
+
+  @keyframes checkPopSync {
+    0%, 68% { opacity: 0; transform: scale(0.5); }
+    72% { opacity: 1; transform: scale(1); }
+    77% { opacity: 1; transform: scale(1); }
+    80% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  .sim-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .sim-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #CBD5E1;
+  }
+
+  body.dark .sim-dot {
+    background: #334155;
+  }
+
+  .sim-dot-1 { animation: dotActive1 10s ease-in-out infinite; }
+  .sim-dot-2 { animation: dotActive2 10s ease-in-out infinite; }
+  .sim-dot-3 { animation: dotActive3 10s ease-in-out infinite; }
+  .sim-dot-4 { animation: dotActive4 10s ease-in-out infinite; }
+  .sim-dot-5 { animation: dotActive5 10s ease-in-out infinite; }
+
+  @keyframes dotActive1 {
+    0%, 14% { background: #2563EB; transform: scale(1.3); }
+    17%, 100% { background: #CBD5E1; transform: scale(1); }
+  }
+  @keyframes dotActive2 {
+    0%, 20%, 37%, 100% { background: #CBD5E1; transform: scale(1); }
+    23%, 34% { background: #2563EB; transform: scale(1.3); }
+  }
+  @keyframes dotActive3 {
+    0%, 40%, 57%, 100% { background: #CBD5E1; transform: scale(1); }
+    43%, 54% { background: #2563EB; transform: scale(1.3); }
+  }
+  @keyframes dotActive4 {
+    0%, 60%, 77%, 100% { background: #CBD5E1; transform: scale(1); }
+    63%, 74% { background: #2563EB; transform: scale(1.3); }
+  }
+  @keyframes dotActive5 {
+    0%, 80%, 97% { background: #CBD5E1; transform: scale(1); }
+    83%, 94% { background: #2563EB; transform: scale(1.3); }
+    100% { background: #CBD5E1; transform: scale(1); }
+  }
+
+  .sim-scene-1 { animation: sceneFade1 10s ease-in-out infinite; }
+  .sim-scene-2 { animation: sceneFade2 10s ease-in-out infinite; }
+  .sim-scene-3 { animation: sceneFade3 10s ease-in-out infinite; }
+  .sim-scene-4 { animation: sceneFade4 10s ease-in-out infinite; }
+  .sim-scene-5 { animation: sceneFade5 10s ease-in-out infinite; }
+
+  @keyframes sceneFade1 {
+    0% { opacity: 1; transform: translateY(0); }
+    14% { opacity: 1; transform: translateY(0); }
+    17% { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0; }
+  }
+  @keyframes sceneFade2 {
+    0%, 20% { opacity: 0; transform: translateY(6px); }
+    23% { opacity: 1; transform: translateY(0); }
+    34% { opacity: 1; transform: translateY(0); }
+    37% { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0; }
+  }
+  @keyframes sceneFade3 {
+    0%, 40% { opacity: 0; transform: translateY(6px); }
+    43% { opacity: 1; transform: translateY(0); }
+    54% { opacity: 1; transform: translateY(0); }
+    57% { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0; }
+  }
+  @keyframes sceneFade4 {
+    0%, 60% { opacity: 0; transform: translateY(6px); }
+    63% { opacity: 1; transform: translateY(0); }
+    74% { opacity: 1; transform: translateY(0); }
+    77% { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0; }
+  }
+  @keyframes sceneFade5 {
+    0%, 80% { opacity: 0; transform: translateY(6px); }
+    83% { opacity: 1; transform: translateY(0); }
+    97% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; }
+  }
+
+  .guide-steps {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-right: 2px;
+    margin-bottom: 16px;
+  }
+
+  .guide-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .guide-step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #2563EB18;
+    color: #2563EB;
+    font-size: 12.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  body.dark .guide-step-num {
+    background: #2563EB2E;
+    color: #60A5FA;
+  }
+
+  .guide-step-text b {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 2px;
+  }
+
+  body.dark .guide-step-text b {
+    color: #F1F5F9;
+  }
+
+  .guide-step-text span {
+    font-size: 12.5px;
+    color: #64748B;
+    line-height: 1.5;
+  }
+
+  body.dark .guide-step-text span {
+    color: #94A3B8;
+  }
+
+  .guide-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  body.dark .guide-footer {
+    border-top-color: #1E293B;
+  }
+
+  .guide-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #64748B;
+  }
+
+  body.dark .guide-checkbox {
+    color: #94A3B8;
+  }
+
+  .guide-btn-ok {
+    background: #2563EB;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 10px 20px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .guide-btn-ok:active {
+    transform: scale(0.96);
+  }
+
+
   .modal-content {
     background: #FFFFFF;
     width: 320px;
@@ -1175,7 +1630,9 @@
   .table-wrap {
     border: 1px solid #E2E8F0;
     border-radius: 14px;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   body.dark .table-wrap {
@@ -1184,6 +1641,27 @@
 
   .table-wrap table {
     margin: 0;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .sticky-col {
+    position: sticky;
+    left: 0;
+    background: #F8FAFE;
+    z-index: 1;
+  }
+
+  .table-wrap td.sticky-col {
+    background: #FFFFFF;
+  }
+
+  body.dark .sticky-col {
+    background: #1E293B;
+  }
+
+  body.dark .table-wrap td.sticky-col {
+    background: #111827;
   }
 
   .table-wrap table th,
@@ -1595,6 +2073,54 @@
     border-top-color: #334155;
   }
 
+  .switch-toggle {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  .switch-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #E2E8F0;
+    border-radius: 26px;
+    transition: 0.25s;
+  }
+
+  body.dark .switch-slider {
+    background-color: #334155;
+  }
+
+  .switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.25s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  .switch-toggle input:checked + .switch-slider {
+    background-color: #2563EB;
+  }
+
+  .switch-toggle input:checked + .switch-slider:before {
+    transform: translateX(20px);
+  }
+
   .btn-danger-outline {
     background: transparent;
     border: 2px solid #DC2626;
@@ -1615,6 +2141,68 @@
     background: #F87171;
     color: #0B1120;
   }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+    }
+
+    body.dark .app-container {
+      background: #111827;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .guide-overlay {
+      align-items: center;
+    }
+
+    .guide-content {
+      max-width: 480px;
+      height: auto;
+      max-height: 85vh;
+      border-radius: 20px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    body.dark .guide-content {
+      border-bottom-color: #1E293B;
+    }
+
+    .guide-content.expanded {
+      height: auto;
+      max-height: 90vh;
+      border-radius: 20px;
+    }
+
+    .guide-drag-zone {
+      cursor: default;
+    }
+
+    .guide-handle {
+      opacity: 0.4;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1631,12 +2219,17 @@
       </div>
       <span class="app-title">Keuangan Digital</span>
     </div>
-    <button class="close-btn" onclick="goTo('index.html')" aria-label="Kembali">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"/>
-        <line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button class="close-btn" onclick="openGuideModal()" aria-label="Panduan Penggunaan" style="font-weight:800; font-size:16px;">
+        <span style="color:#2563EB;">?</span>
+      </button>
+      <button class="close-btn" onclick="goTo('index.html')" aria-label="Kembali">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
@@ -1705,8 +2298,8 @@
       <button class="btn btn-primary" onclick="loginKas()">Login</button>
 
       <p style="text-align:center; font-size:13px; margin-top:12px; color:#64748B;">
-        Belum punya akun kelas?
-        <span class="link-absensi" onclick="goTo('absensi.html')">Daftar dulu di Absensi</span>
+        Belum memiliki akun kelas?
+        <span class="link-absensi" onclick="goTo('absensi.html')">Daftar di Absensi</span>
       </p>
 
       <button class="btn btn-outline" onclick="goTo('pendukung.html')" style="margin-top:10px;">Kembali</button>
@@ -1829,6 +2422,16 @@
       </div>
 
       <div class="container">
+          <h3 style="color:#059669;">Pemasukan</h3>
+          <p class="helper-text">Catat uang masuk di luar iuran murid. misalnya sisa kas dari kelas sebelumnya, sumbangan, atau dana lain.</p>
+          <input id="namaPemasukan" class="input" placeholder="Sumber (contoh: Sisa Kas Kelas Lama)" style="margin-bottom:10px;">
+          <input id="nominalPemasukan" type="number" class="input" placeholder="Nominal pemasukan (Rp)" step="1000">
+          <input id="keteranganPemasukan" class="input" placeholder="Keterangan (opsional)" style="margin-bottom:10px;">
+          <button class="btn btn-success" onclick="tambahPemasukan()">Catat Pemasukan</button>
+          <p style="font-size:12px; color:#94A3B8; margin-top:8px; text-align:center;">Pemasukan akan menambah saldo total</p>
+      </div>
+
+      <div class="container">
           <h3 style="color:#DC2626;">Pengeluaran</h3>
           <p class="helper-text">Catat uang kas yang keluar (contoh: beli spidol, konsumsi kelas).</p>
           <input id="nominalPengeluaran" type="number" class="input" placeholder="Nominal pengeluaran (Rp)" step="1000">
@@ -1859,6 +2462,19 @@
         <div class="jumlah-box" style="background:#F0FDF4;">
           <span class="label">Saldo Akhir</span>
           <span class="total" style="color:#059669;" id="totalSaldo">Rp 0</span>
+        </div>
+      </div>
+
+      <div class="container">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <div>
+            <h3 style="margin-bottom:4px;">Hapus Otomatis Bulanan</h3>
+            <p class="helper-text" style="margin:0;">Jika diaktifkan, riwayat yang lebih tua dari 3 bulan otomatis dibersihkan setiap bulan.</p>
+          </div>
+          <label class="switch-toggle">
+            <input type="checkbox" id="toggleHapusOtomatis" onchange="toggleHapusOtomatis()">
+            <span class="switch-slider"></span>
+          </label>
         </div>
       </div>
 
@@ -1922,6 +2538,158 @@
   </div>
 </div>
 
+<div id="guideOverlay" class="guide-overlay">
+  <div class="guide-content" id="guideContent">
+    <div class="guide-drag-zone" id="guideDragZone">
+      <div class="guide-handle"></div>
+    </div>
+    <div class="guide-header">
+      <h3>Panduan Penggunaan Keuangan Digital</h3>
+      <div class="guide-close" onclick="closeGuideModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </div>
+    </div>
+    <p class="guide-subtitle">Ikuti langkah-langkah berikut agar pengelolaan iuran kas kelas berjalan dengan lancar.</p>
+
+    <div class="guide-sim">
+      <div class="sim-scene sim-scene-1">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="sim-scene-label">Login dengan ID Kelas</div>
+      </div>
+
+      <div class="sim-scene sim-scene-2">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+          </div>
+        </div>
+        <div class="sim-scene-label">Atur Nominal &amp; Import Murid</div>
+      </div>
+
+      <div class="sim-scene sim-scene-3">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+          </div>
+        </div>
+        <div class="sim-scene-label">Membuat Tagihan Iuran</div>
+      </div>
+
+      <div class="sim-scene sim-scene-4">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><line x1="6" y1="15" x2="10" y2="15"/></svg>
+          </div>
+          <div class="sim-scene-icon outline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <div class="sim-check-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="sim-scene-label">Mencatat Pembayaran</div>
+      </div>
+
+      <div class="sim-scene sim-scene-5">
+        <div class="sim-scene-icons">
+          <div class="sim-scene-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 12"/></svg>
+          </div>
+        </div>
+        <div class="sim-scene-label">Status Lunas / Cicil Otomatis</div>
+      </div>
+
+      <div class="sim-dots">
+        <div class="sim-dot sim-dot-1"></div>
+        <div class="sim-dot sim-dot-2"></div>
+        <div class="sim-dot sim-dot-3"></div>
+        <div class="sim-dot sim-dot-4"></div>
+        <div class="sim-dot sim-dot-5"></div>
+      </div>
+    </div>
+
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="guide-step-num">1</div>
+        <div class="guide-step-text">
+          <b>Login Kelas</b>
+          <span>Gunakan ID Kelas dan password yang sama dengan Absensi Digital — satu akun berlaku untuk kedua aplikasi.</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">2</div>
+        <div class="guide-step-text">
+          <b>Menentukan Nominal Iuran</b>
+          <span>Isi nominal yang wajib dibayar setiap jadwal iuran (contoh: Rp 5.000). Nominal ini menjadi patokan status lunas/cicil setiap murid.</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">3</div>
+        <div class="guide-step-text">
+          <b>Menambahkan Murid</b>
+          <span>Tambahkan nama murid satu per satu secara manual, atau gunakan tombol "Import Murid dari Absensi" untuk mengambil otomatis daftar murid dari Absensi Digital kelas yang sama — tanpa perlu input ulang.</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">4</div>
+        <div class="guide-step-text">
+          <b>Memilih Bulan &amp; Frekuensi</b>
+          <span>Pilih bulan iuran yang sedang dikelola, lalu tentukan frekuensi penarikan per bulan (contoh: iuran mingguan berarti 4x sebulan).</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">5</div>
+        <div class="guide-step-text">
+          <b>Memilih Murid</b>
+          <span>Pilih satu murid tertentu, atau centang "Terapkan untuk semua murid sekaligus" apabila tagihan berlaku untuk seluruh kelas.</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">6</div>
+        <div class="guide-step-text">
+          <b>Membuat Tagihan Iuran</b>
+          <span>Tekan tombol "Buat Tagihan Iuran" untuk membuat tagihan kosong berstatus "Belum" sesuai nominal, bulan, dan frekuensi yang sudah diatur.</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">7</div>
+        <div class="guide-step-text">
+          <b>Mencatat Pembayaran</b>
+          <span>Pilih nama murid yang membayar, masukkan jumlah yang dibayarkan, lalu simpan.</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">8</div>
+        <div class="guide-step-text">
+          <b>Status Berubah Otomatis</b>
+          <span>Apabila jumlah yang dibayar sama dengan atau lebih dari nominal iuran, status berubah menjadi lunas dan otomatis lanjut ke jadwal berikutnya. Apabila jumlah yang dibayar kurang dari nominal iuran, status berubah menjadi "cicil".</span>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">9</div>
+        <div class="guide-step-text">
+          <b>Mengekspor Tabel &amp; Riwayat</b>
+          <span>Tabel keuangan bulan berjalan maupun Riwayat Transaksi dapat diekspor ke PDF kapan saja untuk keperluan laporan.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-footer">
+      <label class="guide-checkbox">
+        <input type="checkbox" id="guideDontShow" style="accent-color:#2563EB;">
+        Jangan tampilkan kembali
+      </label>
+      <button class="guide-btn-ok" onclick="closeGuideModal()">Saya Mengerti</button>
+    </div>
+  </div>
+</div>
+
 <div id="editModal" class="modal-overlay riwayat-edit-modal">
   <div class="modal-content">
     <h3 style="margin-bottom:12px;">Edit Riwayat</h3>
@@ -1973,18 +2741,55 @@ function getIcon(type) {
 }
 
 function autoDeleteOldRiwayat() {
-  var weekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-  db.ref("keuangan/" + kelasIdAktif + "/riwayat").once("value").then(function(snap) {
-    var updates = {};
-    snap.forEach(function(child) {
-      var val = child.val();
-      if (val.waktu && val.waktu < weekAgo) {
-        updates[child.key] = null;
-      }
-    });
-    if (Object.keys(updates).length > 0) {
-      db.ref("keuangan/" + kelasIdAktif + "/riwayat").update(updates);
+  db.ref("keuangan/" + kelasIdAktif + "/pengaturan").once("value").then(function(snap) {
+    var pengaturan = snap.val() || {};
+
+    if (!pengaturan.hapusOtomatisAktif) {
+      return;
     }
+
+    var bulanIni = new Date().toISOString().slice(0, 7);
+    if (pengaturan.terakhirBersihkan === bulanIni) {
+      return;
+    }
+
+    var batasWaktu = new Date();
+    batasWaktu.setMonth(batasWaktu.getMonth() - 3);
+    var batasTimestamp = batasWaktu.getTime();
+
+    db.ref("keuangan/" + kelasIdAktif + "/riwayat").once("value").then(function(riwayatSnap) {
+      var updates = {};
+      riwayatSnap.forEach(function(child) {
+        var val = child.val();
+        if (val.waktu && val.waktu < batasTimestamp) {
+          updates[child.key] = null;
+        }
+      });
+      if (Object.keys(updates).length > 0) {
+        db.ref("keuangan/" + kelasIdAktif + "/riwayat").update(updates);
+      }
+      db.ref("keuangan/" + kelasIdAktif + "/pengaturan/terakhirBersihkan").set(bulanIni);
+    });
+  });
+}
+
+function loadPengaturanKeuangan() {
+  db.ref("keuangan/" + kelasIdAktif + "/pengaturan").once("value").then(function(snap) {
+    var pengaturan = snap.val() || {};
+    document.getElementById("toggleHapusOtomatis").checked = !!pengaturan.hapusOtomatisAktif;
+  });
+}
+
+function toggleHapusOtomatis() {
+  var aktif = document.getElementById("toggleHapusOtomatis").checked;
+  db.ref("keuangan/" + kelasIdAktif + "/pengaturan/hapusOtomatisAktif").set(aktif).then(function() {
+    showModal(
+      "success",
+      aktif ? "Hapus Otomatis Diaktifkan" : "Hapus Otomatis Dimatikan",
+      aktif
+        ? "Riwayat transaksi yang lebih tua dari 3 bulan akan otomatis dibersihkan setiap bulan."
+        : "Semua riwayat transaksi akan disimpan permanen dan tidak akan dihapus otomatis."
+    );
   });
 }
 
@@ -2041,6 +2846,7 @@ window.addEventListener("DOMContentLoaded", function() {
     loadMuridKas();
     loadKasIuran();
     loadRiwayat();
+    loadPengaturanKeuangan();
     autoDeleteOldRiwayat();
   } else {
     renderSavedClassesKas();
@@ -2162,6 +2968,75 @@ function closeModal() {
   document.getElementById("modalOverlay").style.display = "none";
 }
 
+function openGuideModal() {
+  document.getElementById("guideOverlay").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeGuideModal() {
+  const content = document.getElementById("guideContent");
+  content.classList.remove("expanded");
+  document.getElementById("guideOverlay").classList.remove("active");
+  document.body.style.overflow = "";
+  const dontShow = document.getElementById("guideDontShow");
+  if (dontShow && dontShow.checked) {
+    localStorage.setItem("keuanganGuideSeen", "1");
+  }
+}
+
+(function setupGuideDrag() {
+  let startY = 0;
+  let dragging = false;
+
+  function init() {
+    const zone = document.getElementById("guideDragZone");
+    const content = document.getElementById("guideContent");
+    if (!zone || !content) return;
+
+    zone.addEventListener("touchstart", function(e) {
+      startY = e.touches[0].clientY;
+      dragging = true;
+      content.classList.add("dragging");
+    }, { passive: true });
+
+    zone.addEventListener("touchmove", function(e) {
+      if (!dragging) return;
+      const deltaY = e.touches[0].clientY - startY;
+      const clamped = Math.max(-40, Math.min(deltaY, 300));
+      content.style.transform = "translateY(" + clamped + "px)";
+    }, { passive: true });
+
+    zone.addEventListener("touchend", function(e) {
+      if (!dragging) return;
+      dragging = false;
+      content.classList.remove("dragging");
+      content.style.transform = "";
+
+      const deltaY = e.changedTouches[0].clientY - startY;
+
+      if (deltaY > 60) {
+        closeGuideModal();
+      } else if (deltaY < -50) {
+        content.classList.add("expanded");
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+
+(function autoShowGuide() {
+  if (!localStorage.getItem("keuanganGuideSeen")) {
+    document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(openGuideModal, 500);
+    });
+  }
+})();
+
 function showEditModal(key) {
   var data = riwayatCache[key];
   if (!data) {
@@ -2205,20 +3080,6 @@ function saveEditRiwayat() {
   }).catch(function(err) {
     showModal('error', 'Gagal', err.message);
   });
-}
-
-function deleteRiwayat(key) {
-  showConfirmModal(
-    "Hapus Riwayat",
-    "Yakin ingin menghapus riwayat transaksi ini?",
-    function() {
-      db.ref('keuangan/' + kelasIdAktif + '/riwayat/' + key).remove().then(function() {
-        showModal('success', 'Berhasil!', 'Riwayat berhasil dihapus.');
-        loadRiwayat();
-        loadKasIuran();
-      });
-    }
-  );
 }
 
 function addSavedClass(id, nama) {
@@ -2272,6 +3133,7 @@ function loginKas() {
     loadMuridKas();
     loadKasIuran();
     loadRiwayat();
+    loadPengaturanKeuangan();
     autoDeleteOldRiwayat();
     showModal("success", "Selamat Datang!", "Login berhasil ke kelas " + data.nama);
   });
@@ -2569,6 +3431,47 @@ function bayarIuran() {
   });
 }
 
+function tambahPemasukan() {
+  var sumber = document.getElementById("namaPemasukan").value.trim();
+  var nominal = Number(document.getElementById("nominalPemasukan").value);
+  var keterangan = document.getElementById("keteranganPemasukan").value.trim();
+
+  if (!kelasIdAktif) {
+    showModal("warning", "Error", "Login kelas terlebih dahulu!");
+    return;
+  }
+
+  if (!sumber) {
+    showModal("warning", "Sumber Kosong", "Isi sumber pemasukannya, contoh: Sisa Kas Kelas Lama.");
+    return;
+  }
+
+  if (!nominal || nominal <= 0) {
+    showModal("warning", "Nominal Kosong", "Masukkan nominal pemasukan!");
+    return;
+  }
+
+  var riwayatData = {
+    nama: sumber,
+    nominal: nominal,
+    jenis: 'masuk',
+    keterangan: keterangan || 'Pemasukan lain',
+    waktu: Date.now(),
+    tanggal: new Date().toLocaleString('id-ID')
+  };
+
+  db.ref("keuangan/" + kelasIdAktif + "/riwayat").push(riwayatData).then(function() {
+    document.getElementById("namaPemasukan").value = "";
+    document.getElementById("nominalPemasukan").value = "";
+    document.getElementById("keteranganPemasukan").value = "";
+    showModal("success", "Berhasil!", "Pemasukan berhasil dicatat.");
+    loadRiwayat();
+    loadKasIuran();
+  }).catch(function(err) {
+    showModal("error", "Gagal", err.message);
+  });
+}
+
 function tambahPengeluaran() {
   var nominal = Number(document.getElementById("nominalPengeluaran").value);
   var keterangan = document.getElementById("keteranganPengeluaran").value.trim();
@@ -2626,17 +3529,17 @@ function loadKasIuran() {
       dataArr.push({ key: s.key, nominal: d.nominal, frekuensi: d.frekuensi, bayar: d.bayar || {} });
     });
 
-    var html = '<div class="table-wrap"><table style="width:100%;border-collapse:collapse;text-align:center;">';
-    html += '<tr><th style="border:1px solid #E2E8F0;padding:6px 4px;text-align:left;">Nama</th>';
+    var html = '<div class="table-wrap"><table style="border-collapse:collapse;text-align:center;">';
+    html += '<tr><th class="sticky-col" style="border:1px solid #E2E8F0;padding:6px 10px;text-align:left;min-width:110px;">Nama</th>';
     for (var i = 1; i <= max; i++) {
-      html += '<th style="border:1px solid #E2E8F0;padding:6px 4px;">' + i + '</th>';
+      html += '<th style="border:1px solid #E2E8F0;padding:6px 4px;min-width:48px;">' + i + '</th>';
     }
-    html += '<th style="border:1px solid #E2E8F0;padding:6px 4px;">Total</th></tr>';
+    html += '<th style="border:1px solid #E2E8F0;padding:6px 8px;min-width:64px;">Total</th></tr>';
 
     dataArr.forEach(function(d) {
       var totalUser = 0;
       html += '<tr>';
-      html += '<td style="border:1px solid #E2E8F0;padding:6px 4px;text-align:left;font-weight:600;font-size:11px;">' + d.key + '</td>';
+      html += '<td class="sticky-col" style="border:1px solid #E2E8F0;padding:6px 10px;text-align:left;font-weight:600;font-size:11px;min-width:110px;">' + d.key + '</td>';
 
       for (var j = 1; j <= max; j++) {
         var bayar = Number(d.bayar[j]) || 0;
@@ -2986,9 +3889,6 @@ function renderRiwayat(data) {
           <div class="riwayat-actions-icons">
             <span class="riwayat-edit-icon" onclick="showEditModal('${item.key}')">
               <svg viewBox="0 0 24 24"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
-            </span>
-            <span class="riwayat-delete-icon" onclick="deleteRiwayat('${item.key}')">
-              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
             </span>
           </div>
         </div>

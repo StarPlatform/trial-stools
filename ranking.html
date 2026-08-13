@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Urutkan Peringkat Murid - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -33,7 +49,8 @@
   body.dark .card-modern,
   body.dark .app-header,
   body.dark .sidebar-nav,
-  body.dark .alert-card {
+  body.dark .alert-card,
+  body.dark .custom-alert-box {
     background: #111827;
     border-color: #1E293B;
   }
@@ -57,6 +74,11 @@
   body.dark .btn-modern.danger {
     background: #DC2626;
     color: white;
+  }
+
+  body.dark .btn-modern.outline {
+    border-color: #60A5FA;
+    color: #60A5FA;
   }
 
   body.dark .input-modern {
@@ -99,6 +121,37 @@
 
   body.dark .rank-3 {
     color: #CD7F32;
+  }
+
+  body.dark .text-muted {
+    color: #94A3B8;
+  }
+
+  body.dark .bottom-nav {
+    background: #111827;
+    border-top-color: #1E293B;
+  }
+
+  body.dark .custom-alert-box .alert-title {
+    color: #F1F5F9;
+  }
+
+  body.dark .custom-alert-box .alert-message {
+    color: #94A3B8;
+  }
+
+  body.dark .custom-alert-box .alert-btn-secondary {
+    background: #334155;
+    color: #F1F5F9;
+  }
+
+  body.dark .step-item {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  body.dark .step-item .text {
+    color: #F1F5F9;
   }
 
   .app-container {
@@ -326,13 +379,84 @@
     gap: 8px;
   }
 
+  /* ===== STEP ITEM ===== */
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    background: #F1F5F9;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
+    margin-bottom: 6px;
+    animation: fadeStep 0.4s ease;
+  }
+
+  body.dark .step-item {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .step-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .step-item .number {
+    width: 26px;
+    height: 26px;
+    background: #2563EB;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .step-item .text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #0F172A;
+    padding-top: 2px;
+  }
+
+  body.dark .step-item .text {
+    color: #F1F5F9;
+  }
+
+  .step-item .text strong {
+    color: #2563EB;
+  }
+
+  body.dark .step-item .text strong {
+    color: #60A5FA;
+  }
+
+  @keyframes fadeStep {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .step-item:nth-child(1) { animation-delay: 0.1s; }
+  .step-item:nth-child(2) { animation-delay: 0.2s; }
+  .step-item:nth-child(3) { animation-delay: 0.3s; }
+  .step-item:nth-child(4) { animation-delay: 0.4s; }
+
+  /* ===== BUTTON ===== */
   .btn-modern {
     background: #F8FAFE;
     border: 1px solid #E2E8F0;
     color: #0F172A;
-    padding: 12px;
+    padding: 12px 16px;
     margin: 2px 0;
-    width: 100%;
     border-radius: 12px;
     cursor: pointer;
     transition: 0.2s;
@@ -382,17 +506,6 @@
 
   .btn-modern.danger:active {
     background: #B91C1C;
-  }
-
-  .btn-modern.outline {
-    background: transparent;
-    border: 2px solid #2563EB;
-    color: #2563EB;
-  }
-
-  body.dark .btn-modern.outline {
-    border-color: #60A5FA;
-    color: #60A5FA;
   }
 
   .btn-sm {
@@ -445,6 +558,10 @@
     margin-bottom: 0;
   }
 
+  .input-group .input-modern:last-child {
+    max-width: 100px;
+  }
+
   .table-wrap {
     border: 1px solid #E2E8F0;
     border-radius: 14px;
@@ -492,17 +609,10 @@
     flex-wrap: wrap;
   }
 
-  .mt-8 {
-    margin-top: 4px;
-  }
-
-  .mt-12 {
-    margin-top: 12px;
-  }
-
   .text-muted {
     color: #64748B;
     font-size: 13px;
+    line-height: 1.5;
   }
 
   body.dark .text-muted {
@@ -529,57 +639,306 @@
     border-top: 1px solid #E2E8F0;
   }
 
-  .alert-overlay {
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    right: 0;
+    background: #FFFFFF;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 12px 0;
+    z-index: 50;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  body.dark .bottom-nav {
+    background: #111827;
+    border-top-color: #1E293B;
+  }
+
+  .bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: #94A3B8;
+    font-size: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    padding: 4px 12px;
+    border-radius: 12px;
+    background: transparent;
+    border: none;
+  }
+
+  .bottom-nav .nav-item:active {
+    transform: scale(0.95);
+  }
+
+  .bottom-nav svg {
+    width: 22px;
+    height: 22px;
+    stroke: #94A3B8;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: 0.2s;
+  }
+
+  .bottom-nav .nav-item.active {
+    color: #2563EB;
+  }
+
+  .bottom-nav .nav-item.active svg {
+    stroke: #2563EB;
+  }
+
+  /* ===== CUSTOM ALERT ===== */
+  .custom-alert-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 200;
+    z-index: 9999;
+    animation: customAlertFadeIn 0.3s ease;
   }
 
-  .alert-card {
+  .custom-alert-overlay.active {
+    display: flex;
+  }
+
+  @keyframes customAlertFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .custom-alert-box {
     background: #FFFFFF;
-    width: 300px;
-    border-radius: 24px;
-    padding: 24px;
+    border-radius: 20px;
+    padding: 28px 24px 24px;
+    max-width: 360px;
+    width: 90%;
     text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     border: 1px solid #E2E8F0;
+    position: relative;
   }
 
-  body.dark .alert-card {
-    background: #111827;
-    border-color: #1E293B;
+  .custom-alert-box .alert-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
   }
 
-  .alert-card h3 {
+  .custom-alert-box .alert-icon svg {
+    width: 28px;
+    height: 28px;
+    stroke: white;
+  }
+
+  .custom-alert-box .alert-icon.success {
+    background: #059669;
+  }
+
+  .custom-alert-box .alert-icon.error {
+    background: #DC2626;
+  }
+
+  .custom-alert-box .alert-icon.warning {
+    background: #D97706;
+  }
+
+  .custom-alert-box .alert-icon.info {
+    background: #2563EB;
+  }
+
+  .custom-alert-box .alert-title {
     font-size: 18px;
-    margin-bottom: 8px;
+    font-weight: 700;
     color: #0F172A;
+    margin-bottom: 4px;
   }
 
-  body.dark .alert-card h3 {
+  .custom-alert-box .alert-message {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .custom-alert-box .alert-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    color: white;
+  }
+
+  .custom-alert-box .alert-btn:active {
+    transform: scale(0.97);
+  }
+
+  .custom-alert-box .alert-btn.success {
+    background: #059669;
+  }
+
+  .custom-alert-box .alert-btn.error {
+    background: #DC2626;
+  }
+
+  .custom-alert-box .alert-btn.warning {
+    background: #D97706;
+  }
+
+  .custom-alert-box .alert-btn.info {
+    background: #2563EB;
+  }
+
+  .custom-alert-box .alert-btn-secondary {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    background: #E2E8F0;
+    color: #0F172A;
+    margin-top: 8px;
+  }
+
+  body.dark .custom-alert-box .alert-btn-secondary {
+    background: #334155;
     color: #F1F5F9;
   }
 
-  .alert-card p {
-    font-size: 14px;
-    color: #64748B;
-    margin-bottom: 16px;
-    line-height: 1.5;
+  .custom-alert-box .alert-btn-secondary:active {
+    transform: scale(0.97);
   }
 
-  body.dark .alert-card p {
-    color: #94A3B8;
-  }
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
 
-  .hidden {
-    display: none !important;
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      min-height: auto;
+    }
+
+    body.dark .app-container {
+      background: #111827;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .sidebar-nav {
+      border-radius: 0 20px 20px 0;
+    }
+
+    .screen {
+      padding: 24px 24px 30px;
+    }
+
+    .card-modern {
+      padding: 24px;
+      border-radius: 20px;
+    }
+
+    .bottom-nav {
+      max-width: 720px;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+    }
+
+    .input-modern {
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 15px;
+    }
+
+    .btn-modern {
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 15px;
+    }
+
+    .btn-sm {
+      padding: 10px 20px;
+      font-size: 13px;
+    }
+
+    .table-wrap {
+      border-radius: 16px;
+    }
+
+    .table-wrap table th,
+    .table-wrap table td {
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+
+    .footer-app {
+      margin-bottom: 0;
+    }
+
+    .custom-alert-box {
+      max-width: 400px;
+      padding: 32px 28px 28px;
+      border-radius: 24px;
+    }
+
+    .input-group .input-modern:last-child {
+      max-width: 120px;
+    }
+
+    .step-item {
+      padding: 12px 16px;
+      border-radius: 12px;
+    }
+
+    .step-item .text {
+      font-size: 14px;
+    }
   }
 </style>
 </head>
@@ -645,6 +1004,37 @@
       <p class="text-muted">Masukkan nama dan nilai untuk melihat peringkat. Data otomatis diurutkan dari nilai tertinggi.</p>
     </div>
 
+    <!-- Tata Cara -->
+    <div class="card-modern">
+      <div class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 16v-4M12 8h.01"/>
+        </svg>
+        Panduan Penggunaan
+      </div>
+
+      <div class="step-item">
+        <div class="number">1</div>
+        <div class="text"><strong>Tambahkan Data</strong><br>Masukkan nama siswa dan nilai, lalu klik "Tambah ke Ranking".</div>
+      </div>
+
+      <div class="step-item">
+        <div class="number">2</div>
+        <div class="text"><strong>Lihat Peringkat</strong><br>Data otomatis diurutkan dari nilai tertinggi ke terendah.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="number">3</div>
+        <div class="text"><strong>Export PDF</strong><br>Klik "Export PDF" untuk menyimpan data ranking sebagai file PDF.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="number">4</div>
+        <div class="text"><strong>Reset Data</strong><br>Klik "Reset" untuk menghapus semua data ranking.</div>
+      </div>
+    </div>
+
     <!-- Input Manual -->
     <div class="card-modern">
       <div class="section-title">
@@ -657,19 +1047,19 @@
       </div>
       <div class="input-group">
         <input id="namaRankManual" class="input-modern" placeholder="Nama Siswa">
-        <input id="nilaiRankManual" class="input-modern" placeholder="Nilai" type="number" style="max-width:100px;">
+        <input id="nilaiRankManual" class="input-modern" placeholder="Nilai" type="number">
       </div>
       <div style="display:flex; justify-content:center; margin-top:10px;">
-      <button class="btn-modern primary btn-sm" onclick="tambahRankingManual()" style="width:auto; padding:8px 20px;">Tambah ke Ranking</button>
+        <button class="btn-modern primary btn-sm" onclick="tambahRankingManual()" style="width:auto; padding:8px 20px;">Tambah ke Ranking</button>
+      </div>
     </div>
-   </div>
 
     <!-- Tombol Aksi -->
     <div class="card-modern">
       <div class="flex gap-8 flex-wrap">
-        <button class="btn-modern outline btn-sm" onclick="goRapot()">Lihat Nilai</button>
+        <button class="btn-modern primary btn-sm" onclick="goRapot()">Lihat Nilai</button>
         <button class="btn-modern success btn-sm" onclick="exportRankingPDF()">Export PDF</button>
-        <button class="btn-modern danger btn-sm" onclick="resetRanking()">Reset</button>
+        <button class="btn-modern danger btn-sm" onclick="konfirmasiReset()">Reset</button>
       </div>
     </div>
 
@@ -703,13 +1093,14 @@
   </div>
 </div>
 
-<!-- GLOBAL ALERT -->
-<div id="globalAlert" class="alert-overlay">
-  <div class="alert-card">
-    <h3 id="alertTitle">Pemberitahuan</h3>
-    <p id="alertMessage">Pesan</p>
-    <button class="btn-modern primary" onclick="closeAlertGlobal()">Mengerti</button>
-    <div id="alertExtraBtn"></div>
+<!-- CUSTOM ALERT -->
+<div id="customAlert" class="custom-alert-overlay">
+  <div class="custom-alert-box">
+    <div class="alert-icon" id="customAlertIcon"></div>
+    <div class="alert-title" id="customAlertTitle">Pemberitahuan</div>
+    <div class="alert-message" id="customAlertMessage">Pesan</div>
+    <button class="alert-btn" id="customAlertBtn">Mengerti</button>
+    <button class="alert-btn-secondary" id="customAlertBtnSecondary" style="display:none;">Batal</button>
   </div>
 </div>
 
@@ -727,14 +1118,29 @@ if (!firebase.apps.length) {
 const db = firebase.database();
 
 let currentUser = null;
+let confirmCallback = null;
+
+// ==================== THEME ====================
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+// ==================== ACTIVE NAV ====================
+const currentPage = window.location.pathname.split('/').pop() || 'ranking.html';
+document.querySelectorAll('.nav-item').forEach(function(item) {
+  item.classList.toggle('active', item.dataset.page === currentPage);
+});
 
 // ==================== AUTH ====================
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    currentUser = user.uid;
+    currentUser = user;
   } else {
-    showAlert('Harap Login', 'Silakan login terlebih dahulu.');
-    setTimeout(() => window.location.href = 'login.html', 2000);
+    const isGuest = localStorage.getItem('isGuest') === 'true';
+    if (!isGuest) {
+      showCustomAlert('Harap Login', 'Silakan login terlebih dahulu.', 'info');
+      setTimeout(function() { window.location.href = 'login.html'; }, 2000);
+    }
   }
 });
 
@@ -750,14 +1156,12 @@ function closeSidebar() {
 }
 
 function goTo(page) {
-  localStorage.setItem('targetPage', page);
-  localStorage.setItem('activePage', page);
   window.location.href = page;
 }
 
 function logoutAction() {
   if (confirm('Yakin ingin keluar?')) {
-    firebase.auth().signOut().then(() => {
+    firebase.auth().signOut().then(function() {
       window.location.href = 'login.html';
     });
   }
@@ -771,99 +1175,195 @@ function goRapot() {
   window.location.href = 'rata.html';
 }
 
-// ==================== ALERT ====================
-function showAlert(title, message, showUpgrade) {
-  if (showUpgrade === undefined) showUpgrade = false;
-  const overlay = document.getElementById('globalAlert');
-  document.getElementById('alertTitle').innerText = title;
-  document.getElementById('alertMessage').innerText = message;
-  const extraDiv = document.getElementById('alertExtraBtn');
-  extraDiv.innerHTML = '';
-  if (showUpgrade) {
-    const btn = document.createElement('button');
-    btn.className = 'btn-modern primary';
-    btn.innerText = 'Tingkatkan ke Premium';
-    btn.style.marginTop = '12px';
-    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
-    extraDiv.appendChild(btn);
-  }
+// ==================== CUSTOM ALERT ====================
+function showCustomAlert(title, message, type, btnText, callback) {
+  var overlay = document.getElementById('customAlert');
+  var icon = document.getElementById('customAlertIcon');
+  var titleEl = document.getElementById('customAlertTitle');
+  var msgEl = document.getElementById('customAlertMessage');
+  var btn = document.getElementById('customAlertBtn');
+  var btnSecondary = document.getElementById('customAlertBtnSecondary');
+
+  var iconMap = {
+    success: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    error: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+    warning: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+    info: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+  };
+
+  var btnClassMap = {
+    success: 'success',
+    error: 'error',
+    warning: 'warning',
+    info: 'info'
+  };
+
+  icon.className = 'alert-icon ' + (type || 'info');
+  icon.innerHTML = iconMap[type] || iconMap.info;
+
+  titleEl.innerText = title || 'Pemberitahuan';
+  msgEl.innerText = message || '';
+
+  btn.className = 'alert-btn ' + (btnClassMap[type] || 'info');
+  btn.innerText = btnText || 'Mengerti';
+
+  btnSecondary.style.display = 'none';
+
   overlay.style.display = 'flex';
+
+  btn.onclick = function() {
+    overlay.style.display = 'none';
+    if (callback) callback(true);
+  };
+
+  overlay.onclick = function(e) {
+    if (e.target === overlay) {
+      overlay.style.display = 'none';
+      if (callback) callback(false);
+    }
+  };
 }
 
-function closeAlertGlobal() {
-  document.getElementById('globalAlert').style.display = 'none';
+function showConfirmAlert(title, message, type, confirmText, cancelText, onConfirm, onCancel) {
+  var overlay = document.getElementById('customAlert');
+  var icon = document.getElementById('customAlertIcon');
+  var titleEl = document.getElementById('customAlertTitle');
+  var msgEl = document.getElementById('customAlertMessage');
+  var btn = document.getElementById('customAlertBtn');
+  var btnSecondary = document.getElementById('customAlertBtnSecondary');
+
+  var iconMap = {
+    warning: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+    error: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+  };
+
+  var btnClassMap = {
+    warning: 'warning',
+    error: 'error'
+  };
+
+  icon.className = 'alert-icon ' + (type || 'warning');
+  icon.innerHTML = iconMap[type] || iconMap.warning;
+
+  titleEl.innerText = title || 'Peringatan!';
+  msgEl.innerText = message || '';
+
+  btn.className = 'alert-btn ' + (btnClassMap[type] || 'warning');
+  btn.innerText = confirmText || 'Ya';
+
+  btnSecondary.style.display = 'block';
+  btnSecondary.innerText = cancelText || 'Batal';
+
+  overlay.style.display = 'flex';
+
+  btn.onclick = function() {
+    overlay.style.display = 'none';
+    if (onConfirm) onConfirm();
+  };
+
+  btnSecondary.onclick = function() {
+    overlay.style.display = 'none';
+    if (onCancel) onCancel();
+  };
+
+  overlay.onclick = function(e) {
+    if (e.target === overlay) {
+      overlay.style.display = 'none';
+      if (onCancel) onCancel();
+    }
+  };
 }
 
 // ==================== RANKING FUNCTIONS ====================
 
 // TAMPIL RANKING
 function tampilRanking() {
-  let data = JSON.parse(localStorage.getItem('rankingData') || '[]');
-  const tbody = document.getElementById('tabelRanking');
+  var data = JSON.parse(localStorage.getItem('rankingData') || '[]');
+  var tbody = document.getElementById('tabelRanking');
   
   if (data.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="3" style="padding:20px; color:#94A3B8; text-align:center;">Belum ada data ranking</td></tr>`;
+    tbody.innerHTML = '<tr><td colspan="3" style="padding:20px; color:#94A3B8; text-align:center;">Belum ada data ranking</td></tr>';
     return;
   }
 
-  tbody.innerHTML = data.map((d, i) => {
-    let badge = '';
-    let rankClass = '';
+  var html = '';
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var badge = '';
+    var rankClass = '';
     if (i === 0) { badge = '🥇'; rankClass = 'rank-1'; }
     else if (i === 1) { badge = '🥈'; rankClass = 'rank-2'; }
     else if (i === 2) { badge = '🥉'; rankClass = 'rank-3'; }
     else { badge = (i + 1); }
 
-    return `
-      <tr>
-        <td class="${rankClass}" style="font-weight:700;">${badge}</td>
-        <td style="font-weight:500;">${d.nama}</td>
-        <td style="font-weight:700;">${d.nilai.toFixed(2)}</td>
-      </tr>
-    `;
-  }).join('');
+    html += '<tr>' +
+      '<td class="' + rankClass + '" style="font-weight:700;">' + badge + '</td>' +
+      '<td style="font-weight:500;">' + d.nama + '</td>' +
+      '<td style="font-weight:700;">' + d.nilai.toFixed(2) + '</td>' +
+    '</tr>';
+  }
+  tbody.innerHTML = html;
 }
 
 // TAMBAH RANKING MANUAL
 function tambahRankingManual() {
-  const nama = document.getElementById('namaRankManual').value.trim();
-  const nilai = parseFloat(document.getElementById('nilaiRankManual').value);
+  var nama = document.getElementById('namaRankManual').value.trim();
+  var nilai = parseFloat(document.getElementById('nilaiRankManual').value);
 
   if (!nama || isNaN(nilai)) {
-    showAlert('Data Kurang', 'Harap isi nama dan nilai terlebih dahulu!');
+    showCustomAlert('Data Kurang', 'Harap isi nama dan nilai terlebih dahulu!', 'warning');
     return;
   }
 
-  let ranking = JSON.parse(localStorage.getItem('rankingData') || '[]');
-  ranking.push({ nama, nilai });
-  ranking.sort((a, b) => b.nilai - a.nilai);
+  var ranking = JSON.parse(localStorage.getItem('rankingData') || '[]');
+  ranking.push({ nama: nama, nilai: nilai });
+  ranking.sort(function(a, b) { return b.nilai - a.nilai; });
   localStorage.setItem('rankingData', JSON.stringify(ranking));
 
   document.getElementById('namaRankManual').value = '';
   document.getElementById('nilaiRankManual').value = '';
 
   tampilRanking();
-  showAlert('Berhasil', 'Data berhasil ditambahkan ke ranking!');
+  showCustomAlert('Berhasil', 'Data berhasil ditambahkan ke ranking!', 'success');
 }
 
-// RESET RANKING
-function resetRanking() {
-  if (!confirm('Yakin ingin menghapus semua data ranking?')) return;
-  localStorage.removeItem('rankingData');
-  tampilRanking();
-  showAlert('Berhasil', 'Semua data ranking berhasil dihapus!');
+// KONFIRMASI RESET
+function konfirmasiReset() {
+  var data = JSON.parse(localStorage.getItem('rankingData') || '[]');
+  if (data.length === 0) {
+    showCustomAlert('Kosong', 'Tidak ada data ranking untuk direset.', 'info');
+    return;
+  }
+
+  showConfirmAlert(
+    'Hapus Data Ranking?',
+    'Yakin ingin menghapus semua data ranking? Tindakan ini tidak dapat dibatalkan!',
+    'warning',
+    'Ya, Hapus',
+    'Batal',
+    function() {
+      // On Confirm
+      localStorage.removeItem('rankingData');
+      tampilRanking();
+      showCustomAlert('Berhasil', 'Semua data ranking berhasil dihapus!', 'success');
+    },
+    function() {
+      // On Cancel
+      // Gak ngapa-ngapain
+    }
+  );
 }
 
 // EXPORT PDF
 function exportRankingPDF() {
-  const data = JSON.parse(localStorage.getItem('rankingData') || '[]');
+  var data = JSON.parse(localStorage.getItem('rankingData') || '[]');
   if (data.length === 0) {
-    showAlert('Kosong', 'Tidak ada data ranking untuk diexport.');
+    showCustomAlert('Kosong', 'Tidak ada data ranking untuk diexport.', 'warning');
     return;
   }
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  var { jsPDF } = window.jspdf;
+  var doc = new jsPDF();
 
   doc.setFontSize(18);
   doc.setTextColor(37, 99, 235);
@@ -873,33 +1373,40 @@ function exportRankingPDF() {
   doc.setTextColor(100, 116, 139);
   doc.text('Diexport: ' + new Date().toLocaleString('id-ID'), 14, 26);
 
-  let y = 38;
+  var y = 38;
   doc.setFontSize(12);
   doc.setTextColor(15, 23, 42);
 
-  data.forEach((d, i) => {
-    let rank = i + 1;
-    let line = rank + '. ' + d.nama + ' - ' + d.nilai.toFixed(2);
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var rank = i + 1;
+    var line = rank + '. ' + d.nama + ' - ' + d.nilai.toFixed(2);
     doc.text(line, 14, y);
     y += 10;
     if (y > 280) {
       doc.addPage();
       y = 20;
     }
-  });
+  }
 
   doc.setFontSize(9);
   doc.setTextColor(148, 163, 184);
   doc.text('Star Platform | Star Tools 2026', 14, doc.internal.pageSize.height - 10);
 
   doc.save('Ranking_Siswa_Star_Tools.pdf');
-  showAlert('Berhasil', 'File PDF berhasil didownload!');
+  showCustomAlert('Berhasil', 'File PDF berhasil didownload!', 'success');
 }
 
-// ==================== THEME ====================
-if (localStorage.getItem('themeEkonomi') === 'dark') {
-  document.body.classList.add('dark');
-}
+// ==================== KEYBOARD ====================
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeSidebar();
+    var alert = document.getElementById('customAlert');
+    if (alert.style.display === 'flex') {
+      alert.style.display = 'none';
+    }
+  }
+});
 
 // ==================== AUTO LOAD ====================
 document.addEventListener('DOMContentLoaded', function() {
@@ -915,10 +1422,10 @@ window.goBack = goBack;
 window.goRapot = goRapot;
 window.tampilRanking = tampilRanking;
 window.tambahRankingManual = tambahRankingManual;
-window.resetRanking = resetRanking;
+window.konfirmasiReset = konfirmasiReset;
 window.exportRankingPDF = exportRankingPDF;
-window.showAlert = showAlert;
-window.closeAlertGlobal = closeAlertGlobal;
+window.showCustomAlert = showCustomAlert;
+window.showConfirmAlert = showConfirmAlert;
 </script>
 
 </body>

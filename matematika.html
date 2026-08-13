@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Matematika - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -42,14 +58,17 @@
     color: #E2E8F0;
   }
 
-  body.dark .input-modern {
-    background: #1E293B;
-    border-color: #334155;
-    color: white;
+  body.dark .btn-materi:active {
+    background: #334155;
   }
 
-  body.dark .app-container {
-    background: #0B1120;
+  body.dark .text-muted {
+    color: #94A3B8;
+  }
+
+  body.dark .footer-app {
+    color: #94A3B8;
+    border-top-color: #1E293B;
   }
 
   .app-container {
@@ -60,6 +79,10 @@
     display: flex;
     flex-direction: column;
     position: relative;
+  }
+
+  body.dark .app-container {
+    background: #0B1120;
   }
 
   .app-header {
@@ -388,6 +411,78 @@
   .btn-full:active {
     transform: scale(0.97);
   }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .sidebar-nav {
+      border-radius: 0 20px 20px 0;
+    }
+
+    .screen {
+      padding: 24px 24px 30px;
+    }
+
+    .card-modern {
+      padding: 24px;
+      border-radius: 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+    }
+
+    .btn-materi {
+      padding: 18px 24px;
+      border-radius: 28px;
+      font-size: 17px;
+    }
+
+    .text-muted {
+      font-size: 14px;
+    }
+
+    .alert-card {
+      max-width: 360px;
+      padding: 28px 26px;
+      border-radius: 28px;
+    }
+
+    .btn-full {
+      padding: 14px;
+      font-size: 15px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -519,6 +614,11 @@ const db = firebase.database();
 
 let currentUser = null;
 
+// ===== THEME DARI LOCALSTORAGE =====
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
+
 function goTo(page) {
   window.location.href = page;
 }
@@ -570,10 +670,6 @@ firebase.auth().onAuthStateChanged(function(user) {
     }
   }
 });
-
-if (localStorage.getItem('themeEkonomi') === 'dark') {
-  document.body.classList.add('dark');
-}
 
 window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;

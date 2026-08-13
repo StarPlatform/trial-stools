@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Geologi - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -42,10 +58,27 @@
     color: #E2E8F0;
   }
 
-  body.dark .code-block {
-    background: #0F172A;
-    border-color: #334155;
-    color: #4fc3f7;
+  body.dark .materi-btn .materi-num {
+    background: #1D2B4A;
+    color: #60A5FA;
+  }
+
+  body.dark .materi-btn .materi-text .materi-sub {
+    color: #94A3B8;
+  }
+
+  body.dark .materi-btn .materi-status {
+    color: #475569;
+  }
+
+  body.dark .materi-btn.opened {
+    background: #111827;
+    border-color: #1D3A6E;
+  }
+
+  body.dark .materi-btn.opened .materi-status {
+    background: #14311F;
+    color: #4ADE80;
   }
 
   body.dark .premium-indicator {
@@ -66,6 +99,14 @@
   body.dark .limit-indicator {
     background: #1E293B;
     color: #94A3B8;
+  }
+
+  body.dark .materi-content p {
+    color: #CBD5E1;
+  }
+
+  body.dark .materi-content h4 {
+    color: #60A5FA;
   }
 
   .app-container {
@@ -326,37 +367,101 @@
   }
 
   .grid-bagian {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 10px;
     margin-top: 8px;
   }
 
   .materi-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
     background: #F8FAFE;
-    border: 1px solid #E2E8F0;
-    padding: 12px 6px;
+    border: 1.5px solid #E2E8F0;
+    padding: 14px;
     border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    text-align: center;
     cursor: pointer;
     color: #0F172A;
-    transition: 0.2s;
+    transition: 0.15s;
   }
 
   .materi-btn:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
+  }
+
+  .materi-btn .materi-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: #EFF6FF;
+    color: #2563EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: 0.15s;
+  }
+
+  .materi-btn .materi-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .materi-btn .materi-text .materi-title {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .materi-btn .materi-text .materi-sub {
+    font-size: 12px;
+    color: #64748B;
+    margin-top: 2px;
+  }
+
+  .materi-btn .materi-status {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #CBD5E1;
+  }
+
+  .materi-btn .materi-status svg {
+    width: 16px;
+    height: 16px;
   }
 
   .materi-btn.opened {
+    background: #FFFFFF;
+    border-color: #BFDBFE;
+  }
+
+  .materi-btn.opened .materi-num {
     background: #2563EB;
-    color: white;
-    border-color: #2563EB;
+    color: #fff;
+  }
+
+  .materi-btn.opened .materi-status {
+    background: #DCFCE7;
+    color: #16A34A;
   }
 
   .materi-btn.locked {
-    opacity: 0.5;
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .materi-btn.locked .materi-status {
+    color: #94A3B8;
   }
 
   .btn-full {
@@ -409,17 +514,9 @@
     font-weight: 700;
   }
 
-  body.dark .materi-content h4 {
-    color: #60A5FA;
-  }
-
   .materi-content p {
     margin-bottom: 12px;
     color: #334155;
-  }
-
-  body.dark .materi-content p {
-    color: #CBD5E1;
   }
 
   .alert-overlay {
@@ -453,8 +550,66 @@
     border-top: 1px solid #E2E8F0;
   }
 
+  body.dark .footer-app {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
   .hidden {
     display: none;
+  }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .grid-bagian {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .card-modern {
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .materi-content {
+      font-size: 16px;
+    }
+
+    .materi-content h4 {
+      font-size: 20px;
+    }
   }
 </style>
 </head>
@@ -511,14 +666,14 @@
       <div class="card-modern">
         <div class="section-title">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-            <polyline points="2 17 12 22 22 17"/>
-            <polyline points="2 12 12 17 22 12"/>
+            <circle cx="12" cy="12" r="3"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(45 12 12)"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-45 12 12)"/>
           </svg>
           Belajar Geologi
         </div>
-        <p style="margin-bottom: 16px;">Pelajari ilmu tentang bumi, struktur, komposisi, dan proses yang membentuk permukaan serta isi bumi secara lengkap.</p>
-        
+        <p style="margin-bottom: 16px;">Pelajari ilmu tentang bumi, struktur, komposisi, dan proses yang membentuk permukaan serta isi bumi secara lengkap dari dasar hingga mahir.</p>
+
         <div class="status-row">
           <span id="premiumStatusBadge" class="premium-indicator">Akun Standar</span>
           <span id="limitCounter" class="limit-indicator">0/2 Hari Ini</span>
@@ -531,7 +686,7 @@
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
           </svg>
-          Daftar Materi Geologi (1-50)
+          Daftar Materi
         </div>
         <div id="listBagianGrid" class="grid-bagian"></div>
       </div>
@@ -585,8 +740,9 @@ let currentMateriIdx = 0;
 
 const todayStr = new Date().toDateString();
 
-// ======================== 50 MATERI GEOLOGI ========================
+// ======================== 100 MATERI GEOLOGI ========================
 const materiList = [
+  // 1-25: DASAR GEOLOGI
   {
     judul: "Geologi 1 - Pengertian Geologi",
     konten: '<h4>Pengertian</h4><p>Geologi adalah ilmu yang mempelajari bumi, termasuk struktur, komposisi, dan proses yang membentuk permukaan serta isi bumi.</p><h4>Penjelasan</h4><p>Bumi terdiri dari berbagai lapisan seperti kerak, mantel, dan inti. Geologi mempelajari batuan, mineral, gunung, gempa bumi, serta proses alam seperti erosi, vulkanisme, dan tektonik lempeng.</p><h4>Contoh</h4><p>Memahami tektonik lempeng membantu menjelaskan gempa bumi dan letusan gunung berapi. Batuan sedimen bisa memberi informasi tentang lingkungan kuno tempat terbentuknya.</p><h4>Kesimpulan</h4><p>Geologi membantu manusia memahami bumi, memprediksi bencana alam, dan membuat belajar sains lebih menarik karena bisa diamati langsung.</p>'
@@ -687,6 +843,7 @@ const materiList = [
     judul: "Geologi 25 - Endapan Sedimen",
     konten: '<h4>Pengertian</h4><p>Endapan sedimen adalah material batuan yang terangkut dan menumpuk di tempat baru oleh air, angin, atau es.</p><h4>Penjelasan</h4><p>Proses pengendapan membentuk batuan sedimen dan memengaruhi bentuk permukaan bumi.</p><h4>Contoh</h4><p>Delta Sungai Nil dan delta Sungai Mahakam terbentuk dari endapan sedimen.</p><h4>Kesimpulan</h4><p>Memahami endapan sedimen membantu manusia mengetahui perubahan lanskap dan sumber daya alam.</p>'
   },
+  // 26-50: GEOLOGI LANJUTAN
   {
     judul: "Geologi 26 - Pegunungan Lipatan dan Blok",
     konten: '<h4>Pengertian</h4><p>Pegunungan lipatan terbentuk karena tekanan yang melipat batuan, sedangkan pegunungan blok terbentuk karena patahan dan naik-turunnya kerak bumi.</p><h4>Penjelasan</h4><p>Pegunungan lipatan umumnya curam dan panjang, pegunungan blok lebih pendek dan terpisah.</p><h4>Contoh</h4><p>Pegunungan Alpen adalah pegunungan lipatan, pegunungan Sierra Nevada adalah pegunungan blok.</p><h4>Kesimpulan</h4><p>Memahami tipe pegunungan membantu manusia mengerti pembentukan bumi dan mitigasi bencana.</p>'
@@ -786,6 +943,208 @@ const materiList = [
   {
     judul: "Geologi 50 - Peran Geologi dalam Kehidupan",
     konten: '<h4>Pengertian</h4><p>Geologi berperan penting dalam kehidupan manusia karena berkaitan dengan bumi dan sumber daya alam.</p><h4>Penjelasan</h4><p>Geologi membantu memahami bencana, menemukan sumber daya, dan merencanakan pembangunan.</p><h4>Contoh</h4><p>Eksplorasi minyak bumi, mitigasi gempa, dan perencanaan kota berbasis geologi.</p><h4>Kesimpulan</h4><p>Geologi sangat penting untuk keberlangsungan hidup manusia dan pembangunan berkelanjutan.</p>'
+  },
+  // 51-75: GEOLOGI APLIKASI & LINGKUNGAN
+  {
+    judul: "Geologi 51 - Geologi Lingkungan",
+    konten: '<h4>Pengertian</h4><p>Geologi lingkungan adalah cabang geologi yang mempelajari interaksi antara manusia dan lingkungan geologis.</p><h4>Penjelasan</h4><p>Mencakup pengelolaan sumber daya alam, mitigasi bencana, dan dampak aktivitas manusia terhadap bumi.</p><h4>Contoh</h4><p>Pengelolaan air tanah, remediasi tanah tercemar, dan mitigasi longsor.</p><h4>Kesimpulan</h4><p>Geologi lingkungan membantu manusia menjaga keseimbangan alam dan pembangunan berkelanjutan.</p>'
+  },
+  {
+    judul: "Geologi 52 - Geologi Teknik",
+    konten: '<h4>Pengertian</h4><p>Geologi teknik adalah penerapan ilmu geologi dalam proyek konstruksi dan rekayasa sipil.</p><h4>Penjelasan</h4><p>Mempelajari kondisi tanah dan batuan untuk keperluan bangunan, jembatan, bendungan, dan jalan.</p><h4>Contoh</h4><p>Analisis stabilitas lereng untuk pembangunan jalan, penyelidikan tanah untuk pondasi gedung.</p><h4>Kesimpulan</h4><p>Geologi teknik penting untuk keselamatan dan keberlanjutan infrastruktur.</p>'
+  },
+  {
+    judul: "Geologi 53 - Geologi Minyak Bumi",
+    konten: '<h4>Pengertian</h4><p>Geologi minyak bumi adalah cabang geologi yang mempelajari pembentukan, penemuan, dan eksploitasi minyak dan gas bumi.</p><h4>Penjelasan</h4><p>Mencakup struktur geologi, batuan reservoir, dan proses migrasi hidrokarbon.</p><h4>Contoh</h4><p>Eksplorasi minyak di lepas pantai Kalimantan, pengeboran di Sumatera.</p><h4>Kesimpulan</h4><p>Geologi minyak bumi penting untuk energi dan ekonomi global.</p>'
+  },
+  {
+    judul: "Geologi 54 - Geologi Pertambangan",
+    konten: '<h4>Pengertian</h4><p>Geologi pertambangan adalah aplikasi geologi untuk eksplorasi dan ekstraksi mineral ekonomis.</p><h4>Penjelasan</h4><p>Mempelajari endapan mineral, metode penambangan, dan evaluasi cadangan.</p><h4>Contoh</h4><p>Penambangan emas di Papua, tambang batubara di Kalimantan.</p><h4>Kesimpulan</h4><p>Geologi pertambangan mendukung industri pertambangan dan pembangunan ekonomi.</p>'
+  },
+  {
+    judul: "Geologi 55 - Geologi Kelautan",
+    konten: '<h4>Pengertian</h4><p>Geologi kelautan adalah studi tentang dasar laut, struktur bawah laut, dan proses geologi di lingkungan laut.</p><h4>Penjelasan</h4><p>Mencakup sedimentasi laut, gunung berapi bawah laut, dan palung laut.</p><h4>Contoh</h4><p>Penelitian dasar laut Indonesia, eksplorasi sumber daya laut.</p><h4>Kesimpulan</h4><p>Geologi kelautan penting untuk memahami laut dan sumber daya bawah laut.</p>'
+  },
+  {
+    judul: "Geologi 56 - Geologi Kuantitatif",
+    konten: '<h4>Pengertian</h4><p>Geologi kuantitatif adalah cabang geologi yang menggunakan perhitungan matematis dan pemodelan numerik.</p><h4>Penjelasan</h4><p>Mencakup analisis data geologi, pemodelan struktur, dan simulasi proses geologi.</p><h4>Contoh</h4><p>Pemodelan reservoir minyak, analisis risiko gempa menggunakan data seismik.</p><h4>Kesimpulan</h4><p>Geologi kuantitatif membantu prediksi dan analisis geologi secara lebih akurat.</p>'
+  },
+  {
+    judul: "Geologi 57 - Geologi Isotop",
+    konten: '<h4>Pengertian</h4><p>Geologi isotop adalah studi tentang komposisi isotop dalam batuan dan mineral.</p><h4>Penjelasan</h4><p>Mencakup penanggalan radiometrik, studi siklus isotop, dan paleoklimatologi.</p><h4>Contoh</h4><p>Penanggalan karbon untuk fosil, studi perubahan iklim masa lalu.</p><h4>Kesimpulan</h4><p>Geologi isotop membantu memahami sejarah bumi dan lingkungan masa lalu.</p>'
+  },
+  {
+    judul: "Geologi 58 - Geologi Struktur",
+    konten: '<h4>Pengertian</h4><p>Geologi struktur mempelajari deformasi batuan, patahan, lipatan, dan struktur geologi lainnya.</p><h4>Penjelasan</h4><p>Membantu memahami sejarah tektonik dan distribusi sumber daya alam.</p><h4>Contoh</h4><p>Analisis struktur sesar di Sumatera, penelitian lipatan di Pegunungan Selatan Jawa.</p><h4>Kesimpulan</h4><p>Geologi struktur penting untuk memahami dinamika kerak bumi.</p>'
+  },
+  {
+    judul: "Geologi 59 - Geologi Sejarah",
+    konten: '<h4>Pengertian</h4><p>Geologi sejarah adalah studi tentang sejarah bumi dan evolusi kehidupan.</p><h4>Penjelasan</h4><p>Mencakup stratigrafi, paleontologi, dan rekonstruksi lingkungan purba.</p><h4>Contoh</h4><p>Studi fosil di berbagai formasi batuan, rekonstruksi iklim masa lalu.</p><h4>Kesimpulan</h4><p>Geologi sejarah membantu manusia memahami asal-usul dan perkembangan bumi.</p>'
+  },
+  {
+    judul: "Geologi 60 - Geologi Planet",
+    konten: '<h4>Pengertian</h4><p>Geologi planet adalah studi tentang geologi benda-benda langit seperti planet, bulan, dan asteroid.</p><h4>Penjelasan</h4><p>Membandingkan struktur dan proses geologi di bumi dengan benda langit lain.</p><h4>Contoh</h4><p>Studi permukaan Mars, penelitian batuan Bulan dari misi Apollo.</p><h4>Kesimpulan</h4><p>Geologi planet membantu memahami tata surya dan sejarah bumi dalam konteks kosmis.</p>'
+  },
+  {
+    judul: "Geologi 61 - Geologi Ekonomi",
+    konten: '<h4>Pengertian</h4><p>Geologi ekonomi adalah studi tentang sumber daya mineral dan energi yang bernilai ekonomis.</p><h4>Penjelasan</h4><p>Mencakup eksplorasi, evaluasi cadangan, dan pengelolaan sumber daya alam.</p><h4>Contoh</h4><p>Eksplorasi emas, tembaga, nikel, dan minyak bumi.</p><h4>Kesimpulan</h4><p>Geologi ekonomi mendukung pembangunan dan perekonomian nasional.</p>'
+  },
+  {
+    judul: "Geologi 62 - Geologi Bencana",
+    konten: '<h4>Pengertian</h4><p>Geologi bencana adalah studi tentang bencana alam yang disebabkan oleh proses geologi.</p><h4>Penjelasan</h4><p>Mencakup gempa bumi, letusan gunung api, tsunami, dan longsor.</p><h4>Contoh</h4><p>Mitigasi bencana gempa di zona subduksi, sistem peringatan dini tsunami.</p><h4>Kesimpulan</h4><p>Geologi bencana penting untuk mengurangi risiko dan menyelamatkan nyawa.</p>'
+  },
+  {
+    judul: "Geologi 63 - Geologi Konservasi",
+    konten: '<h4>Pengertian</h4><p>Geologi konservasi adalah upaya pelestarian warisan geologi dan bentang alam.</p><h4>Penjelasan</h4><p>Mencakup perlindungan situs geologi, taman nasional, dan monumen alam.</p><h4>Contoh</h4><p>Taman Nasional Gunung Leuser, Kawasan Karst Gunung Kidul.</p><h4>Kesimpulan</h4><p>Geologi konservasi menjaga keanekaragaman dan keindahan alam untuk generasi mendatang.</p>'
+  },
+  {
+    judul: "Geologi 64 - Geologi Regional",
+    konten: '<h4>Pengertian</h4><p>Geologi regional adalah studi tentang karakteristik geologi suatu wilayah secara menyeluruh.</p><h4>Penjelasan</h4><p>Mencakup peta geologi, struktur, stratigrafi, dan sejarah geologi wilayah.</p><h4>Contoh</h4><p>Pemetaan geologi Pulau Sumatera, studi geologi Jawa dan Bali.</p><h4>Kesimpulan</h4><p>Geologi regional membantu perencanaan pembangunan dan pengelolaan sumber daya.</p>'
+  },
+  {
+    judul: "Geologi 65 - Geologi dan Perubahan Iklim",
+    konten: '<h4>Pengertian</h4><p>Geologi berperan dalam memahami perubahan iklim global melalui studi sedimen dan es.</p><h4>Penjelasan</h4><p>Mencakup analisis inti es, sedimen laut, dan perubahan permukaan laut.</p><h4>Contoh</h4><p>Studi inti es Greenland untuk rekonstruksi iklim 100.000 tahun lalu.</p><h4>Kesimpulan</h4><p>Geologi membantu memahami perubahan iklim masa lalu dan memprediksi masa depan.</p>'
+  },
+  {
+    judul: "Geologi 66 - Geologi Permafrost",
+    konten: '<h4>Pengertian</h4><p>Permafrost adalah lapisan tanah yang tetap beku selama dua tahun atau lebih.</p><h4>Penjelasan</h4><p>Mencakup studi tentang tanah beku, dampak pemanasan global, dan perubahan ekosistem.</p><h4>Contoh</h4><p>Penelitian permafrost di Siberia, dampak pencairan permafrost di Alaska.</p><h4>Kesimpulan</h4><p>Geologi permafrost penting untuk memahami perubahan iklim di daerah kutub.</p>'
+  },
+  {
+    judul: "Geologi 67 - Geologi dan Energi Terbarukan",
+    konten: '<h4>Pengertian</h4><p>Geologi mendukung pengembangan energi terbarukan seperti panas bumi dan tenaga air.</p><h4>Penjelasan</h4><p>Mencakup identifikasi sumber panas bumi, lokasi bendungan, dan geologi pesisir.</p><h4>Contoh</h4><p>Pengembangan PLTP di berbagai daerah, studi lokasi bendungan PLTA.</p><h4>Kesimpulan</h4><p>Geologi membantu transisi menuju energi bersih dan terbarukan.</p>'
+  },
+  {
+    judul: "Geologi 68 - Geologi dan Kesehatan",
+    konten: '<h4>Pengertian</h4><p>Geologi kesehatan mempelajari dampak geologi terhadap kesehatan manusia.</p><h4>Penjelasan</h4><p>Mencakup paparan mineral berbahaya, kualitas air tanah, dan penyakit geologi.</p><h4>Contoh</h4><p>Studi dampak asbes pada kesehatan, penelitian arsenik dalam air tanah.</p><h4>Kesimpulan</h4><p>Geologi kesehatan penting untuk kesehatan masyarakat dan lingkungan.</p>'
+  },
+  {
+    judul: "Geologi 69 - Geologi dan Pertanian",
+    konten: '<h4>Pengertian</h4><p>Geologi pertanian mempelajari hubungan antara tanah, batuan, dan produksi pangan.</p><h4>Penjelasan</h4><p>Mencakup kesuburan tanah, irigasi, dan pengelolaan lahan pertanian.</p><h4>Contoh</h4><p>Studi tanah vulkanik di Jawa, penelitian lahan pertanian di Sumatera.</p><h4>Kesimpulan</h4><p>Geologi pertanian membantu ketahanan pangan dan pembangunan pertanian.</p>'
+  },
+  {
+    judul: "Geologi 70 - Geologi dan Perencanaan Kota",
+    konten: '<h4>Pengertian</h4><p>Geologi perkotaan mempelajari kondisi geologi untuk perencanaan dan pembangunan kota.</p><h4>Penjelasan</h4><p>Mencakup analisis risiko bencana, ketersediaan air tanah, dan kondisi tanah.</p><h4>Contoh</h4><p>Studi geologi Jakarta, perencanaan tata ruang kota berbasis risiko bencana.</p><h4>Kesimpulan</h4><p>Geologi perkotaan penting untuk kota yang aman dan berkelanjutan.</p>'
+  },
+  // 71-100: GEOLOGI MENDALAM
+  {
+    judul: "Geologi 71 - Geologi Batuan Beku",
+    konten: '<h4>Pengertian</h4><p>Batuan beku terbentuk dari pendinginan magma di permukaan atau di dalam bumi.</p><h4>Penjelasan</h4><p>Mencakup tekstur, komposisi, dan klasifikasi batuan beku seperti granit, basal, dan andesit.</p><h4>Contoh</h4><p>Granit di Pulau Bangka, basal di daerah Gunung Merapi.</p><h4>Kesimpulan</h4><p>Memahami batuan beku penting untuk mengetahui aktivitas vulkanik dan sejarah bumi.</p>'
+  },
+  {
+    judul: "Geologi 72 - Geologi Batuan Sedimen Klastik",
+    konten: '<h4>Pengertian</h4><p>Batuan sedimen klastik terbentuk dari pengendapan fragmen batuan lain.</p><h4>Penjelasan</h4><p>Mencakup batupasir, batulempung, dan konglomerat yang terbentuk dari erosi dan transportasi.</p><h4>Contoh</h4><p>Batupasir di Pegunungan Kendeng, konglomerat di daerah Jawa Timur.</p><h4>Kesimpulan</h4><p>Memahami batuan sedimen klastik membantu rekonstruksi lingkungan purba.</p>'
+  },
+  {
+    judul: "Geologi 73 - Geologi Batuan Sedimen Kimiawi",
+    konten: '<h4>Pengertian</h4><p>Batuan sedimen kimiawi terbentuk dari pengendapan mineral secara kimia.</p><h4>Penjelasan</h4><p>Mencakup batugamping, dolomit, dan evaporit yang terbentuk di lingkungan laut atau danau.</p><h4>Contoh</h4><p>Batugamping di Pegunungan Sewu, evaporit di daerah kering.</p><h4>Kesimpulan</h4><p>Memahami batuan sedimen kimiawi membantu memahami lingkungan pengendapan purba.</p>'
+  },
+  {
+    judul: "Geologi 74 - Geologi Batuan Metamorf",
+    konten: '<h4>Pengertian</h4><p>Batuan metamorf terbentuk dari perubahan batuan akibat tekanan dan suhu tinggi.</p><h4>Penjelasan</h4><p>Mencakup marmer, sabak, dan gneiss yang terbentuk dalam kondisi metamorfisme.</p><h4>Contoh</h4><p>Marmer di Trenggalek, gneiss di daerah Jawa Tengah.</p><h4>Kesimpulan</h4><p>Memahami batuan metamorf membantu mengetahui sejarah tekanan dan suhu di kerak bumi.</p>'
+  },
+  {
+    judul: "Geologi 75 - Geologi dan Tektonik Global",
+    konten: '<h4>Pengertian</h4><p>Tektonik global mempelajari pergerakan lempeng dan pengaruhnya terhadap bumi secara keseluruhan.</p><h4>Penjelasan</h4><p>Mencakup siklus superbenua, pembentukan samudra, dan orogenesis.</p><h4>Contoh</h4><p>Pembentukan Pangea, siklus Wilson dalam pembentukan dan pemecahan benua.</p><h4>Kesimpulan</h4><p>Memahami tektonik global membantu manusia mengerti sejarah dan masa depan bumi.</p>'
+  },
+  {
+    judul: "Geologi 76 - Geologi dan Gempa Megathrust",
+    konten: '<h4>Pengertian</h4><p>Gempa megathrust terjadi di zona subduksi dengan magnitudo sangat besar.</p><h4>Penjelasan</h4><p>Mencakup karakteristik gempa, potensi tsunami, dan mitigasi di zona subduksi.</p><h4>Contoh</h4><p>Zona subduksi di Sumatra, potensi gempa megathrust di selatan Jawa.</p><h4>Kesimpulan</h4><p>Memahami gempa megathrust penting untuk mitigasi bencana besar.</p>'
+  },
+  {
+    judul: "Geologi 77 - Geologi dan Likuefaksi",
+    konten: '<h4>Pengertian</h4><p>Likuefaksi adalah fenomena tanah kehilangan kekuatan akibat gempa dan menjadi seperti cairan.</p><h4>Penjelasan</h4><p>Mencakup penyebab, dampak, dan mitigasi likuefaksi pada bangunan dan infrastruktur.</p><h4>Contoh</h4><p>Likuefaksi di Palu 2018, likuefaksi di berbagai daerah dengan tanah pasir lepas.</p><h4>Kesimpulan</h4><p>Memahami likuefaksi penting untuk perencanaan bangunan tahan gempa.</p>'
+  },
+  {
+    judul: "Geologi 78 - Geologi dan Sesar Aktif",
+    konten: '<h4>Pengertian</h4><p>Sesar aktif adalah patahan yang masih bergerak dan berpotensi menyebabkan gempa.</p><h4>Penjelasan</h4><p>Mencakup identifikasi, pemetaan, dan analisis risiko sesar aktif.</p><h4>Contoh</h4><p>Sesar Lembang di Jawa Barat, Sesar Sumatra, Sesar Palu-Koro.</p><h4>Kesimpulan</h4><p>Memahami sesar aktif membantu mitigasi risiko gempa di daerah pemukiman.</p>'
+  },
+  {
+    judul: "Geologi 79 - Geologi dan Sedimentasi Laut",
+    konten: '<h4>Pengertian</h4><p>Sedimentasi laut adalah proses pengendapan material di dasar laut.</p><h4>Penjelasan</h4><p>Mencakup jenis sedimen, proses transportasi, dan lingkungan sedimentasi laut.</p><h4>Contoh</h4><p>Sedimen karbonat di laut dangkal, sedimen turbidit di laut dalam.</p><h4>Kesimpulan</h4><p>Memahami sedimentasi laut membantu rekonstruksi lingkungan laut purba.</p>'
+  },
+  {
+    judul: "Geologi 80 - Geologi dan Sumber Daya Air",
+    konten: '<h4>Pengertian</h4><p>Geologi sumber daya air mempelajari ketersediaan dan kualitas air tanah.</p><h4>Penjelasan</h4><p>Mencakup akuifer, recharge, dan pengelolaan air tanah berkelanjutan.</p><h4>Contoh</h4><p>Cekungan air tanah di Jakarta, pengelolaan air tanah di daerah karst.</p><h4>Kesimpulan</h4><p>Geologi sumber daya air penting untuk ketersediaan air bersih.</p>'
+  },
+  {
+    judul: "Geologi 81 - Geologi dan Geokimia",
+    konten: '<h4>Pengertian</h4><p>Geokimia mempelajari komposisi kimia bumi dan proses kimia di dalamnya.</p><h4>Penjelasan</h4><p>Mencakup distribusi unsur, siklus geokimia, dan analisis kimia batuan.</p><h4>Contoh</h4><p>Analisis geokimia batuan untuk eksplorasi mineral, studi siklus karbon.</p><h4>Kesimpulan</h4><p>Geokimia membantu memahami komposisi dan proses kimia di bumi.</p>'
+  },
+  {
+    judul: "Geologi 82 - Geologi dan Geofisika",
+    konten: '<h4>Pengertian</h4><p>Geofisika mempelajari sifat fisik bumi seperti gravitasi, magnet, dan seismik.</p><h4>Penjelasan</h4><p>Mencakup metode geofisika untuk eksplorasi dan pemetaan bawah permukaan.</p><h4>Contoh</h4><p>Survei seismik untuk eksplorasi minyak, metode gravitasi untuk struktur bawah permukaan.</p><h4>Kesimpulan</h4><p>Geofisika membantu eksplorasi dan pemahaman struktur dalam bumi.</p>'
+  },
+  {
+    judul: "Geologi 83 - Geologi dan Paleontologi",
+    konten: '<h4>Pengertian</h4><p>Paleontologi mempelajari fosil untuk memahami kehidupan masa lalu.</p><h4>Penjelasan</h4><p>Mencakup identifikasi fosil, evolusi, dan rekonstruksi lingkungan purba.</p><h4>Contoh</h4><p>Fosil manusia purba di Sangiran, fosil dinosaurus di berbagai lokasi.</p><h4>Kesimpulan</h4><p>Paleontologi membantu memahami evolusi kehidupan di bumi.</p>'
+  },
+  {
+    judul: "Geologi 84 - Geologi dan Stratigrafi",
+    konten: '<h4>Pengertian</h4><p>Stratigrafi mempelajari urutan lapisan batuan dan hubungannya.</p><h4>Penjelasan</h4><p>Mencakup prinsip-prinsip stratigrafi, korelasi lapisan, dan penanggalan relatif.</p><h4>Contoh</h4><p>Korelasi lapisan batuan antar sumur, penentuan urutan geologi di suatu daerah.</p><h4>Kesimpulan</h4><p>Stratigrafi membantu rekonstruksi sejarah geologi daerah.</p>'
+  },
+  {
+    judul: "Geologi 85 - Geologi dan Sedimentologi",
+    konten: '<h4>Pengertian</h4><p>Sedimentologi mempelajari proses pengendapan dan karakteristik sedimen.</p><h4>Penjelasan</h4><p>Mencakup analisis fasies, proses sedimentasi, dan interpretasi lingkungan purba.</p><h4>Contoh</h4><p>Analisis fasies sungai, interpretasi lingkungan delta dan pantai.</p><h4>Kesimpulan</h4><p>Sedimentologi membantu rekonstruksi lingkungan pengendapan masa lalu.</p>'
+  },
+  {
+    judul: "Geologi 86 - Geologi dan Vulkanologi",
+    konten: '<h4>Pengertian</h4><p>Vulkanologi mempelajari gunung berapi, aktivitas vulkanik, dan dampaknya.</p><h4>Penjelasan</h4><p>Mencakup jenis erupsi, pemantauan, dan mitigasi risiko vulkanik.</p><h4>Contoh</h4><p>Pemantauan Gunung Merapi, penelitian Gunung Sinabung, Gunung Agung.</p><h4>Kesimpulan</h4><p>Vulkanologi penting untuk mitigasi bencana gunung berapi.</p>'
+  },
+  {
+    judul: "Geologi 87 - Geologi dan Seismologi",
+    konten: '<h4>Pengertian</h4><p>Seismologi mempelajari gempa bumi dan gelombang seismik.</p><h4>Penjelasan</h4><p>Mencakup sumber gempa, perambatan gelombang, dan analisis risiko seismik.</p><h4>Contoh</h4><p>Analisis gempa tahun 2004, pemetaan risiko gempa di Indonesia.</p><h4>Kesimpulan</h4><p>Seismologi membantu mitigasi gempa dan pemahaman struktur bumi.</p>'
+  },
+  {
+    judul: "Geologi 88 - Geologi dan Geomorofologi",
+    konten: '<h4>Pengertian</h4><p>Geomorfologi mempelajari bentuk permukaan bumi dan proses pembentukannya.</p><h4>Penjelasan</h4><p>Mencakup bentang alam, proses erosi, dan evolusi lanskap.</p><h4>Contoh</h4><p>Bentang karst, bentang gunung api, bentang sungai dan pantai.</p><h4>Kesimpulan</h4><p>Geomorfologi membantu memahami bentuk dan dinamika permukaan bumi.</p>'
+  },
+  {
+    judul: "Geologi 89 - Geologi dan Geodesi",
+    konten: '<h4>Pengertian</h4><p>Geodesi mempelajari bentuk, ukuran, dan medan gravitasi bumi.</p><h4>Penjelasan</h4><p>Mencakup pengukuran, pemetaan, dan pemantauan deformasi permukaan.</p><h4>Contoh</h4><p>Pengukuran GPS untuk pergerakan lempeng, pemetaan topografi.</p><h4>Kesimpulan</h4><p>Geodesi membantu pemantauan perubahan permukaan bumi dan pergerakan lempeng.</p>'
+  },
+  {
+    judul: "Geologi 90 - Geologi dan Konservasi Lingkungan",
+    konten: '<h4>Pengertian</h4><p>Konservasi lingkungan geologi adalah upaya pelestarian komponen geologi dan lingkungan.</p><h4>Penjelasan</h4><p>Mencakup pengelolaan lahan, mitigasi erosi, dan perlindungan warisan geologi.</p><h4>Contoh</h4><p>Konservasi lahan di DAS, perlindungan situs geologi.</p><h4>Kesimpulan</h4><p>Konservasi lingkungan geologi penting untuk keberlanjutan lingkungan.</p>'
+  },
+  {
+    judul: "Geologi 91 - Geologi dan Pembangunan Berkelanjutan",
+    konten: '<h4>Pengertian</h4><p>Geologi mendukung pembangunan berkelanjutan melalui pengelolaan sumber daya alam.</p><h4>Penjelasan</h4><p>Mencakup eksplorasi bertanggung jawab, mitigasi bencana, dan perlindungan lingkungan.</p><h4>Contoh</h4><p>Penambangan berkelanjutan, pembangunan infrastruktur ramah lingkungan.</p><h4>Kesimpulan</h4><p>Geologi berperan penting dalam pembangunan berkelanjutan dan pelestarian lingkungan.</p>'
+  },
+  {
+    judul: "Geologi 92 - Geologi dan Energi Fosil",
+    konten: '<h4>Pengertian</h4><p>Energi fosil adalah sumber daya energi yang berasal dari sisa makhluk hidup purba.</p><h4>Penjelasan</h4><p>Mencakup minyak bumi, gas alam, dan batubara sebagai sumber energi utama.</p><h4>Contoh</h4><p>Eksploitasi minyak di lepas pantai, tambang batubara di Kalimantan.</p><h4>Kesimpulan</h4><p>Memahami geologi energi fosil penting untuk energi dan ekonomi.</p>'
+  },
+  {
+    judul: "Geologi 93 - Geologi dan Energi Nuklir",
+    konten: '<h4>Pengertian</h4><p>Energi nuklir memanfaatkan uranium dan thorium yang berasal dari tambang mineral.</p><h4>Penjelasan</h4><p>Mencakup eksplorasi uranium, pengelolaan limbah nuklir, dan keamanan.</p><h4>Contoh</h4><p>Penambangan uranium di Australia, penelitian energi nuklir.</p><h4>Kesimpulan</h4><p>Geologi penting untuk ketersediaan bahan bakar nuklir dan keamanannya.</p>'
+  },
+  {
+    judul: "Geologi 94 - Geologi dan Mineral Strategis",
+    konten: '<h4>Pengertian</h4><p>Mineral strategis adalah mineral penting untuk industri dan pertahanan.</p><h4>Penjelasan</h4><p>Mencakup litium, rare earth elements, dan mineral kritis lainnya.</p><h4>Contoh</h4><p>Litium untuk baterai, mineral tanah jarang untuk elektronik.</p><h4>Kesimpulan</h4><p>Memahami mineral strategis penting untuk industri dan keamanan nasional.</p>'
+  },
+  {
+    judul: "Geologi 95 - Geologi dan Maritim",
+    konten: '<h4>Pengertian</h4><p>Geologi maritim mempelajari laut dan sumber daya bawah laut Indonesia.</p><h4>Penjelasan</h4><p>Mencakup geologi pesisir, dasar laut, dan potensi sumber daya laut.</p><h4>Contoh</h4><p>Penelitian laut dalam Indonesia, eksplorasi mineral laut.</p><h4>Kesimpulan</h4><p>Geologi maritim penting untuk kedaulatan dan pembangunan kelautan.</p>'
+  },
+  {
+    judul: "Geologi 96 - Geologi dan Kebencanaan",
+    konten: '<h4>Pengertian</h4><p>Geologi membantu mitigasi bencana alam melalui analisis risiko dan zona bahaya.</p><h4>Penjelasan</h4><p>Mencakup pemetaan risiko, sistem peringatan, dan edukasi kebencanaan.</p><h4>Contoh</h4><p>Peta risiko gempa Indonesia, sistem peringatan tsunami di pesisir.</p><h4>Kesimpulan</h4><p>Geologi kebencanaan penting untuk keselamatan masyarakat dari bencana alam.</p>'
+  },
+  {
+    judul: "Geologi 97 - Geologi dan Perubahan Permukaan",
+    konten: '<h4>Pengertian</h4><p>Perubahan permukaan bumi terjadi akibat proses alam dan aktivitas manusia.</p><h4>Penjelasan</h4><p>Mencakup erosi, sedimentasi, urbanisasi, dan perubahan bentang alam.</p><h4>Contoh</h4><p>Perubahan garis pantai, perluasan kota di daerah perbukitan.</p><h4>Kesimpulan</h4><p>Memahami perubahan permukaan penting untuk perencanaan wilayah.</p>'
+  },
+  {
+    judul: "Geologi 98 - Geologi dan Tanah Longsor",
+    konten: '<h4>Pengertian</h4><p>Tanah longsor adalah pergerakan massa tanah menuruni lereng akibat gravitasi.</p><h4>Penjelasan</h4><p>Mencakup penyebab, jenis, dan mitigasi tanah longsor di daerah rawan.</p><h4>Contoh</h4><p>Longsor di daerah pegunungan, longsor akibat hujan lebat.</p><h4>Kesimpulan</h4><p>Memahami tanah longsor membantu mitigasi bencana di daerah perbukitan.</p>'
+  },
+  {
+    judul: "Geologi 99 - Geologi dan Abrasi Pantai",
+    konten: '<h4>Pengertian</h4><p>Abrasi adalah pengikisan garis pantai oleh gelombang laut.</p><h4>Penjelasan</h4><p>Mencakup penyebab, dampak, dan penanggulangan abrasi di wilayah pesisir.</p><h4>Contoh</h4><p>Abrasi di pantai utara Jawa, abrasi di pesisir Bali dan Lombok.</p><h4>Kesimpulan</h4><p>Memahami abrasi penting untuk pengelolaan wilayah pesisir berkelanjutan.</p>'
+  },
+  {
+    judul: "Geologi 100 - Masa Depan Geologi Indonesia",
+    konten: '<h4>Pengertian</h4><p>Masa depan geologi Indonesia berkaitan dengan pembangunan dan kesejahteraan masyarakat.</p><h4>Penjelasan</h4><p>Mencakup pengelolaan sumber daya, mitigasi bencana, dan pembangunan berkelanjutan.</p><h4>Contoh</h4><p>Visi geologi Indonesia 2045, peran geologi dalam pembangunan nasional.</p><h4>Kesimpulan</h4><p>Geologi Indonesia memiliki peran strategis dalam pembangunan dan kemakmuran bangsa.</p>'
   }
 ];
 
@@ -848,13 +1207,34 @@ function renderBagian() {
   if (!container) return;
   container.innerHTML = '';
 
+  const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const iconLock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+  const iconChevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
   for (let i = 0; i < materiList.length; i++) {
+    const isOpened = openedIndexes.includes(i);
+    const isLocked = !isOpened && !isPremium && todayLimit >= 2;
+
+    const rawTitle = materiList[i].judul;
+    const dashIdx = rawTitle.indexOf(' - ');
+    const shortTitle = dashIdx !== -1 ? rawTitle.substring(dashIdx + 3) : rawTitle;
+
     const btn = document.createElement('div');
     btn.className = 'materi-btn';
-    btn.innerText = 'Bagian ' + (i + 1);
+    if (isOpened) btn.classList.add('opened');
+    if (isLocked) btn.classList.add('locked');
 
-    if (openedIndexes.includes(i)) btn.classList.add('opened');
-    if (!openedIndexes.includes(i) && !isPremium && todayLimit >= 2) btn.classList.add('locked');
+    let statusIcon = iconChevron;
+    if (isOpened) statusIcon = iconCheck;
+    else if (isLocked) statusIcon = iconLock;
+
+    btn.innerHTML =
+      '<div class="materi-num">' + (i + 1) + '</div>' +
+      '<div class="materi-text">' +
+        '<div class="materi-title">' + shortTitle + '</div>' +
+        '<div class="materi-sub">Materi ' + (i + 1) + ' dari ' + materiList.length + '</div>' +
+      '</div>' +
+      '<div class="materi-status">' + statusIcon + '</div>';
 
     btn.onclick = (function(idx) {
       return function() { openMateri(idx); };
@@ -870,7 +1250,6 @@ function openMateri(index) {
     return;
   }
 
-  // Refresh cek premium expiry dari Firebase
   db.ref('users/' + currentUser.uid + '/premium/sains').once('value').then(function(snap) {
     isPremium = snap.val() === true;
     return db.ref('users/' + currentUser.uid + '/premium/sains_expiry').once('value');
@@ -943,10 +1322,6 @@ function backToList() {
   renderBagian();
 }
 
-function balikKeSains() {
-  window.location.href = 'sains.html';
-}
-
 function showAlert(message, showUpgrade) {
   const overlay = document.getElementById('globalAlert');
   document.getElementById('alertMessage').innerText = message;
@@ -993,12 +1368,7 @@ document.getElementById('prevBtn').onclick = prevMateri;
 document.getElementById('nextBtn').onclick = nextMateri;
 document.getElementById('backToListBtn').onclick = backToList;
 
-if (localStorage.getItem('isGuest') === 'true') {
-  showAlert('Silakan login terlebih dahulu untuk mengakses materi pembelajaran.', false);
-  setTimeout(function() { window.location.href = 'sains.html'; }, 2000);
-}
-
-if (localStorage.getItem('themeEkonomi') === 'dark') {
+if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
 

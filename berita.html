@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Star Tools - Berita</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -44,11 +60,12 @@
     color: #94A3B8;
   }
 
-  body.dark .news-item span {
+  body.dark .news-item .meta {
     color: #64748B;
   }
 
-  body.dark #filterNews {
+  body.dark .filter-select,
+  body.dark .filter-input {
     background: #1E293B;
     border-color: #334155;
     color: #F1F5F9;
@@ -63,6 +80,20 @@
     color: #94A3B8;
     border-top-color: #1E293B;
   }
+
+  body.dark .badge-kategori {
+    background: #1E3A5F;
+    color: #60A5FA;
+  }
+
+  body.dark .badge-kategori.teknologi { background: #1E3A5F; color: #60A5FA; }
+  body.dark .badge-kategori.kebijakan { background: #4B1E3A; color: #F472B6; }
+  body.dark .badge-kategori.prestasi { background: #1E4B2A; color: #34D399; }
+  body.dark .badge-kategori.beasiswa { background: #4B3A1E; color: #FBBF24; }
+  body.dark .badge-kategori.digital { background: #1E3A4B; color: #22D3EE; }
+  body.dark .badge-kategori.guru { background: #3A1E4B; color: #A78BFA; }
+  body.dark .badge-kategori.internasional { background: #4B1E1E; color: #F87171; }
+  body.dark .badge-kategori.inovasi { background: #1E4B4B; color: #2DD4BF; }
 
   .app-container {
     max-width: 560px;
@@ -134,6 +165,37 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+
+  body.dark .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .close-btn:active {
+    transform: scale(0.92);
+  }
+
+  .close-btn svg {
+    stroke: #0F172A;
+    width: 22px;
+    height: 22px;
+  }
+
+  body.dark .close-btn svg {
+    stroke: #F1F5F9;
   }
 
   .sidebar-overlay {
@@ -254,8 +316,139 @@
     gap: 8px;
   }
 
+  /* ===== CUSTOM FILTER ===== */
+  .filter-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .custom-select-wrapper {
+    flex: 1;
+    min-width: 110px;
+    position: relative;
+  }
+
+  .custom-select-wrapper .selected {
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+
+  body.dark .custom-select-wrapper .selected {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .custom-select-wrapper .selected svg {
+    width: 16px;
+    height: 16px;
+    stroke: #94A3B8;
+    transition: 0.2s;
+  }
+
+  .custom-select-wrapper .selected.active svg {
+    transform: rotate(180deg);
+  }
+
+  .custom-select-wrapper .dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 6px 0;
+    z-index: 100;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  body.dark .custom-select-wrapper .dropdown {
+    background: #1E293B;
+    border-color: #334155;
+  }
+
+  .custom-select-wrapper .dropdown.open {
+    display: block;
+  }
+
+  .custom-select-wrapper .dropdown .option {
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #0F172A;
+    transition: 0.15s;
+  }
+
+  body.dark .custom-select-wrapper .dropdown .option {
+    color: #F1F5F9;
+  }
+
+  .custom-select-wrapper .dropdown .option:hover {
+    background: #F1F5F9;
+  }
+
+  body.dark .custom-select-wrapper .dropdown .option:hover {
+    background: #334155;
+  }
+
+  .custom-select-wrapper .dropdown .option.active {
+    background: #DBEAFE;
+    color: #2563EB;
+  }
+
+  body.dark .custom-select-wrapper .dropdown .option.active {
+    background: #1E3A5F;
+    color: #60A5FA;
+  }
+
+  .filter-input {
+    flex: 1;
+    min-width: 110px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 13px;
+  }
+
+  .filter-input:focus {
+    outline: none;
+    border-color: #2563EB;
+  }
+
+  body.dark .filter-input {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+
+  .filter-input::placeholder {
+    color: #94A3B8;
+  }
+
+  body.dark .filter-input::placeholder {
+    color: #64748B;
+  }
+
+  /* ===== NEWS ITEMS ===== */
   .news-item {
-    padding: 14px 0;
+    padding: 16px 0;
     border-bottom: 1px solid #E2E8F0;
   }
 
@@ -266,59 +459,57 @@
   .news-item h3 {
     font-size: 15px;
     margin-bottom: 4px;
+    line-height: 1.4;
   }
 
   .news-item p {
     font-size: 13px;
     color: #64748B;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     line-height: 1.5;
   }
+
+  .news-item .meta-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .news-item .meta {
+    font-size: 11px;
+    color: #94A3B8;
+  }
+
+  .badge-kategori {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 12px;
+    border-radius: 40px;
+  }
+
+  .badge-kategori.teknologi { background: #DBEAFE; color: #2563EB; }
+  .badge-kategori.kebijakan { background: #FCE4EC; color: #D81B60; }
+  .badge-kategori.prestasi { background: #E8F5E9; color: #2E7D32; }
+  .badge-kategori.beasiswa { background: #FFF3E0; color: #E65100; }
+  .badge-kategori.digital { background: #E0F7FA; color: #00838F; }
+  .badge-kategori.guru { background: #F3E5F5; color: #6A1B9A; }
+  .badge-kategori.internasional { background: #FFEBEE; color: #C62828; }
+  .badge-kategori.inovasi { background: #E0F2F1; color: #00695C; }
 
   .news-item a {
     color: #2563EB;
     text-decoration: none;
     font-size: 13px;
     font-weight: 500;
+    display: inline-block;
+    margin-top: 2px;
   }
 
   .news-item a:active {
     opacity: 0.7;
-  }
-
-  .news-item .meta {
-    font-size: 11px;
-    color: #94A3B8;
-    display: block;
-    margin-top: 4px;
-  }
-
-  #filterNews {
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 14px;
-    border: 1px solid #E2E8F0;
-    background: #FFFFFF;
-    color: #0F172A;
-    font-size: 14px;
-    margin-bottom: 16px;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    padding-right: 40px;
-  }
-
-  #filterNews:focus {
-    outline: none;
-    border-color: #2563EB;
-  }
-
-  body.dark #filterNews {
-    background-color: #1E293B;
-    border-color: #334155;
-    color: #F1F5F9;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394A3B8' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   }
 
   .bottom-nav {
@@ -394,7 +585,15 @@
     border-top-color: #1E293B;
   }
 
-  .alert-overlay {
+  .empty-news {
+    text-align: center;
+    padding: 30px 0;
+    color: #94A3B8;
+    font-size: 14px;
+  }
+
+  /* ===== CUSTOM MODAL / ALERT ===== */
+  .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -408,18 +607,96 @@
     z-index: 200;
   }
 
-  .alert-card {
+  .modal-content {
     background: #FFFFFF;
     width: 300px;
     border-radius: 28px;
     padding: 24px 22px;
     text-align: center;
     border: 1px solid #E2E8F0;
+    animation: modalPop 0.25s ease;
   }
 
-  body.dark .alert-card {
+  body.dark .modal-content {
     background: #111827;
     border-color: #1E293B;
+  }
+
+  @keyframes modalPop {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .modal-content .modal-icon {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-content .modal-icon svg {
+    width: 48px;
+    height: 48px;
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  body.dark .modal-content .modal-icon svg {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content .modal-icon svg circle {
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  body.dark .modal-content .modal-icon svg circle {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content .modal-icon svg path {
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  body.dark .modal-content .modal-icon svg path {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content .modal-icon svg polyline {
+    stroke: #0F172A;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  body.dark .modal-content .modal-icon svg polyline {
+    stroke: #F1F5F9;
+  }
+
+  .modal-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #0F172A;
+  }
+
+  body.dark .modal-content h3 {
+    color: #F1F5F9;
+  }
+
+  .modal-content p {
+    font-size: 14px;
+    color: #64748B;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  body.dark .modal-content p {
+    color: #94A3B8;
   }
 
   .btn-full {
@@ -438,11 +715,70 @@
     transform: scale(0.97);
   }
 
-  .empty-news {
-    text-align: center;
-    padding: 30px 0;
-    color: #94A3B8;
-    font-size: 14px;
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      min-height: auto;
+    }
+
+    body.dark .app-container {
+      background: #111827;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+      position: relative;
+    }
+
+    .screen {
+      padding: 24px 24px 30px;
+    }
+
+    .card-modern {
+      padding: 24px;
+      border-radius: 20px;
+    }
+
+    .bottom-nav {
+      max-width: 720px;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .sidebar-nav {
+      border-radius: 0 20px 20px 0;
+    }
+
+    .modal-content {
+      width: 340px;
+      padding: 28px 26px;
+      border-radius: 28px;
+    }
+
+    .news-item h3 {
+      font-size: 16px;
+    }
+
+    .news-item p {
+      font-size: 14px;
+    }
   }
 </style>
 </head>
@@ -461,6 +797,12 @@
       </div>
       <span class="app-title">Star Tools</span>
     </div>
+    <button class="close-btn" onclick="goTo('index.html')" aria-label="Kembali ke Beranda">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
   </div>
 
   <!-- SIDEBAR -->
@@ -495,106 +837,44 @@
     <div class="card-modern">
       <div class="section-title">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
-        Berita Pendidikan
+        Berita Pendidikan & Teknologi
       </div>
 
-      <select id="filterNews">
-        <option value="new">Terbaru</option>
-        <option value="old">Terlama</option>
-      </select>
-
-      <div id="newsList">
-       <div class="news-item" data-date="2026-07-02">
-         <h3>Seleksi PPG Calon Guru 2026 Resmi Dibuka</h3>
-         <p>Kemendikdasmen membuka Program Pendidikan Profesi Guru (PPG) 2026 untuk 30 bidang studi guna meningkatkan kualitas tenaga pendidik.</p>
-         <a href="https://gtk.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-         <span class="meta">2026-07-02 | Sumber: Kemendikdasmen</span>
-       </div>
-
-       <div class="news-item" data-date="2026-02-23">
-         <h3>Revitalisasi Sekolah Dilanjutkan pada 2026</h3>
-         <p>Pemerintah melanjutkan program revitalisasi sekolah dengan fokus pada sekolah rusak berat, daerah 3T, dan wilayah terdampak bencana.</p>
-         <a href="https://www.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-         <span class="meta">2026-02-23 | Sumber: Kemendikdasmen</span>
-       </div>
-
-       <div class="news-item" data-date="2026-02-11">
-         <h3>Kemendikdasmen Percepat Program Prioritas Pendidikan 2026</h3>
-         <p>Pemerintah mempercepat digitalisasi pembelajaran, revitalisasi sekolah, serta peningkatan mutu dan kesejahteraan guru melalui Konsolnas 2026.</p>
-         <a href="https://www.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-         <span class="meta">2026-02-11 | Sumber: Kemendikdasmen</span>
-       </div>
-
-       <div class="news-item" data-date="2026-02-10">
-         <h3>Sertifikasi Guru Dipercepat Melalui Program PPG</h3>
-         <p>Kemendikdasmen menargetkan percepatan sertifikasi ratusan ribu guru melalui Program Pendidikan Profesi Guru.</p>
-         <a href="https://gtk.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-         <span class="meta">2026-02-10 | Sumber: Kemendikdasmen</span>
-       </div>
-
-       <div class="news-item" data-date="2026-01-21">
-         <h3>Program Prioritas Pendidikan 2026 Resmi Dipaparkan</h3>
-         <p>Pemerintah memfokuskan anggaran pendidikan pada peningkatan kualitas pembelajaran, pendidikan vokasi, digitalisasi, dan pemerataan akses pendidikan.</p>
-         <a href="https://www.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-         <span class="meta">2026-01-21 | Sumber: Kemendikdasmen</span>
-       </div>
-
-        <div class="news-item" data-date="2026-01-03">
-          <h3>150 Ribu Guru Akan Mendapat Beasiswa S1</h3>
-          <p>Pemerintah mengalokasikan beasiswa S1 bagi 150 ribu guru untuk meningkatkan kompetensi dan profesionalisme tenaga pendidik.</p>
-          <a href="https://www.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-          <span class="meta">2026-01-03 | Sumber: Kemendikdasmen</span>
+      <!-- CUSTOM FILTER ROW -->
+      <div class="filter-row">
+        <div class="custom-select-wrapper" id="filterKategoriWrapper">
+          <div class="selected" onclick="toggleDropdown('filterKategoriWrapper')">
+            <span id="selectedKategoriLabel">Semua Kategori</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="dropdown" id="filterKategoriDropdown">
+            <div class="option active" data-value="all" onclick="pilihKategori('all', 'Semua Kategori')">Semua Kategori</div>
+            <div class="option" data-value="teknologi" onclick="pilihKategori('teknologi', 'Teknologi')">Teknologi</div>
+            <div class="option" data-value="kebijakan" onclick="pilihKategori('kebijakan', 'Kebijakan')">Kebijakan</div>
+            <div class="option" data-value="prestasi" onclick="pilihKategori('prestasi', 'Prestasi')">Prestasi</div>
+            <div class="option" data-value="beasiswa" onclick="pilihKategori('beasiswa', 'Beasiswa')">Beasiswa</div>
+            <div class="option" data-value="digital" onclick="pilihKategori('digital', 'Digitalisasi')">Digitalisasi</div>
+            <div class="option" data-value="guru" onclick="pilihKategori('guru', 'Guru')">Guru</div>
+            <div class="option" data-value="internasional" onclick="pilihKategori('internasional', 'Internasional')">Internasional</div>
+            <div class="option" data-value="inovasi" onclick="pilihKategori('inovasi', 'Inovasi')">Inovasi</div>
+          </div>
         </div>
 
-        <div class="news-item" data-date="2026-03-06">
-          <h3>Pemulihan Pembelajaran di Daerah Terdampak Bencana</h3>
-          <p>Kemendikdasmen melakukan langkah strategis untuk memulihkan kegiatan belajar di daerah terdampak.</p>
-          <a href="https://puslapdik.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-          <span class="meta">2026-03-06 | Sumber: Kemendikdasmen</span>
+        <div class="custom-select-wrapper" id="filterSortWrapper">
+          <div class="selected" onclick="toggleDropdown('filterSortWrapper')">
+            <span id="selectedSortLabel">Terbaru</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="dropdown" id="filterSortDropdown">
+            <div class="option active" data-value="new" onclick="pilihSort('new', 'Terbaru')">Terbaru</div>
+            <div class="option" data-value="old" onclick="pilihSort('old', 'Terlama')">Terlama</div>
+          </div>
         </div>
 
-        <div class="news-item" data-date="2026-02-09">
-          <h3>Digitalisasi Pendidikan Dipercepat di Seluruh Indonesia</h3>
-          <p>Sekolah didorong mengadopsi pembelajaran digital untuk meningkatkan kualitas pendidikan.</p>
-          <a href="https://www.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-          <span class="meta">2026-02-09 | Sumber: Kemendikdasmen</span>
-        </div>
-
-        <div class="news-item" data-date="2026-02-09">
-          <h3>Program Wajib Belajar 13 Tahun Didorong Pemerintah</h3>
-          <p>Pemerintah terus memperluas akses pendidikan hingga 13 tahun wajib belajar.</p>
-          <a href="https://www.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-          <span class="meta">2026-02-09 | Sumber: Kemendikdasmen</span>
-        </div>
-
-        <div class="news-item" data-date="2026-01-23">
-          <h3>Kesejahteraan Guru Jadi Prioritas 2026</h3>
-          <p>Pemerintah berkomitmen meningkatkan kesejahteraan guru sebagai bagian dari pembangunan SDM.</p>
-          <a href="https://puslapdik.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-          <span class="meta">2026-01-23 | Sumber: Kemendikdasmen</span>
-        </div>
-
-        <div class="news-item" data-date="2026-01-22">
-          <h3>Program Indonesia Pintar Diperluas</h3>
-          <p>Bantuan pendidikan diperluas untuk menjangkau lebih banyak siswa.</p>
-          <a href="https://puslapdik.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-          <span class="meta">2026-01-22 | Sumber: Kemendikdasmen</span>
-        </div>
-
-        <div class="news-item" data-date="2026-01-22">
-          <h3>Insentif Guru Non-ASN Ditingkatkan</h3>
-          <p>Pemerintah menaikkan insentif sebagai bentuk apresiasi terhadap guru non-ASN.</p>
-          <a href="https://puslapdik.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-          <span class="meta">2026-01-22 | Sumber: Kemendikdasmen</span>
-        </div>
-
-        <div class="news-item" data-date="2026-02-09">
-          <h3>Simulasi Tes Kemampuan Akademik Diperkenalkan</h3>
-          <p>TKA digunakan sebagai alat evaluasi kemampuan siswa, bukan penentu kelulusan.</p>
-          <a href="https://www.kemendikdasmen.go.id/" target="_blank">Baca Selengkapnya</a>
-          <span class="meta">2026-02-09 | Sumber: Kemendikdasmen</span>
-        </div>
+        <input class="filter-input" id="filterSearch" type="text" placeholder="Cari berita..." oninput="applyFilters()">
       </div>
+
+      <div id="newsList"></div>
     </div>
   </div>
 
@@ -624,12 +904,13 @@
   </button>
 </div>
 
-<!-- ALERT -->
-<div id="globalAlert" class="alert-overlay">
-  <div class="alert-card">
-    <p id="alertMessage" style="margin-bottom:20px;">Pemberitahuan</p>
-    <button class="btn-full" onclick="closeAlertGlobal()">Mengerti</button>
-    <div id="alertExtraBtn"></div>
+<!-- CUSTOM MODAL -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-icon" id="modalIcon"></div>
+    <h3 id="modalTitle">Pemberitahuan</h3>
+    <p id="modalMessage">Pesan</p>
+    <button class="btn-full" onclick="closeModal()">Mengerti</button>
   </div>
 </div>
 
@@ -646,6 +927,11 @@ if (!firebase.apps.length) {
 }
 const db = firebase.database();
 
+// ======================== GLOBAL VARIABLES ========================
+let kategoriFilter = 'all';
+let sortFilter = 'new';
+
+// ======================== NAVIGATION ========================
 function goTo(page) {
   window.location.href = page;
 }
@@ -660,43 +946,285 @@ function closeSidebar() {
   document.getElementById('sidebarNav').classList.remove('active');
 }
 
-function closeAlertGlobal() {
-  document.getElementById('globalAlert').style.display = 'none';
-}
-
-function showAlert(message, showUpgrade) {
-  const overlay = document.getElementById('globalAlert');
-  document.getElementById('alertMessage').innerText = message;
-  const extraDiv = document.getElementById('alertExtraBtn');
-  extraDiv.innerHTML = '';
-  if (showUpgrade) {
-    const btn = document.createElement('button');
-    btn.className = 'btn-full';
-    btn.innerText = 'Tingkatkan ke Premium';
-    btn.style.marginTop = '12px';
-    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
-    extraDiv.appendChild(btn);
-  }
-  overlay.style.display = 'flex';
-}
-
 function logoutAction() {
   firebase.auth().signOut().then(function() {
     window.location.href = 'login.html';
   });
 }
 
-// ======================== FILTER BERITA ========================
-document.getElementById('filterNews').addEventListener('change', function() {
-  const items = Array.from(document.querySelectorAll('.news-item'));
-  items.sort((a, b) => {
-    const dateA = new Date(a.dataset.date);
-    const dateB = new Date(b.dataset.date);
-    return this.value === 'new' ? dateB - dateA : dateA - dateB;
+// ======================== CUSTOM MODAL ========================
+function getIcon(type) {
+  if (type === 'success') {
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>';
+  } else if (type === 'error') {
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+  } else if (type === 'warning') {
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  }
+  return '';
+}
+
+function showModal(iconType, title, message) {
+  document.getElementById('modalIcon').innerHTML = getIcon(iconType);
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalMessage').innerText = message;
+  document.getElementById('modalOverlay').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+}
+
+// ======================== CUSTOM DROPDOWN ========================
+function toggleDropdown(wrapperId) {
+  const wrapper = document.getElementById(wrapperId);
+  const dropdown = wrapper.querySelector('.dropdown');
+  const selected = wrapper.querySelector('.selected');
+
+  document.querySelectorAll('.dropdown.open').forEach(function(el) {
+    if (el.closest('.custom-select-wrapper').id !== wrapperId) {
+      el.classList.remove('open');
+      el.closest('.custom-select-wrapper').querySelector('.selected').classList.remove('active');
+    }
   });
-  const parent = document.getElementById('newsList');
-  items.forEach(item => parent.appendChild(item));
+
+  dropdown.classList.toggle('open');
+  selected.classList.toggle('active');
+}
+
+function pilihKategori(value, label) {
+  kategoriFilter = value;
+  document.getElementById('selectedKategoriLabel').innerText = label;
+
+  const dropdown = document.getElementById('filterKategoriDropdown');
+  dropdown.querySelectorAll('.option').forEach(function(el) {
+    el.classList.toggle('active', el.dataset.value === value);
+  });
+
+  dropdown.classList.remove('open');
+  document.getElementById('filterKategoriWrapper').querySelector('.selected').classList.remove('active');
+  applyFilters();
+}
+
+function pilihSort(value, label) {
+  sortFilter = value;
+  document.getElementById('selectedSortLabel').innerText = label;
+
+  const dropdown = document.getElementById('filterSortDropdown');
+  dropdown.querySelectorAll('.option').forEach(function(el) {
+    el.classList.toggle('active', el.dataset.value === value);
+  });
+
+  dropdown.classList.remove('open');
+  document.getElementById('filterSortWrapper').querySelector('.selected').classList.remove('active');
+  applyFilters();
+}
+
+// Tutup dropdown saat klik di luar
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.custom-select-wrapper')) {
+    document.querySelectorAll('.dropdown.open').forEach(function(el) {
+      el.classList.remove('open');
+      el.closest('.custom-select-wrapper').querySelector('.selected').classList.remove('active');
+    });
+  }
 });
+
+// ======================== DATA BERITA (CUSTOM) ========================
+const beritaData = [
+  {
+    id: 1,
+    judul: "Kemendikdasmen Luncurkan Platform AI untuk Pembelajaran Personal",
+    deskripsi: "Platform berbasis kecerdasan buatan membantu siswa belajar sesuai kemampuan masing-masing. Tersedia untuk 10.000 sekolah percontohan di seluruh Indonesia.",
+    kategori: "teknologi",
+    tanggal: "2026-08-06",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 2,
+    judul: "Siswa Indonesia Raih 3 Medali Emas di Olimpiade Fisika Asia 2026",
+    deskripsi: "Tim olimpiade fisika Indonesia berhasil meraih 3 medali emas, 2 perak, dan 1 perunggu di ajang Olimpiade Fisika Asia yang digelar di Singapura.",
+    kategori: "prestasi",
+    tanggal: "2026-08-05",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 3,
+    judul: "Seri Guru Belajar: Pelatihan Digitalisasi bagi 500 Ribu Guru",
+    deskripsi: "Program pelatihan digitalisasi guru diluncurkan untuk meningkatkan kompetensi mengajar di era digital. Target mencakup guru di seluruh jenjang pendidikan.",
+    kategori: "guru",
+    tanggal: "2026-08-04",
+    sumber: "Kemendikdasmen",
+    link: "https://gtk.kemendikdasmen.go.id/"
+  },
+  {
+    id: 4,
+    judul: "Indonesia Kembangkan Aplikasi AR untuk Pembelajaran IPA dan Matematika",
+    deskripsi: "Kemendikdasmen mengembangkan aplikasi Augmented Reality untuk mata pelajaran IPA dan Matematika, rencananya digunakan di 5.000 sekolah pada 2027.",
+    kategori: "teknologi",
+    tanggal: "2026-08-03",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 5,
+    judul: "Beasiswa Indonesia Maju 2026 Dibuka, Kuota 20.000 Mahasiswa",
+    deskripsi: "Program beasiswa bergengsi dari pemerintah kembali dibuka untuk mahasiswa S1 dan S2 di dalam dan luar negeri. Pendaftaran dibuka hingga 30 September 2026.",
+    kategori: "beasiswa",
+    tanggal: "2026-08-02",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 6,
+    judul: "1.000 Sekolah di Daerah Terpencil Terima Internet Satelit Starlink",
+    deskripsi: "Pemerintah bekerja sama dengan Starlink untuk menyediakan akses internet di 1.000 sekolah di daerah 3T, mendukung pembelajaran digital yang merata.",
+    kategori: "digital",
+    tanggal: "2026-07-28",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 7,
+    judul: "Kurikulum Merdeka Diperkuat dengan Kompetensi Digital",
+    deskripsi: "Pemerintah menambahkan kompetensi digital sebagai salah satu capaian utama dalam Kurikulum Merdeka, mulai dari SD hingga SMA.",
+    kategori: "kebijakan",
+    tanggal: "2026-07-25",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 8,
+    judul: "Program Guru Penggerak Angkatan 20 Resmi Dibuka",
+    deskripsi: "Pendaftaran Program Guru Penggerak angkatan ke-20 dibuka untuk guru SD hingga SMA di seluruh Indonesia. Program ini bertujuan mencetak pemimpin pembelajaran.",
+    kategori: "guru",
+    tanggal: "2026-07-20",
+    sumber: "Kemendikdasmen",
+    link: "https://gtk.kemendikdasmen.go.id/"
+  },
+  {
+    id: 9,
+    judul: "Siswa Difabel Indonesia Juara Lomba Robotik Internasional",
+    deskripsi: "Tim robotik dari SLB Negeri 1 Jakarta berhasil meraih juara pertama di ajang International Robotics Competition untuk kategori assistive technology.",
+    kategori: "prestasi",
+    tanggal: "2026-07-18",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 10,
+    judul: "Digitalisasi Sekolah: 50 Persen Sekolah Sudah Terhubung Internet",
+    deskripsi: "Pemerintah mencatat 50 persen dari total sekolah di Indonesia sudah terhubung internet. Target 100 persen tercapai pada akhir 2027.",
+    kategori: "digital",
+    tanggal: "2026-07-15",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 11,
+    judul: "Kemendikdasmen Rilis Buku Digital Gratis untuk Semua Jenjang",
+    deskripsi: "Lebih dari 10.000 buku digital dari berbagai mata pelajaran dirilis gratis melalui platform Merdeka Mengajar untuk mendukung pembelajaran.",
+    kategori: "digital",
+    tanggal: "2026-07-12",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 12,
+    judul: "Seleksi PPG Calon Guru 2026 Resmi Dibuka untuk 30 Bidang Studi",
+    deskripsi: "Kemendikdasmen membuka Program Pendidikan Profesi Guru (PPG) 2026 untuk 30 bidang studi guna meningkatkan kualitas tenaga pendidik.",
+    kategori: "guru",
+    tanggal: "2026-07-02",
+    sumber: "Kemendikdasmen",
+    link: "https://gtk.kemendikdasmen.go.id/"
+  },
+  {
+    id: 13,
+    judul: "Indonesia Tuan Rumah Konferensi Pendidikan ASEAN 2026",
+    deskripsi: "Indonesia terpilih sebagai tuan rumah Konferensi Pendidikan ASEAN 2026 yang akan membahas transformasi digital pendidikan di kawasan Asia Tenggara.",
+    kategori: "internasional",
+    tanggal: "2026-06-25",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 14,
+    judul: "Aplikasi Belajar Berbasis Game untuk SD Diluncurkan",
+    deskripsi: "Kemendikdasmen meluncurkan aplikasi belajar berbasis game untuk siswa SD yang mengintegrasikan materi matematika dan bahasa Indonesia.",
+    kategori: "inovasi",
+    tanggal: "2026-06-18",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  },
+  {
+    id: 15,
+    judul: "Program Pertukaran Pelajar Indonesia-Jepang Dibuka Kembali",
+    deskripsi: "Setelah pandemi, program pertukaran pelajar Indonesia-Jepang dibuka kembali untuk 200 siswa SMA di bidang sains dan teknologi.",
+    kategori: "internasional",
+    tanggal: "2026-06-10",
+    sumber: "Kemendikdasmen",
+    link: "https://www.kemendikdasmen.go.id/"
+  }
+];
+
+// ======================== RENDER BERITA ========================
+function renderBerita() {
+  const container = document.getElementById('newsList');
+  const searchFilter = document.getElementById('filterSearch').value.toLowerCase().trim();
+
+  let filtered = beritaData.filter(function(item) {
+    const matchKategori = kategoriFilter === 'all' || item.kategori === kategoriFilter;
+    const matchSearch = !searchFilter ||
+      item.judul.toLowerCase().includes(searchFilter) ||
+      item.deskripsi.toLowerCase().includes(searchFilter);
+    return matchKategori && matchSearch;
+  });
+
+  filtered.sort(function(a, b) {
+    const dateA = new Date(a.tanggal);
+    const dateB = new Date(b.tanggal);
+    return sortFilter === 'new' ? dateB - dateA : dateA - dateB;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-news">Tidak ada berita yang ditemukan</div>';
+    return;
+  }
+
+  const kategoriLabel = {
+    'teknologi': 'Teknologi',
+    'kebijakan': 'Kebijakan',
+    'prestasi': 'Prestasi',
+    'beasiswa': 'Beasiswa',
+    'digital': 'Digitalisasi',
+    'guru': 'Guru',
+    'internasional': 'Internasional',
+    'inovasi': 'Inovasi'
+  };
+
+  let html = '';
+  filtered.forEach(function(item) {
+    html += `
+      <div class="news-item">
+        <h3>${item.judul}</h3>
+        <p>${item.deskripsi}</p>
+        <div class="meta-wrap">
+          <span class="badge-kategori ${item.kategori}">${kategoriLabel[item.kategori] || item.kategori}</span>
+          <span class="meta">${item.tanggal} | ${item.sumber}</span>
+        </div>
+        <a href="${item.link}" target="_blank">Baca Selengkapnya →</a>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function applyFilters() {
+  renderBerita();
+}
 
 // ======================== THEME ========================
 if (localStorage.getItem('theme') === 'dark') {
@@ -705,7 +1233,7 @@ if (localStorage.getItem('theme') === 'dark') {
 
 // ======================== ACTIVE NAV ========================
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-document.querySelectorAll('.nav-item').forEach(item => {
+document.querySelectorAll('.nav-item').forEach(function(item) {
   item.classList.toggle('active', item.dataset.page === currentPage);
 });
 
@@ -723,6 +1251,21 @@ firebase.auth().onAuthStateChanged(function(user) {
     }
   }
 });
+
+// ======================== INIT ========================
+renderBerita();
+
+// Expose functions
+window.openSidebar = openSidebar;
+window.closeSidebar = closeSidebar;
+window.goTo = goTo;
+window.logoutAction = logoutAction;
+window.closeModal = closeModal;
+window.showModal = showModal;
+window.applyFilters = applyFilters;
+window.toggleDropdown = toggleDropdown;
+window.pilihKategori = pilihKategori;
+window.pilihSort = pilihSort;
 </script>
 
 </body>

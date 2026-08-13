@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>JavaScript - Star Tools</title>
 
+<link rel="icon" type="image/png" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+
+<meta property="og:image" content="https://www.stools.web.id/logo.jpg">
+<meta name="twitter:image" content="https://www.stools.web.id/logo.jpg">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Star Tools",
+ "url": "https://www.stools.web.id/",
+ "image": "https://www.stools.web.id/logo.jpg"
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -40,6 +56,37 @@
     background: #1E293B;
     border-color: #334155;
     color: #E2E8F0;
+  }
+
+  body.dark .materi-btn .materi-num {
+    background: #1D2B4A;
+    color: #60A5FA;
+  }
+
+  body.dark .materi-btn .materi-text .materi-sub {
+    color: #94A3B8;
+  }
+
+  body.dark .materi-btn .materi-status {
+    color: #475569;
+  }
+
+  body.dark .materi-btn.opened {
+    background: #111827;
+    border-color: #1D3A6E;
+  }
+
+  body.dark .materi-btn.opened .materi-status {
+    background: #14311F;
+    color: #4ADE80;
+  }
+
+  body.dark .materi-content p {
+    color: #CBD5E1;
+  }
+
+  body.dark .materi-content h4 {
+    color: #60A5FA;
   }
 
   body.dark .code-block {
@@ -326,37 +373,101 @@
   }
 
   .grid-bagian {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 10px;
     margin-top: 8px;
   }
 
   .materi-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
     background: #F8FAFE;
-    border: 1px solid #E2E8F0;
-    padding: 12px 6px;
+    border: 1.5px solid #E2E8F0;
+    padding: 14px;
     border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    text-align: center;
     cursor: pointer;
     color: #0F172A;
-    transition: 0.2s;
+    transition: 0.15s;
   }
 
   .materi-btn:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
+  }
+
+  .materi-btn .materi-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: #EFF6FF;
+    color: #2563EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: 0.15s;
+  }
+
+  .materi-btn .materi-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .materi-btn .materi-text .materi-title {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .materi-btn .materi-text .materi-sub {
+    font-size: 12px;
+    color: #64748B;
+    margin-top: 2px;
+  }
+
+  .materi-btn .materi-status {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #CBD5E1;
+  }
+
+  .materi-btn .materi-status svg {
+    width: 16px;
+    height: 16px;
   }
 
   .materi-btn.opened {
+    background: #FFFFFF;
+    border-color: #BFDBFE;
+  }
+
+  .materi-btn.opened .materi-num {
     background: #2563EB;
-    color: white;
-    border-color: #2563EB;
+    color: #fff;
+  }
+
+  .materi-btn.opened .materi-status {
+    background: #DCFCE7;
+    color: #16A34A;
   }
 
   .materi-btn.locked {
-    opacity: 0.5;
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .materi-btn.locked .materi-status {
+    color: #94A3B8;
   }
 
   .btn-full {
@@ -431,6 +542,13 @@
     font-size: 13px;
     color: #4fc3f7;
     margin: 12px 0;
+    border: 1px solid #E2E8F0;
+  }
+
+  body.dark .code-block {
+    background: #0F172A;
+    border-color: #334155;
+    color: #4fc3f7;
   }
 
   .alert-overlay {
@@ -456,6 +574,11 @@
     border: 1px solid #E2E8F0;
   }
 
+  body.dark .alert-card {
+    background: #111827;
+    border-color: #1E293B;
+  }
+
   .footer-app {
     text-align: center;
     padding: 20px;
@@ -464,8 +587,66 @@
     border-top: 1px solid #E2E8F0;
   }
 
+  body.dark .footer-app {
+    color: #94A3B8;
+    border-top-color: #1E293B;
+  }
+
   .hidden {
     display: none;
+  }
+
+  /* ===== Tampilan Laptop / PC ===== */
+  @media (min-width: 900px) {
+    body {
+      background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFE 60%);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: linear-gradient(160deg, #0B1120 0%, #111827 60%);
+    }
+
+    .app-container {
+      max-width: 720px;
+      margin: 36px auto;
+      min-height: auto;
+      background: #F1F5F9;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    body.dark .app-container {
+      background: #0B1120;
+      border-color: #1E293B;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-header {
+      border-radius: 20px 20px 0 0;
+    }
+
+    .grid-bagian {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .card-modern {
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .materi-content {
+      font-size: 16px;
+    }
+
+    .materi-content h4 {
+      font-size: 20px;
+    }
   }
 </style>
 </head>
@@ -483,7 +664,7 @@
       </div>
       <span class="app-title">Star Tools • JavaScript</span>
     </div>
-    <button class="close-btn" onclick="gooTo('coding.html')" aria-label="Kembali">
+    <button class="close-btn" onclick="goTo('coding.html')" aria-label="Kembali">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"/>
         <line x1="6" y1="6" x2="18" y2="18"/>
@@ -498,16 +679,16 @@
         <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </div>
-    <a href="#" onclick="goTo('homePage')">
+    <a href="#" onclick="goTo('index.html')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Utama
     </a>
-    <a href="#" onclick="goTo('newsPage')">
+    <a href="#" onclick="goTo('berita.html')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Berita
     </a>
-    <a href="#" onclick="goTo('premiumPage')">
+    <a href="#" onclick="goTo('premium.html')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Premium
     </a>
-    <a href="#" onclick="goTo('accountPage')">
+    <a href="#" onclick="goTo('akun.html')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Akun
     </a>
     <div class="logout-link">
@@ -522,14 +703,13 @@
       <div class="card-modern">
         <div class="section-title">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-            <polyline points="2 17 12 22 22 17"/>
-            <polyline points="2 12 12 17 22 12"/>
+           <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
           </svg>
           Belajar JavaScript
         </div>
         <p style="margin-bottom: 16px;">JavaScript adalah bahasa pemrograman yang membuat website menjadi interaktif dan dinamis. Kuasai dari dasar hingga mahir.</p>
-        
+
         <div class="status-row">
           <span id="premiumStatusBadge" class="premium-indicator">Akun Standar</span>
           <span id="limitCounter" class="limit-indicator">0/2 Hari Ini</span>
@@ -542,7 +722,7 @@
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
           </svg>
-          Daftar Materi JavaScript
+          Daftar Materi
         </div>
         <div id="listBagianGrid" class="grid-bagian"></div>
       </div>
@@ -596,206 +776,411 @@ let currentMateriIdx = 0;
 
 const todayStr = new Date().toDateString();
 
+// ======================== 100 MATERI JAVASCRIPT ========================
 const materiList = [
+  // 1-25: DASAR JAVASCRIPT
   {
-    judul: "Bagian 1 - Pengenalan JavaScript",
+    judul: "JS 1 - Pengenalan JavaScript",
     konten: '<h4>Pengertian</h4><p>JavaScript adalah bahasa pemrograman yang membuat website menjadi interaktif dan dinamis.</p><h4>Penjelasan</h4><p>JavaScript awalnya dibuat untuk browser, sekarang bisa digunakan di server (Node.js), mobile, dan desktop.</p><h4>Contoh Kode</h4><pre class="code-block">console.log("Hello World!");\nalert("Selamat datang di JavaScript!");</pre><h4>Kesimpulan</h4><p>JavaScript adalah jantung dari web modern.</p>'
   },
   {
-    judul: "Bagian 2 - Variabel JavaScript",
+    judul: "JS 2 - Variabel JavaScript",
     konten: '<h4>Pengertian</h4><p>Variabel adalah wadah untuk menyimpan data.</p><h4>Penjelasan</h4><p>Tiga cara deklarasi: var, let, const. Rekomendasi: gunakan let dan const.</p><h4>Contoh Kode</h4><pre class="code-block">let nama = "Budi";\nconst umur = 17;\nconsole.log(nama, umur);</pre><h4>Kesimpulan</h4><p>Gunakan let untuk nilai berubah, const untuk nilai tetap.</p>'
   },
   {
-    judul: "Bagian 3 - Tipe Data",
+    judul: "JS 3 - Tipe Data",
     konten: '<h4>Pengertian</h4><p>Tipe data adalah jenis nilai yang dapat disimpan.</p><h4>Penjelasan</h4><p>Tipe data primitif: string, number, boolean, null, undefined, symbol.</p><h4>Contoh Kode</h4><pre class="code-block">let nama = "Budi";\nlet umur = 17;\nlet aktif = true;</pre><h4>Kesimpulan</h4><p>Setiap data memiliki tipe yang menentukan operasinya.</p>'
   },
   {
-    judul: "Bagian 4 - Fungsi",
+    judul: "JS 4 - Fungsi",
     konten: '<h4>Pengertian</h4><p>Fungsi adalah blok kode yang dapat dipanggil berulang.</p><h4>Penjelasan</h4><p>Fungsi membuat kode lebih terstruktur dan reusable.</p><h4>Contoh Kode</h4><pre class="code-block">function sapa(nama) {\n  return "Halo " + nama;\n}\nconsole.log(sapa("Budi"));</pre><h4>Kesimpulan</h4><p>Fungsi adalah blok bangunan utama pemrograman.</p>'
   },
   {
-    judul: "Bagian 5 - Percabangan If Else",
+    judul: "JS 5 - Percabangan If Else",
     konten: '<h4>Pengertian</h4><p>Percabangan untuk mengambil keputusan berdasarkan kondisi.</p><h4>Penjelasan</h4><p>Menggunakan if, else if, dan else.</p><h4>Contoh Kode</h4><pre class="code-block">let nilai = 85;\nif (nilai >= 75) {\n  console.log("Lulus");\n} else {\n  console.log("Tidak Lulus");\n}</pre><h4>Kesimpulan</h4><p>Percabangan memungkinkan program mengambil keputusan.</p>'
   },
   {
-    judul: "Bagian 6 - Perulangan For",
+    judul: "JS 6 - Perulangan For",
     konten: '<h4>Pengertian</h4><p>Perulangan for untuk mengulang kode dengan jumlah pasti.</p><h4>Penjelasan</h4><p>Memiliki tiga bagian: inisialisasi, kondisi, increment.</p><h4>Contoh Kode</h4><pre class="code-block">for (let i = 0; i < 5; i++) {\n  console.log(i);\n}</pre><h4>Kesimpulan</h4><p>For loop menghemat penulisan kode berulang.</p>'
   },
   {
-    judul: "Bagian 7 - Perulangan While",
+    judul: "JS 7 - Perulangan While",
     konten: '<h4>Pengertian</h4><p>Perulangan while berjalan selama kondisi true.</p><h4>Penjelasan</h4><p>Cocok untuk jumlah perulangan yang tidak pasti.</p><h4>Contoh Kode</h4><pre class="code-block">let i = 0;\nwhile (i < 5) {\n  console.log(i);\n  i++;\n}</pre><h4>Kesimpulan</h4><p>While loop untuk kondisi yang belum pasti jumlahnya.</p>'
   },
   {
-    judul: "Bagian 8 - Array",
+    judul: "JS 8 - Array",
     konten: '<h4>Pengertian</h4><p>Array untuk menyimpan banyak nilai dalam satu variabel.</p><h4>Penjelasan</h4><p>Diakses menggunakan indeks dimulai dari 0.</p><h4>Contoh Kode</h4><pre class="code-block">let buah = ["Apel", "Jeruk", "Mangga"];\nconsole.log(buah[0]);</pre><h4>Kesimpulan</h4><p>Array berguna untuk koleksi data.</p>'
   },
   {
-    judul: "Bagian 9 - Object",
+    judul: "JS 9 - Object",
     konten: '<h4>Pengertian</h4><p>Object menyimpan pasangan key dan value.</p><h4>Penjelasan</h4><p>Digunakan untuk data yang kompleks dan terstruktur.</p><h4>Contoh Kode</h4><pre class="code-block">let user = {\n  nama: "Budi",\n  umur: 17\n};\nconsole.log(user.nama);</pre><h4>Kesimpulan</h4><p>Object penting untuk data terstruktur.</p>'
   },
   {
-    judul: "Bagian 10 - DOM Manipulation",
+    judul: "JS 10 - DOM Manipulation",
     konten: '<h4>Pengertian</h4><p>DOM adalah representasi HTML yang bisa dimanipulasi.</p><h4>Penjelasan</h4><p>JavaScript bisa mengubah isi dan style halaman.</p><h4>Contoh Kode</h4><pre class="code-block">document.getElementById("judul").innerHTML = "Halo Baru";</pre><h4>Kesimpulan</h4><p>DOM membuat website dinamis dan interaktif.</p>'
   },
   {
-    judul: "Bagian 11 - Event Listener",
+    judul: "JS 11 - Event Listener",
     konten: '<h4>Pengertian</h4><p>Event listener merespon aksi user seperti klik.</p><h4>Penjelasan</h4><p>Lebih fleksibel daripada event onclick langsung.</p><h4>Contoh Kode</h4><pre class="code-block">tombol.addEventListener("click", function() {\n  alert("Diklik!");\n});</pre><h4>Kesimpulan</h4><p>Event listener membuat website interaktif.</p>'
   },
   {
-    judul: "Bagian 12 - Arrow Function",
+    judul: "JS 12 - Arrow Function",
     konten: '<h4>Pengertian</h4><p>Arrow function adalah cara singkat menulis fungsi.</p><h4>Penjelasan</h4><p>Menggunakan tanda =>, lebih ringkas dari function biasa.</p><h4>Contoh Kode</h4><pre class="code-block">const kali = (a, b) => a * b;\nconsole.log(kali(5, 3));</pre><h4>Kesimpulan</h4><p>Arrow function membuat kode lebih bersih.</p>'
   },
   {
-    judul: "Bagian 13 - Template Literal",
+    judul: "JS 13 - Template Literal",
     konten: '<h4>Pengertian</h4><p>Template literal untuk string dengan variabel.</p><h4>Penjelasan</h4><p>Menggunakan backtick dan ${} untuk variabel.</p><h4>Contoh Kode</h4><pre class="code-block">let nama = "Budi";\nlet sapa = `Halo ${nama}`;</pre><h4>Kesimpulan</h4><p>Template literal mempermudah string dinamis.</p>'
   },
   {
-    judul: "Bagian 14 - Local Storage",
+    judul: "JS 14 - Local Storage",
     konten: '<h4>Pengertian</h4><p>Local storage menyimpan data permanen di browser.</p><h4>Penjelasan</h4><p>Data tetap tersimpan meskipun browser ditutup.</p><h4>Contoh Kode</h4><pre class="code-block">localStorage.setItem("nama", "Budi");\nlet nama = localStorage.getItem("nama");</pre><h4>Kesimpulan</h4><p>Berguna untuk menyimpan preferensi user.</p>'
   },
   {
-    judul: "Bagian 15 - Session Storage",
+    judul: "JS 15 - Session Storage",
     konten: '<h4>Pengertian</h4><p>Session storage mirip local storage tapi sementara.</p><h4>Penjelasan</h4><p>Data hilang saat tab atau browser ditutup.</p><h4>Contoh Kode</h4><pre class="code-block">sessionStorage.setItem("login", "true");\nlet login = sessionStorage.getItem("login");</pre><h4>Kesimpulan</h4><p>Cocok untuk data sementara satu sesi.</p>'
   },
   {
-    judul: "Bagian 16 - JSON",
+    judul: "JS 16 - JSON",
     konten: '<h4>Pengertian</h4><p>JSON adalah format pertukaran data yang ringan.</p><h4>Penjelasan</h4><p>Mirip object JavaScript, semua key dalam tanda kutip.</p><h4>Contoh Kode</h4><pre class="code-block">let json = JSON.stringify({nama: "Budi"});\nlet obj = JSON.parse(json);</pre><h4>Kesimpulan</h4><p>JSON adalah format standar pertukaran data web.</p>'
   },
   {
-    judul: "Bagian 17 - Fetch API",
+    judul: "JS 17 - Fetch API",
     konten: '<h4>Pengertian</h4><p>Fetch API untuk request HTTP ke server.</p><h4>Penjelasan</h4><p>Lebih modern dari XMLHttpRequest, mendukung Promise.</p><h4>Contoh Kode</h4><pre class="code-block">fetch("https://api.example.com/data")\n  .then(res => res.json())\n  .then(data => console.log(data));</pre><h4>Kesimpulan</h4><p>Fetch adalah cara modern komunikasi client-server.</p>'
   },
   {
-    judul: "Bagian 18 - Async Await",
+    judul: "JS 18 - Async Await",
     konten: '<h4>Pengertian</h4><p>Async/await untuk menangani Promise agar mudah dibaca.</p><h4>Penjelasan</h4><p>Membuat kode asinkron terlihat seperti sinkron.</p><h4>Contoh Kode</h4><pre class="code-block">async function ambilData() {\n  let res = await fetch(url);\n  let data = await res.json();\n}</pre><h4>Kesimpulan</h4><p>Async/await membuat kode asinkron lebih bersih.</p>'
   },
   {
-    judul: "Bagian 19 - Promise",
+    judul: "JS 19 - Promise",
     konten: '<h4>Pengertian</h4><p>Promise merepresentasikan operasi asinkron.</p><h4>Penjelasan</h4><p>Status: pending, fulfilled, rejected.</p><h4>Contoh Kode</h4><pre class="code-block">new Promise((resolve, reject) => {\n  resolve("Sukses");\n}).then(res => console.log(res));</pre><h4>Kesimpulan</h4><p>Promise adalah fondasi operasi asinkron.</p>'
   },
   {
-    judul: "Bagian 20 - Callback Function",
+    judul: "JS 20 - Callback Function",
     konten: '<h4>Pengertian</h4><p>Callback adalah fungsi yang diteruskan ke fungsi lain.</p><h4>Penjelasan</h4><p>Dipanggil setelah fungsi utama selesai.</p><h4>Contoh Kode</h4><pre class="code-block">angka.forEach(function(item) {\n  console.log(item);\n});</pre><h4>Kesimpulan</h4><p>Callback memungkinkan eksekusi kode berurutan.</p>'
   },
   {
-    judul: "Bagian 21 - Map, Filter, Reduce",
+    judul: "JS 21 - Map, Filter, Reduce",
     konten: '<h4>Pengertian</h4><p>Method array untuk manipulasi data fungsional.</p><h4>Penjelasan</h4><p>Map ubah, filter pilih, reduce gabung.</p><h4>Contoh Kode</h4><pre class="code-block">let angka = [1,2,3];\nlet kali2 = angka.map(x => x*2);\nlet genap = angka.filter(x => x%2===0);\nlet total = angka.reduce((a,b) => a+b, 0);</pre><h4>Kesimpulan</h4><p>Method array mempermudah manipulasi data.</p>'
   },
   {
-    judul: "Bagian 22 - Spread Operator",
+    judul: "JS 22 - Spread Operator",
     konten: '<h4>Pengertian</h4><p>Spread operator (...) menyebarkan elemen array/object.</p><h4>Penjelasan</h4><p>Berguna untuk menggabungkan atau menyalin data.</p><h4>Contoh Kode</h4><pre class="code-block">let arr1 = [1,2];\nlet arr2 = [3,4];\nlet gabung = [...arr1, ...arr2];</pre><h4>Kesimpulan</h4><p>Spread operator membuat manipulasi data mudah.</p>'
   },
   {
-    judul: "Bagian 23 - Destructuring",
+    judul: "JS 23 - Destructuring",
     konten: '<h4>Pengertian</h4><p>Destructuring mengambil nilai dari array/object.</p><h4>Penjelasan</h4><p>Sintaks ringkas untuk ekstraksi data.</p><h4>Contoh Kode</h4><pre class="code-block">let [a, b] = [1, 2];\nlet {nama, umur} = user;</pre><h4>Kesimpulan</h4><p>Destructuring membuat kode lebih efisien.</p>'
   },
   {
-    judul: "Bagian 24 - Class OOP",
+    judul: "JS 24 - Class OOP",
     konten: '<h4>Pengertian</h4><p>Class adalah blueprint untuk membuat object.</p><h4>Penjelasan</h4><p>Mendukung OOP dengan constructor dan method.</p><h4>Contoh Kode</h4><pre class="code-block">class Orang {\n  constructor(nama) {\n    this.nama = nama;\n  }\n}</pre><h4>Kesimpulan</h4><p>Class membuat kode lebih terstruktur.</p>'
   },
   {
-    judul: "Bagian 25 - Set dan Map",
+    judul: "JS 25 - Set dan Map",
     konten: '<h4>Pengertian</h4><p>Set untuk nilai unik, Map untuk key-value.</p><h4>Penjelasan</h4><p>Set menghilangkan duplikat, Map key bisa tipe apapun.</p><h4>Contoh Kode</h4><pre class="code-block">let set = new Set([1,2,2,3]);\nlet map = new Map();\nmap.set("key", "value");</pre><h4>Kesimpulan</h4><p>Set dan Map untuk struktur data khusus.</p>'
   },
+  // 26-50: JAVASCRIPT LANJUTAN
   {
-    judul: "Bagian 26 - Date dan Time",
+    judul: "JS 26 - Date dan Time",
     konten: '<h4>Pengertian</h4><p>Date untuk bekerja dengan tanggal dan waktu.</p><h4>Penjelasan</h4><p>Menyediakan method untuk komponen tanggal.</p><h4>Contoh Kode</h4><pre class="code-block">let now = new Date();\nconsole.log(now.getFullYear());</pre><h4>Kesimpulan</h4><p>Date penting untuk aplikasi berbasis waktu.</p>'
   },
   {
-    judul: "Bagian 27 - Math Object",
+    judul: "JS 27 - Math Object",
     konten: '<h4>Pengertian</h4><p>Math object untuk operasi matematika.</p><h4>Penjelasan</h4><p>Konstanta PI, method round, random, dll.</p><h4>Contoh Kode</h4><pre class="code-block">Math.random();\nMath.floor(4.7);\nMath.pow(2,3);</pre><h4>Kesimpulan</h4><p>Math object memudahkan operasi matematika.</p>'
   },
   {
-    judul: "Bagian 28 - String Methods",
+    judul: "JS 28 - String Methods",
     konten: '<h4>Pengertian</h4><p>String method untuk memanipulasi teks.</p><h4>Penjelasan</h4><p>toUpperCase, toLowerCase, slice, split, dll.</p><h4>Contoh Kode</h4><pre class="code-block">teks.toUpperCase();\nteks.includes("Java");\nteks.split(" ");</pre><h4>Kesimpulan</h4><p>String method mempermudah pengolahan teks.</p>'
   },
   {
-    judul: "Bagian 29 - Number Methods",
+    judul: "JS 29 - Number Methods",
     konten: '<h4>Pengertian</h4><p>Number method untuk memanipulasi angka.</p><h4>Penjelasan</h4><p>toFixed, parseInt, parseFloat, dll.</p><h4>Contoh Kode</h4><pre class="code-block">angka.toFixed(2);\nparseInt("123px");</pre><h4>Kesimpulan</h4><p>Number method penting untuk konversi angka.</p>'
   },
   {
-    judul: "Bagian 30 - Hoisting",
+    judul: "JS 30 - Hoisting",
     konten: '<h4>Pengertian</h4><p>Hoisting mengangkat deklarasi ke atas scope.</p><h4>Penjelasan</h4><p>var dan function di-hoisting, let dan const tidak.</p><h4>Contoh Kode</h4><pre class="code-block">console.log(a); // undefined\nvar a = 5;</pre><h4>Kesimpulan</h4><p>Pahami hoisting untuk hindari bug.</p>'
   },
   {
-    judul: "Bagian 31 - Closure",
+    judul: "JS 31 - Closure",
     konten: '<h4>Pengertian</h4><p>Closure adalah fungsi mengakses variabel luar.</p><h4>Penjelasan</h4><p>Berguna untuk data privacy dan function factory.</p><h4>Contoh Kode</h4><pre class="code-block">function counter() {\n  let count = 0;\n  return () => ++count;\n}</pre><h4>Kesimpulan</h4><p>Closure memungkinkan data private.</p>'
   },
   {
-    judul: "Bagian 32 - Scope",
+    judul: "JS 32 - Scope",
     konten: '<h4>Pengertian</h4><p>Scope adalah area akses variabel.</p><h4>Penjelasan</h4><p>Global scope, function scope, block scope.</p><h4>Contoh Kode</h4><pre class="code-block">let global = "global";\nfunction test() {\n  let lokal = "lokal";\n}</pre><h4>Kesimpulan</h4><p>Pahami scope untuk kelola variabel.</p>'
   },
   {
-    judul: "Bagian 33 - This Keyword",
+    judul: "JS 33 - This Keyword",
     konten: '<h4>Pengertian</h4><p>This merujuk pada konteks pemanggilan fungsi.</p><h4>Penjelasan</h4><p>Nilai this berbeda tergantung cara pemanggilan.</p><h4>Contoh Kode</h4><pre class="code-block">user.sapa(); // this = user\nfunction sapa() { console.log(this); }</pre><h4>Kesimpulan</h4><p>Memahami this penting untuk OOP.</p>'
   },
   {
-    judul: "Bagian 34 - Try Catch Finally",
+    judul: "JS 34 - Try Catch Finally",
     konten: '<h4>Pengertian</h4><p>Try catch untuk menangani error.</p><h4>Penjelasan</h4><p>Program tidak berhenti saat error.</p><h4>Contoh Kode</h4><pre class="code-block">try {\n  JSON.parse("invalid");\n} catch(e) {\n  console.log(e.message);\n}</pre><h4>Kesimpulan</h4><p>Error handling membuat program robust.</p>'
   },
   {
-    judul: "Bagian 35 - Debugging",
+    judul: "JS 35 - Debugging",
     konten: '<h4>Pengertian</h4><p>Debugging mencari dan memperbaiki error.</p><h4>Penjelasan</h4><p>Gunakan console.log, console.table, debugger.</p><h4>Contoh Kode</h4><pre class="code-block">console.log(data);\nconsole.table(array);\ndebugger;</pre><h4>Kesimpulan</h4><p>Debugging skill penting untuk developer.</p>'
   },
   {
-    judul: "Bagian 36 - Module Import Export",
+    judul: "JS 36 - Module Import Export",
     konten: '<h4>Pengertian</h4><p>Module memecah kode menjadi file terpisah.</p><h4>Penjelasan</h4><p>Export untuk mengirim, Import untuk menerima.</p><h4>Contoh Kode</h4><pre class="code-block">// math.js\nexport function tambah(a,b) { return a+b; }\n// main.js\nimport { tambah } from "./math.js";</pre><h4>Kesimpulan</h4><p>Module membuat kode lebih terorganisir.</p>'
   },
   {
-    judul: "Bagian 37 - Event Bubbling",
+    judul: "JS 37 - Event Bubbling",
     konten: '<h4>Pengertian</h4><p>Event bubbling event naik ke parent.</p><h4>Penjelasan</h4><p>Event dari child akan memicu parent.</p><h4>Contoh Kode</h4><pre class="code-block">e.stopPropagation(); // menghentikan bubbling</pre><h4>Kesimpulan</h4><p>Pahami bubbling untuk event handling.</p>'
   },
   {
-    judul: "Bagian 38 - Debounce Throttle",
+    judul: "JS 38 - Debounce Throttle",
     konten: '<h4>Pengertian</h4><p>Debounce dan throttle batasi frekuensi fungsi.</p><h4>Penjelasan</h4><p>Debounce tunggu jeda, throttle batasi interval.</p><h4>Contoh Kode</h4><pre class="code-block">// Debounce untuk search input\n// Throttle untuk scroll event</pre><h4>Kesimpulan</h4><p>Optimasi performa untuk event yang sering dipanggil.</p>'
   },
   {
-    judul: "Bagian 39 - Web Storage",
+    judul: "JS 39 - Web Storage",
     konten: '<h4>Pengertian</h4><p>Web storage menyimpan data di browser.</p><h4>Penjelasan</h4><p>localStorage permanen, sessionStorage sementara.</p><h4>Contoh Kode</h4><pre class="code-block">localStorage.setItem("key", "value");\nlet val = localStorage.getItem("key");</pre><h4>Kesimpulan</h4><p>Web storage penting untuk aplikasi modern.</p>'
   },
   {
-    judul: "Bagian 40 - Geolocation API",
+    judul: "JS 40 - Geolocation API",
     konten: '<h4>Pengertian</h4><p>Geolocation mendapatkan posisi pengguna.</p><h4>Penjelasan</h4><p>Browser meminta izin, mengembalikan latitude longitude.</p><h4>Contoh Kode</h4><pre class="code-block">navigator.geolocation.getCurrentPosition(pos => {\n  console.log(pos.coords.latitude);\n});</pre><h4>Kesimpulan</h4><p>Berguna untuk aplikasi berbasis lokasi.</p>'
   },
   {
-    judul: "Bagian 41 - History API",
+    judul: "JS 41 - History API",
     konten: '<h4>Pengertian</h4><p>History API manipulasi riwayat browser.</p><h4>Penjelasan</h4><p>Berguna untuk SPA tanpa reload.</p><h4>Contoh Kode</h4><pre class="code-block">history.pushState({}, "", "/page");\nhistory.back();</pre><h4>Kesimpulan</h4><p>Penting untuk navigasi modern.</p>'
   },
   {
-    judul: "Bagian 42 - Intersection Observer",
+    judul: "JS 42 - Intersection Observer",
     konten: '<h4>Pengertian</h4><p>Intersection Observer deteksi elemen masuk viewport.</p><h4>Penjelasan</h4><p>Berguna untuk lazy loading dan infinite scroll.</p><h4>Contoh Kode</h4><pre class="code-block">new IntersectionObserver((entries) => {\n  entries.forEach(e => {\n    if(e.isIntersecting) loadImage(e.target);\n  });\n});</pre><h4>Kesimpulan</h4><p>Optimasi performa dan UX.</p>'
   },
   {
-    judul: "Bagian 43 - Web Worker",
+    judul: "JS 43 - Web Worker",
     konten: '<h4>Pengertian</h4><p>Web Worker menjalankan script di background.</p><h4>Penjelasan</h4><p>Tidak memblokir UI, tidak bisa akses DOM.</p><h4>Contoh Kode</h4><pre class="code-block">let worker = new Worker("worker.js");\nworker.postMessage(data);\nworker.onmessage = (e) => console.log(e.data);</pre><h4>Kesimpulan</h4><p>Meningkatkan performa aplikasi berat.</p>'
   },
   {
-    judul: "Bagian 44 - Service Worker",
+    judul: "JS 44 - Service Worker",
     konten: '<h4>Pengertian</h4><p>Service Worker untuk PWA dan offline support.</p><h4>Penjelasan</h4><p>Proxy antara browser dan network.</p><h4>Contoh Kode</h4><pre class="code-block">navigator.serviceWorker.register("/sw.js");</pre><h4>Kesimpulan</h4><p>Memungkinkan aplikasi bekerja offline.</p>'
   },
   {
-    judul: "Bagian 45 - Canvas API",
+    judul: "JS 45 - Canvas API",
     konten: '<h4>Pengertian</h4><p>Canvas API untuk menggambar grafik 2D.</p><h4>Penjelasan</h4><p>Digunakan untuk game, chart, filter gambar.</p><h4>Contoh Kode</h4><pre class="code-block">let ctx = canvas.getContext("2d");\nctx.fillRect(10, 10, 100, 50);</pre><h4>Kesimpulan</h4><p>Penting untuk visualisasi dan game.</p>'
   },
   {
-    judul: "Bagian 46 - WebRTC",
+    judul: "JS 46 - WebRTC",
     konten: '<h4>Pengertian</h4><p>WebRTC untuk komunikasi real-time.</p><h4>Penjelasan</h4><p>Video call, audio call, file sharing.</p><h4>Contoh Kode</h4><pre class="code-block">navigator.mediaDevices.getUserMedia({ video: true });</pre><h4>Kesimpulan</h4><p>Komunikasi real-time antar browser.</p>'
   },
   {
-    judul: "Bagian 47 - Drag and Drop",
+    judul: "JS 47 - Drag and Drop",
     konten: '<h4>Pengertian</h4><p>Drag and Drop API memindahkan elemen.</p><h4>Penjelasan</h4><p>Untuk kanban board, file upload, rearrange.</p><h4>Contoh Kode</h4><pre class="code-block">&lt;div draggable="true" ondragstart="drag(event)"&gt;</pre><h4>Kesimpulan</h4><p>Meningkatkan interaktivitas aplikasi.</p>'
   },
   {
-    judul: "Bagian 48 - Fullscreen API",
+    judul: "JS 48 - Fullscreen API",
     konten: '<h4>Pengertian</h4><p>Fullscreen API menampilkan elemen fullscreen.</p><h4>Penjelasan</h4><p>Untuk video player, game, presentasi.</p><h4>Contoh Kode</h4><pre class="code-block">elem.requestFullscreen();\ndocument.exitFullscreen();</pre><h4>Kesimpulan</h4><p>Meningkatkan pengalaman pengguna.</p>'
   },
   {
-    judul: "Bagian 49 - Notification API",
+    judul: "JS 49 - Notification API",
     konten: '<h4>Pengertian</h4><p>Notification API menampilkan notifikasi desktop.</p><h4>Penjelasan</h4><p>Harus meminta izin pengguna terlebih dahulu.</p><h4>Contoh Kode</h4><pre class="code-block">Notification.requestPermission();\nnew Notification("Judul", { body: "Pesan" });</pre><h4>Kesimpulan</h4><p>Meningkatkan engagement pengguna.</p>'
   },
   {
-    judul: "Bagian 50 - Best Practices",
+    judul: "JS 50 - Best Practices",
     konten: '<h4>Pengertian</h4><p>Best practices pedoman menulis kode baik.</p><h4>Penjelasan</h4><p>Penamaan, struktur, performa, keamanan.</p><h4>Contoh Kode dan Tips</h4><pre class="code-block">// Gunakan let dan const\n// Gunakan === bukan ==\n// Hindari global variable\n// Gunakan async/await\n// Beri nama yang bermakna</pre><h4>Kesimpulan</h4><p>Best practices membuat kode lebih maintainable.</p>'
+  },
+  // 51-75: JAVASCRIPT FRAMEWORK & LIBRARY
+  {
+    judul: "JS 51 - Pengenalan Node.js",
+    konten: '<h4>Pengertian</h4><p>Node.js adalah runtime JavaScript di server.</p><h4>Penjelasan</h4><p>Memungkinkan JavaScript berjalan di luar browser.</p><h4>Contoh Kode</h4><pre class="code-block">const http = require("http");\nhttp.createServer((req, res) => {\n  res.end("Hello World");\n}).listen(3000);</pre><h4>Kesimpulan</h4><p>Node.js membuka JavaScript untuk backend.</p>'
+  },
+  {
+    judul: "JS 52 - Pengenalan React",
+    konten: '<h4>Pengertian</h4><p>React adalah library UI yang populer.</p><h4>Penjelasan</h4><p>Menggunakan komponen dan JSX.</p><h4>Contoh Kode</h4><pre class="code-block">function App() {\n  return &lt;h1&gt;Halo React!&lt;/h1&gt;;\n}</pre><h4>Kesimpulan</h4><p>React memudahkan pembuatan UI interaktif.</p>'
+  },
+  {
+    judul: "JS 53 - Pengenalan Vue.js",
+    konten: '<h4>Pengertian</h4><p>Vue.js adalah framework JavaScript progresif.</p><h4>Penjelasan</h4><p>Mudah dipelajari dan fleksibel.</p><h4>Contoh Kode</h4><pre class="code-block">new Vue({\n  el: "#app",\n  data: { pesan: "Halo Vue!" }\n});</pre><h4>Kesimpulan</h4><p>Vue.js cocok untuk pemula dan proyek kecil.</p>'
+  },
+  {
+    judul: "JS 54 - Pengenalan Angular",
+    konten: '<h4>Pengertian</h4><p>Angular adalah framework TypeScript dari Google.</p><h4>Penjelasan</h4><p>Mendukung komponen, dependency injection, routing.</p><h4>Contoh Kode</h4><pre class="code-block">@Component({\n  selector: "app-root",\n  template: "&lt;h1&gt;Halo Angular&lt;/h1&gt;"\n})</pre><h4>Kesimpulan</h4><p>Angular cocok untuk aplikasi enterprise.</p>'
+  },
+  {
+    judul: "JS 55 - NPM dan Package Manager",
+    konten: '<h4>Pengertian</h4><p>NPM adalah package manager untuk JavaScript.</p><h4>Penjelasan</h4><p>Mengelola dependency dan script proyek.</p><h4>Contoh Kode</h4><pre class="code-block">npm install express\nnpm start</pre><h4>Kesimpulan</h4><p>NPM penting untuk pengembangan modern.</p>'
+  },
+  {
+    judul: "JS 56 - Express.js",
+    konten: '<h4>Pengertian</h4><p>Express.js adalah framework web untuk Node.js.</p><h4>Penjelasan</h4><p>Membuat API dan web server dengan mudah.</p><h4>Contoh Kode</h4><pre class="code-block">const express = require("express");\nconst app = express();\napp.get("/", (req, res) => res.send("Hello"));</pre><h4>Kesimpulan</h4><p>Express adalah standar untuk Node.js backend.</p>'
+  },
+  {
+    judul: "JS 57 - Mongoose dan MongoDB",
+    konten: '<h4>Pengertian</h4><p>Mongoose adalah ODM untuk MongoDB.</p><h4>Penjelasan</h4><p>Mempermudah interaksi dengan database.</p><h4>Contoh Kode</h4><pre class="code-block">const User = mongoose.model("User", { nama: String });\nconst user = new User({ nama: "Budi" });\nawait user.save();</pre><h4>Kesimpulan</h4><p>Mongoose memudahkan operasi database.</p>'
+  },
+  {
+    judul: "JS 58 - JWT Authentication",
+    konten: '<h4>Pengertian</h4><p>JWT untuk autentikasi dan otorisasi.</p><h4>Penjelasan</h4><p>Token dikirim di header Authorization.</p><h4>Contoh Kode</h4><pre class="code-block">const token = jwt.sign({ id: user.id }, "secret");\njwt.verify(token, "secret");</pre><h4>Kesimpulan</h4><p>JWT aman dan stateless untuk autentikasi.</p>'
+  },
+  {
+    judul: "JS 59 - REST API",
+    konten: '<h4>Pengertian</h4><p>REST API adalah arsitektur web service.</p><h4>Penjelasan</h4><p>Menggunakan metode HTTP: GET, POST, PUT, DELETE.</p><h4>Contoh Kode</h4><pre class="code-block">app.get("/users", (req, res) => res.json(users));\napp.post("/users", (req, res) => users.push(req.body));</pre><h4>Kesimpulan</h4><p>REST API standar komunikasi client-server.</p>'
+  },
+  {
+    judul: "JS 60 - GraphQL",
+    konten: '<h4>Pengertian</h4><p>GraphQL adalah query language untuk API.</p><h4>Penjelasan</h4><p>Client menentukan data yang diperlukan.</p><h4>Contoh Kode</h4><pre class="code-block">query {\n  user(id: 1) {\n    nama\n    email\n  }\n}</pre><h4>Kesimpulan</h4><p>GraphQL lebih fleksibel dari REST.</p>'
+  },
+  {
+    judul: "JS 61 - WebSocket",
+    konten: '<h4>Pengertian</h4><p>WebSocket untuk komunikasi real-time.</p><h4>Penjelasan</h4><p>Koneksi dua arah antara client-server.</p><h4>Contoh Kode</h4><pre class="code-block">const ws = new WebSocket("ws://localhost");\nws.onmessage = (e) => console.log(e.data);</pre><h4>Kesimpulan</h4><p>WebSocket untuk chat, live data, game.</p>'
+  },
+  {
+    judul: "JS 62 - Socket.io",
+    konten: '<h4>Pengertian</h4><p>Socket.io memudahkan WebSocket dengan fallback.</p><h4>Penjelasan</h4><p>Mendukung room, broadcast, auto-reconnect.</p><h4>Contoh Kode</h4><pre class="code-block">io.on("connection", (socket) => {\n  socket.emit("pesan", "Halo");\n});</pre><h4>Kesimpulan</h4><p>Socket.io populer untuk aplikasi real-time.</p>'
+  },
+  {
+    judul: "JS 63 - Testing dengan Jest",
+    konten: '<h4>Pengertian</h4><p>Jest adalah testing framework untuk JavaScript.</p><h4>Penjelasan</h4><p>Mendukung unit test, snapshot, mock.</p><h4>Contoh Kode</h4><pre class="code-block">test("tambah 1 + 2 = 3", () => {\n  expect(tambah(1,2)).toBe(3);\n});</pre><h4>Kesimpulan</h4><p>Testing penting untuk kode yang reliable.</p>'
+  },
+  {
+    judul: "JS 64 - ESLint dan Prettier",
+    konten: '<h4>Pengertian</h4><p>ESLint untuk linting, Prettier untuk formatting.</p><h4>Penjelasan</h4><p>Menjaga konsistensi kode dalam tim.</p><h4>Contoh Kode</h4><pre class="code-block">// .eslintrc.json\n{\n  "extends": "eslint:recommended"\n}</pre><h4>Kesimpulan</h4><p>Alat penting untuk kolaborasi tim.</p>'
+  },
+  {
+    judul: "JS 65 - Webpack",
+    konten: '<h4>Pengertian</h4><p>Webpack adalah module bundler.</p><h4>Penjelasan</h4><p>Menggabungkan file JS, CSS, gambar menjadi satu.</p><h4>Contoh Kode</h4><pre class="code-block">module.exports = {\n  entry: "./src/index.js",\n  output: { filename: "bundle.js" }\n};</pre><h4>Kesimpulan</h4><p>Webpack penting untuk aplikasi modern.</p>'
+  },
+  {
+    judul: "JS 66 - Babel",
+    konten: '<h4>Pengertian</h4><p>Babel mengubah JS modern ke versi lama.</p><h4>Penjelasan</h4><p>Mendukung JSX, TypeScript, ESNext.</p><h4>Contoh Kode</h4><pre class="code-block">// .babelrc\n{\n  "presets": ["@babel/preset-env"]\n}</pre><h4>Kesimpulan</h4><p>Babel memastikan kompatibilitas browser.</p>'
+  },
+  {
+    judul: "JS 67 - TypeScript",
+    konten: '<h4>Pengertian</h4><p>TypeScript adalah JavaScript dengan tipe statis.</p><h4>Penjelasan</h4><p>Mencegah error tipe saat compile.</p><h4>Contoh Kode</h4><pre class="code-block">let nama: string = "Budi";\nfunction sapa(nama: string): string {\n  return "Halo " + nama;\n}</pre><h4>Kesimpulan</h4><p>TypeScript populer untuk proyek besar.</p>'
+  },
+  {
+    judul: "JS 68 - Next.js",
+    konten: '<h4>Pengertian</h4><p>Next.js adalah framework React untuk SSR.</p><h4>Penjelasan</h4><p>Mendukung server-side rendering dan static site.</p><h4>Contoh Kode</h4><pre class="code-block">export default function Page() {\n  return &lt;div&gt;Hello Next.js&lt;/div&gt;;\n}</pre><h4>Kesimpulan</h4><p>Next.js untuk performa dan SEO.</p>'
+  },
+  {
+    judul: "JS 69 - Nuxt.js",
+    konten: '<h4>Pengertian</h4><p>Nuxt.js adalah framework Vue untuk SSR.</p><h4>Penjelasan</h4><p>Mendukung server-side rendering, static site.</p><h4>Contoh Kode</h4><pre class="code-block">export default {\n  asyncData() {\n    return { data: "Hello" };\n  }\n}</pre><h4>Kesimpulan</h4><p>Nuxt.js untuk aplikasi Vue yang SEO-friendly.</p>'
+  },
+  {
+    judul: "JS 70 - Deno",
+    konten: '<h4>Pengertian</h4><p>Deno adalah runtime JavaScript modern dari pembuat Node.</p><h4>Penjelasan</h4><p>Mendukung TypeScript secara native.</p><h4>Contoh Kode</h4><pre class="code-block">Deno.serve(() => new Response("Hello"));</pre><h4>Kesimpulan</h4><p>Deno sebagai alternatif modern Node.</p>'
+  },
+  {
+    judul: "JS 71 - Bun",
+    konten: '<h4>Pengertian</h4><p>Bun adalah runtime JavaScript cepat.</p><h4>Penjelasan</h4><p>Lebih cepat dari Node dan Deno.</p><h4>Contoh Kode</h4><pre class="code-block">Bun.serve({\n  fetch(req) {\n    return new Response("Hello Bun!");\n  }\n});</pre><h4>Kesimpulan</h4><p>Bun adalah runtime JavaScript masa depan.</p>'
+  },
+  {
+    judul: "JS 72 - Prisma ORM",
+    konten: '<h4>Pengertian</h4><p>Prisma adalah ORM modern untuk Node.js.</p><h4>Penjelasan</h4><p>Mendukung TypeScript, auto-completion, migrasi.</p><h4>Contoh Kode</h4><pre class="code-block">const users = await prisma.user.findMany();</pre><h4>Kesimpulan</h4><p>Prisma memudahkan interaksi database.</p>'
+  },
+  {
+    judul: "JS 73 - Tailwind CSS dengan JS",
+    konten: '<h4>Pengertian</h4><p>Tailwind adalah CSS framework utility-first.</p><h4>Penjelasan</h4><p>Bisa digunakan dengan JS framework apapun.</p><h4>Contoh Kode</h4><pre class="code-block">&lt;div class="bg-blue-500 text-white p-4"&gt;\n  Halo Tailwind\n&lt;/div&gt;</pre><h4>Kesimpulan</h4><p>Tailwind mempercepat pengembangan UI.</p>'
+  },
+  {
+    judul: "JS 74 - Zustand State Management",
+    konten: '<h4>Pengertian</h4><p>Zustand adalah state management minimalis.</p><h4>Penjelasan</h4><p>Lebih sederhana dari Redux.</p><h4>Contoh Kode</h4><pre class="code-block">const useStore = create((set) => ({\n  count: 0,\n  increment: () => set((state) => ({ count: state.count + 1 }))\n}));</pre><h4>Kesimpulan</h4><p>Zustand untuk state management modern.</p>'
+  },
+  {
+    judul: "JS 75 - Redux Toolkit",
+    konten: '<h4>Pengertian</h4><p>Redux Toolkit adalah cara resmi menulis Redux.</p><h4>Penjelasan</h4><p>Mengurangi boilerplate Redux.</p><h4>Contoh Kode</h4><pre class="code-block">const counterSlice = createSlice({\n  name: "counter",\n  initialState: 0,\n  reducers: { increment: (state) => state + 1 }\n});</pre><h4>Kesimpulan</h4><p>Redux Toolkit menyederhanakan state management.</p>'
+  },
+  // 76-100: TOPIK LANJUTAN
+  {
+    judul: "JS 76 - Mikroservices dengan Node.js",
+    konten: '<h4>Pengertian</h4><p>Mikroservices adalah arsitektur aplikasi modular.</p><h4>Penjelasan</h4><p>Setiap service independen dan scalable.</p><h4>Contoh Kode</h4><pre class="code-block">// Service A dan B berkomunikasi via API atau message queue</pre><h4>Kesimpulan</h4><p>Mikroservices untuk aplikasi enterprise.</p>'
+  },
+  {
+    judul: "JS 77 - Docker dan JavaScript",
+    konten: '<h4>Pengertian</h4><p>Docker untuk containerisasi aplikasi.</p><h4>Penjelasan</h4><p>Memudahkan deployment dan konsistensi.</p><h4>Contoh Kode</h4><pre class="code-block">FROM node:18\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install</pre><h4>Kesimpulan</h4><p>Docker penting untuk DevOps.</p>'
+  },
+  {
+    judul: "JS 78 - CI/CD dengan GitHub Actions",
+    konten: '<h4>Pengertian</h4><p>CI/CD otomatisasi build dan deployment.</p><h4>Penjelasan</h4><p>GitHub Actions untuk pipeline.</p><h4>Contoh Kode</h4><pre class="code-block">name: CI\non: push\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3</pre><h4>Kesimpulan</h4><p>CI/CD meningkatkan produktivitas tim.</p>'
+  },
+  {
+    judul: "JS 79 - Kubernetes untuk Node.js",
+    konten: '<h4>Pengertian</h4><p>Kubernetes orchestrasi container.</p><h4>Penjelasan</h4><p>Mengatur scaling, deployment, load balancing.</p><h4>Contoh Kode</h4><pre class="code-block">apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: app</pre><h4>Kesimpulan</h4><p>Kubernetes untuk aplikasi skala besar.</p>'
+  },
+  {
+    judul: "JS 80 - Serverless dengan AWS Lambda",
+    konten: '<h4>Pengertian</h4><p>Serverless menjalankan kode tanpa server.</p><h4>Penjelasan</h4><p>AWS Lambda, Google Cloud Functions.</p><h4>Contoh Kode</h4><pre class="code-block">exports.handler = async (event) => {\n  return { statusCode: 200, body: "OK" };\n};</pre><h4>Kesimpulan</h4><p>Serverless hemat biaya dan scalable.</p>'
+  },
+  {
+    judul: "JS 81 - Web Security",
+    konten: '<h4>Pengertian</h4><p>Keamanan web adalah aspek penting.</p><h4>Penjelasan</h4><p>XSS, CSRF, SQL Injection, CORS.</p><h4>Contoh Kode</h4><pre class="code-block">// Sanitasi input\n// HTTPS\n// Helmet.js</pre><h4>Kesimpulan</h4><p>Keamanan harus diperhatikan sejak awal.</p>'
+  },
+  {
+    judul: "JS 82 - OAuth 2.0",
+    konten: '<h4>Pengertian</h4><p>OAuth 2.0 untuk otorisasi pihak ketiga.</p><h4>Penjelasan</h4><p>Login dengan Google, Facebook, dll.</p><h4>Contoh Kode</h4><pre class="code-block">// Menggunakan passport.js\npassport.use(new GoogleStrategy({...}));</pre><h4>Kesimpulan</h4><p>OAuth penting untuk autentikasi modern.</p>'
+  },
+  {
+    judul: "JS 83 - Performance Optimization",
+    konten: '<h4>Pengertian</h4><p>Optimasi performa untuk aplikasi cepat.</p><h4>Penjelasan</h4><p>Lazy loading, code splitting, caching.</p><h4>Contoh Kode</h4><pre class="code-block">const LazyComponent = lazy(() => import("./Component"));</pre><h4>Kesimpulan</h4><p>Performa penting untuk UX.</p>'
+  },
+  {
+    judul: "JS 84 - SEO dengan JavaScript",
+    konten: '<h4>Pengertian</h4><p>SEO penting untuk visibilitas website.</p><h4>Penjelasan</h4><p>Meta tags, SSR, sitemap.</p><h4>Contoh Kode</h4><pre class="code-block">&lt;meta name="description" content="..." /&gt;</pre><h4>Kesimpulan</h4><p>SEO membuat website mudah ditemukan.</p>'
+  },
+  {
+    judul: "JS 85 - PWA dengan JavaScript",
+    konten: '<h4>Pengertian</h4><p>PWA adalah aplikasi web seperti native.</p><h4>Penjelasan</h4><p>Offline support, push notification, installable.</p><h4>Contoh Kode</h4><pre class="code-block">// manifest.json\n{\n  "name": "App",\n  "start_url": "/",\n  "display": "standalone"\n}</pre><h4>Kesimpulan</h4><p>PWA meningkatkan pengalaman pengguna.</p>'
+  },
+  {
+    judul: "JS 86 - WebAssembly",
+    konten: '<h4>Pengertian</h4><p>WebAssembly adalah binary format untuk web.</p><h4>Penjelasan</h4><p>Berjalan dengan performa hampir native.</p><h4>Contoh Kode</h4><pre class="code-block">WebAssembly.instantiateStreaming(fetch("app.wasm"));</pre><h4>Kesimpulan</h4><p>WebAssembly untuk aplikasi berat.</p>'
+  },
+  {
+    judul: "JS 87 - Three.js 3D",
+    konten: '<h4>Pengertian</h4><p>Three.js adalah library 3D untuk browser.</p><h4>Penjelasan</h4><p>Membuat scene, camera, renderer.</p><h4>Contoh Kode</h4><pre class="code-block">const scene = new THREE.Scene();\nconst camera = new THREE.PerspectiveCamera(75, w/h);</pre><h4>Kesimpulan</h4><p>Three.js untuk aplikasi 3D dan game.</p>'
+  },
+  {
+    judul: "JS 88 - D3.js Data Visualization",
+    konten: '<h4>Pengertian</h4><p>D3.js untuk visualisasi data.</p><h4>Penjelasan</h4><p>Membuat chart, grafik, diagram interaktif.</p><h4>Contoh Kode</h4><pre class="code-block">d3.select("svg")\n  .append("circle")\n  .attr("r", 10);</pre><h4>Kesimpulan</h4><p>D3.js penting untuk data visualization.</p>'
+  },
+  {
+    judul: "JS 89 - Chart.js",
+    konten: '<h4>Pengertian</h4><p>Chart.js adalah library chart sederhana.</p><h4>Penjelasan</h4><p>Mudah digunakan, banyak tipe chart.</p><h4>Contoh Kode</h4><pre class="code-block">new Chart(ctx, {\n  type: "bar",\n  data: { labels: ["A", "B"], datasets: [{ data: [1,2] }] }\n});</pre><h4>Kesimpulan</h4><p>Chart.js untuk visualisasi cepat.</p>'
+  },
+  {
+    judul: "JS 90 - GSAP Animations",
+    konten: '<h4>Pengertian</h4><p>GSAP adalah library animasi professional.</p><h4>Penjelasan</h4><p>Animasi halus, timeline, scroll trigger.</p><h4>Contoh Kode</h4><pre class="code-block">gsap.to(".box", { x: 100, duration: 1 });</pre><h4>Kesimpulan</h4><p>GSAP untuk animasi website premium.</p>'
+  },
+  {
+    judul: "JS 91 - Framer Motion",
+    konten: '<h4>Pengertian</h4><p>Framer Motion adalah library animasi untuk React.</p><h4>Penjelasan</h4><p>Animasi sederhana dan powerful.</p><h4>Contoh Kode</h4><pre class="code-block">&lt;motion.div animate={{ x: 100 }} /&gt;</pre><h4>Kesimpulan</h4><p>Framer Motion untuk React animation.</p>'
+  },
+  {
+    judul: "JS 92 - React Native",
+    konten: '<h4>Pengertian</h4><p>React Native untuk aplikasi mobile.</p><h4>Penjelasan</h4><p>Menggunakan React untuk iOS dan Android.</p><h4>Contoh Kode</h4><pre class="code-block">&lt;View&gt;\n  &lt;Text&gt;Halo React Native&lt;/Text&gt;\n&lt;/View&gt;</pre><h4>Kesimpulan</h4><p>React Native untuk mobile development.</p>'
+  },
+  {
+    judul: "JS 93 - Electron.js",
+    konten: '<h4>Pengertian</h4><p>Electron untuk aplikasi desktop.</p><h4>Penjelasan</h4><p>Membangun aplikasi desktop dengan web tech.</p><h4>Contoh Kode</h4><pre class="code-block">const { app, BrowserWindow } = require("electron");</pre><h4>Kesimpulan</h4><p>Electron untuk desktop apps.</p>'
+  },
+  {
+    judul: "JS 94 - Tauri",
+    konten: '<h4>Pengertian</h4><p>Tauri adalah alternatif Electron yang lebih ringan.</p><h4>Penjelasan</h4><p>Menggunakan Rust di backend.</p><h4>Contoh Kode</h4><pre class="code-block">// tauri.conf.json</pre><h4>Kesimpulan</h4><p>Tauri untuk desktop apps yang ringan.</p>'
+  },
+  {
+    judul: "JS 95 - Web3.js",
+    konten: '<h4>Pengertian</h4><p>Web3.js untuk interaksi dengan blockchain.</p><h4>Penjelasan</h4><p>Mengirim transaksi, membaca smart contract.</p><h4>Contoh Kode</h4><pre class="code-block">const web3 = new Web3(provider);\nconst balance = await web3.eth.getBalance(address);</pre><h4>Kesimpulan</h4><p>Web3.js untuk aplikasi blockchain.</p>'
+  },
+  {
+    judul: "JS 96 - AI dengan TensorFlow.js",
+    konten: '<h4>Pengertian</h4><p>TensorFlow.js untuk machine learning di browser.</p><h4>Penjelasan</h4><p>Training dan inference model AI.</p><h4>Contoh Kode</h4><pre class="code-block">const model = tf.sequential();\nmodel.add(tf.layers.dense({ units: 1, inputShape: [1] }));</pre><h4>Kesimpulan</h4><p>TensorFlow.js untuk AI di web.</p>'
+  },
+  {
+    judul: "JS 97 - NLP dengan Compromise.js",
+    konten: '<h4>Pengertian</h4><p>Compromise.js untuk NLP di browser.</p><h4>Penjelasan</h4><p>Analisis teks, named entity recognition.</p><h4>Contoh Kode</h4><pre class="code-block">let doc = nlp("Saya suka JavaScript");\nconsole.log(doc.verbs().data());</pre><h4>Kesimpulan</h4><p>Compromise.js untuk natural language processing.</p>'
+  },
+  {
+    judul: "JS 98 - WebGL",
+    konten: '<h4>Pengertian</h4><p>WebGL untuk grafik 3D di browser.</p><h4>Penjelasan</h4><p>Lebih rendah level dari Three.js.</p><h4>Contoh Kode</h4><pre class="code-block">const gl = canvas.getContext("webgl");\n// Render triangle dengan shader</pre><h4>Kesimpulan</h4><p>WebGL untuk grafik 3D performa tinggi.</p>'
+  },
+  {
+    judul: "JS 99 - WebSocket vs SSE",
+    konten: '<h4>Pengertian</h4><p>SSE adalah Server-Sent Events.</p><h4>Penjelasan</h4><p>One-way communication dari server ke client.</p><h4>Contoh Kode</h4><pre class="code-block">const eventSource = new EventSource("/events");\neventSource.onmessage = (e) => console.log(e.data);</pre><h4>Kesimpulan</h4><p>SSE untuk real-time update satu arah.</p>'
+  },
+  {
+    judul: "JS 100 - Masa Depan JavaScript",
+    konten: '<h4>Pengertian</h4><p>JavaScript terus berkembang setiap tahun.</p><h4>Penjelasan</h4><p>ES2025, TC39, proposal terbaru.</p><h4>Contoh Kode</h4><pre class="code-block">// Pipe operator, records, tuples\n// Pattern matching, decorators</pre><h4>Kesimpulan</h4><p>JavaScript adalah bahasa yang terus berevolusi.</p>'
   }
 ];
 
@@ -822,7 +1207,7 @@ function saveLocalProgress() {
 function updateUI() {
   const badge = document.getElementById('premiumStatusBadge');
   const limitSpan = document.getElementById('limitCounter');
-  
+
   if (isPremium && premiumExpiry) {
     const now = Date.now();
     if (now > premiumExpiry) {
@@ -831,9 +1216,13 @@ function updateUI() {
       badge.innerText = 'Premium Habis';
       badge.className = 'premium-indicator warning';
       limitSpan.innerText = '0/2 Hari Ini';
+      if (currentUser) {
+        db.ref('users/' + currentUser.uid + '/premium/coding').set(false);
+        db.ref('users/' + currentUser.uid + '/premium/coding_expiry').remove();
+      }
       return;
     }
-    
+
     const sisaHari = Math.ceil((premiumExpiry - now) / (1000 * 60 * 60 * 24));
     badge.innerText = 'Premium (' + sisaHari + ' hari)';
     badge.className = 'premium-indicator active';
@@ -853,19 +1242,40 @@ function renderBagian() {
   const container = document.getElementById('listBagianGrid');
   if (!container) return;
   container.innerHTML = '';
-  
+
+  const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const iconLock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+  const iconChevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
   for (let i = 0; i < materiList.length; i++) {
+    const isOpened = openedIndexes.includes(i);
+    const isLocked = !isOpened && !isPremium && todayLimit >= 2;
+
+    const rawTitle = materiList[i].judul;
+    const dashIdx = rawTitle.indexOf(' - ');
+    const shortTitle = dashIdx !== -1 ? rawTitle.substring(dashIdx + 3) : rawTitle;
+
     const btn = document.createElement('div');
     btn.className = 'materi-btn';
-    btn.innerText = 'Bagian ' + (i + 1);
-    
-    if (openedIndexes.includes(i)) btn.classList.add('opened');
-    if (!openedIndexes.includes(i) && !isPremium && todayLimit >= 2) btn.classList.add('locked');
-    
+    if (isOpened) btn.classList.add('opened');
+    if (isLocked) btn.classList.add('locked');
+
+    let statusIcon = iconChevron;
+    if (isOpened) statusIcon = iconCheck;
+    else if (isLocked) statusIcon = iconLock;
+
+    btn.innerHTML =
+      '<div class="materi-num">' + (i + 1) + '</div>' +
+      '<div class="materi-text">' +
+        '<div class="materi-title">' + shortTitle + '</div>' +
+        '<div class="materi-sub">Materi ' + (i + 1) + ' dari ' + materiList.length + '</div>' +
+      '</div>' +
+      '<div class="materi-status">' + statusIcon + '</div>';
+
     btn.onclick = (function(idx) {
       return function() { openMateri(idx); };
     })(i);
-    
+
     container.appendChild(btn);
   }
 }
@@ -875,13 +1285,13 @@ function openMateri(index) {
     showAlert('Silakan masuk ke akun Anda terlebih dahulu.', false);
     return;
   }
-  
-  // Refresh cek premium expiry
+
   db.ref('users/' + currentUser.uid + '/premium/coding').once('value').then(function(snap) {
     isPremium = snap.val() === true;
     return db.ref('users/' + currentUser.uid + '/premium/coding_expiry').once('value');
   }).then(function(expirySnap) {
     premiumExpiry = expirySnap.val() || null;
+
     if (isPremium && premiumExpiry && Date.now() > premiumExpiry) {
       isPremium = false;
       premiumExpiry = null;
@@ -892,22 +1302,22 @@ function openMateri(index) {
       showAlert('Masa premium Anda telah berakhir. Silakan perpanjang untuk mengakses materi.', true);
       return;
     }
-    
+
     const isOpened = openedIndexes.includes(index);
     const isLocked = !isOpened && !isPremium && todayLimit >= 2;
-    
+
     if (isLocked) {
       showAlert('Batas harian untuk akun standar telah tercapai (2 materi). Dapatkan akses premium untuk membuka seluruh materi tanpa batas.', true);
       return;
     }
-    
+
     if (!isOpened) {
       todayLimit++;
       openedIndexes.push(index);
       saveLocalProgress();
       updateUI();
       renderBagian();
-      
+
       if (currentUser) {
         const openedObj = {};
         openedIndexes.forEach(function(i) { openedObj[i] = true; });
@@ -915,12 +1325,12 @@ function openMateri(index) {
         db.ref('users/' + currentUser.uid + '/limit/js').set({ count: todayLimit, date: todayStr });
       }
     }
-    
+
     currentMateriIdx = index;
-    
+
     document.getElementById('halamanUtama').classList.add('hidden');
     document.getElementById('materiView').classList.remove('hidden');
-    
+
     document.getElementById('judulMateriView').innerHTML = materiList[index].judul;
     document.getElementById('isiMateriDetail').innerHTML = materiList[index].konten;
   });
@@ -948,10 +1358,6 @@ function backToList() {
   renderBagian();
 }
 
-function balikKeCoding() {
-  window.location.href = 'coding.html';
-}
-
 function showAlert(message, showUpgrade) {
   const overlay = document.getElementById('globalAlert');
   document.getElementById('alertMessage').innerText = message;
@@ -962,7 +1368,7 @@ function showAlert(message, showUpgrade) {
     btn.className = 'btn-full';
     btn.innerText = 'Tingkatkan ke Premium';
     btn.style.marginTop = '12px';
-    btn.onclick = function() { closeAlertGlobal(); goTo('premiumPage'); };
+    btn.onclick = function() { closeAlertGlobal(); goTo('premium.html'); };
     extraDiv.appendChild(btn);
   }
   overlay.style.display = 'flex';
@@ -983,37 +1389,28 @@ function closeSidebar() {
 }
 
 function goTo(page) {
-  localStorage.setItem('targetPage', page);
-  window.location.href = 'index.html';
-}
-
-function gooTo(page) {
-  localStorage.setItem('targetPage', page);
-  window.location.href = 'coding.html';
+  window.location.href = page;
 }
 
 function logoutAction() {
-  firebase.auth().signOut().then(function() {
-    window.location.href = 'coding.html';
-  });
+  if (confirm('Yakin ingin keluar?')) {
+    firebase.auth().signOut().then(function() {
+      window.location.href = 'login.html';
+    });
+  }
 }
 
 document.getElementById('prevBtn').onclick = prevMateri;
 document.getElementById('nextBtn').onclick = nextMateri;
 document.getElementById('backToListBtn').onclick = backToList;
 
-if (localStorage.getItem('isGuest') === 'true') {
-  showAlert('Silakan login terlebih dahulu untuk mengakses materi pembelajaran.', false);
-  setTimeout(function() { window.location.href = 'coding.html'; }, 2000);
-}
-
-if (localStorage.getItem('themeEkonomi') === 'dark') {
+if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
 
 window.addEventListener('DOMContentLoaded', function() {
   loadLocalProgress();
-  
+
   firebase.auth().onAuthStateChanged(function(user) {
     if (!user) {
       currentUser = null;
@@ -1023,15 +1420,15 @@ window.addEventListener('DOMContentLoaded', function() {
       renderBagian();
       return;
     }
-    
+
     currentUser = user;
-    
+
     db.ref('users/' + user.uid + '/premium/coding').once('value').then(function(snap) {
       isPremium = snap.val() === true;
       return db.ref('users/' + user.uid + '/premium/coding_expiry').once('value');
     }).then(function(expirySnap) {
       premiumExpiry = expirySnap.val() || null;
-      
+
       if (isPremium && premiumExpiry) {
         const now = Date.now();
         if (now > premiumExpiry) {
@@ -1041,12 +1438,12 @@ window.addEventListener('DOMContentLoaded', function() {
           db.ref('users/' + user.uid + '/premium/coding_expiry').remove();
         }
       }
-      
+
       return db.ref('users/' + user.uid + '/progress/js').once('value');
     }).then(function(snap) {
       if (snap.val()) {
         const data = snap.val();
-        const newOpened = Object.keys(data).map(Number);
+        const newOpened = Array.isArray(data) ? data : Object.keys(data).map(Number);
         if (JSON.stringify(newOpened) !== JSON.stringify(openedIndexes)) {
           openedIndexes = newOpened;
           saveLocalProgress();
